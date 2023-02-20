@@ -16,11 +16,12 @@ cmake_minimum_required (VERSION 3.5.1)
 ### After you run "make install" in your build directory, you can build your custom application.
 ### If you need your application to be linked statically, then run "cmake .. -DBUILD_STATIC=ON"
 
-project(demo CXX)
+project(openfhe)
 set(CMAKE_CXX_STANDARD 17)
 option( BUILD_STATIC "Set to ON to include static versions of the library" OFF)
 
 find_package(OpenFHE)
+find_package(pybind11 REQUIRED)
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
 
@@ -46,3 +47,17 @@ endif()
 ###
 ### EXAMPLE:
 ### add_executable( test demo-simple-example.cpp )
+
+### Pybind Modules
+pybind11_add_module(openfhe src/bindings.cpp)
+### Python installation 
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
+
+execute_process(
+    COMMAND "${Python_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+    OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+message(STATUS "Python site packages directory: ${PYTHON_SITE_PACKAGES}")
+install(TARGETS openfhe LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES})
