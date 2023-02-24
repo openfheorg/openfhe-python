@@ -1,5 +1,5 @@
 # Initial Setting
-from openfhe import CCParamsBFVRNS
+from openfhe import *
 
 # Creating the parameters object
 parameters = CCParamsBFVRNS()
@@ -15,3 +15,8 @@ parameters.SetMultiplicativeDepth(2)
 # Getting new values
 print("New BFV Plaintext Modulus = " + str(parameters.GetPlaintextModulus()))
 print("New BFV Multiplicative Depth = " + str(parameters.GetMultiplicativeDepth()))
+
+cryptoContext = GenCryptoContext(parameters)
+
+cryptoContext.SetKeyGenLevel(2)
+print(cryptoContext.GetKeyGenLevel())
