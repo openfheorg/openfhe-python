@@ -1,7 +1,5 @@
 #include <pybind11/pybind11.h>
-#include <scheme/bfvrns/cryptocontextparams-bfvrns.h>
-#include <scheme/cryptocontextparams-base.h>
-#include <core/utils/inttypes.h>
+#include <openfhe/pke/openfhe.h>
 #include "bindings.h"
 
 using namespace lbcrypto;
@@ -26,8 +24,18 @@ void bind_parameters(py::module &m){
             // &CCParams<CryptoContextBFVRNS>::SetPlaintextModulus);
 }
 
+void bind_crypto_context(py::module &m){
+    py::class_<CryptoContextImpl<DCRTPoly>,std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m,"CryptoContextDCRTPoly")
+            .def("GetKeyGenLevel",&CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
+            .def("SetKeyGenLevel",&CryptoContextImpl<DCRTPoly>::SetKeyGenLevel);
+
+    m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);
+    m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBGVRNS>);
+}
+
 PYBIND11_MODULE(openfhe, m) {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
     bind_parameters(m);
+    bind_crypto_context(m);
 
 }
