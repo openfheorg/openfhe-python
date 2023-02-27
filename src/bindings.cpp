@@ -27,15 +27,37 @@ void bind_parameters(py::module &m){
 void bind_crypto_context(py::module &m){
     py::class_<CryptoContextImpl<DCRTPoly>,std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m,"CryptoContextDCRTPoly")
             .def("GetKeyGenLevel",&CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
-            .def("SetKeyGenLevel",&CryptoContextImpl<DCRTPoly>::SetKeyGenLevel);
-
+            .def("SetKeyGenLevel",&CryptoContextImpl<DCRTPoly>::SetKeyGenLevel)
+            .def("Enable",static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), "Enable a feature for the CryptoContext");
+    // Generator Functions    
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBGVRNS>);
+    
+
+}
+
+void bind_enums(py::module &m){
+    // Scheme Types
+    py::enum_<SCHEME>(m, "SCHEME")
+            .value("INVALID_SCHEME", SCHEME::INVALID_SCHEME)
+            .value("CKKSRNS_SCHEME", SCHEME::CKKSRNS_SCHEME)
+            .value("BFVRNS_SCHEME", SCHEME::BFVRNS_SCHEME)
+            .value("BGVRNS_SCHEME", SCHEME::BGVRNS_SCHEME);
+    // PKE Features
+    py::enum_<PKESchemeFeature>(m, "PKESchemeFeature")
+            .value("PKE", PKESchemeFeature::PKE)
+            .value("KEYSWITCH", PKESchemeFeature::KEYSWITCH)
+            .value("PRE", PKESchemeFeature::PRE)
+            .value("LEVELEDSHE", PKESchemeFeature::LEVELEDSHE)
+            .value("ADVANCEDSHE", PKESchemeFeature::ADVANCEDSHE)
+            .value("MULTIPARTY", PKESchemeFeature::MULTIPARTY)
+            .value("FHE", PKESchemeFeature::FHE);
 }
 
 PYBIND11_MODULE(openfhe, m) {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
     bind_parameters(m);
     bind_crypto_context(m);
+    bind_enums(m);
 
 }
