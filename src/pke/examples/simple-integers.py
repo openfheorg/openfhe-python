@@ -1,6 +1,6 @@
 # Initial Setting
 from openfhe import *
-import openfhe.PKESchemeFeature as Feature
+# import openfhe.PKESchemeFeature as Feature
 # Creating the parameters object
 parameters = CCParamsBFVRNS()
 
@@ -20,8 +20,13 @@ cryptoContext = GenCryptoContext(parameters)
 
 cryptoContext.SetKeyGenLevel(2)
 print(cryptoContext.GetKeyGenLevel())
-print(Feature.__members__)
-cryptoContext.Enable(Feature.PKE)
-cryptoContext.Enable(Feature.KEYSWITCH)
-cryptoContext.Enable(Feature.LEVELEDSHE)
+print(PKESchemeFeature.__members__)
+cryptoContext.Enable(PKESchemeFeature.PKE)
+cryptoContext.Enable(PKESchemeFeature.KEYSWITCH)
+cryptoContext.Enable(PKESchemeFeature.LEVELEDSHE)
+
+keypair = cryptoContext.KeyGen()
+print("Public Key: " + str(keypair.publicKey))
+
+cryptoContext.EvalMultKeyGen(keypair.secretKey)
 
