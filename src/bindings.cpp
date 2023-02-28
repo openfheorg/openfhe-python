@@ -31,8 +31,11 @@ void bind_crypto_context(py::module &m){
             .def("Enable",static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), "Enable a feature for the CryptoContext")
             .def("KeyGen",&CryptoContextImpl<DCRTPoly>::KeyGen,"Generate a key pair with public and private keys") 
             .def("EvalMultKeyGen",&CryptoContextImpl<DCRTPoly>::EvalMultKeyGen,"Generate the evaluation key for multiplication")
+            .def("EvalRotateKeyGen",&CryptoContextImpl<DCRTPoly>::EvalRotateKeyGen,"Generate the evaluation key for rotation",
+            py::arg("privateKey"),py::arg("indexList"),py::arg("publicKey")=nullptr)
             .def("MakePackedPlaintext",&CryptoContextImpl<DCRTPoly>::MakePackedPlaintext,"Make a plaintext from a vector of integers",
-            py::arg("value"),py::arg("depth")=1,py::arg("level")=0);
+            py::arg("value"),py::arg("depth")=1,py::arg("level")=0)
+            .def("EvalRotate",&CryptoContextImpl<DCRTPoly>::EvalRotate,"Rotate a ciphertext");
             //.def("MakePackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<int64_t>&)>(&CryptoContextImpl<DCRTPoly>::MakePackedPlaintext), "Make a plaintext from a vector of integers")
     // Generator Functions    
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);
