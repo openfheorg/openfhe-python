@@ -29,6 +29,7 @@ keypair = cryptoContext.KeyGen()
 print("Public Key: " + str(keypair.publicKey))
 
 cryptoContext.EvalMultKeyGen(keypair.secretKey)
+cryptoContext.EvalRotateKeyGen(keypair.secretKey, [1, 2, -1, -2]);
 
 vectorOfInts1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 vectorOfInts2 = [3, 2, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -38,3 +39,5 @@ plaintext2 = cryptoContext.MakePackedPlaintext(vectorOfInts2)
 plaintext3 = cryptoContext.MakePackedPlaintext(vectorOfInts3)
 
 
+ciphertext1 = Ciphertext()
+ciphertextRot1 = cryptoContext.EvalRotate(ciphertext1, 1)
