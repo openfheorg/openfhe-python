@@ -30,3 +30,11 @@ print("Public Key: " + str(keypair.publicKey))
 
 cryptoContext.EvalMultKeyGen(keypair.secretKey)
 
+vectorOfInts1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+vectorOfInts2 = [3, 2, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+vectorOfInts3 = [1, 2, 5, 2, 5, 6, 7, 8, 9, 10, 11, 12]
+plaintext1 = cryptoContext.MakePackedPlaintext(vectorOfInts1)
+plaintext2 = cryptoContext.MakePackedPlaintext(vectorOfInts2)
+plaintext3 = cryptoContext.MakePackedPlaintext(vectorOfInts3)
+
+
