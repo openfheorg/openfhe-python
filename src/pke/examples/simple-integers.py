@@ -39,5 +39,6 @@ plaintext2 = cryptoContext.MakePackedPlaintext(vectorOfInts2)
 plaintext3 = cryptoContext.MakePackedPlaintext(vectorOfInts3)
 
 
-ciphertext1 = Ciphertext()
+
+ciphertext1 = cryptoContext.Encrypt(keypair.publicKey, plaintext1)
 ciphertextRot1 = cryptoContext.EvalRotate(ciphertext1, 1)
