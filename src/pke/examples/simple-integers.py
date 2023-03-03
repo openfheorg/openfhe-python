@@ -42,3 +42,7 @@ plaintext3 = cryptoContext.MakePackedPlaintext(vectorOfInts3)
 
 ciphertext1 = cryptoContext.Encrypt(keypair.publicKey, plaintext1)
 ciphertextRot1 = cryptoContext.EvalRotate(ciphertext1, 1)
+
+plaintextRot1 = Decrypt(ciphertextRot1,keypair.secretKey)
+print(plaintextRot1) # still not printing the vector
+
