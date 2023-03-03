@@ -68,7 +68,6 @@ plaintextRot3 = Decrypt(ciphertextRot3,keypair.secretKey)
 plaintextRot4 = Decrypt(ciphertextRot4,keypair.secretKey)
 
 plaintextRot1 = Decrypt(ciphertextRot1,keypair.secretKey)
-#print(plaintextRot1) # still not printing the vector
 
 plaintextRot1.SetLength(len(vectorOfInts1))
 plaintextRot2.SetLength(len(vectorOfInts1))
