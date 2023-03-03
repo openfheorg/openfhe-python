@@ -16,12 +16,7 @@ void bind_parameters(py::module &m){
             // getters
             .def("GetPlaintextModulus", &CCParams<CryptoContextBFVRNS>::GetPlaintextModulus)
             .def("GetMultiplicativeDepth", &CCParams<CryptoContextBFVRNS>::GetMultiplicativeDepth);
-            //  .def_property("multiplicativeDepth",
-            // &CCParams<CryptoContextBFVRNS>::GetMultiplicativeDepth,
-            // &CCParams<CryptoContextBFVRNS>::SetMultiplicativeDepth)
-            // .def_property("ptModulus",
-            // &CCParams<CryptoContextBFVRNS>::GetPlaintextModulus,
-            // &CCParams<CryptoContextBFVRNS>::SetPlaintextModulus);
+           
 }
 
 void bind_crypto_context(py::module &m){
@@ -39,7 +34,7 @@ void bind_crypto_context(py::module &m){
             .def("Encrypt",static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),"Encrypt a plaintext using public key")
             .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd),"Add two ciphertexts")
             .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult),"Multiply two ciphertexts");
-            //.def("MakePackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<int64_t>&)>(&CryptoContextImpl<DCRTPoly>::MakePackedPlaintext), "Make a plaintext from a vector of integers")
+
     // Generator Functions    
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBGVRNS>);
@@ -87,7 +82,6 @@ void bind_encodings(py::module &m){
     //.def("GetEncondingParams", &PlaintextImpl::GetEncondingParams)
     .def("Encode", &PlaintextImpl::Encode)
     .def("Decode", &PlaintextImpl::Decode)
-    // The PlaintextImpl has a PrintValue void function that prints the plaintext, The following function uses it to defining __repr__ method in order to print it in python
     .def("__repr__", [] (const PlaintextImpl& p) {
         std::stringstream ss;
         ss << "<Plaintext Object: ";
