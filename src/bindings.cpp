@@ -35,7 +35,8 @@ void bind_crypto_context(py::module &m){
             py::arg("privateKey"),py::arg("indexList"),py::arg("publicKey")=nullptr)
             .def("MakePackedPlaintext",&CryptoContextImpl<DCRTPoly>::MakePackedPlaintext,"Make a plaintext from a vector of integers",
             py::arg("value"),py::arg("depth")=1,py::arg("level")=0)
-            .def("EvalRotate",&CryptoContextImpl<DCRTPoly>::EvalRotate,"Rotate a ciphertext");
+            .def("EvalRotate",&CryptoContextImpl<DCRTPoly>::EvalRotate,"Rotate a ciphertext")
+            .def("Encrypt",static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),"Encrypt a plaintext using public key");
             //.def("MakePackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<int64_t>&)>(&CryptoContextImpl<DCRTPoly>::MakePackedPlaintext), "Make a plaintext from a vector of integers")
     // Generator Functions    
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);
@@ -109,5 +110,6 @@ PYBIND11_MODULE(openfhe, m) {
     bind_keys(m);
     bind_encodings(m);
     bind_ciphertext(m);
+    bind_decryption(m);
 
 }
