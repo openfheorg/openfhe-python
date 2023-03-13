@@ -17,7 +17,6 @@ cryptoContext.Enable(PKESchemeFeature.PKE)
 cryptoContext.Enable(PKESchemeFeature.KEYSWITCH)
 cryptoContext.Enable(PKESchemeFeature.LEVELEDSHE)
 
-## Not working yet
 if not SerializeToFile(datafolder + "/cryptocontext.txt", cryptoContext, 'binary'):
    raise Exception("Error writing serialization of the crypto context to cryptocontext.txt")
 
