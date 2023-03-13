@@ -122,5 +122,6 @@ PYBIND11_MODULE(openfhe, m) {
     bind_encodings(m);
     bind_ciphertext(m);
     bind_decryption(m);
+    bind_serialization(m);
 
 }
