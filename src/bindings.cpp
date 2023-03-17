@@ -45,7 +45,7 @@ void bind_crypto_context(py::module &m){
 
 
 
-void bind_enums(py::module &m){
+void bind_enums_and_constants(py::module &m){
     // Scheme Types
     py::enum_<SCHEME>(m, "SCHEME")
             .value("INVALID_SCHEME", SCHEME::INVALID_SCHEME)
@@ -61,6 +61,11 @@ void bind_enums(py::module &m){
             .value("ADVANCEDSHE", PKESchemeFeature::ADVANCEDSHE)
             .value("MULTIPARTY", PKESchemeFeature::MULTIPARTY)
             .value("FHE", PKESchemeFeature::FHE);
+    // Serialization Types
+    py::class_<SerType::SERJSON >(m, "SERJSON");
+    py::class_<SerType::SERBINARY>(m, "SERBINARY");
+    m.attr("JSON") = py::cast(SerType::JSON);
+    m.attr("BINARY") = py::cast(SerType::BINARY);
 }
 
 void bind_keys(py::module &m){
@@ -117,11 +122,10 @@ PYBIND11_MODULE(openfhe, m) {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
     bind_parameters(m);
     bind_crypto_context(m);
-    bind_enums(m);
+    bind_enums_and_constants(m);
     bind_keys(m);
     bind_encodings(m);
     bind_ciphertext(m);
     bind_decryption(m);
     bind_serialization(m);
-
 }
