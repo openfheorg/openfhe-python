@@ -1,6 +1,9 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/iostream.h>
+#include <iostream>
 #include <openfhe/pke/openfhe.h>
+#include <openfhe/pke/key/key-ser.h>
 #include "bindings.h"
 
 using namespace lbcrypto;
@@ -19,31 +22,40 @@ void bind_parameters(py::module &m){
            
 }
 
-void bind_crypto_context(py::module &m){
-    py::class_<CryptoContextImpl<DCRTPoly>,std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m,"CryptoContextDCRTPoly")
-            .def("GetKeyGenLevel",&CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
-            .def("SetKeyGenLevel",&CryptoContextImpl<DCRTPoly>::SetKeyGenLevel)
-            .def("Enable",static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), "Enable a feature for the CryptoContext")
-            .def("KeyGen",&CryptoContextImpl<DCRTPoly>::KeyGen,"Generate a key pair with public and private keys") 
-            .def("EvalMultKeyGen",&CryptoContextImpl<DCRTPoly>::EvalMultKeyGen,"Generate the evaluation key for multiplication")
-            .def("EvalRotateKeyGen",&CryptoContextImpl<DCRTPoly>::EvalRotateKeyGen,"Generate the evaluation key for rotation",
-            py::arg("privateKey"),py::arg("indexList"),py::arg("publicKey")=nullptr)
-            .def("MakePackedPlaintext",&CryptoContextImpl<DCRTPoly>::MakePackedPlaintext,"Make a plaintext from a vector of integers",
-            py::arg("value"),py::arg("depth")=1,py::arg("level")=0)
-            .def("EvalRotate",&CryptoContextImpl<DCRTPoly>::EvalRotate,"Rotate a ciphertext")
-            .def("Encrypt",static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),"Encrypt a plaintext using public key")
-            .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd),"Add two ciphertexts")
-            .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult),"Multiply two ciphertexts");
+void bind_crypto_context(py::module &m)
+{
+    py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContextDCRTPoly")
+        .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
+        .def("SetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::SetKeyGenLevel)
+        .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), "Enable a feature for the CryptoContext")
+        .def("KeyGen", &CryptoContextImpl<DCRTPoly>::KeyGen, "Generate a key pair with public and private keys")
+        .def("EvalMultKeyGen", &CryptoContextImpl<DCRTPoly>::EvalMultKeyGen, "Generate the evaluation key for multiplication")
+        .def("EvalRotateKeyGen", &CryptoContextImpl<DCRTPoly>::EvalRotateKeyGen, "Generate the evaluation key for rotation",
+             py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
+        .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
+             py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
+        .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
+        .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
+             "Encrypt a plaintext using public key")
+        .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
+        .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
+        // lambda function with bool output
 
-    // Generator Functions    
+           .def_static(
+            "SerializeEvalMultKey", [](const std::string& filename, const SerType::SERBINARY& sertype, std::string id = "")
+            {
+                std::ofstream outfile(filename,std::ios::out | std::ios::binary);
+                bool res;
+                res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERBINARY>(outfile, sertype, id);
+                outfile.close();
+                return res; },
+                py::arg("filename"), py::arg("sertype"), py::arg("id") = "",
+            "Serialize an evaluation key for multiplication");
+
+    // Generator Functions
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBGVRNS>);
-    
-
 }
-
-
-
 
 void bind_enums_and_constants(py::module &m){
     // Scheme Types
