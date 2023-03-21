@@ -25,13 +25,16 @@ find_package(pybind11 REQUIRED)
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
 set( OpenFHE_Py_SOURCES src)
+set( OpenFHE_Py_INCLUDES include)
 
 include_directories( ${OPENMP_INCLUDES} )
 include_directories( ${OpenFHE_INCLUDE} )
 include_directories( ${OpenFHE_INCLUDE}/third-party/include )
 include_directories( ${OpenFHE_INCLUDE}/core )
 include_directories( ${OpenFHE_INCLUDE}/pke )
-include_directories( ${OpenFHE_Py_SOURCES} )
+# include_directories( ${OpenFHE_Py_SOURCES} )
+include_directories( ${OpenFHE_Py_INCLUDES}/pke )
+include_directories( ${OpenFHE_Py_INCLUDES} )
 ### add directories for other OpenFHE modules as needed for your project
 
 link_directories( ${OpenFHE_LIBDIR} )
@@ -51,7 +54,7 @@ endif()
 ### add_executable( test demo-simple-example.cpp )
 
 ### Pybind Modules
-pybind11_add_module(openfhe src/bindings.cpp src/pke/decryption.cpp)
+pybind11_add_module(openfhe src/bindings.cpp src/pke/decryption.cpp src/pke/serialization.cpp)
 ### Python installation 
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
