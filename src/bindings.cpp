@@ -19,12 +19,14 @@ void bind_parameters(py::module &m){
             // getters
             .def("GetPlaintextModulus", &CCParams<CryptoContextBFVRNS>::GetPlaintextModulus)
             .def("GetMultiplicativeDepth", &CCParams<CryptoContextBFVRNS>::GetMultiplicativeDepth);
+    
            
 }
 
 void bind_crypto_context(py::module &m)
 {
-    py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContextDCRTPoly")
+    py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext")
+        .def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
         .def("SetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::SetKeyGenLevel)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), "Enable a feature for the CryptoContext")
@@ -39,22 +41,34 @@ void bind_crypto_context(py::module &m)
              "Encrypt a plaintext using public key")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
-        // lambda function with bool output
-
-           .def_static(
-            "SerializeEvalMultKey", [](const std::string& filename, const SerType::SERBINARY& sertype, std::string id = "")
+        .def_static("ClearEvalMultKeys", [](){
+                CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys();
+            }, "Clear the evaluation keys for multiplication")
+        .def_static("ClearEvalAutomorphismKeys", [](){
+                CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys();
+            }, "Clear the evaluation keys for rotation")
+        .def_static(
+            "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
             {
                 std::ofstream outfile(filename,std::ios::out | std::ios::binary);
                 bool res;
                 res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERBINARY>(outfile, sertype, id);
                 outfile.close();
                 return res; },
-                py::arg("filename"), py::arg("sertype"), py::arg("id") = "",
-            "Serialize an evaluation key for multiplication");
+            py::arg("filename"), py::arg("sertype"), py::arg("id") = "",
+            "Serialize an evaluation key for multiplication")
+            .def_static("SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
+            {
+                std::ofstream outfile(filename,std::ios::out | std::ios::binary);
+                bool res;
+                res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<SerType::SERBINARY>(outfile, sertype, id);
+                outfile.close();
+                return res; },py::arg("filename"), py::arg("sertype"), py::arg("id") = "",  "Serialize evaluation keys for rotation");
 
     // Generator Functions
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBGVRNS>);
+    m.def("ReleaseAllContexts",&CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
 }
 
 void bind_enums_and_constants(py::module &m){
@@ -81,7 +95,8 @@ void bind_enums_and_constants(py::module &m){
 }
 
 void bind_keys(py::module &m){
-    py::class_<PublicKeyImpl<DCRTPoly>,std::shared_ptr<PublicKeyImpl<DCRTPoly>>>(m,"PublicKey");
+    py::class_<PublicKeyImpl<DCRTPoly>,std::shared_ptr<PublicKeyImpl<DCRTPoly>>>(m,"PublicKey")
+    .def(py::init<>());
     py::class_<PrivateKeyImpl<DCRTPoly>,std::shared_ptr<PrivateKeyImpl<DCRTPoly>>>(m,"PrivateKey");
     py::class_<KeyPair<DCRTPoly>>(m,"KeyPair")
             .def_readwrite("publicKey", &KeyPair<DCRTPoly>::publicKey)
