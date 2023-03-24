@@ -19,7 +19,14 @@ void bind_parameters(py::module &m){
             // getters
             .def("GetPlaintextModulus", &CCParams<CryptoContextBFVRNS>::GetPlaintextModulus)
             .def("GetMultiplicativeDepth", &CCParams<CryptoContextBFVRNS>::GetMultiplicativeDepth);
-    
+    py::class_<CCParams<CryptoContextBGVRNS>, Params>(m, "CCParamsBGVRNS")
+            .def(py::init<>())
+            // setters
+            .def("SetPlaintextModulus", &CCParams<CryptoContextBGVRNS>::SetPlaintextModulus)
+            .def("SetMultiplicativeDepth",&CCParams<CryptoContextBGVRNS>::SetMultiplicativeDepth)
+            // getters
+            .def("GetPlaintextModulus", &CCParams<CryptoContextBGVRNS>::GetPlaintextModulus)
+            .def("GetMultiplicativeDepth", &CCParams<CryptoContextBGVRNS>::GetMultiplicativeDepth);
            
 }
 
