@@ -43,7 +43,7 @@ cryptoContext.EvalMultKeyGen(keypair.secretKey)
 print("The relinearization key has been generated.")
 
 # Serialize the relinearization key
-if not cryptoContext.SerializeEvalMultKey(datafolder + "/key-relin.txt",BINARY):
+if not cryptoContext.SerializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
    raise Exception("Error writing serialization of the eval mult keys to \"key-eval-mult.txt\"")
 print("The relinearization key has been serialized.")
 
@@ -115,7 +115,7 @@ if not DeserializeFromFile(datafolder + "/key-public.txt", pk, BINARY):
 
 print("The public key has been deserialized.")
 
-# if cryptoContext.DeserializeEvalMultKey(datafolder + "/key-relin.txt",BINARY):
+# if cryptoContext.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
 #    raise Exception("Could not deserialize the eval mult key file")
 
 # print("The relinearization key has been deserialized.")
