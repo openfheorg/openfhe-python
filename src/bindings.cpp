@@ -48,12 +48,14 @@ void bind_crypto_context(py::module &m)
              "Encrypt a plaintext using public key")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
-        .def_static("ClearEvalMultKeys", [](){
-                CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys();
-            }, "Clear the evaluation keys for multiplication")
-        .def_static("ClearEvalAutomorphismKeys", [](){
-                CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys();
-            }, "Clear the evaluation keys for rotation")
+        .def_static(
+            "ClearEvalMultKeys", []()
+            { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
+            "Clear the evaluation keys for multiplication")
+        .def_static(
+            "ClearEvalAutomorphismKeys", []()
+            { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
+            "Clear the evaluation keys for rotation")
         .def_static(
             "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
             {
@@ -64,13 +66,33 @@ void bind_crypto_context(py::module &m)
                 return res; },
             py::arg("filename"), py::arg("sertype"), py::arg("id") = "",
             "Serialize an evaluation key for multiplication")
-            .def_static("SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
+        .def_static(
+            "SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
             {
                 std::ofstream outfile(filename,std::ios::out | std::ios::binary);
                 bool res;
                 res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<SerType::SERBINARY>(outfile, sertype, id);
                 outfile.close();
-                return res; },py::arg("filename"), py::arg("sertype"), py::arg("id") = "",  "Serialize evaluation keys for rotation");
+                return res; },
+            py::arg("filename"), py::arg("sertype"), py::arg("id") = "", "Serialize evaluation keys for rotation")
+        .def_static("DeserializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype)
+                    {
+                        std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
+                         if (!emkeys.is_open()) {
+                            std::cerr << "I cannot read serialization from " << filename << std::endl;
+                         }
+                        bool res;
+                        res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<SerType::SERBINARY>(emkeys, sertype);
+                        return res; })
+        .def_static("DeserializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype)
+                    {
+                        std::ifstream erkeys(filename, std::ios::in | std::ios::binary);
+                         if (!erkeys.is_open()) {
+                            std::cerr << "I cannot read serialization from " << filename << std::endl;
+                         }
+                        bool res;
+                        res = CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<SerType::SERBINARY>(erkeys, sertype);
+                        return res; });
 
     // Generator Functions
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);

@@ -113,6 +113,55 @@ pk = PublicKey()
 if not DeserializeFromFile(datafolder + "/key-public.txt", pk, BINARY):
    raise Exception("Error reading serialization of the public key from key-public.txt")
 
+print("The public key has been deserialized.")
+
+# if cryptoContext.DeserializeEvalMultKey(datafolder + "/key-relin.txt",BINARY):
+#    raise Exception("Could not deserialize the eval mult key file")
+
+# print("The relinearization key has been deserialized.")
+
+# if cryptoContext.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
+#    raise Exception("Could not deserialize the eval rotation key file")
+
+# print("Deserialized the eval rotation keys.")
+
+# Deserialize the ciphertexts
+
+ct1 = Ciphertext()
+ct2 = Ciphertext()
+ct3 = Ciphertext()
+
+if not DeserializeFromFile(datafolder + "/ciphertext1.txt", ct1, BINARY):
+    raise Exception("Could not read the ciphertext")
+
+print("The first ciphertext has been deserialized.")
+
+if not DeserializeFromFile(datafolder + "/ciphertext2.txt", ct2, BINARY):
+    raise Exception("Could not read the ciphertext")
+
+print("The second ciphertext has been deserialized.")
+
+if not DeserializeFromFile(datafolder + "/ciphertext3.txt", ct3, BINARY):   
+    raise Exception("Could not read the ciphertext")
+
+print("The third ciphertext has been deserialized.")
+
+# Homomorphic addition
+
+ciphertextAdd12 = cc.EvalAdd(ct1, ct2)
+ciphertextAddResult = cc.EvalAdd(ciphertextAdd12, ct3)
+
+# Homomorphic multiplication
+ciphertextMult12 = cc.EvalMult(ct1, ct2)
+ciphertextMultResult = cc.EvalMult(ciphertextMult12, ct3)
+
+# Homomorphic rotation
+ciphertextRot1 = cc.EvalRotate(ct1, 1)
+ciphertextRot2 = cc.EvalRotate(ct2, 2)
+ciphertextRot3 = cc.EvalRotate(ct3, -1)
+ciphertextRot4 = cc.EvalRotate(ct3, -2)
+
+
 
 
 
