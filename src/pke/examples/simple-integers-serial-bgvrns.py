@@ -7,7 +7,7 @@ datafolder = 'demoData'
 print("This program requres the subdirectory `" + datafolder + "' to exist, otherwise you will get an error writing serializations.")
 
 # Sample Program: Step 1: Set CryptoContext
-parameters = CCParamsBFVRNS()
+parameters = CCParamsBGVRNS()
 parameters.SetPlaintextModulus(65537)
 parameters.SetMultiplicativeDepth(2)
 
