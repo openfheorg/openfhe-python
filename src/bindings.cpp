@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/stl_bind.h>
 #include <pybind11/iostream.h>
 #include <iostream>
 #include <openfhe/pke/openfhe.h>
@@ -27,15 +28,30 @@ void bind_parameters(py::module &m){
             // getters
             .def("GetPlaintextModulus", &CCParams<CryptoContextBGVRNS>::GetPlaintextModulus)
             .def("GetMultiplicativeDepth", &CCParams<CryptoContextBGVRNS>::GetMultiplicativeDepth);
+    //bind ckks rns params
+    py::class_<CCParams<CryptoContextCKKSRNS>, Params>(m, "CCParamsCKKSRNS")
+            .def(py::init<>())
+            // setters
+            .def("SetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::SetPlaintextModulus)
+            .def("SetMultiplicativeDepth",&CCParams<CryptoContextCKKSRNS>::SetMultiplicativeDepth)
+            .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
+            .def("SetBatchSize", &CCParams<CryptoContextCKKSRNS>::SetBatchSize)
+            // getters
+            .def("GetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::GetPlaintextModulus)
+            .def("GetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::GetMultiplicativeDepth)
+            .def("GetScalingModSize", &CCParams<CryptoContextCKKSRNS>::GetScalingModSize)
+            .def("GetBatchSize", &CCParams<CryptoContextCKKSRNS>::GetBatchSize);
            
 }
 
 void bind_crypto_context(py::module &m)
 {
+    using ParmType = typename DCRTPoly::Params;
     py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext")
         .def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
         .def("SetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::SetKeyGenLevel)
+        .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), "Enable a feature for the CryptoContext")
         .def("KeyGen", &CryptoContextImpl<DCRTPoly>::KeyGen, "Generate a key pair with public and private keys")
         .def("EvalMultKeyGen", &CryptoContextImpl<DCRTPoly>::EvalMultKeyGen, "Generate the evaluation key for multiplication")
@@ -43,6 +59,9 @@ void bind_crypto_context(py::module &m)
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
+        .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext),
+                "Make a CKKS plaintext from a vector of doubles",
+                py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
@@ -97,6 +116,7 @@ void bind_crypto_context(py::module &m)
     // Generator Functions
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>);
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBGVRNS>);
+    m.def("GenCryptoContext", &GenCryptoContext<CryptoContextCKKSRNS>);
     m.def("ReleaseAllContexts",&CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
 }
 
