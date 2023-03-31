@@ -59,7 +59,14 @@ void bind_crypto_context(py::module &m)
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
-        .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext),
+        .def("MakeCKKSPackedPlaintext", [] (CryptoContextImpl<DCRTPoly> &self, std::vector<float>& value, int depth, int level, std::shared_ptr<ParmType> params, int slots) {
+                if (!value.size())
+                    OPENFHE_THROW(config_error, "Cannot encode an empty value vector");
+
+                std::vector<std::complex<double>> complexValue(value.size());
+                std::transform(value.begin(), value.end(), complexValue.begin(),
+                       [](float da) { return std::complex<double>(da); });
+                return self.MakeCKKSPackedPlaintext(complexValue, depth, level, params, slots);},
                 "Make a CKKS plaintext from a vector of doubles",
                 py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
