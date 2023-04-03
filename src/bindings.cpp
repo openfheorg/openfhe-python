@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <pybind11/stl_bind.h>
+//#include <pybind11/stl_bind.h>
 #include <pybind11/iostream.h>
 #include <iostream>
 #include <openfhe/pke/openfhe.h>
@@ -59,14 +59,24 @@ void bind_crypto_context(py::module &m)
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
-        .def("MakeCKKSPackedPlaintext", [] (CryptoContextImpl<DCRTPoly> &self, std::vector<float>& value, int depth, int level, std::shared_ptr<ParmType> params, int slots) {
+        .def("MakeCKKSPackedPlaintext2", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of floats",
+             py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
+        .def("MakeCKKSPackedPlaintext3",[](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, py::list value, size_t depth, uint32_t level, const std::shared_ptr<ParmType> params, usint slots) -> auto {
+                std::vector<std::complex<double>> complexValue;
+                for (auto item : value)
+                    complexValue.push_back(item.cast<std::complex<double>>());
+
+                return self->MakeCKKSPackedPlaintext(complexValue, depth, level, params, slots);
+            }, "Make a CKKS plaintext from a list of floats",
+            py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
+        .def("MakeCKKSPackedPlaintext", [] (std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, const std::vector<float>& value, int depth, int level, std::shared_ptr<ParmType> params, int slots) -> auto {
                 if (!value.size())
                     OPENFHE_THROW(config_error, "Cannot encode an empty value vector");
 
                 std::vector<std::complex<double>> complexValue(value.size());
                 std::transform(value.begin(), value.end(), complexValue.begin(),
                        [](float da) { return std::complex<double>(da); });
-                return self.MakeCKKSPackedPlaintext(complexValue, depth, level, params, slots);},
+                return self->MakeCKKSPackedPlaintext(complexValue, depth, level, params, slots);},
                 "Make a CKKS plaintext from a vector of doubles",
                 py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
@@ -211,4 +221,5 @@ PYBIND11_MODULE(openfhe, m) {
     bind_ciphertext(m);
     bind_decryption(m);
     bind_serialization(m);
+    bind_a(m);
 }
