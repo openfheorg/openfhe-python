@@ -115,15 +115,15 @@ if not DeserializeFromFile(datafolder + "/key-public.txt", pk, BINARY):
 
 print("The public key has been deserialized.")
 
-# if cryptoContext.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
-#    raise Exception("Could not deserialize the eval mult key file")
+if cryptoContext.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
+   raise Exception("Could not deserialize the eval mult key file")
 
-# print("The relinearization key has been deserialized.")
+print("The relinearization key has been deserialized.")
 
-# if cryptoContext.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
-#    raise Exception("Could not deserialize the eval rotation key file")
+if cryptoContext.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
+   raise Exception("Could not deserialize the eval rotation key file")
 
-# print("Deserialized the eval rotation keys.")
+print("Deserialized the eval rotation keys.")
 
 # Deserialize the ciphertexts
 
