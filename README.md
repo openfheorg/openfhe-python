@@ -11,7 +11,7 @@ Before building, make sure you have the following dependencies installed:
 
 ### Linux
 
-With all the dependencies setted up, clone the repository, open a terminal in the repo folder and run the following commands:
+With all the dependencies set up, clone the repository, open a terminal in the repo folder and run the following commands:
 
 ```bash
 mkdir build
