@@ -6,7 +6,7 @@ Before building, make sure you have the following dependencies installed:
 
 - [CMake](https://cmake.org/)
 - [Python 3.6+](https://www.python.org/)
-- [pybind11](pybind11.readthedocs.io)
+- [pybind11](https://pybind11.readthedocs.io)
 - [OpenFHE](https://github.com/openfheorg/openfhe-development)
 
 ### Linux
