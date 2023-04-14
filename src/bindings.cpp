@@ -1,11 +1,11 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-//#include <pybind11/stl_bind.h>
 #include <pybind11/iostream.h>
 #include <iostream>
 #include <openfhe/pke/openfhe.h>
 #include <openfhe/pke/key/key-ser.h>
 #include "bindings.h"
+#include "cryptocontext.h"
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -46,7 +46,7 @@ void bind_parameters(py::module &m){
 
 void bind_crypto_context(py::module &m)
 {
-    using ParmType = typename DCRTPoly::Params;
+    //using ParmType = typename DCRTPoly::Params;
     py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext")
         .def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
@@ -57,55 +57,25 @@ void bind_crypto_context(py::module &m)
         .def("EvalMultKeyGen", &CryptoContextImpl<DCRTPoly>::EvalMultKeyGen, "Generate the evaluation key for multiplication")
         .def("EvalRotateKeyGen", &CryptoContextImpl<DCRTPoly>::EvalRotateKeyGen, "Generate the evaluation key for rotation",
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
-        .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
-             py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
-        .def("MakeCKKSPackedPlaintext2", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of floats",
-             py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
-        .def("MakeCKKSPackedPlaintext3",[](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, py::list value, size_t depth, uint32_t level, const std::shared_ptr<ParmType> params, usint slots) -> auto {
-                std::vector<std::complex<double>> complexValue;
-                for (auto item : value)
-                    complexValue.push_back(item.cast<std::complex<double>>());
-
-                return self->MakeCKKSPackedPlaintext(complexValue, depth, level, params, slots);
-            }, "Make a CKKS plaintext from a list of floats",
-            py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
-        .def("MakeCKKSPackedPlaintext", [] (std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, const std::vector<float>& value, int depth, int level, std::shared_ptr<ParmType> params, int slots) -> auto {
+       
+            //py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
+        .def("MakeCKKSPackedPlaintext", [](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, const std::vector<float>& value){
                 if (!value.size())
                     OPENFHE_THROW(config_error, "Cannot encode an empty value vector");
 
                 std::vector<std::complex<double>> complexValue(value.size());
                 std::transform(value.begin(), value.end(), complexValue.begin(),
                        [](float da) { return std::complex<double>(da); });
-                return self->MakeCKKSPackedPlaintext(complexValue, depth, level, params, slots);},
-                "Make a CKKS plaintext from a vector of doubles",
-                py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
-        .def("MakeCKKSPackedPlaintext4",[](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self,const int &value, size_t depth, uint32_t level, const std::shared_ptr<ParmType> params, usint slots) -> auto {
-                std::vector<std::complex<double>> complexValue;
-                complexValue.push_back(std::complex<double>(value, 0));
-                return self->MakeCKKSPackedPlaintext(complexValue, depth, level, params, slots);
-            }, "Make a CKKS plaintext from a list of floats",
-            py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0, py::arg("params") = nullptr, py::arg("slots") = 0)
-        .def("MakeCKKSPackedPlaintext5", [] (std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, const std::vector<float>& value) -> auto {
-                if (!value.size())
-                    OPENFHE_THROW(config_error, "Cannot encode an empty value vector");
-
-                std::vector<std::complex<double>> complexValue(value.size());
-                std::transform(value.begin(), value.end(), complexValue.begin(),
-                       [](float da) { return std::complex<double>(da); });
-                return self->MakeCKKSPackedPlaintext(complexValue, 1, 0, nullptr, 0);},
-                "Make a CKKS plaintext from a vector of doubles",
+                return self->MakeCKKSPackedPlaintext(complexValue, 1, 0, nullptr, 0);
+                },"Make a CKKS plaintext from a vector of doubles",
                 py::arg("value"))
-
-        .def("Test_Member_Function",[](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, const std::string &str) { 
-                std::cout << "Ring Dimension: " << self->GetRingDimension() << std::endl;
-                std::cout << "String: " << str << std::endl;
-            }, "A test member function that receives a string and print it along with ring dimension")
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
+        .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
         .def_static(
             "ClearEvalMultKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
