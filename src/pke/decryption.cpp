@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <openfhe/pke/openfhe.h>
+#include "openfhe.h"
 #include "bindings.h"
 
 using namespace lbcrypto;
