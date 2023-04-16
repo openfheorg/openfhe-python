@@ -114,23 +114,23 @@ void bind_crypto_context(py::module &m)
                 outfile.close();
                 return res; },
             py::arg("filename"), py::arg("sertype"), py::arg("id") = "", "Serialize evaluation keys for rotation")
-        .def_static("DeserializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype)
+        .def_static("DeserializeEvalMultKey", [](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self,const std::string &filename, const SerType::SERBINARY &sertype)
                     {
                         std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
                          if (!emkeys.is_open()) {
                             std::cerr << "I cannot read serialization from " << filename << std::endl;
                          }
                         bool res;
-                        res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<SerType::SERBINARY>(emkeys, sertype);
+                        res = self->DeserializeEvalMultKey<SerType::SERBINARY>(emkeys, sertype);
                         return res; })
-        .def_static("DeserializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype)
+        .def_static("DeserializeEvalAutomorphismKey", [](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self,const std::string &filename, const SerType::SERBINARY &sertype)
                     {
                         std::ifstream erkeys(filename, std::ios::in | std::ios::binary);
                          if (!erkeys.is_open()) {
                             std::cerr << "I cannot read serialization from " << filename << std::endl;
                          }
                         bool res;
-                        res = CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<SerType::SERBINARY>(erkeys, sertype);
+                        res = self->DeserializeEvalAutomorphismKey<SerType::SERBINARY>(erkeys, sertype);
                         return res; });
 
     // Generator Functions
