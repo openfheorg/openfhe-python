@@ -2,10 +2,10 @@
 #include <pybind11/stl.h>
 #include <pybind11/iostream.h>
 #include <iostream>
-#include <openfhe/pke/openfhe.h>
-#include <openfhe/pke/key/key-ser.h>
+#include "openfhe.h"
+#include "key/key-ser.h"
 #include "bindings.h"
-#include "cryptocontext.h"
+#include "cryptocontext_wrapper.h"
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -46,7 +46,6 @@ void bind_parameters(py::module &m)
 
 void bind_crypto_context(py::module &m)
 {
-    using ParmType = typename DCRTPoly::Params;
     py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext")
         .def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
@@ -59,27 +58,12 @@ void bind_crypto_context(py::module &m)
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
-        .def(
-            "MakeCKKSPackedPlaintext", [](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, 
-            const std::vector<float> &value, 
-            size_t depth, uint32_t level, 
-            const std::shared_ptr<ParmType> params,
-            usint slots) 
-            {
-                if (!value.size())
-                    OPENFHE_THROW(config_error, "Cannot encode an empty value vector");
-
-                std::vector<std::complex<double>> complexValue(value.size());
-                std::transform(value.begin(), value.end(), complexValue.begin(),
-                       [](float da) { return std::complex<double>(da); });
-                return self->MakeCKKSPackedPlaintext(complexValue, depth, level, params, slots); },
-            "Make a CKKS plaintext from a vector of floats",
+        .def("MakeCKKSPackedPlaintext",&MakeCKKSPackedPlaintextWrapper, "Make a CKKS plaintext from a vector of floats",
             py::arg("value"),
             py::arg("depth") = static_cast<size_t>(1),
             py::arg("level") = static_cast<uint32_t>(0),
             py::arg("params") = py::none(),
             py::arg("slots") = 0)
-
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
