@@ -1,9 +1,9 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <openfhe/pke/openfhe.h>
-#include <openfhe/pke/scheme/bfvrns/bfvrns-ser.h>
-#include <openfhe/pke/scheme/bgvrns/bgvrns-ser.h>
-#include <openfhe/pke/cryptocontext-ser.h>
+#include "openfhe.h"
+#include "scheme/bfvrns/bfvrns-ser.h"
+#include "scheme/bgvrns/bgvrns-ser.h"
+#include "cryptocontext-ser.h"
 #include "bindings.h"
 #include "serialization.h"
 

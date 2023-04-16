@@ -54,7 +54,7 @@ endif()
 ### add_executable( test demo-simple-example.cpp )
 
 ### Pybind Modules
-pybind11_add_module(openfhe src/bindings.cpp src/pke/decryption.cpp src/pke/serialization.cpp)
+pybind11_add_module(openfhe src/bindings.cpp src/pke/decryption.cpp src/pke/serialization.cpp src/pke/cryptocontext_wrapper.cpp)
 ### Python installation 
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
