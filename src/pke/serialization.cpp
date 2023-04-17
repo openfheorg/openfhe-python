@@ -20,6 +20,27 @@ bool SerializeEvalMultKeyWrapper(std::shared_ptr<CryptoContextImpl<DCRTPoly>> &s
     return res;
 }
 
+template <typename ST>
+bool SerializeEvalAutomorphismKeyWrapper(std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self,const std::string &filename, const ST &sertype, std::string id)
+{
+    std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+    bool res;
+    res = self->SerializeEvalAutomorphismKey<ST>(outfile, sertype, id);
+    outfile.close();
+    return res;
+}
+
+template <typename ST>
+bool DeserializeEvalMultKeyWrapper(std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, const std::string &filename, const ST &sertype)
+                    {
+                        std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
+                         if (!emkeys.is_open()) {
+                            std::cerr << "I cannot read serialization from " << filename << std::endl;
+                         }
+                        bool res;
+                        res = self->DeserializeEvalMultKey<ST>(emkeys, sertype);
+                        return res; }
+                        
 void bind_serialization(pybind11::module &m)
 {
     // Json Serialization
