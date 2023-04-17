@@ -5,6 +5,6 @@
 using namespace lbcrypto;
 
 template <typename ST>
-bool SerializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype, std::string id);
+bool SerializeEvalMultKeyWrapper(std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self,const std::string &filename, const ST &sertype, std::string id);
 
 #endif // OPENFHE_SERIALIZATION_BINDINGS_H
