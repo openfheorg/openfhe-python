@@ -37,11 +37,13 @@ void bind_parameters(py::module &m)
         .def("SetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::SetMultiplicativeDepth)
         .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
         .def("SetBatchSize", &CCParams<CryptoContextCKKSRNS>::SetBatchSize)
+        .def("SetScalingTechnique", &CCParams<CryptoContextCKKSRNS>::SetScalingTechnique)
         // getters
         .def("GetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::GetPlaintextModulus)
         .def("GetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::GetMultiplicativeDepth)
         .def("GetScalingModSize", &CCParams<CryptoContextCKKSRNS>::GetScalingModSize)
-        .def("GetBatchSize", &CCParams<CryptoContextCKKSRNS>::GetBatchSize);
+        .def("GetBatchSize", &CCParams<CryptoContextCKKSRNS>::GetBatchSize)
+        .def("GetScalingTechnique", &CCParams<CryptoContextCKKSRNS>::GetScalingTechnique);
 }
 
 void bind_crypto_context(py::module &m)
@@ -68,6 +70,7 @@ void bind_crypto_context(py::module &m)
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
+        .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add a ciphertext with a scalar")
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
@@ -146,6 +149,15 @@ void bind_enums_and_constants(py::module &m)
     py::class_<SerType::SERBINARY>(m, "SERBINARY");
     m.attr("JSON") = py::cast(SerType::JSON);
     m.attr("BINARY") = py::cast(SerType::BINARY);
+
+    // Scaling Techniques
+    py::enum_<ScalingTechnique>(m, "ScalingTechnique")
+       .value("FIXEDMANUAL", ScalingTechnique::FIXEDMANUAL)
+       .value("FIXEDAUTO", ScalingTechnique::FIXEDAUTO)
+       .value("FLEXIBLEAUTO", ScalingTechnique::FLEXIBLEAUTO)
+       .value("FLEXIBLEAUTOEXT", ScalingTechnique::FLEXIBLEAUTOEXT)
+       .value("NORESCALE", ScalingTechnique::NORESCALE)
+       .value("INVALID_RS_TECHNIQUE", ScalingTechnique::INVALID_RS_TECHNIQUE);
 
     //Parameters Type
     using ParmType = typename DCRTPoly::Params;
