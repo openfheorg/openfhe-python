@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/operators.h>
 #include <pybind11/iostream.h>
 #include <iostream>
 #include "openfhe.h"
@@ -38,6 +39,10 @@ void bind_parameters(py::module &m)
         .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
         .def("SetBatchSize", &CCParams<CryptoContextCKKSRNS>::SetBatchSize)
         .def("SetScalingTechnique", &CCParams<CryptoContextCKKSRNS>::SetScalingTechnique)
+        .def("SetNumLargeDigits", &CCParams<CryptoContextCKKSRNS>::SetNumLargeDigits)
+        .def("SetKeySwitchTechnique", &CCParams<CryptoContextCKKSRNS>::SetKeySwitchTechnique)
+        .def("SetFirstModSize", &CCParams<CryptoContextCKKSRNS>::SetFirstModSize)
+        .def("SetDigitSize", &CCParams<CryptoContextCKKSRNS>::SetDigitSize)
         // getters
         .def("GetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::GetPlaintextModulus)
         .def("GetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::GetMultiplicativeDepth)
@@ -52,6 +57,8 @@ void bind_crypto_context(py::module &m)
         .def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
         .def("SetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::SetKeyGenLevel)
+        //.def("GetScheme",&CryptoContextImpl<DCRTPoly>::GetScheme)
+        //.def("GetCryptoParameters", &CryptoContextImpl<DCRTPoly>::GetCryptoParameters)
         .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), "Enable a feature for the CryptoContext")
         .def("KeyGen", &CryptoContextImpl<DCRTPoly>::KeyGen, "Generate a key pair with public and private keys")
@@ -67,6 +74,8 @@ void bind_crypto_context(py::module &m)
             py::arg("params") = py::none(),
             py::arg("slots") = 0)
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
+        //.def("EvalFastRotationPrecompute", &CryptoContextImpl<DCRTPoly>::EvalFastRotationPrecompute, py::return_value_policy::take_ownership)
+        //.def("EvalFastRotation", &CryptoContextImpl<DCRTPoly>::EvalFastRotation)
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
@@ -74,6 +83,7 @@ void bind_crypto_context(py::module &m)
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
+        .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
         .def_static(
             "ClearEvalMultKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
@@ -158,6 +168,11 @@ void bind_enums_and_constants(py::module &m)
        .value("FLEXIBLEAUTOEXT", ScalingTechnique::FLEXIBLEAUTOEXT)
        .value("NORESCALE", ScalingTechnique::NORESCALE)
        .value("INVALID_RS_TECHNIQUE", ScalingTechnique::INVALID_RS_TECHNIQUE);
+    // Key Switching Techniques
+    py::enum_<KeySwitchTechnique>(m, "KeySwitchTechnique")
+        .value("INVALID_KS_TECH", KeySwitchTechnique::INVALID_KS_TECH)
+        .value("BV", KeySwitchTechnique::BV)
+        .value("HYBRID", KeySwitchTechnique::HYBRID);
 
     //Parameters Type
     using ParmType = typename DCRTPoly::Params;
@@ -204,7 +219,8 @@ void bind_encodings(py::module &m)
 void bind_ciphertext(py::module &m)
 {
     py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def(py::self + py::self);
     // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
     // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
     // .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel)
@@ -216,6 +232,7 @@ void bind_ciphertext(py::module &m)
     // .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
     // .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots);
 }
+
 
 PYBIND11_MODULE(openfhe, m)
 {
