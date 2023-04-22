@@ -19,4 +19,13 @@ Plaintext MakeCKKSPackedPlaintextWrapper(std::shared_ptr<CryptoContextImpl<DCRTP
             const std::shared_ptr<ParmType> params,
             usint slots);
 
+Ciphertext<DCRTPoly> EvalFastRotationPrecomputeWrapper(CryptoContext<DCRTPoly>& self,
+                                                        ConstCiphertext<DCRTPoly> ciphertext);
+
+Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,
+                                            ConstCiphertext<DCRTPoly> ciphertext,
+                                              const usint index,
+                                              const usint m,
+                                              ConstCiphertext<DCRTPoly> digits);
+
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H
