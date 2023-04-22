@@ -204,10 +204,161 @@ def HybridKeySwitchingDemo2():
     print(f" - 2 rotations with HYBRID (3 digits) took {time3digits*1000} ms")
 
 def FastRotationDemo1():
-    pass
+    print("\n\n\n ===== FastRotationDemo1 =============\n")
+    batchSize = 8
+    parameters = CCParamsCKKSRNS()
+    parameters.SetMultiplicativeDepth(5)
+    parameters.SetScalingModSize(50)
+    parameters.SetBatchSize(batchSize)
+
+    cc = GenCryptoContext(parameters)
+
+    N = cc.GetRingDimension()
+    print(f"CKKS scheme is using ring dimension {N}\n")
+
+    cc.Enable(PKESchemeFeature.PKE)
+    cc.Enable(PKESchemeFeature.KEYSWITCH)
+    cc.Enable(PKESchemeFeature.LEVELEDSHE)
+
+    keys = cc.KeyGen()
+    cc.EvalRotateKeyGen(keys.secretKey,[1,2,3,4,5,6,7])
+
+    # Input
+    x = [0, 0, 0, 0, 0, 0, 0, 1]
+    ptxt = cc.MakeCKKSPackedPlaintext(x)
+
+    print(f"Input x: {ptxt}")
+
+    c = cc.Encrypt(keys.publicKey,ptxt)
+
+    # First, we perform 7 regular (non-hoisted) rotations
+    # and measure the runtime
+    t = time.time()
+    cRot1 = cc.EvalRotate(c,1)
+    cRot2 = cc.EvalRotate(c,2)
+    cRot3 = cc.EvalRotate(c,3)
+    cRot4 = cc.EvalRotate(c,4)
+    cRot5 = cc.EvalRotate(c,5)
+    cRot6 = cc.EvalRotate(c,6)
+    cRot7 = cc.EvalRotate(c,7)
+    timeNoHoisting = time.time() - t
+
+    cResNoHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
+
+    # M is the cyclotomic order and we need it to call EvalFastRotation
+    M = 2*N
+
+    # Then, we perform 7 rotations with hoisting.
+    t = time.time()
+    cPrecomp = cc.EvalFastRotationPrecompute(c)
+    cRot1 = cc.EvalFastRotation(c, 1, M, cPrecomp)
+    cRot2 = cc.EvalFastRotation(c, 2, M, cPrecomp)
+    cRot3 = cc.EvalFastRotation(c, 3, M, cPrecomp)
+    cRot4 = cc.EvalFastRotation(c, 4, M, cPrecomp)
+    cRot5 = cc.EvalFastRotation(c, 5, M, cPrecomp)
+    cRot6 = cc.EvalFastRotation(c, 6, M, cPrecomp)
+    cRot7 = cc.EvalFastRotation(c, 7, M, cPrecomp)
+    timeHoisting = time.time() - t
+    # The time with hoisting should be faster than without hoisting.
+
+    cResHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
+    
+    result = Decrypt(cResNoHoist,keys.secretKey)
+    result.SetLength(batchSize)
+    print(f"Result without hoisting: {result}")
+    print(f" - 7 rotations without hoisting took {timeNoHoisting*1000} ms")
+
+    
+    result = Decrypt(cResHoist,keys.secretKey)
+    result.SetLength(batchSize)
+    print(f"Result with hoisting: {result}")
+    print(f" - 7 rotations with hoisting took {timeHoisting*1000} ms")
+
+
+
 
 def FastRotationDemo2():
-    pass
+    print("\n\n\n ===== FastRotationDemo2 =============\n")
+
+    digitSize = 3
+    batchSize = 8
+
+    parameters = CCParamsCKKSRNS()
+    parameters.SetMultiplicativeDepth(1)
+    parameters.SetScalingModSize(50)
+    parameters.SetBatchSize(batchSize)
+    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    parameters.SetKeySwitchTechnique(KeySwitchTechnique.BV)
+    parameters.SetFirstModSize(60)
+    parameters.SetDigitSize(digitSize)
+
+    cc = GenCryptoContext(parameters)
+
+    N = cc.GetRingDimension()
+    print(f"CKKS scheme is using ring dimension {N}\n")
+
+    cc.Enable(PKESchemeFeature.PKE)
+    cc.Enable(PKESchemeFeature.KEYSWITCH)
+    cc.Enable(PKESchemeFeature.LEVELEDSHE)
+
+    keys = cc.KeyGen()
+    cc.EvalRotateKeyGen(keys.secretKey,[1,2,3,4,5,6,7])
+
+    # Input
+    x = [0, 0, 0, 0, 0, 0, 0, 1]
+    ptxt = cc.MakeCKKSPackedPlaintext(x)
+
+    print(f"Input x: {ptxt}")
+
+    c = cc.Encrypt(keys.publicKey,ptxt)
+
+    # First, we perform 7 regular (non-hoisted) rotations
+    # and measure the runtime
+    t = time.time()
+    cRot1 = cc.EvalRotate(c,1)
+    cRot2 = cc.EvalRotate(c,2)
+    cRot3 = cc.EvalRotate(c,3)
+    cRot4 = cc.EvalRotate(c,4)
+    cRot5 = cc.EvalRotate(c,5)
+    cRot6 = cc.EvalRotate(c,6)
+    cRot7 = cc.EvalRotate(c,7)
+    timeNoHoisting = time.time() - t
+
+    cResNoHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
+
+    # M is the cyclotomic order and we need it to call EvalFastRotation
+    M = 2*N
+
+    # Then, we perform 7 rotations with hoisting.
+    t = time.time()
+    cPrecomp = cc.EvalFastRotationPrecompute(c)
+    cRot1 = cc.EvalFastRotation(c, 1, M, cPrecomp)
+    cRot2 = cc.EvalFastRotation(c, 2, M, cPrecomp)
+    cRot3 = cc.EvalFastRotation(c, 3, M, cPrecomp)
+    cRot4 = cc.EvalFastRotation(c, 4, M, cPrecomp)
+    cRot5 = cc.EvalFastRotation(c, 5, M, cPrecomp)
+    cRot6 = cc.EvalFastRotation(c, 6, M, cPrecomp)
+    cRot7 = cc.EvalFastRotation(c, 7, M, cPrecomp)
+    timeHoisting = time.time() - t
+    # The time with hoisting should be faster than without hoisting.
+    # Also, the benefits from hoisting should be more pronounced in this
+    # case because we're using BV. Of course, we also observe less
+    # accurate results than when using HYBRID, because of using
+    # digitSize = 10 (Users can decrease digitSize to see the accuracy
+    # increase, and performance decrease).
+
+    cResHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
+
+    result = Decrypt(cResNoHoist,keys.secretKey)
+    result.SetLength(batchSize)
+    print(f"Result without hoisting: {result}")
+    print(f" - 7 rotations without hoisting took {timeNoHoisting*1000} ms")
+
+    result = Decrypt(cResHoist,keys.secretKey)
+    result.SetLength(batchSize)
+    print(f"Result with hoisting: {result}")
+    print(f" - 7 rotations with hoisting took {timeHoisting*1000} ms")
+
 
 def main():
     AutomaticRescaleDemo(ScalingTechnique.FLEXIBLEAUTO)

@@ -74,8 +74,8 @@ void bind_crypto_context(py::module &m)
             py::arg("params") = py::none(),
             py::arg("slots") = 0)
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
-        //.def("EvalFastRotationPrecompute", &CryptoContextImpl<DCRTPoly>::EvalFastRotationPrecompute, py::return_value_policy::take_ownership)
-        //.def("EvalFastRotation", &CryptoContextImpl<DCRTPoly>::EvalFastRotation)
+        .def("EvalFastRotationPrecompute", &EvalFastRotationPrecomputeWrapper)
+        .def("EvalFastRotation", &EvalFastRotationWrapper)
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
@@ -220,7 +220,9 @@ void bind_ciphertext(py::module &m)
 {
     py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
         .def(py::init<>())
-        .def(py::self + py::self);
+        .def("__add__", [](const Ciphertext<DCRTPoly> &a, const Ciphertext<DCRTPoly> &b)
+             {return a + b; },py::is_operator(),pybind11::keep_alive<0, 1>());
+       // .def(py::self + py::self);
     // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
     // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
     // .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel)
@@ -232,7 +234,6 @@ void bind_ciphertext(py::module &m)
     // .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
     // .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots);
 }
-
 
 PYBIND11_MODULE(openfhe, m)
 {
