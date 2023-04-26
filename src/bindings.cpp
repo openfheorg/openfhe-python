@@ -44,6 +44,9 @@ void bind_parameters(py::module &m)
         .def("SetFirstModSize", &CCParams<CryptoContextCKKSRNS>::SetFirstModSize)
         .def("SetDigitSize", &CCParams<CryptoContextCKKSRNS>::SetDigitSize)
         .def("SetSecretKeyDist", &CCParams<CryptoContextCKKSRNS>::SetSecretKeyDist)
+        .def("SetSecurityLevel", &CCParams<CryptoContextCKKSRNS>::SetSecurityLevel)
+        .def("SetRingDim", &CCParams<CryptoContextCKKSRNS>::SetRingDim)
+        .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
 
         // getters
         .def("GetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::GetPlaintextModulus)
@@ -189,7 +192,6 @@ void bind_enums_and_constants(py::module &m)
         .value("HEStd_192_classic", SecurityLevel::HEStd_192_classic)
         .value("HEStd_256_classic", SecurityLevel::HEStd_256_classic)
         .value("HEStd_NotSet", SecurityLevel::HEStd_NotSet);
-
 
     
     //Parameters Type
