@@ -173,6 +173,14 @@ void bind_enums_and_constants(py::module &m)
         .value("INVALID_KS_TECH", KeySwitchTechnique::INVALID_KS_TECH)
         .value("BV", KeySwitchTechnique::BV)
         .value("HYBRID", KeySwitchTechnique::HYBRID);
+    // Secret Key Dist
+    py::enum_<SecretKeyDist>(m, "SecretKeyDist")
+        .value("GAUSSIAN", SecretKeyDist::GAUSSIAN)
+        .value("UNIFORM_TERNARY", SecretKeyDist::UNIFORM_TERNARY)
+        .value("SPARCE_TERNARY", SecretKeyDist::SPARCE_TERNARY);
+
+
+
 
     //Parameters Type
     using ParmType = typename DCRTPoly::Params;
