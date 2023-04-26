@@ -43,6 +43,8 @@ void bind_parameters(py::module &m)
         .def("SetKeySwitchTechnique", &CCParams<CryptoContextCKKSRNS>::SetKeySwitchTechnique)
         .def("SetFirstModSize", &CCParams<CryptoContextCKKSRNS>::SetFirstModSize)
         .def("SetDigitSize", &CCParams<CryptoContextCKKSRNS>::SetDigitSize)
+        .def("SetSecretKeyDist", &CCParams<CryptoContextCKKSRNS>::SetSecretKeyDist)
+
         // getters
         .def("GetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::GetPlaintextModulus)
         .def("GetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::GetMultiplicativeDepth)
@@ -139,6 +141,7 @@ void bind_crypto_context(py::module &m)
 
 void bind_enums_and_constants(py::module &m)
 {
+    /* ---- PKE enums ---- */ 
     // Scheme Types
     py::enum_<SCHEME>(m, "SCHEME")
         .value("INVALID_SCHEME", SCHEME::INVALID_SCHEME)
@@ -179,10 +182,18 @@ void bind_enums_and_constants(py::module &m)
         .value("UNIFORM_TERNARY", SecretKeyDist::UNIFORM_TERNARY)
         .value("SPARCE_TERNARY", SecretKeyDist::SPARCE_TERNARY);
 
+    /* ---- CORE enums ---- */ 
+    // Security Level
+    py::enum_<SecurityLevel>(m,"SecurityLevel")
+        .value("HEStd_128_classic", SecurityLevel::HEStd_128_classic)
+        .value("HEStd_192_classic", SecurityLevel::HEStd_192_classic)
+        .value("HEStd_256_classic", SecurityLevel::HEStd_256_classic)
+        .value("HEStd_NotSet", SecurityLevel::HEStd_NotSet);
 
 
-
+    
     //Parameters Type
+    /*TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else */
     using ParmType = typename DCRTPoly::Params;
     py::class_<ParmType, std::shared_ptr<ParmType>>(m, "ParmType");
 }
