@@ -89,6 +89,18 @@ void bind_crypto_context(py::module &m)
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
+        .def("EvalBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalBootstrapSetup,
+            py::arg("levelBudget") = std::vector<uint32_t>({5,4}),
+            py::arg("dim1") = std::vector<uint32_t>({0,0}),
+            py::arg("slots") = 0,
+            py::arg("correctionFactor") = 0            )
+        .def("EvalBootstrapKeyGen", &CryptoContextImpl<DCRTPoly>::EvalBootstrapKeyGen,
+            py::arg("ciphertext"),
+            py::arg("slots"))
+        .def("EvalBootstrap", &CryptoContextImpl<DCRTPoly>::EvalBootstrap,
+            py::arg("ciphertext"),
+            py::arg("numIterations") = 1,
+            py::arg("precision") = 0)
         .def_static(
             "ClearEvalMultKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
@@ -183,7 +195,7 @@ void bind_enums_and_constants(py::module &m)
     py::enum_<SecretKeyDist>(m, "SecretKeyDist")
         .value("GAUSSIAN", SecretKeyDist::GAUSSIAN)
         .value("UNIFORM_TERNARY", SecretKeyDist::UNIFORM_TERNARY)
-        .value("SPARCE_TERNARY", SecretKeyDist::SPARCE_TERNARY);
+        .value("SPARsE_TERNARY", SecretKeyDist::SPARSE_TERNARY);
 
     /* ---- CORE enums ---- */ 
     // Security Level
@@ -256,6 +268,15 @@ void bind_ciphertext(py::module &m)
     // .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots);
 }
 
+void bind_schemes(py::module &m){
+    /*Bind schemes specific functionalities like bootstrapping functions and multiparty*/
+    py::class_<FHECKKSRNS>(m, "FHECKKSRNS")
+        .def(py::init<>())
+        //.def_static("GetBootstrapDepth", &FHECKKSRNS::GetBootstrapDepth)
+        .def_static("GetBootstrapDepth", static_cast<uint32_t (*)(uint32_t, const std::vector<uint32_t>&, SecretKeyDist)>(&FHECKKSRNS::GetBootstrapDepth));                               
+    
+}
+
 PYBIND11_MODULE(openfhe, m)
 {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
@@ -267,4 +288,5 @@ PYBIND11_MODULE(openfhe, m)
     bind_ciphertext(m);
     bind_decryption(m);
     bind_serialization(m);
+    bind_schemes(m);
 }
