@@ -69,7 +69,7 @@ def SimpleBootstrapExample(nativeint):
 
     print(f"Number of levels remaining after bootstrapping: {ciphertextAfter.GetLevel()}")
 
-    result = cryptocontext.Decrypt(keyPair.secretKey, ciphertextAfter)
+    result = Decrypt(ciphertextAfter,keyPair.secretKey)
     result.SetLength(encodedLength)
     print(f"Output after bootstrapping: {result}")
 
