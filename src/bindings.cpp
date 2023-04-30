@@ -95,7 +95,7 @@ void bind_crypto_context(py::module &m)
             py::arg("slots") = 0,
             py::arg("correctionFactor") = 0            )
         .def("EvalBootstrapKeyGen", &CryptoContextImpl<DCRTPoly>::EvalBootstrapKeyGen,
-            py::arg("ciphertext"),
+            py::arg("privateKey"),
             py::arg("slots"))
         .def("EvalBootstrap", &CryptoContextImpl<DCRTPoly>::EvalBootstrap,
             py::arg("ciphertext"),
@@ -254,12 +254,12 @@ void bind_ciphertext(py::module &m)
     py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
         .def(py::init<>())
         .def("__add__", [](const Ciphertext<DCRTPoly> &a, const Ciphertext<DCRTPoly> &b)
-             {return a + b; },py::is_operator(),pybind11::keep_alive<0, 1>());
+             {return a + b; },py::is_operator(),pybind11::keep_alive<0, 1>())
        // .def(py::self + py::self);
     // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
     // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
-    // .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel)
-    // .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel)
+     .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel)
+     .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel);
     // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
     // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
