@@ -1,9 +1,9 @@
 from openfhe import *
 
-def main(nativeint=64):
-    SimpleBootstrapExample(nativeint)
+def main():
+    SimpleBootstrapExample()
 
-def SimpleBootstrapExample(nativeint):
+def SimpleBootstrapExample():
     parameters = CCParamsCKKSRNS()
 
     secretKeyDist = SecretKeyDist.UNIFORM_TERNARY
@@ -12,14 +12,9 @@ def SimpleBootstrapExample(nativeint):
     parameters.SetSecurityLevel(SecurityLevel.HEStd_NotSet)
     parameters.SetRingDim(1<<12)
 
-    if nativeint==128:
-        rescaleTech = ScalingTechnique.FIXEDAUTO
-        dcrtBits = 78
-        firstMod = 89
-    else:
-        rescaleTech = ScalingTechnique.FLEXIBLEAUTO
-        dcrtBits = 59
-        firstMod = 60
+    rescaleTech = ScalingTechnique.FLEXIBLEAUTO
+    dcrtBits = 59
+    firstMod = 60
     
     parameters.SetScalingModSize(dcrtBits)
     parameters.SetScalingTechnique(rescaleTech)
@@ -74,4 +69,4 @@ def SimpleBootstrapExample(nativeint):
     print(f"Output after bootstrapping: {result}")
 
 if __name__ == '__main__':
-    main(64)
+    main()
