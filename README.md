@@ -5,6 +5,8 @@
 - [Building](#building)
   - [Prerequisites](#requirements)
   - [Linux Install](#linux)
+    - [Installing the .so: Conda](#conda)
+    - [Installing the .so: System](#system-install)
 - [Running Examples](#examples)
 
 ## Building
@@ -27,9 +29,36 @@ mkdir build
 cd build
 cmake ..  // Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe
 make
-make install
 ```
-Obs.: If the last command fails, try running it with sudo.
+
+At this point the `.so` file has been built. Your exact installation process will depend on your virtual environment.
+
+#### Conda
+
+```bash
+conda create -n ${ENV_NAME} python=3.{X} anaconda
+```
+
+where `${ENV_NAME}` should be replaced with the name of your environment, and `{X}` should be replaced with your desired python version. For example you might have `
+conda create -n openfhe_python python=3.9 anaconda`
+
+then run 
+
+```
+mkdir lib
+mv *.so lib
+conda develop lib
+```
+
+which creates a lib folder, moves the built `.so` file into that lib folder, and tells conda where to look for external libraries.
+
+**Note** You may wish to copy the `.so` file to any projects of your own, or add it to your system path to source from.
+
+#### System install
+
+```
+make install  // You may have to run sudo make install
+```
 
 ## Examples
 
