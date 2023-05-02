@@ -43,6 +43,11 @@ void bind_parameters(py::module &m)
         .def("SetKeySwitchTechnique", &CCParams<CryptoContextCKKSRNS>::SetKeySwitchTechnique)
         .def("SetFirstModSize", &CCParams<CryptoContextCKKSRNS>::SetFirstModSize)
         .def("SetDigitSize", &CCParams<CryptoContextCKKSRNS>::SetDigitSize)
+        .def("SetSecretKeyDist", &CCParams<CryptoContextCKKSRNS>::SetSecretKeyDist)
+        .def("SetSecurityLevel", &CCParams<CryptoContextCKKSRNS>::SetSecurityLevel)
+        .def("SetRingDim", &CCParams<CryptoContextCKKSRNS>::SetRingDim)
+        .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
+
         // getters
         .def("GetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::GetPlaintextModulus)
         .def("GetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::GetMultiplicativeDepth)
@@ -84,6 +89,18 @@ void bind_crypto_context(py::module &m)
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
+        .def("EvalBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalBootstrapSetup,
+            py::arg("levelBudget") = std::vector<uint32_t>({5,4}),
+            py::arg("dim1") = std::vector<uint32_t>({0,0}),
+            py::arg("slots") = 0,
+            py::arg("correctionFactor") = 0            )
+        .def("EvalBootstrapKeyGen", &CryptoContextImpl<DCRTPoly>::EvalBootstrapKeyGen,
+            py::arg("privateKey"),
+            py::arg("slots"))
+        .def("EvalBootstrap", &CryptoContextImpl<DCRTPoly>::EvalBootstrap,
+            py::arg("ciphertext"),
+            py::arg("numIterations") = 1,
+            py::arg("precision") = 0)
         .def_static(
             "ClearEvalMultKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
@@ -139,6 +156,7 @@ void bind_crypto_context(py::module &m)
 
 void bind_enums_and_constants(py::module &m)
 {
+    /* ---- PKE enums ---- */ 
     // Scheme Types
     py::enum_<SCHEME>(m, "SCHEME")
         .value("INVALID_SCHEME", SCHEME::INVALID_SCHEME)
@@ -173,8 +191,23 @@ void bind_enums_and_constants(py::module &m)
         .value("INVALID_KS_TECH", KeySwitchTechnique::INVALID_KS_TECH)
         .value("BV", KeySwitchTechnique::BV)
         .value("HYBRID", KeySwitchTechnique::HYBRID);
+    // Secret Key Dist
+    py::enum_<SecretKeyDist>(m, "SecretKeyDist")
+        .value("GAUSSIAN", SecretKeyDist::GAUSSIAN)
+        .value("UNIFORM_TERNARY", SecretKeyDist::UNIFORM_TERNARY)
+        .value("SPARsE_TERNARY", SecretKeyDist::SPARSE_TERNARY);
 
+    /* ---- CORE enums ---- */ 
+    // Security Level
+    py::enum_<SecurityLevel>(m,"SecurityLevel")
+        .value("HEStd_128_classic", SecurityLevel::HEStd_128_classic)
+        .value("HEStd_192_classic", SecurityLevel::HEStd_192_classic)
+        .value("HEStd_256_classic", SecurityLevel::HEStd_256_classic)
+        .value("HEStd_NotSet", SecurityLevel::HEStd_NotSet);
+
+    
     //Parameters Type
+    /*TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else */
     using ParmType = typename DCRTPoly::Params;
     py::class_<ParmType, std::shared_ptr<ParmType>>(m, "ParmType");
 }
@@ -221,18 +254,27 @@ void bind_ciphertext(py::module &m)
     py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
         .def(py::init<>())
         .def("__add__", [](const Ciphertext<DCRTPoly> &a, const Ciphertext<DCRTPoly> &b)
-             {return a + b; },py::is_operator(),pybind11::keep_alive<0, 1>());
+             {return a + b; },py::is_operator(),pybind11::keep_alive<0, 1>())
        // .def(py::self + py::self);
     // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
     // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
-    // .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel)
-    // .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel)
+     .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel)
+     .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel);
     // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
     // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
     // .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
     // .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
     // .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots);
+}
+
+void bind_schemes(py::module &m){
+    /*Bind schemes specific functionalities like bootstrapping functions and multiparty*/
+    py::class_<FHECKKSRNS>(m, "FHECKKSRNS")
+        .def(py::init<>())
+        //.def_static("GetBootstrapDepth", &FHECKKSRNS::GetBootstrapDepth)
+        .def_static("GetBootstrapDepth", static_cast<uint32_t (*)(uint32_t, const std::vector<uint32_t>&, SecretKeyDist)>(&FHECKKSRNS::GetBootstrapDepth));                               
+    
 }
 
 PYBIND11_MODULE(openfhe, m)
@@ -246,4 +288,5 @@ PYBIND11_MODULE(openfhe, m)
     bind_ciphertext(m);
     bind_decryption(m);
     bind_serialization(m);
+    bind_schemes(m);
 }
