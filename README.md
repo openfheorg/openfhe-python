@@ -1,6 +1,15 @@
 # [Work in Progress] Official Python wrapper for OpenFHE
 
+## Table of Contents
+
+- [Building](#building)
+  - [Prerequisites](#requirements)
+  - [Linux Install](#linux)
+- [Running Examples](#examples)
+
 ## Building
+
+### Requirements
 
 Before building, make sure you have the following dependencies installed:
 
@@ -16,11 +25,13 @@ With all the dependencies set up, clone the repository, open a terminal in the r
 ```bash
 mkdir build
 cd build
-cmake ..
+cmake ..  // Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe
 make
 make install
 ```
 Obs.: If the last command fails, try running it with sudo.
+
+## Examples
 
 After that, you can run the examples in the src/pke/examples folder:
 
