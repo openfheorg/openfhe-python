@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/complex.h>
 #include <pybind11/operators.h>
 #include <pybind11/iostream.h>
 #include <iostream>
@@ -88,6 +89,17 @@ void bind_crypto_context(py::module &m)
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
+        .def("EvalLogistic", &CryptoContextImpl<DCRTPoly>::EvalLogistic,
+            py::arg("ciphertext"),
+            py::arg("a"),
+            py::arg("b"),
+            py::arg("degree"))
+        .def("EvalChebyshevFunction", &CryptoContextImpl<DCRTPoly>::EvalChebyshevFunction,
+            py::arg("func"),
+            py::arg("ciphertext"),
+            py::arg("a"),
+            py::arg("b"),
+            py::arg("degree"))
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
         .def("EvalBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalBootstrapSetup,
             py::arg("levelBudget") = std::vector<uint32_t>({5,4}),
@@ -235,6 +247,7 @@ void bind_encodings(py::module &m)
         //.def("GetEncondingParams", &PlaintextImpl::GetEncondingParams)
         .def("Encode", &PlaintextImpl::Encode)
         .def("Decode", &PlaintextImpl::Decode)
+        .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
