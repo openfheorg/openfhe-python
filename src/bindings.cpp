@@ -74,7 +74,13 @@ void bind_crypto_context(py::module &m)
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
-        .def("MakeCKKSPackedPlaintext",&MakeCKKSPackedPlaintextWrapper, "Make a CKKS plaintext from a vector of floats",
+        .def("MakeCKKSPackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<std::complex<double>>&,size_t, uint32_t,const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of complex doubles",
+            py::arg("value"),
+            py::arg("depth") = static_cast<size_t>(1),
+            py::arg("level") = static_cast<uint32_t>(0),
+            py::arg("params") = py::none(),
+            py::arg("slots") = 0)
+        .def("MakeCKKSPackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&,size_t, uint32_t,const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of complex doubles",
             py::arg("value"),
             py::arg("depth") = static_cast<size_t>(1),
             py::arg("level") = static_cast<uint32_t>(0),
@@ -101,6 +107,9 @@ void bind_crypto_context(py::module &m)
             py::arg("a"),
             py::arg("b"),
             py::arg("degree"))
+        .def("EvalPoly", &CryptoContextImpl<DCRTPoly>::EvalPoly,
+            py::arg("ciphertext"),
+            py::arg("coefficients"))
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
         .def("EvalBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalBootstrapSetup,
             py::arg("levelBudget") = std::vector<uint32_t>({5,4}),
@@ -295,8 +304,8 @@ PYBIND11_MODULE(openfhe, m)
 {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
     bind_parameters(m);
-    bind_crypto_context(m);
     bind_enums_and_constants(m);
+    bind_crypto_context(m);
     bind_keys(m);
     bind_encodings(m);
     bind_ciphertext(m);
