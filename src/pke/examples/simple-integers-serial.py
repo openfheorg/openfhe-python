@@ -18,8 +18,8 @@ cryptoContext.Enable(PKESchemeFeature.KEYSWITCH)
 cryptoContext.Enable(PKESchemeFeature.LEVELEDSHE)
 
 # Serialize cryptocontext
-if not SerializeToFile(datafolder + "/cryptocontext.txt", cryptoContext, BINARY):
-   raise Exception("Error writing serialization of the crypto context to cryptocontext.txt")
+if not SerializeToFile(datafolder + "/cryptocontext.json", cryptoContext, JSON):
+   raise Exception("Error writing serialization of the crypto context to cryptocontext.json")
 print("The cryptocontext has been serialized.")
 
 # Sample Program: Step 2: Key Generation
@@ -103,7 +103,7 @@ ReleaseAllContexts()
 # Deserialize the crypto context
 cc = CryptoContext()
 
-if not DeserializeFromFile(datafolder + "/cryptocontext.txt", cc, BINARY):
+if not DeserializeFromFile(datafolder + "/cryptocontext.json", cc, JSON):
    raise Exception("Error reading serialization of the crypto context from cryptocontext.txt")
 print("The cryptocontext has been deserialized.")
 
@@ -115,12 +115,12 @@ if not DeserializeFromFile(datafolder + "/key-public.txt", pk, BINARY):
 
 print("The public key has been deserialized.")
 
-if cryptoContext.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
+if not cryptoContext.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
    raise Exception("Could not deserialize the eval mult key file")
 
 print("The relinearization key has been deserialized.")
 
-if cryptoContext.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
+if not cryptoContext.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
    raise Exception("Could not deserialize the eval rotation key file")
 
 print("Deserialized the eval rotation keys.")
