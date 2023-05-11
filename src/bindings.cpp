@@ -7,6 +7,7 @@
 #include "key/key-ser.h"
 #include "bindings.h"
 #include "cryptocontext_wrapper.h"
+#include "binfhe_bindings.h"
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -289,4 +290,5 @@ PYBIND11_MODULE(openfhe, m)
     bind_decryption(m);
     bind_serialization(m);
     bind_schemes(m);
+    bind_binfhe_context(m);
 }

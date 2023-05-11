@@ -16,6 +16,7 @@ include_directories( ${OpenFHE_INCLUDE} )
 include_directories( ${OpenFHE_INCLUDE}/third-party/include )
 include_directories( ${OpenFHE_INCLUDE}/core )
 include_directories( ${OpenFHE_INCLUDE}/pke )
+include_directories( ${OpenFHE_INCLUDE}/binfhe )
 # include_directories( ${OpenFHE_Py_SOURCES} )
 include_directories( ${OpenFHE_Py_INCLUDES}/pke )
 include_directories( ${OpenFHE_Py_INCLUDES} )
@@ -38,7 +39,13 @@ endif()
 ### add_executable( test demo-simple-example.cpp )
 
 ### Pybind Modules
-pybind11_add_module(openfhe src/bindings.cpp src/pke/decryption.cpp src/pke/serialization.cpp src/pke/cryptocontext_wrapper.cpp)
+pybind11_add_module(openfhe 
+                    src/bindings.cpp 
+                    src/binfhe_bindings.cpp
+                    src/pke/decryption.cpp 
+                    src/pke/serialization.cpp 
+                    src/pke/cryptocontext_wrapper.cpp
+                    )
 ### Python installation 
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
