@@ -281,6 +281,7 @@ void bind_schemes(py::module &m){
 PYBIND11_MODULE(openfhe, m)
 {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
+    // pke library
     bind_parameters(m);
     bind_crypto_context(m);
     bind_enums_and_constants(m);
@@ -290,5 +291,9 @@ PYBIND11_MODULE(openfhe, m)
     bind_decryption(m);
     bind_serialization(m);
     bind_schemes(m);
+    // binfhe library
+    bind_binfhe_enums(m);
     bind_binfhe_context(m);
+    bind_binfhe_keys(m);
+    bind_binfhe_ciphertext(m);
 }
