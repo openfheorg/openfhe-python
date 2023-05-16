@@ -19,6 +19,7 @@ include_directories( ${OpenFHE_INCLUDE}/pke )
 include_directories( ${OpenFHE_INCLUDE}/binfhe )
 # include_directories( ${OpenFHE_Py_SOURCES} )
 include_directories( ${OpenFHE_Py_INCLUDES}/pke )
+include_directories( ${OpenFHE_Py_INCLUDES}/binfhe )
 include_directories( ${OpenFHE_Py_INCLUDES} )
 ### add directories for other OpenFHE modules as needed for your project
 
@@ -42,6 +43,7 @@ endif()
 pybind11_add_module(openfhe 
                     src/bindings.cpp 
                     src/binfhe_bindings.cpp
+                    src/binfhe/binfhecontext_wrapper.cpp
                     src/pke/decryption.cpp 
                     src/pke/serialization.cpp 
                     src/pke/cryptocontext_wrapper.cpp

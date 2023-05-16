@@ -4,16 +4,10 @@
 #include "openfhe.h"
 #include "binfhe_bindings.h"
 #include "binfhecontext.h"
+#include "binfhecontext_wrapper.h"
 
 using namespace lbcrypto;
 namespace py = pybind11;
-
-LWECiphertext binfhe_EncryptWrapper(BinFHEContext &self, ConstLWEPrivateKey sk, const LWEPlaintext &m, BINFHE_OUTPUT output = BOOTSTRAPPED,
-                                    LWEPlaintextModulus p = 4, uint64_t mod = 0)
-{
-    NativeInteger mod_native_int = NativeInteger(mod);
-    return self.Encrypt(sk, m, output, p, mod_native_int);
-}
 
 void bind_binfhe_enums(py::module &m)
 {
@@ -68,6 +62,25 @@ void bind_binfhe_enums(py::module &m)
     m.attr("INVALID_OUTPUT") = py::cast(BINFHE_OUTPUT::INVALID_OUTPUT);
     m.attr("FRESH") = py::cast(BINFHE_OUTPUT::FRESH);
     m.attr("BOOTSTRAPPED") = py::cast(BINFHE_OUTPUT::BOOTSTRAPPED);
+
+    py::enum_<BINGATE>(m, "BINGATE")
+        .value("OR", BINGATE::OR)
+        .value("AND", BINGATE::AND)
+        .value("NOR", BINGATE::NOR)
+        .value("NAND", BINGATE::NAND)
+        .value("XOR_FAST", BINGATE::XOR_FAST)
+        .value("XNOR_FAST", BINGATE::XNOR_FAST)
+        .value("XOR", BINGATE::XOR)
+        .value("XNOR", BINGATE::XNOR);
+    m.attr("OR") = py::cast(BINGATE::OR);
+    m.attr("AND") = py::cast(BINGATE::AND);
+    m.attr("NOR") = py::cast(BINGATE::NOR);
+    m.attr("NAND") = py::cast(BINGATE::NAND);
+    m.attr("XOR_FAST") = py::cast(BINGATE::XOR_FAST);
+    m.attr("XNOR_FAST") = py::cast(BINGATE::XNOR_FAST);
+    m.attr("XOR") = py::cast(BINGATE::XOR);
+    m.attr("XNOR") = py::cast(BINGATE::XNOR);
+
 }
 
 void bind_binfhe_keys(py::module &m)
@@ -101,5 +114,16 @@ void bind_binfhe_context(py::module &m)
              py::arg("m"),
              py::arg("output") = BOOTSTRAPPED,
              py::arg("p") = 4, 
-             py::arg("mod") = 0);
+             py::arg("mod") = 0)
+        .def("Decrypt",&binfhe_DecryptWrapper,
+             py::arg("sk"),
+             py::arg("ct"),
+             py::arg("p") = 4)
+        .def("EvalBinGate",&BinFHEContext::EvalBinGate,
+             py::arg("gate"),
+             py::arg("ct1"),
+             py::arg("ct2"))
+        .def("EvalNOT",&BinFHEContext::EvalNOT,
+             py::arg("ct"));
+            
 }
