@@ -8,9 +8,12 @@ cc = BinFHEContext()
 STD128 is the security level of 128 bits of security based on LWE Estimator
 and HE standard. Other common options are TOY, MEDIUM, STD192, and STD256.
 MEDIUM corresponds to the level of more than 100 bits for both quantum and
-classical computer attacks
+classical computer attacks. The second argument is the bootstrapping method
+(AP or GINX). The default method is GINX. Here we explicitly set AP. GINX
+typically provides better performance: the bootstrapping key is much
+smaller in GINX (by 20x) while the runtime is roughly the same.
 """
-cc.GenerateBinFHEContext(STD128,GINX)
+cc.GenerateBinFHEContext(STD128,AP)
 
 ## Sample Program: Step 2: Key Generation
 
@@ -22,6 +25,7 @@ print("Generating the bootstrapping keys...\n")
 # Generate the bootstrapping keys (refresh and switching keys)
 cc.BTKeyGen(sk)
 
+print("Completed the key generation.\n")
 # Sample Program: Step 3: Encryption
 """
 Encrypt two ciphertexts representing Boolean True (1).
