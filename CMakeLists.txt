@@ -1,21 +1,5 @@
 cmake_minimum_required (VERSION 3.5.1)
 
-### To use gcc/g++ on a Macintosh, you must set the Compilers
-### here, not inside the project
-##if(APPLE)
-##       set(CMAKE_C_COMPILER "/usr/local/bin/gcc-7")
-##       set(CMAKE_CXX_COMPILER "/usr/local/bin/g++-7")
-##endif()
-### TODO: for now, we use CLang for Mac
-###
-### In order to create OpenFHE's static libraries you should enable
-### the BUILD_STATIC option. For that, you run "cmake .. -DBUILD_STATIC=ON".
-### After having your link completed you will find static libs
-### with the suffix "_static" in ./build/libs/.
-### Examples: OPENFHEpke_static.a, OPENFHEcore_static.a, etc.
-### After you run "make install" in your build directory, you can build your custom application.
-### If you need your application to be linked statically, then run "cmake .. -DBUILD_STATIC=ON"
-
 project(openfhe)
 set(CMAKE_CXX_STANDARD 17)
 option( BUILD_STATIC "Set to ON to include static versions of the library" OFF)
@@ -25,13 +9,16 @@ find_package(pybind11 REQUIRED)
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
 set( OpenFHE_Py_SOURCES src)
+set( OpenFHE_Py_INCLUDES include)
 
 include_directories( ${OPENMP_INCLUDES} )
 include_directories( ${OpenFHE_INCLUDE} )
 include_directories( ${OpenFHE_INCLUDE}/third-party/include )
 include_directories( ${OpenFHE_INCLUDE}/core )
 include_directories( ${OpenFHE_INCLUDE}/pke )
-include_directories( ${OpenFHE_Py_SOURCES} )
+# include_directories( ${OpenFHE_Py_SOURCES} )
+include_directories( ${OpenFHE_Py_INCLUDES}/pke )
+include_directories( ${OpenFHE_Py_INCLUDES} )
 ### add directories for other OpenFHE modules as needed for your project
 
 link_directories( ${OpenFHE_LIBDIR} )
@@ -51,7 +38,7 @@ endif()
 ### add_executable( test demo-simple-example.cpp )
 
 ### Pybind Modules
-pybind11_add_module(openfhe src/bindings.cpp src/pke/decryption.cpp)
+pybind11_add_module(openfhe src/bindings.cpp src/pke/decryption.cpp src/pke/serialization.cpp src/pke/cryptocontext_wrapper.cpp)
 ### Python installation 
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
 

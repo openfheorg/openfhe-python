@@ -1,10 +1,8 @@
 # Initial Settings
 from openfhe import *
-# import openfhe.PKESchemeFeature as Feature
-
 
 # Sample Program: Step 1: Set CryptoContext
-parameters = CCParamsBFVRNS()
+parameters = CCParamsBGVRNS()
 parameters.SetPlaintextModulus(65537)
 parameters.SetMultiplicativeDepth(2)
 
