@@ -7,12 +7,12 @@ using namespace lbcrypto;
 namespace py = pybind11;
 
 template<typename Element>
-Plaintext DecryptWrapper(Ciphertext<Element> ciphertext,const PrivateKey<Element> privateKey){
+Plaintext DecryptWrapper_standalone(Ciphertext<Element> ciphertext,const PrivateKey<Element> privateKey){
     Plaintext plaintextDecResult;
     auto cc = ciphertext->GetCryptoContext();
     cc->Decrypt(privateKey, ciphertext,&plaintextDecResult);
     return plaintextDecResult;
 }
 void bind_decryption(py::module &m){
-    m.def("Decrypt",&DecryptWrapper<DCRTPoly>,"Decrypt a ciphertext using private key");
+    m.def("Decrypt",&DecryptWrapper_standalone<DCRTPoly>,"Decrypt a ciphertext using private key");
 }
