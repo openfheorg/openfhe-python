@@ -41,19 +41,28 @@ def AutomaticRescaleDemo(scalTech):
     # The result is correct, even though there is no call to
     # the Rescale() operation.
 
-    c2 = cc.EvalMult(c, c)                       # x^2
-    c4 = cc.EvalMult(c2, c2)                     # x^4
-    c8 = cc.EvalMult(c4, c4)                     # x^8
-    c16 = cc.EvalMult(c8, c8)                    # x^16
-    c9 = cc.EvalMult(c8, c)                      # x^9
-    c18 = cc.EvalMult(c16, c2)                   # x^18
-    cRes = cc.EvalAdd(cc.EvalAdd(c18, c9), 1.0)  # Final result 1
-    #cRes2 = cc.EvalSub()
+    c2 = cc.EvalMult(c, c)                        # x^2
+    c4 = cc.EvalMult(c2, c2)                      # x^4
+    c8 = cc.EvalMult(c4, c4)                      # x^8
+    c16 = cc.EvalMult(c8, c8)                     # x^16
+    c9 = cc.EvalMult(c8, c)                       # x^9
+    c18 = cc.EvalMult(c16, c2)                    # x^18
+    cRes1 = cc.EvalAdd(cc.EvalAdd(c18, c9), 1.0)  # Final result 1
+    cRes2 = cc.EvalSub(cc.EvalAdd(c18,c9), 1.0)   # Final result 2
+    cRes3 = cc.EvalMult(cc.EvalAdd(c18,c9), 0.5)  # Final result 3
 
-    result = Decrypt(cRes,keys.secretKey)
-    print("x^18 + x^9 + 1 = ", result)
+    result1 = Decrypt(cRes1,keys.secretKey)
     result.SetLength(batchSize)
-    print(f"Result: {result}")
+    print("x^18 + x^9 + 1 = ", result)
+    
+    result2 = Decrypt(cRes2,keys.secretKey)
+    result.SetLength(batchSize)
+    print("x^18 + x^9 - 1 = ", result)
+
+    result3 = Decrypt(cRes3,keys.secretKey)
+    result.SetLength(batchSize)
+    print("0.5 * (x^18 + x^9) = ", result)
+
 
 def ManualRescaleDemo(ScalingTechnique):
     print("\n\n\n ===== FixedManualDemo =============\n")
@@ -61,7 +70,7 @@ def ManualRescaleDemo(ScalingTechnique):
     batchSize = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
-    parameters.SetScalingModSize(50)
+    parameters.SetScalingModSize(90)
     parameters.SetBatchSize(batchSize)
 
     cc = GenCryptoContext(parameters)
@@ -76,7 +85,7 @@ def ManualRescaleDemo(ScalingTechnique):
     cc.EvalMultKeyGen(keys.secretKey)
 
     # Input
-    x = [1.0, 1.01, 1.02, 1.03, 1.04, 1.05, 1.06, 1.07]
+    x = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
     ptxt = cc.MakeCKKSPackedPlaintext(x)
 
     print(f"Input x: {ptxt}")
@@ -86,7 +95,7 @@ def ManualRescaleDemo(ScalingTechnique):
     # Computing f(x) = x^18 + x^9 + 1
     #
     # Compare the following with the corresponding code
-    # for FLEXIBLEAUTO. Here we need to track the depth of ciphertexts
+    # for FIXEDAUTO. Here we need to track the depth of ciphertexts
     # and call Rescale whenever needed. In this instance it's still
     # not hard to do so, but this can be quite tedious in other
     # complicated computations. (e.g. in bootstrapping)
@@ -94,10 +103,10 @@ def ManualRescaleDemo(ScalingTechnique):
     #
 
     # x^2
-    c2_depth_2 = cc.EvalMult(c, c)
-    c2_depth_1 = cc.Rescale(c2_depth_2)
+    c2_depth2 = cc.EvalMult(c, c)
+    c2_depth1 = cc.Rescale(c2_depth2)
     # x^4
-    c4_depth2 = cc.EvalMult(c2_depth_1, c2_depth_1)
+    c4_depth2 = cc.EvalMult(c2_depth1, c2_depth1)
     c4_depth1 = cc.Rescale(c4_depth2)
     # x^8
     c8_depth2 = cc.EvalMult(c4_depth1, c4_depth1)
@@ -108,7 +117,7 @@ def ManualRescaleDemo(ScalingTechnique):
     # x^9
     c9_depth2 = cc.EvalMult(c8_depth1, c)
     # x^18
-    c18_depth2 = cc.EvalMult(c16_depth1, c2_depth_1)
+    c18_depth2 = cc.EvalMult(c16_depth1, c2_depth1)
     # Final result
     cRes_depth2 = cc.EvalAdd(cc.EvalAdd(c18_depth2, c9_depth2), 1.0)
     cRes_depth1 = cc.Rescale(cRes_depth2)
@@ -119,13 +128,14 @@ def ManualRescaleDemo(ScalingTechnique):
 
 def HybridKeySwitchingDemo1():
     
+    print("\n\n\n ===== HybridKeySwitchingDemo1 ============= \n")
     dnum = 2
     batchSize = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
-    parameters.SetScalingModSize(50)
+    parameters.SetScalingModSize(90)
     parameters.SetBatchSize(batchSize)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
     parameters.SetNumLargeDigits(dnum)
 
     cc = GenCryptoContext(parameters)
@@ -166,9 +176,9 @@ def HybridKeySwitchingDemo2():
     batchSize = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
-    parameters.SetScalingModSize(50)
+    parameters.SetScalingModSize(90)
     parameters.SetBatchSize(batchSize)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
     parameters.SetNumLargeDigits(dnum)
 
     cc = GenCryptoContext(parameters)
@@ -208,8 +218,8 @@ def FastRotationDemo1():
     print("\n\n\n ===== FastRotationDemo1 =============\n")
     batchSize = 8
     parameters = CCParamsCKKSRNS()
-    parameters.SetMultiplicativeDepth(5)
-    parameters.SetScalingModSize(50)
+    parameters.SetMultiplicativeDepth(1)
+    parameters.SetScalingModSize(90)
     parameters.SetBatchSize(batchSize)
 
     cc = GenCryptoContext(parameters)
@@ -281,16 +291,18 @@ def FastRotationDemo1():
 def FastRotationDemo2():
     print("\n\n\n ===== FastRotationDemo2 =============\n")
 
-    digitSize = 3
     batchSize = 8
 
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(1)
-    parameters.SetScalingModSize(50)
+    parameters.SetScalingModSize(90)
     parameters.SetBatchSize(batchSize)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
     parameters.SetKeySwitchTechnique(KeySwitchTechnique.BV)
-    parameters.SetFirstModSize(60)
+
+    digitSize = 3
+    firstModSize = 100
+    parameters.SetFirstModSize(firstModSize)
     parameters.SetDigitSize(digitSize)
 
     cc = GenCryptoContext(parameters)
