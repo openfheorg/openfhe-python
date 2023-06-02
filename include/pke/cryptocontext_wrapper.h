@@ -23,6 +23,8 @@ Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,
                                               ConstCiphertext<DCRTPoly> digits);
 
 Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,
-Ciphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey);
+ConstCiphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey);
+Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,
+const PrivateKey<DCRTPoly> privateKey,ConstCiphertext<DCRTPoly> ciphertext);
 
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H

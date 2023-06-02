@@ -25,9 +25,13 @@ Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,Const
     }
 
 
-Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,Ciphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey){
+Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey){
     Plaintext plaintextDecResult;
-    //auto cc = ciphertext->GetCryptoContext();
+    self->Decrypt(privateKey, ciphertext,&plaintextDecResult);
+    return plaintextDecResult;
+}
+Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly> privateKey,ConstCiphertext<DCRTPoly> ciphertext){
+    Plaintext plaintextDecResult;
     self->Decrypt(privateKey, ciphertext,&plaintextDecResult);
     return plaintextDecResult;
 }

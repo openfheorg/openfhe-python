@@ -81,7 +81,7 @@ void bind_crypto_context(py::module &m)
             py::arg("level") = static_cast<uint32_t>(0),
             py::arg("params") = py::none(),
             py::arg("slots") = 0)
-        .def("MakeCKKSPackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&,size_t, uint32_t,const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of complex doubles",
+        .def("MakeCKKSPackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&,size_t, uint32_t,const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of doubles",
             py::arg("value"),
             py::arg("depth") = static_cast<size_t>(1),
             py::arg("level") = static_cast<uint32_t>(0),
@@ -92,7 +92,10 @@ void bind_crypto_context(py::module &m)
         .def("EvalFastRotation", &EvalFastRotationWrapper)
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
-        .def("Decrypt",&DecryptWrapper,"Decrypt a ciphertext using private key")
+        .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly>&, const PrivateKey<DCRTPoly>, ConstCiphertext<DCRTPoly>)>(&DecryptWrapper),
+             "Decrypt a ciphertext using private key")
+        .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly>&, ConstCiphertext<DCRTPoly>,const PrivateKey<DCRTPoly>)>(&DecryptWrapper),
+             "Decrypt a ciphertext using private key")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add a ciphertext with a scalar")
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract two ciphertexts")
