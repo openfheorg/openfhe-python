@@ -51,20 +51,20 @@ def AutomaticRescaleDemo(scalTech):
     cRes2 = cc.EvalSub(cc.EvalAdd(c18,c9), 1.0)   # Final result 2
     cRes3 = cc.EvalMult(cc.EvalAdd(c18,c9), 0.5)  # Final result 3
 
-    result1 = Decrypt(cRes1,keys.secretKey)
+    result1 = cc.Decrypt(cRes1,keys.secretKey)
     result.SetLength(batchSize)
-    print("x^18 + x^9 + 1 = ", result)
+    print("x^18 + x^9 + 1 = ", result1)
     
-    result2 = Decrypt(cRes2,keys.secretKey)
+    result2 = cc.Decrypt(cRes2,keys.secretKey)
     result.SetLength(batchSize)
-    print("x^18 + x^9 - 1 = ", result)
+    print("x^18 + x^9 - 1 = ", result2)
 
-    result3 = Decrypt(cRes3,keys.secretKey)
+    result3 = cc.Decrypt(cRes3,keys.secretKey)
     result.SetLength(batchSize)
-    print("0.5 * (x^18 + x^9) = ", result)
+    print("0.5 * (x^18 + x^9) = ", result3)
 
 
-def ManualRescaleDemo(ScalingTechnique):
+def ManualRescaleDemo(scalTech):
     print("\n\n\n ===== FixedManualDemo =============\n")
     
     batchSize = 8
@@ -122,7 +122,7 @@ def ManualRescaleDemo(ScalingTechnique):
     cRes_depth2 = cc.EvalAdd(cc.EvalAdd(c18_depth2, c9_depth2), 1.0)
     cRes_depth1 = cc.Rescale(cRes_depth2)
 
-    result = Decrypt(cRes_depth1,keys.secretKey)
+    result = cc.Decrypt(cRes_depth1,keys.secretKey)
     result.SetLength(batchSize)
     print("x^18 + x^9 + 1 = ", result)
 
@@ -164,7 +164,7 @@ def HybridKeySwitchingDemo1():
     cRot2 = cc.EvalRotate(cRot1,-2)
     time2digits = time.time() - t
 
-    result = Decrypt(cRot2,keys.secretKey)
+    result = cc.Decrypt(cRot2,keys.secretKey)
     result.SetLength(batchSize)
     print(f"x rotate by -1 = {result}")
     print(f" - 2 rotations with HYBRID (2 digits) took {time2digits*1000} ms")
@@ -209,7 +209,7 @@ def HybridKeySwitchingDemo2():
     time3digits = time.time() - t
     # The runtime here is smaller than the previous demo
 
-    result = Decrypt(cRot2,keys.secretKey)
+    result = cc.Decrypt(cRot2,keys.secretKey)
     result.SetLength(batchSize)
     print(f"x rotate by -1 = {result}")
     print(f" - 2 rotations with HYBRID (3 digits) took {time3digits*1000} ms")
@@ -274,13 +274,13 @@ def FastRotationDemo1():
 
     cResHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
     
-    result = Decrypt(cResNoHoist,keys.secretKey)
+    result = cc.Decrypt(cResNoHoist,keys.secretKey)
     result.SetLength(batchSize)
     print(f"Result without hoisting: {result}")
     print(f" - 7 rotations without hoisting took {timeNoHoisting*1000} ms")
 
     
-    result = Decrypt(cResHoist,keys.secretKey)
+    result = cc.Decrypt(cResHoist,keys.secretKey)
     result.SetLength(batchSize)
     print(f"Result with hoisting: {result}")
     print(f" - 7 rotations with hoisting took {timeHoisting*1000} ms")
@@ -300,7 +300,7 @@ def FastRotationDemo2():
     parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
     parameters.SetKeySwitchTechnique(KeySwitchTechnique.BV)
 
-    digitSize = 3
+    digitSize = 10
     firstModSize = 100
     parameters.SetFirstModSize(firstModSize)
     parameters.SetDigitSize(digitSize)
@@ -362,12 +362,12 @@ def FastRotationDemo2():
 
     cResHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
 
-    result = Decrypt(cResNoHoist,keys.secretKey)
+    result = cc.Decrypt(cResNoHoist,keys.secretKey)
     result.SetLength(batchSize)
     print(f"Result without hoisting: {result}")
     print(f" - 7 rotations without hoisting took {timeNoHoisting*1000} ms")
 
-    result = Decrypt(cResHoist,keys.secretKey)
+    result = cc.Decrypt(cResHoist,keys.secretKey)
     result.SetLength(batchSize)
     print(f"Result with hoisting: {result}")
     print(f" - 7 rotations with hoisting took {timeHoisting*1000} ms")
