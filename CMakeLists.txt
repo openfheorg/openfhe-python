@@ -44,7 +44,6 @@ pybind11_add_module(openfhe
                     src/bindings.cpp 
                     src/binfhe_bindings.cpp
                     src/binfhe/binfhecontext_wrapper.cpp
-                    src/pke/decryption.cpp 
                     src/pke/serialization.cpp 
                     src/pke/cryptocontext_wrapper.cpp
                     )

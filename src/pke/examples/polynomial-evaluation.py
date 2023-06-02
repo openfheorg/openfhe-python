@@ -39,11 +39,11 @@ def main():
     result2 = cc.EvalPoly(ciphertext1, coefficients2)
     time_eval_poly2 = time.time() - t
 
-    plaintext_dec = Decrypt(result, key_pair.secretKey)
+    plaintext_dec = cc.Decrypt(result, key_pair.secretKey)
 
     plaintext_dec.SetLength(encoded_length)
 
-    plaintext_dec2 = Decrypt(result2, key_pair.secretKey)
+    plaintext_dec2 = cc.Decrypt(result2, key_pair.secretKey)
 
     plaintext_dec2.SetLength(encoded_length)
 

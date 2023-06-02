@@ -64,7 +64,7 @@ def simple_bootstrap_example():
 
     print(f"Number of levels remaining after bootstrapping: {ciphertext_after.GetLevel()}")
 
-    result = Decrypt(ciphertext_after,key_pair.secretKey)
+    result = cryptocontext.Decrypt(ciphertext_after,key_pair.secretKey)
     result.SetLength(encoded_length)
     print(f"Output after bootstrapping: {result}")
 

@@ -63,16 +63,16 @@ ciphertext_rot4 = crypto_context.EvalRotate(ciphertext1, -2)
 # Sample Program: Step 5: Decryption
 
 # Decrypt the result of additions
-plaintext_add_result = Decrypt(ciphertext_add_result,key_pair.secretKey)
+plaintext_add_result = crypto_context.Decrypt(ciphertext_add_result,key_pair.secretKey)
 
 # Decrypt the result of multiplications
-plaintext_mult_result = Decrypt(ciphertext_mult_result,key_pair.secretKey)
+plaintext_mult_result = crypto_context.Decrypt(ciphertext_mult_result,key_pair.secretKey)
 
 # Decrypt the result of rotations
-plaintextRot1 = Decrypt(ciphertext_rot1,key_pair.secretKey)
-plaintextRot2 = Decrypt(ciphertext_rot2,key_pair.secretKey)
-plaintextRot3 = Decrypt(ciphertext_rot3,key_pair.secretKey)
-plaintextRot4 = Decrypt(ciphertext_rot4,key_pair.secretKey)
+plaintextRot1 = crypto_context.Decrypt(ciphertext_rot1,key_pair.secretKey)
+plaintextRot2 = crypto_context.Decrypt(ciphertext_rot2,key_pair.secretKey)
+plaintextRot3 = crypto_context.Decrypt(ciphertext_rot3,key_pair.secretKey)
+plaintextRot4 = crypto_context.Decrypt(ciphertext_rot4,key_pair.secretKey)
 
 
 plaintextRot1.SetLength(len(vector_of_ints1))

@@ -87,7 +87,7 @@ def iterative_bootstrap_example():
     # Step 5: Measure the precision of a single bootstrapping operation.
     ciphertext_after = cryptocontext.EvalBootstrap(ciph)
 
-    result = Decrypt(ciphertext_after,key_pair.secretKey)
+    result = cryptocontext.Decrypt(ciphertext_after,key_pair.secretKey)
     result.SetLength(num_slots)
     precision = calculate_approximation_error(result.GetCKKSPackedValue(),ptxt.GetCKKSPackedValue())
     print(f"Bootstrapping precision after 1 iteration: {precision} bits\n")
@@ -99,7 +99,7 @@ def iterative_bootstrap_example():
     # Step 6: Run bootstrapping with multiple iterations
     ciphertext_two_iterations = cryptocontext.EvalBootstrap(ciph,num_iterations,precision)
 
-    result_two_iterations = Decrypt(ciphertext_two_iterations,key_pair.secretKey)
+    result_two_iterations = cryptocontext.Decrypt(ciphertext_two_iterations,key_pair.secretKey)
     result_two_iterations.SetLength(num_slots)
     actual_result = result_two_iterations.GetCKKSPackedValue()
 

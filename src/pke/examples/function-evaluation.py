@@ -39,7 +39,7 @@ def eval_logistic_example():
     upper_bound = 4
     result = cc.EvalLogistic(ciphertext, lower_bound, upper_bound, poly_degree)
 
-    plaintext_dec = Decrypt(result, key_pair.secretKey)
+    plaintext_dec = cc.Decrypt(result, key_pair.secretKey)
     plaintext_dec.SetLength(encoded_length)
 
     expected_output = [0.0179885, 0.0474289, 0.119205, 0.268936, 0.5, 0.731064, 0.880795, 0.952571, 0.982011]
@@ -82,7 +82,7 @@ def eval_function_example():
     upper_bound = 9
     result = cc.EvalChebyshevFunction(math.sqrt,ciphertext, lower_bound, upper_bound, poly_degree)
 
-    plaintext_dec = Decrypt(result, key_pair.secretKey)
+    plaintext_dec = cc.Decrypt(result, key_pair.secretKey)
     plaintext_dec.SetLength(encoded_length)
 
     expected_output = [1, 1.414213, 1.732050, 2, 2.236067, 2.449489, 2.645751, 2.828427, 3]
