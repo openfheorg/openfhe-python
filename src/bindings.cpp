@@ -99,6 +99,8 @@ void bind_crypto_context(py::module &m)
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add a ciphertext with a scalar")
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract two ciphertexts")
+        .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract double from ciphertext")
+        .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(double, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract ciphertext from double")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
         .def("EvalLogistic", &CryptoContextImpl<DCRTPoly>::EvalLogistic,
@@ -181,6 +183,13 @@ void bind_crypto_context(py::module &m)
     m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
 }
 
+int get_native_int(){
+    #if NATIVEINT == 128 && !defined(__EMSCRIPTEN__)
+        return 128;
+    #else
+        return 64;    
+    #endif
+}
 void bind_enums_and_constants(py::module &m)
 {
     /* ---- PKE enums ---- */ 
@@ -237,6 +246,9 @@ void bind_enums_and_constants(py::module &m)
     /*TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else */
     using ParmType = typename DCRTPoly::Params;
     py::class_<ParmType, std::shared_ptr<ParmType>>(m, "ParmType");
+
+    //NATIVEINT function
+    m.def("get_native_int", &get_native_int);
 }
 
 void bind_keys(py::module &m)
