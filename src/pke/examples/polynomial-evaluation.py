@@ -23,13 +23,13 @@ def main():
                     0.1, 0.2, 0.3, 0.4, 0.5, -0.1, -0.2, -0.3, -0.4, -0.5]
     plaintext1 = cc.MakeCKKSPackedPlaintext(input)
 
-    keyPair = cc.KeyGen()
+    key_pair = cc.KeyGen()
     
     print("Generating evaluation key for homomorphic multiplication...")
-    cc.EvalMultKeyGen(keyPair.secretKey)
+    cc.EvalMultKeyGen(key_pair.secretKey)
     print("Completed.\n")
 
-    ciphertext1 = cc.Encrypt(keyPair.publicKey, plaintext1)
+    ciphertext1 = cc.Encrypt(key_pair.publicKey, plaintext1)
 
     t = time.time()
     result = cc.EvalPoly(ciphertext1, coefficients1)
@@ -39,11 +39,11 @@ def main():
     result2 = cc.EvalPoly(ciphertext1, coefficients2)
     time_eval_poly2 = time.time() - t
 
-    plaintext_dec = Decrypt(result, keyPair.secretKey)
+    plaintext_dec = Decrypt(result, key_pair.secretKey)
 
     plaintext_dec.SetLength(encoded_length)
 
-    plaintext_dec2 = Decrypt(result2, keyPair.secretKey)
+    plaintext_dec2 = Decrypt(result2, key_pair.secretKey)
 
     plaintext_dec2.SetLength(encoded_length)
 

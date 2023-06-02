@@ -44,9 +44,9 @@ def simple_bootstrap_example():
 
     cryptocontext.EvalBootstrapSetup(level_budget)
 
-    keyPair = cryptocontext.KeyGen()
-    cryptocontext.EvalMultKeyGen(keyPair.secretKey)
-    cryptocontext.EvalBootstrapKeyGen(keyPair.secretKey, num_slots)
+    key_pair = cryptocontext.KeyGen()
+    cryptocontext.EvalMultKeyGen(key_pair.secretKey)
+    cryptocontext.EvalBootstrapKeyGen(key_pair.secretKey, num_slots)
 
     x = [0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0, 5.0]
     encoded_length = len(x)
@@ -56,7 +56,7 @@ def simple_bootstrap_example():
 
     print(f"Input: {x}")
 
-    ciph = cryptocontext.Encrypt(keyPair.publicKey, ptxt)
+    ciph = cryptocontext.Encrypt(key_pair.publicKey, ptxt)
 
     print(f"Initial number of levels remaining: {ciph.GetLevel()}")
 
@@ -64,7 +64,7 @@ def simple_bootstrap_example():
 
     print(f"Number of levels remaining after bootstrapping: {ciphertext_after.GetLevel()}")
 
-    result = Decrypt(ciphertext_after,keyPair.secretKey)
+    result = Decrypt(ciphertext_after,key_pair.secretKey)
     result.SetLength(encoded_length)
     print(f"Output after bootstrapping: {result}")
 
