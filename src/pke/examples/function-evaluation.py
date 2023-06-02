@@ -39,13 +39,13 @@ def eval_logistic_example():
     upper_bound = 4
     result = cc.EvalLogistic(ciphertext, lower_bound, upper_bound, poly_degree)
 
-    plaitext_dec = Decrypt(result, key_pair.secretKey)
-    plaitext_dec.SetLength(encoded_length)
+    plaintext_dec = Decrypt(result, key_pair.secretKey)
+    plaintext_dec.SetLength(encoded_length)
 
     expected_output = [0.0179885, 0.0474289, 0.119205, 0.268936, 0.5, 0.731064, 0.880795, 0.952571, 0.982011]
     print(f"Expected output\n\t {expected_output}\n")
 
-    final_result = plaitextDec.GetCKKSPackedValue()
+    final_result = plaintext_dec.GetCKKSPackedValue()
     print(f"Actual output\n\t {final_result}\n")
 
 def eval_function_example():
