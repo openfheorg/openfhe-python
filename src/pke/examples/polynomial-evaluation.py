@@ -16,7 +16,7 @@ def main():
 
     input = [complex(a,0) for a in [0.5, 0.7, 0.9, 0.95, 0.93]]
     # input = [0.5, 0.7, 0.9, 0.95, 0.93]
-    encodedLength = len(input)
+    encoded_length = len(input)
     coefficients1 = [0.15, 0.75, 0, 1.25, 0, 0, 1, 0, 1, 2, 0, 1, 0, 0, 0, 0, 1]
     coefficients2 = [1, 2, 3, 4, 5, -1, -2, -3, -4, -5,
                     0.1, 0.2, 0.3, 0.4, 0.5, -0.1, -0.2, -0.3, -0.4, -0.5,
@@ -33,38 +33,38 @@ def main():
 
     t = time.time()
     result = cc.EvalPoly(ciphertext1, coefficients1)
-    timeEvalPoly1 = time.time() - t
+    time_eval_poly1 = time.time() - t
 
     t = time.time()
     result2 = cc.EvalPoly(ciphertext1, coefficients2)
-    timeEvalPoly2 = time.time() - t
+    time_eval_poly2 = time.time() - t
 
-    plaintextDec = Decrypt(result, keyPair.secretKey)
+    plaintext_dec = Decrypt(result, keyPair.secretKey)
 
-    plaintextDec.SetLength(encodedLength)
+    plaintext_dec.SetLength(encoded_length)
 
-    plaintextDec2 = Decrypt(result2, keyPair.secretKey)
+    plaintext_dec2 = Decrypt(result2, keyPair.secretKey)
 
-    plaintextDec2.SetLength(encodedLength)
+    plaintext_dec2.SetLength(encoded_length)
 
     print("\n Original Plaintext #1: \n")
     print(plaintext1)
 
     print(f"\n Result of evaluating a polynomial with coefficients {coefficients1}: \n")
-    print(plaintextDec)
+    print(plaintext_dec)
 
     print("\n Expected result: (0.70519107, 1.38285078, 3.97211180, "
                  "5.60215665, 4.86357575) \n") 
 
-    print(f"\n Evaluation time: {timeEvalPoly1*1000} ms \n")
+    print(f"\n Evaluation time: {time_eval_poly1*1000} ms \n")
 
     print(f"\n Result of evaluating a polynomial with coefficients {coefficients2}: \n")
-    print(plaintextDec2)  
+    print(plaintext_dec2)  
 
     print("\n Expected result: (3.4515092326, 5.3752765397, 4.8993108833, "
                  "3.2495023573, 4.0485229982) \n")
 
-    print(f"\n Evaluation time: {timeEvalPoly2*1000} ms \n")
+    print(f"\n Evaluation time: {time_eval_poly2*1000} ms \n")
 
 if __name__ == '__main__':
     main() 

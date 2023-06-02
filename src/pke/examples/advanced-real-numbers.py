@@ -1,18 +1,18 @@
 from openfhe import *
 import time # to enable TIC-TOC timing measurements
 
-def AutomaticRescaleDemo(scalTech):
-    if(scalTech == ScalingTechnique.FLEXIBLEAUTO):
+def automatic_rescale_demo(scal_tech):
+    if(scal_tech == ScalingTechnique.FLEXIBLEAUTO):
         print("\n\n\n ===== FlexibleAutoDemo =============\n") 
     else:
          print("\n\n\n ===== FixedAutoDemo =============\n")
 
-    batchSize = 8
+    batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
     parameters.SetScalingModSize(50)
-    parameters.SetScalingTechnique(scalTech)
-    parameters.SetBatchSize(batchSize)
+    parameters.SetScalingTechnique(scal_tech)
+    parameters.SetBatchSize(batch_size)
 
     cc = GenCryptoContext(parameters)
 
@@ -51,17 +51,17 @@ def AutomaticRescaleDemo(scalTech):
 
     result = Decrypt(cRes,keys.secretKey)
     print("x^18 + x^9 + 1 = ", result)
-    result.SetLength(batchSize)
+    result.SetLength(batch_size)
     print(f"Result: {result}")
 
-def ManualRescaleDemo(ScalingTechnique):
+def manual_rescale_demo(scal_tech):
     print("\n\n\n ===== FixedManualDemo =============\n")
     
-    batchSize = 8
+    batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
     parameters.SetScalingModSize(50)
-    parameters.SetBatchSize(batchSize)
+    parameters.SetBatchSize(batch_size)
 
     cc = GenCryptoContext(parameters)
 
@@ -93,10 +93,10 @@ def ManualRescaleDemo(ScalingTechnique):
     #
 
     # x^2
-    c2_depth_2 = cc.EvalMult(c, c)
-    c2_depth_1 = cc.Rescale(c2_depth_2)
+    c2_depth2 = cc.EvalMult(c, c)
+    c2_depth1 = cc.Rescale(c2_depth2)
     # x^4
-    c4_depth2 = cc.EvalMult(c2_depth_1, c2_depth_1)
+    c4_depth2 = cc.EvalMult(c2_depth1, c2_depth1)
     c4_depth1 = cc.Rescale(c4_depth2)
     # x^8
     c8_depth2 = cc.EvalMult(c4_depth1, c4_depth1)
@@ -107,23 +107,23 @@ def ManualRescaleDemo(ScalingTechnique):
     # x^9
     c9_depth2 = cc.EvalMult(c8_depth1, c)
     # x^18
-    c18_depth2 = cc.EvalMult(c16_depth1, c2_depth_1)
+    c18_depth2 = cc.EvalMult(c16_depth1, c2_depth1)
     # Final result
     cRes_depth2 = cc.EvalAdd(cc.EvalAdd(c18_depth2, c9_depth2), 1.0)
     cRes_depth1 = cc.Rescale(cRes_depth2)
 
     result = Decrypt(cRes_depth1,keys.secretKey)
-    result.SetLength(batchSize)
+    result.SetLength(batch_size)
     print("x^18 + x^9 + 1 = ", result)
 
-def HybridKeySwitchingDemo1():
-    
+def hybrid_key_switching_demo1():
+    print("\n\n\n ===== hybrid_key_switching_demo1 =============\n")
     dnum = 2
-    batchSize = 8
+    batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
     parameters.SetScalingModSize(50)
-    parameters.SetBatchSize(batchSize)
+    parameters.SetBatchSize(batch_size)
     parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
     parameters.SetNumLargeDigits(dnum)
 
@@ -149,24 +149,24 @@ def HybridKeySwitchingDemo1():
     c = cc.Encrypt(keys.publicKey,ptxt)
 
     t = time.time()
-    cRot1 = cc.EvalRotate(c,1)
-    cRot2 = cc.EvalRotate(cRot1,-2)
+    c_rot1 = cc.EvalRotate(c,1)
+    c_rot2 = cc.EvalRotate(c_rot1,-2)
     time2digits = time.time() - t
 
-    result = Decrypt(cRot2,keys.secretKey)
-    result.SetLength(batchSize)
+    result = Decrypt(c_rot2,keys.secretKey)
+    result.SetLength(batch_size)
     print(f"x rotate by -1 = {result}")
     print(f" - 2 rotations with HYBRID (2 digits) took {time2digits*1000} ms")
 
 
-def HybridKeySwitchingDemo2():
-    print("\n\n\n ===== HybridKeySwitchingDemo2 =============\n")
+def hybrid_key_switching_demo2():
+    print("\n\n\n ===== hybrid_key_switching_demo2 =============\n")
     dnum = 3
-    batchSize = 8
+    batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
     parameters.SetScalingModSize(50)
-    parameters.SetBatchSize(batchSize)
+    parameters.SetBatchSize(batch_size)
     parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
     parameters.SetNumLargeDigits(dnum)
 
@@ -193,19 +193,19 @@ def HybridKeySwitchingDemo2():
     c = cc.Encrypt(keys.publicKey,ptxt)
 
     t = time.time()
-    cRot1 = cc.EvalRotate(c,1)
-    cRot2 = cc.EvalRotate(cRot1,-2)
+    c_rot1 = cc.EvalRotate(c,1)
+    c_rot2 = cc.EvalRotate(c_rot1,-2)
     time3digits = time.time() - t
     # The runtime here is smaller than the previous demo
 
-    result = Decrypt(cRot2,keys.secretKey)
-    result.SetLength(batchSize)
+    result = Decrypt(c_rot2,keys.secretKey)
+    result.SetLength(batch_size)
     print(f"x rotate by -1 = {result}")
     print(f" - 2 rotations with HYBRID (3 digits) took {time3digits*1000} ms")
 
-def FastRotationDemo1():
-    print("\n\n\n ===== FastRotationDemo1 =============\n")
-    batchSize = 8
+def fast_rotation_demo1():
+    print("\n\n\n ===== fast_rotation_demo1 =============\n")
+    batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
     parameters.SetScalingModSize(50)
@@ -234,63 +234,63 @@ def FastRotationDemo1():
     # First, we perform 7 regular (non-hoisted) rotations
     # and measure the runtime
     t = time.time()
-    cRot1 = cc.EvalRotate(c,1)
-    cRot2 = cc.EvalRotate(c,2)
-    cRot3 = cc.EvalRotate(c,3)
-    cRot4 = cc.EvalRotate(c,4)
-    cRot5 = cc.EvalRotate(c,5)
-    cRot6 = cc.EvalRotate(c,6)
-    cRot7 = cc.EvalRotate(c,7)
-    timeNoHoisting = time.time() - t
+    c_rot1 = cc.EvalRotate(c,1)
+    c_rot2 = cc.EvalRotate(c,2)
+    c_rot3 = cc.EvalRotate(c,3)
+    c_rot4 = cc.EvalRotate(c,4)
+    c_rot5 = cc.EvalRotate(c,5)
+    c_rot6 = cc.EvalRotate(c,6)
+    c_rot7 = cc.EvalRotate(c,7)
+    time_no_hoisting = time.time() - t
 
-    cResNoHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
+    c_res_no_hoist = c + c_rot1 + c_rot2 + c_rot3 + c_rot4 + c_rot5 + c_rot6 + c_rot7
 
     # M is the cyclotomic order and we need it to call EvalFastRotation
     M = 2*N
 
     # Then, we perform 7 rotations with hoisting.
     t = time.time()
-    cPrecomp = cc.EvalFastRotationPrecompute(c)
-    cRot1 = cc.EvalFastRotation(c, 1, M, cPrecomp)
-    cRot2 = cc.EvalFastRotation(c, 2, M, cPrecomp)
-    cRot3 = cc.EvalFastRotation(c, 3, M, cPrecomp)
-    cRot4 = cc.EvalFastRotation(c, 4, M, cPrecomp)
-    cRot5 = cc.EvalFastRotation(c, 5, M, cPrecomp)
-    cRot6 = cc.EvalFastRotation(c, 6, M, cPrecomp)
-    cRot7 = cc.EvalFastRotation(c, 7, M, cPrecomp)
-    timeHoisting = time.time() - t
+    c_precomp = cc.EvalFastRotationPrecompute(c)
+    c_rot1 = cc.EvalFastRotation(c,1,M,c_precomp)
+    c_rot2 = cc.EvalFastRotation(c,2,M,c_precomp)
+    c_rot3 = cc.EvalFastRotation(c,3,M,c_precomp)
+    c_rot4 = cc.EvalFastRotation(c,4,M,c_precomp)
+    c_rot5 = cc.EvalFastRotation(c,5,M,c_precomp)
+    c_rot6 = cc.EvalFastRotation(c,6,M,c_precomp)
+    c_rot7 = cc.EvalFastRotation(c,7,M,c_precomp)
+    time_hoisting = time.time() - t
     # The time with hoisting should be faster than without hoisting.
 
-    cResHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
+    c_res_hoist = c + c_rot1 + c_rot2 + c_rot3 + c_rot4 + c_rot5 + c_rot6 + c_rot7
     
-    result = Decrypt(cResNoHoist,keys.secretKey)
-    result.SetLength(batchSize)
+    result = Decrypt(c_res_no_hoist,keys.secretKey)
+    result.SetLength(batch_size)
     print(f"Result without hoisting: {result}")
-    print(f" - 7 rotations without hoisting took {timeNoHoisting*1000} ms")
+    print(f" - 7 rotations without hoisting took {time_no_hoisting*1000} ms")
 
     
-    result = Decrypt(cResHoist,keys.secretKey)
-    result.SetLength(batchSize)
+    result = Decrypt(c_res_hoist,keys.secretKey)
+    result.SetLength(batch_size)
     print(f"Result with hoisting: {result}")
-    print(f" - 7 rotations with hoisting took {timeHoisting*1000} ms")
+    print(f" - 7 rotations with hoisting took {time_hoisting*1000} ms")
 
 
 
 
-def FastRotationDemo2():
-    print("\n\n\n ===== FastRotationDemo2 =============\n")
+def fast_rotation_demo2():
+    print("\n\n\n ===== fast_rotation_demo2 =============\n")
 
-    digitSize = 3
-    batchSize = 8
+    digit_size = 3
+    batch_size = 8
 
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(1)
     parameters.SetScalingModSize(50)
-    parameters.SetBatchSize(batchSize)
+    parameters.SetBatchSize(batch_size)
     parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
     parameters.SetKeySwitchTechnique(KeySwitchTechnique.BV)
     parameters.SetFirstModSize(60)
-    parameters.SetDigitSize(digitSize)
+    parameters.SetDigitSize(digit_size)
 
     cc = GenCryptoContext(parameters)
 
@@ -315,31 +315,31 @@ def FastRotationDemo2():
     # First, we perform 7 regular (non-hoisted) rotations
     # and measure the runtime
     t = time.time()
-    cRot1 = cc.EvalRotate(c,1)
-    cRot2 = cc.EvalRotate(c,2)
-    cRot3 = cc.EvalRotate(c,3)
-    cRot4 = cc.EvalRotate(c,4)
-    cRot5 = cc.EvalRotate(c,5)
-    cRot6 = cc.EvalRotate(c,6)
-    cRot7 = cc.EvalRotate(c,7)
-    timeNoHoisting = time.time() - t
+    c_rot1 = cc.EvalRotate(c,1)
+    c_rot2 = cc.EvalRotate(c,2)
+    c_rot3 = cc.EvalRotate(c,3)
+    c_rot4 = cc.EvalRotate(c,4)
+    c_rot5 = cc.EvalRotate(c,5)
+    c_rot6 = cc.EvalRotate(c,6)
+    c_rot7 = cc.EvalRotate(c,7)
+    time_no_hoisting = time.time() - t
 
-    cResNoHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
+    c_res_no_hoist = c + c_rot1 + c_rot2 + c_rot3 + c_rot4 + c_rot5 + c_rot6 + c_rot7
 
     # M is the cyclotomic order and we need it to call EvalFastRotation
     M = 2*N
 
     # Then, we perform 7 rotations with hoisting.
     t = time.time()
-    cPrecomp = cc.EvalFastRotationPrecompute(c)
-    cRot1 = cc.EvalFastRotation(c, 1, M, cPrecomp)
-    cRot2 = cc.EvalFastRotation(c, 2, M, cPrecomp)
-    cRot3 = cc.EvalFastRotation(c, 3, M, cPrecomp)
-    cRot4 = cc.EvalFastRotation(c, 4, M, cPrecomp)
-    cRot5 = cc.EvalFastRotation(c, 5, M, cPrecomp)
-    cRot6 = cc.EvalFastRotation(c, 6, M, cPrecomp)
-    cRot7 = cc.EvalFastRotation(c, 7, M, cPrecomp)
-    timeHoisting = time.time() - t
+    c_precomp = cc.EvalFastRotationPrecompute(c)
+    c_rot1 = cc.EvalFastRotation(c,1,M,c_precomp)
+    c_rot2 = cc.EvalFastRotation(c,2,M,c_precomp)
+    c_rot3 = cc.EvalFastRotation(c,3,M,c_precomp)
+    c_rot4 = cc.EvalFastRotation(c,4,M,c_precomp)
+    c_rot5 = cc.EvalFastRotation(c,5,M,c_precomp)
+    c_rot6 = cc.EvalFastRotation(c,6,M,c_precomp)
+    c_rot7 = cc.EvalFastRotation(c,7,M,c_precomp)
+    time_hoisting = time.time() - t
     # The time with hoisting should be faster than without hoisting.
     # Also, the benefits from hoisting should be more pronounced in this
     # case because we're using BV. Of course, we also observe less
@@ -347,27 +347,27 @@ def FastRotationDemo2():
     # digitSize = 10 (Users can decrease digitSize to see the accuracy
     # increase, and performance decrease).
 
-    cResHoist = c + cRot1 + cRot2 + cRot3 + cRot4 + cRot5 + cRot6 + cRot7
+    c_res_hoist = c + c_rot1 + c_rot2 + c_rot3 + c_rot4 + c_rot5 + c_rot6 + c_rot7
 
-    result = Decrypt(cResNoHoist,keys.secretKey)
-    result.SetLength(batchSize)
+    result = Decrypt(c_res_no_hoist,keys.secretKey)
+    result.SetLength(batch_size)
     print(f"Result without hoisting: {result}")
-    print(f" - 7 rotations without hoisting took {timeNoHoisting*1000} ms")
+    print(f" - 7 rotations without hoisting took {time_no_hoisting*1000} ms")
 
-    result = Decrypt(cResHoist,keys.secretKey)
-    result.SetLength(batchSize)
+    result = Decrypt(c_res_no_hoist,keys.secretKey)
+    result.SetLength(batch_size)
     print(f"Result with hoisting: {result}")
-    print(f" - 7 rotations with hoisting took {timeHoisting*1000} ms")
+    print(f" - 7 rotations with hoisting took {time_hoisting*1000} ms")
 
 
 def main():
-    AutomaticRescaleDemo(ScalingTechnique.FLEXIBLEAUTO)
-    AutomaticRescaleDemo(ScalingTechnique.FIXEDAUTO)
-    ManualRescaleDemo(ScalingTechnique.FIXEDMANUAL)
-    HybridKeySwitchingDemo1()
-    HybridKeySwitchingDemo2()
-    FastRotationDemo1()
-    FastRotationDemo2()
+    automatic_rescale_demo(ScalingTechnique.FLEXIBLEAUTO)
+    automatic_rescale_demo(ScalingTechnique.FIXEDAUTO)
+    manual_rescale_demo(ScalingTechnique.FIXEDMANUAL)
+    hybrid_key_switching_demo1()
+    hybrid_key_switching_demo2()
+    fast_rotation_demo1()
+    fast_rotation_demo2()
 
 if __name__ == "__main__":
     main()

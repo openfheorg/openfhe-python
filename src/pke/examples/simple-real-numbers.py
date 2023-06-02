@@ -1,13 +1,13 @@
 from openfhe import *
 
-multDepth = 1
-scaleModSize = 50
-batchSize = 8
+mult_depth = 1
+scale_mod_size = 50
+batch_size = 8
 
 parameters = CCParamsCKKSRNS()
-parameters.SetMultiplicativeDepth(multDepth)
-parameters.SetScalingModSize(scaleModSize)
-parameters.SetBatchSize(batchSize)
+parameters.SetMultiplicativeDepth(mult_depth)
+parameters.SetScalingModSize(scale_mod_size)
+parameters.SetBatchSize(batch_size)
 
 cc = GenCryptoContext(parameters)
 cc.Enable(PKESchemeFeature.PKE)
@@ -35,20 +35,20 @@ c2 = cc.Encrypt(keys.publicKey, ptx2)
 
 # Step 4: Evaluation
 # Homomorphic additions
-cAdd = cc.EvalAdd(c1, c2)
+c_add = cc.EvalAdd(c1, c2)
 # Homomorphic subtraction
-cSub = cc.EvalSub(c1, c2)
+c_sub = cc.EvalSub(c1, c2)
 # Homomorphic scalar multiplication
-cScalar = cc.EvalMult(c1,4)
+c_scalar = cc.EvalMult(c1,4)
 # Homomorphic multiplication
-cMult = cc.EvalMult(c1, c2)
+c_mult = cc.EvalMult(c1, c2)
 # Homomorphic rotations
-cRot1 = cc.EvalRotate(c1, 1)
-cRot2 = cc.EvalRotate(c1, -2)
+c_rot1 = cc.EvalRotate(c1, 1)
+c_rot2 = cc.EvalRotate(c1, -2)
 
 # Step 5: Decryption and output
 # Decrypt the result of additions
-ptAdd = Decrypt(cAdd,keys.secretKey)
+ptAdd = Decrypt(c_add,keys.secretKey)
 
 # We set the precision to 8 decimal digits for a nicer output.
 # If you want to see the error/noise introduced by CKKS, bump it up
@@ -57,28 +57,28 @@ ptAdd = Decrypt(cAdd,keys.secretKey)
 precision = 8
 print("Results of homomorphic computations:")
 result = Decrypt(c1, keys.secretKey)
-result.SetLength(batchSize)
+result.SetLength(batch_size)
 print("x1 = " + str(result))
 print("Estimated precision in bits: " + str(result.GetLogPrecision()))
 
 # Decrypt the result of scalar multiplication
-result = Decrypt(cScalar,keys.secretKey)
-result.SetLength(batchSize)
+result = Decrypt(c_scalar,keys.secretKey)
+result.SetLength(batch_size)
 print("4 * x1 = " + str(result))
 
 # Decrypt the result of multiplication
-result = Decrypt(cMult,keys.secretKey)
-result.SetLength(batchSize)
+result = Decrypt(c_mult,keys.secretKey)
+result.SetLength(batch_size)
 print("x1 * x2 = " + str(result))
 
 # Decrypt the result of rotations
-result = Decrypt(cRot1,keys.secretKey)
-result.SetLength(batchSize)
+result = Decrypt(c_rot1,keys.secretKey)
+result.SetLength(batch_size)
 print("In rotations, very small outputs (~10^-10 here) correspond to 0's:")
 print("x1 rotated by 1 = " + str(result))
 
-result = Decrypt(cRot2,keys.secretKey)
-result.SetLength(batchSize)
+result = Decrypt(c_rot2,keys.secretKey)
+result.SetLength(batch_size)
 print("x1 rotated by -2 = " + str(result))
 
 

@@ -1,31 +1,31 @@
 from openfhe import *
 
 def main():
-    SimpleBootstrapExample()
+    simple_bootstrap_example()
 
-def SimpleBootstrapExample():
+def simple_bootstrap_example():
     parameters = CCParamsCKKSRNS()
 
-    secretKeyDist = SecretKeyDist.UNIFORM_TERNARY
-    parameters.SetSecretKeyDist(secretKeyDist)
+    secret_key_dist = SecretKeyDist.UNIFORM_TERNARY
+    parameters.SetSecretKeyDist(secret_key_dist)
 
     parameters.SetSecurityLevel(SecurityLevel.HEStd_NotSet)
     parameters.SetRingDim(1<<12)
 
-    rescaleTech = ScalingTechnique.FLEXIBLEAUTO
-    dcrtBits = 59
-    firstMod = 60
+    rescale_tech = ScalingTechnique.FLEXIBLEAUTO
+    dcrt_bits = 59
+    first_mod = 60
     
-    parameters.SetScalingModSize(dcrtBits)
-    parameters.SetScalingTechnique(rescaleTech)
-    parameters.SetFirstModSize(firstMod)
+    parameters.SetScalingModSize(dcrt_bits)
+    parameters.SetScalingTechnique(rescale_tech)
+    parameters.SetFirstModSize(first_mod)
 
-    levelBudget = [4, 4]
-    approxBootstrappDepth = 8
+    level_budget = [4, 4]
+    approx_bootstrapp_depth = 8
 
-    levelsUsedBeforeBootstrap = 10
+    levels_used_before_bootstrap = 10
 
-    depth = levelsUsedBeforeBootstrap + FHECKKSRNS.GetBootstrapDepth(approxBootstrappDepth, levelBudget, secretKeyDist)
+    depth = levels_used_before_bootstrap + FHECKKSRNS.GetBootstrapDepth(approx_bootstrapp_depth, level_budget, secret_key_dist)
 
     parameters.SetMultiplicativeDepth(depth)
 
@@ -36,23 +36,23 @@ def SimpleBootstrapExample():
     cryptocontext.Enable(PKESchemeFeature.ADVANCEDSHE)
     cryptocontext.Enable(PKESchemeFeature.FHE)
 
-    ringDim = cryptocontext.GetRingDimension()
+    ring_dim = cryptocontext.GetRingDimension()
     # This is the mazimum number of slots that can be used full packing.
 
-    numSlots = int(ringDim / 2)
-    print(f"CKKS is using ring dimension {ringDim}")
+    num_slots = int(ring_dim / 2)
+    print(f"CKKS is using ring dimension {ring_dim}")
 
-    cryptocontext.EvalBootstrapSetup(levelBudget)
+    cryptocontext.EvalBootstrapSetup(level_budget)
 
     keyPair = cryptocontext.KeyGen()
     cryptocontext.EvalMultKeyGen(keyPair.secretKey)
-    cryptocontext.EvalBootstrapKeyGen(keyPair.secretKey, numSlots)
+    cryptocontext.EvalBootstrapKeyGen(keyPair.secretKey, num_slots)
 
     x = [0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0, 5.0]
-    encodedLength = len(x)
+    encoded_length = len(x)
 
     ptxt = cryptocontext.MakeCKKSPackedPlaintext(x)
-    ptxt.SetLength(encodedLength)
+    ptxt.SetLength(encoded_length)
 
     print(f"Input: {x}")
 
@@ -60,12 +60,12 @@ def SimpleBootstrapExample():
 
     print(f"Initial number of levels remaining: {ciph.GetLevel()}")
 
-    ciphertextAfter = cryptocontext.EvalBootstrap(ciph)
+    ciphertext_after = cryptocontext.EvalBootstrap(ciph)
 
-    print(f"Number of levels remaining after bootstrapping: {ciphertextAfter.GetLevel()}")
+    print(f"Number of levels remaining after bootstrapping: {ciphertext_after.GetLevel()}")
 
-    result = Decrypt(ciphertextAfter,keyPair.secretKey)
-    result.SetLength(encodedLength)
+    result = Decrypt(ciphertext_after,keyPair.secretKey)
+    result.SetLength(encoded_length)
     print(f"Output after bootstrapping: {result}")
 
 if __name__ == '__main__':

@@ -3,48 +3,44 @@ import math
 import random
 
 def main():
-    IterativeBootstrapExample()
+    iterative_bootstrap_example()
 
-def CalculateApproximationError(result,expectedResult):
-    if len(result) != len(expectedResult):
+def calculate_approximation_error(result,expected_result):
+    if len(result) != len(expected_result):
         raise Exception("Cannot compare vectors with different numbers of elements")
     # using the infinity norm
-    maxError = 0
-    for i in range(len(result)):
-        # error is abs of the difference of real parts
-        error = abs(result[i].real - expectedResult[i].real)
-        if error > maxError:
-            maxError = error
-    # resturn absolute value of log base2 of the error
-    return abs(math.log(maxError,2))
-def IterativeBootstrapExample():
+    # error is abs of the difference of real parts
+    max_error = max([abs(el1.real - el2.real) for (el1, el2) in zip(result, expected_result)])
+    # return absolute value of log base2 of the error
+    return abs(math.log(max_error,2))
+def iterative_bootstrap_example():
     # Step 1: Set CryptoContext
     parameters = CCParamsCKKSRNS()
-    secretKeyDist = SecretKeyDist.UNIFORM_TERNARY
-    parameters.SetSecretKeyDist(secretKeyDist)
+    secret_key_dist = SecretKeyDist.UNIFORM_TERNARY
+    parameters.SetSecretKeyDist(secret_key_dist)
     parameters.SetSecurityLevel(SecurityLevel.HEStd_NotSet)
     parameters.SetRingDim(1 << 12)
 
-    rescaleTech = ScalingTechnique.FLEXIBLEAUTO
-    dcrtBits = 59
-    firstMod = 60
+    rescale_tech = ScalingTechnique.FLEXIBLEAUTO
+    dcrt_bits = 59
+    first_mod = 60
 
-    parameters.SetScalingModSize(dcrtBits)
-    parameters.SetScalingTechnique(rescaleTech)
-    parameters.SetFirstModSize(firstMod)
+    parameters.SetScalingModSize(dcrt_bits)
+    parameters.SetScalingTechnique(rescale_tech)
+    parameters.SetFirstModSize(first_mod)
 
     # Here, we specify the number of iterations to run bootstrapping. 
     # Note that we currently only support 1 or 2 iterations.
     # Two iterations should give us approximately double the precision of one iteration.
-    numIterations = 2
+    num_iterations = 2
 
-    levelBudget = [3, 3]
+    level_budget = [3, 3]
     # Each extra iteration on top of 1 requires an extra level to be consumed.
-    approxBootstrappDepth = 8 + (numIterations - 1)
-    bsgsDim = [0,0]
+    approx_bootstrapp_depth = 8 + (num_iterations - 1)
+    bsgs_dim = [0,0]
 
-    levelsUsedBeforeBootstrap = 10
-    depth = levelsUsedBeforeBootstrap + FHECKKSRNS.GetBootstrapDepth(approxBootstrappDepth, levelBudget, secretKeyDist)
+    levels_used_before_bootstrap = 10
+    depth = levels_used_before_bootstrap + FHECKKSRNS.GetBootstrapDepth(approx_bootstrapp_depth, level_budget, secret_key_dist)
     parameters.SetMultiplicativeDepth(depth)
 
     # Generate crypto context
@@ -58,44 +54,42 @@ def IterativeBootstrapExample():
     cryptocontext.Enable(PKESchemeFeature.ADVANCEDSHE)
     cryptocontext.Enable(PKESchemeFeature.FHE)
 
-    ringDim = cryptocontext.GetRingDimension()
-    print(f"CKKS is using ring dimension {ringDim}\n\n")
+    ring_dim = cryptocontext.GetRingDimension()
+    print(f"CKKS is using ring dimension {ring_dim}\n\n")
 
     # Step 2: Precomputations for bootstrapping
     # We use a sparse packing
-    numSlots = 8
-    cryptocontext.EvalBootstrapSetup(levelBudget, bsgsDim, numSlots)
+    num_slots = 8
+    cryptocontext.EvalBootstrapSetup(levelBudget, bsgs_dim, num_slots)
 
     # Step 3: Key generation
     keyPair = cryptocontext.KeyGen()
     cryptocontext.EvalMultKeyGen(keyPair.secretKey)
     # Generate bootstrapping keys.
-    cryptocontext.EvalBootstrapKeyGen(keyPair.secretKey, numSlots)
+    cryptocontext.EvalBootstrapKeyGen(keyPair.secretKey, num_slots)
 
     # Step 4: Encoding and encryption of inputs
     # Generate random input
-    x = []
-    for i in range(numSlots):
-        x.append(random.uniform(0, 1))
+    x = [random.uniform(0, 1) for i in range(num_slots)]
 
     """ Encoding as plaintexts
-        We specify the number of slots as numSlots to achieve a performance improvement.
+        We specify the number of slots as num_slots to achieve a performance improvement.
         We use the other default values of depth 1, levels 0, and no params.
         Alternatively, you can also set batch size as a parameter in the CryptoContext as follows:
-        parameters.SetBatchSize(numSlots);
-        Here, we assume all ciphertexts in the cryptoContext will have numSlots slots.
+        parameters.SetBatchSize(num_slots);
+        Here, we assume all ciphertexts in the cryptoContext will have num_slots slots.
         We start with a depleted ciphertext that has used up all of its levels."""
-    ptxt = cryptocontext.MakeCKKSPackedPlaintext(x, 1, depth -1,None,numSlots)
+    ptxt = cryptocontext.MakeCKKSPackedPlaintext(x, 1, depth -1,None,num_slots)
 
     # Encrypt the encoded vectors
     ciph = cryptocontext.Encrypt(keyPair.publicKey, ptxt)
 
     # Step 5: Measure the precision of a single bootstrapping operation.
-    ciphertextAfter = cryptocontext.EvalBootstrap(ciph)
+    ciphertext_after = cryptocontext.EvalBootstrap(ciph)
 
-    result = Decrypt(ciphertextAfter,keyPair.secretKey)
-    result.SetLength(numSlots)
-    precision = CalculateApproximationError(result.GetCKKSPackedValue(),ptxt.GetCKKSPackedValue())
+    result = Decrypt(ciphertext_after,keyPair.secretKey)
+    result.SetLength(num_slots)
+    precision = calculate_approximation_error(result.GetCKKSPackedValue(),ptxt.GetCKKSPackedValue())
     print(f"Bootstrapping precision after 1 iteration: {precision} bits\n")
 
     # Set the precision equal to empirically measured value after many test runs.
@@ -103,17 +97,17 @@ def IterativeBootstrapExample():
     print(f"Precision input to algorithm: {precision}\n")
 
     # Step 6: Run bootstrapping with multiple iterations
-    ciphertextTwoIterations = cryptocontext.EvalBootstrap(ciph,numIterations,precision)
+    ciphertext_two_iterations = cryptocontext.EvalBootstrap(ciph,num_iterations,precision)
 
-    resultTwoIterations = Decrypt(ciphertextTwoIterations,keyPair.secretKey)
-    resultTwoIterations.SetLength(numSlots)
-    actualResult = resultTwoIterations.GetCKKSPackedValue()
+    result_two_iterations = Decrypt(ciphertext_two_iterations,keyPair.secretKey)
+    result_two_iterations.SetLength(num_slots)
+    actual_result = result_two_iterations.GetCKKSPackedValue()
 
-    print(f"Output after two interations of bootstrapping: {actualResult}\n")
-    precisionMultipleIterations = CalculateApproximationError(actualResult,ptxt.GetCKKSPackedValue())
+    print(f"Output after two interations of bootstrapping: {actual_result}\n")
+    precision_multiple_iterations = calculate_approximation_error(actual_result,ptxt.GetCKKSPackedValue())
 
-    print(f"Bootstrapping precision after 2 iterations: {precisionMultipleIterations} bits\n")
-    print(f"Number of levels remaining after 2 bootstrappings: {depth - ciphertextTwoIterations.GetLevel()}\n")
+    print(f"Bootstrapping precision after 2 iterations: {precision_multiple_iterations} bits\n")
+    print(f"Number of levels remaining after 2 bootstrappings: {depth - ciphertext_two_iterations.GetLevel()}\n")
 
 if __name__ == "__main__":
     main()
