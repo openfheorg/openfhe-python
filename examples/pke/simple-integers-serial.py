@@ -34,8 +34,8 @@ if not SerializeToFile(datafolder + "/key-public.txt", keypair.publicKey, BINARY
 print("The public key has been serialized.")
 
 # Serialize the secret key
-if not SerializeToFile(datafolder + "/key-secret.txt", keypair.secretKey, BINARY):
-   raise Exception("Error writing serialization of the secret key to key-secret.txt")
+if not SerializeToFile(datafolder + "/key-private.txt", keypair.secretKey, BINARY):
+   raise Exception("Error writing serialization of the secret key to key-private.txt")
 print("The secret key has been serialized.")
 
 # Generate the relinearization key
@@ -101,10 +101,10 @@ cryptoContext.ClearEvalAutomorphismKeys()
 ReleaseAllContexts()
 
 # Deserialize the crypto context
-cc = CryptoContext()
-
-if not DeserializeFromFile(datafolder + "/cryptocontext.txt", cc, BINARY):
-   raise Exception("Error reading serialization of the crypto context from cryptocontext.txt")
+#cc = CryptoContext()
+cc = DeserializeFromFile2(datafolder + "/cryptocontext.txt", BINARY)
+# if not DeserializeFromFile(datafolder + "/cryptocontext.txt", cc, BINARY):
+#    raise Exception("Error reading serialization of the crypto context from cryptocontext.txt")
 print("The cryptocontext has been deserialized.")
 
 # Deserialize the public key
@@ -115,12 +115,12 @@ if not DeserializeFromFile(datafolder + "/key-public.txt", pk, BINARY):
 
 print("The public key has been deserialized.")
 
-if cryptoContext.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
+if not cryptoContext.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
    raise Exception("Could not deserialize the eval mult key file")
 
 print("The relinearization key has been deserialized.")
 
-if cryptoContext.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
+if not cryptoContext.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
    raise Exception("Could not deserialize the eval rotation key file")
 
 print("Deserialized the eval rotation keys.")
