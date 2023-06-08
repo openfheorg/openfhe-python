@@ -2,9 +2,12 @@ build/
 .vscode/
 .idea
 .png
-.json
-.txt
+*.json
+*.txt
 .cproject
 .project
+.html
+*.pyc
 .settings/
+docs/
 demoData/

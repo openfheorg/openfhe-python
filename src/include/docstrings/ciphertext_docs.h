@@ -45,7 +45,7 @@ const char* ctx_SetLevel_docs = R"pbdoc(
 )pbdoc";
 
 //KeyPair Docs
-kp_good_docs = R"pbdoc(
+const char* kp_good_docs = R"pbdoc(
     Checks whether both public key and secret key are non-null, or correctly initialized.
 
     :return: Result.
