@@ -176,7 +176,7 @@ void bind_crypto_context(py::module &m)
         //     py::arg("filename"),
         //     py::arg("sertype"),
         //     "Deserialize an evaluation key for multiplication")
-        .def_static("DeserializeEvalAutomorphismKey", [](std::shared_ptr<CryptoContextImpl<DCRTPoly>>& self,const std::string& filename, const SerType::SERBINARY& sertype)
+        .def("DeserializeEvalAutomorphismKey", [](std::shared_ptr<CryptoContextImpl<DCRTPoly>>& self,const std::string& filename, const SerType::SERBINARY& sertype)
                     {
                         std::ifstream erkeys(filename, std::ios::in | std::ios::binary);
                          if (!erkeys.is_open()) {

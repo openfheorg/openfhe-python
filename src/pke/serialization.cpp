@@ -46,8 +46,8 @@ bool DeserializeEvalMultKeyWrapper(CryptoContext<DCRTPoly>& self, const std::str
                         res = self->DeserializeEvalMultKey<ST>(emkeys, sertype);
                         return res; }
 
-
-CryptoContext<DCRTPoly> DeserializeFromFileWrapper(const std::string& filename, const SerType::SERJSON& sertype){
+template <typename ST>
+CryptoContext<DCRTPoly> DeserializeFromFileWrapper(const std::string& filename, const ST& sertype){
     CryptoContext<DCRTPoly> newob;
     bool res;
     res = lbcrypto::Serial::DeserializeFromFile(filename, newob, sertype);
@@ -55,17 +55,38 @@ CryptoContext<DCRTPoly> DeserializeFromFileWrapper(const std::string& filename, 
         return newob;
     } else {
         // throw an exception
-        throw std::runtime_error("Cannot deserialize from file");
+        OPENFHE_THROW(deserialize_error, "Cannot deserialize from file");
     }
 }
+template <typename T, typename ST>
+bool DeserializeFromFileWrapperPy(const std::string& filename, py::object& obj, const ST& sertype) {
+    // Extract the C++ object from the Python object
+    T cpp_obj = obj.cast<T>();
+    bool result = Serial::DeserializeFromFile<T>(filename, cpp_obj, sertype);
+    //cast again to python object
+    py::object new_obj = py::cast(cpp_obj);
+    obj.attr("__dict__") = new_obj.attr("__dict__");
 
+    return result;
+}
+template <typename T, typename ST>
+bool DeserializeFromFileWrapper4(const std::string& filename, T& obj, const ST& sertype) {
+    bool result = Serial::DeserializeFromFile<T>(filename, obj, sertype);
+    return result;
+}
 
 
 void bind_serialization(pybind11::module &m) {
     // Json Serialization
-    m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const CryptoContext<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<DCRTPoly>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
-    m.def("DeserializeFromFile", static_cast<bool (*)(const std::string&, CryptoContext<DCRTPoly>& ,const SerType::SERJSON&)>(&Serial::DeserializeFromFile<DCRTPoly>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
-    m.def("DeserializeFromFile2", static_cast<CryptoContext<DCRTPoly> (*)(const std::string& ,const SerType::SERJSON&)>(&DeserializeFromFileWrapper), py::arg("filename"), py::arg("sertype"));
+    m.def("SerializeToFile", static_cast<bool (*)
+    (const std::string&, const CryptoContext<DCRTPoly>&, const SerType::SERJSON&)>
+    (&Serial::SerializeToFile<DCRTPoly>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeFromFile", static_cast<bool (*)
+    (const std::string&, CryptoContext<DCRTPoly>& ,const SerType::SERJSON&)>
+    (&Serial::DeserializeFromFile<DCRTPoly>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeFromFile2", static_cast<CryptoContext<DCRTPoly> (*)(const std::string& ,const SerType::SERJSON&)>(&DeserializeFromFileWrapper<SerType::SERJSON>), py::arg("filename"), py::arg("sertype"));
+    m.def("DeserializeFromFile3", static_cast<bool (*)(const std::string& , py::object&, const SerType::SERJSON&)>(&DeserializeFromFileWrapperPy<CryptoContext<DCRTPoly>,SerType::SERJSON>), py::arg("filename"),py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeFromFile4", static_cast<bool (*)(const std::string& , CryptoContext<DCRTPoly>&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper4<CryptoContext<DCRTPoly>,SerType::SERJSON>), py::arg("filename"),py::arg("obj"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PublicKey<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeFromFile", static_cast<bool (*)(const std::string&, PublicKey<DCRTPoly>& ,const SerType::SERJSON&)>(&Serial::DeserializeFromFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PrivateKey<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<PrivateKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
@@ -75,6 +96,9 @@ void bind_serialization(pybind11::module &m) {
     // Binary Serialization
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const CryptoContext<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<DCRTPoly>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeFromFile", static_cast<bool (*)(const std::string&, CryptoContext<DCRTPoly>& ,const SerType::SERBINARY&)>(&Serial::DeserializeFromFile<DCRTPoly>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeFromFile2", static_cast<CryptoContext<DCRTPoly> (*)(const std::string& ,const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<SerType::SERBINARY>), py::arg("filename"), py::arg("sertype"));
+    m.def("DeserializeFromFile3", static_cast<bool (*)(const std::string& , py::object&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapperPy<CryptoContext<DCRTPoly>,SerType::SERBINARY>), py::arg("filename"),py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeFromFile4", static_cast<bool (*)(const std::string& , CryptoContext<DCRTPoly>&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper4<CryptoContext<DCRTPoly>,SerType::SERBINARY>), py::arg("filename"),py::arg("obj"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PublicKey<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeFromFile", static_cast<bool (*)(const std::string&, PublicKey<DCRTPoly>& ,const SerType::SERBINARY&)>(&Serial::DeserializeFromFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PrivateKey<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<PrivateKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
