@@ -74,6 +74,14 @@ bool DeserializeFromFileWrapper4(const std::string& filename, T& obj, const ST& 
     bool result = Serial::DeserializeFromFile<T>(filename, obj, sertype);
     return result;
 }
+template <typename T, typename ST>
+std::tuple<bool, py::object> DeserializeFromFileWrapper_tuple(const std::string& filename, const ST& sertype) {
+    // Extract the C++ object from the Python object
+    T newob;
+    bool result = Serial::DeserializeFromFile<T>(filename, newob, sertype);
+    py::object obj = py::cast(newob);
+    return std::make_tuple(result, obj);
+}
 
 
 void bind_serialization(pybind11::module &m) {
@@ -87,7 +95,8 @@ void bind_serialization(pybind11::module &m) {
     m.def("DeserializeFromFile2", static_cast<CryptoContext<DCRTPoly> (*)(const std::string& ,const SerType::SERJSON&)>(&DeserializeFromFileWrapper<SerType::SERJSON>), py::arg("filename"), py::arg("sertype"));
     m.def("DeserializeFromFile3", static_cast<bool (*)(const std::string& , py::object&, const SerType::SERJSON&)>(&DeserializeFromFileWrapperPy<CryptoContext<DCRTPoly>,SerType::SERJSON>), py::arg("filename"),py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeFromFile4", static_cast<bool (*)(const std::string& , CryptoContext<DCRTPoly>&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper4<CryptoContext<DCRTPoly>,SerType::SERJSON>), py::arg("filename"),py::arg("obj"), py::arg("sertype"));
-    m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PublicKey<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeFromFiletuple", static_cast<std::tuple<bool, py::object> (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper_tuple<CryptoContext<DCRTPoly>,SerType::SERJSON>), py::arg("filename"), py::arg("sertype"));
+    m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PublicKey<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"),py::arg("sertype"));
     m.def("DeserializeFromFile", static_cast<bool (*)(const std::string&, PublicKey<DCRTPoly>& ,const SerType::SERJSON&)>(&Serial::DeserializeFromFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PrivateKey<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<PrivateKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeFromFile", static_cast<bool (*)(const std::string&, PrivateKey<DCRTPoly>& ,const SerType::SERJSON&)>(&Serial::DeserializeFromFile<PrivateKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
@@ -99,6 +108,7 @@ void bind_serialization(pybind11::module &m) {
     m.def("DeserializeFromFile2", static_cast<CryptoContext<DCRTPoly> (*)(const std::string& ,const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<SerType::SERBINARY>), py::arg("filename"), py::arg("sertype"));
     m.def("DeserializeFromFile3", static_cast<bool (*)(const std::string& , py::object&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapperPy<CryptoContext<DCRTPoly>,SerType::SERBINARY>), py::arg("filename"),py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeFromFile4", static_cast<bool (*)(const std::string& , CryptoContext<DCRTPoly>&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper4<CryptoContext<DCRTPoly>,SerType::SERBINARY>), py::arg("filename"),py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeFromFiletuple", static_cast<std::tuple<bool, py::object> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper_tuple<CryptoContext<DCRTPoly>,SerType::SERBINARY>), py::arg("filename"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PublicKey<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeFromFile", static_cast<bool (*)(const std::string&, PublicKey<DCRTPoly>& ,const SerType::SERBINARY&)>(&Serial::DeserializeFromFile<PublicKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PrivateKey<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<PrivateKey<DCRTPoly>>), py::arg("filename"), py::arg("obj"), py::arg("sertype"));
