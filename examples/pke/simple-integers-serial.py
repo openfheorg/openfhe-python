@@ -80,7 +80,9 @@ print("The plaintexts have been encrypted.")
 if not SerializeToFile(datafolder + "/ciphertext1.txt", ciphertext1, BINARY):
    raise Exception("Error writing serialization of ciphertext 1 to ciphertext1.txt")
 print("The first ciphertext has been serialized.")
-
+cryptoContext.get_ptr()
+ciphertext1.get_ptr()
+print('---above ptr shuld be the same---')
 if not SerializeToFile(datafolder + "/ciphertext2.txt", ciphertext2, BINARY):
    raise Exception("Error writing serialization of ciphertext2 to ciphertext2.txt")
 print("The second ciphertext has been serialized.")
@@ -98,52 +100,52 @@ print("The third ciphertext has been serialized.")
 # Hence, we need to clear the context and clear the keys.
 cryptoContext.ClearEvalMultKeys()
 cryptoContext.ClearEvalAutomorphismKeys()
+print("-- Contexts before cleaning: \n")
+print(GetAllContexts())
 ReleaseAllContexts()
-
+print("-- Contexts after cleaning: \n")
+print(GetAllContexts())
 # Deserialize the crypto context
-#cc = CryptoContext()
-cc = DeserializeFromFile2(datafolder + "/cryptocontext.txt", BINARY)
-# if not DeserializeFromFile(datafolder + "/cryptocontext.txt", cc, BINARY):
-#    raise Exception("Error reading serialization of the crypto context from cryptocontext.txt")
+
+cc, res = DeserializeCryptoContext(datafolder + "/cryptocontext.txt", BINARY)
+if not res:
+   raise Exception("Error reading serialization of the crypto context from cryptocontext.txt")
 print("The cryptocontext has been deserialized.")
 
 # Deserialize the public key
-pk = PublicKey()
-
-if not DeserializeFromFile(datafolder + "/key-public.txt", pk, BINARY):
+pk, res = DeserializePublicKey(datafolder + "/key-public.txt", BINARY)
+if not res:
    raise Exception("Error reading serialization of the public key from key-public.txt")
-
 print("The public key has been deserialized.")
 
-if not cryptoContext.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
+if not cc.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",BINARY):
    raise Exception("Could not deserialize the eval mult key file")
 
 print("The relinearization key has been deserialized.")
 
-if not cryptoContext.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
+if not cc.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",BINARY):
    raise Exception("Could not deserialize the eval rotation key file")
 
 print("Deserialized the eval rotation keys.")
 
 # Deserialize the ciphertexts
 
-ct1 = Ciphertext()
-ct2 = Ciphertext()
-ct3 = Ciphertext()
+ct1, res = DeserializeCiphertext(datafolder + "/ciphertext1.txt", BINARY)
 
-if not DeserializeFromFile(datafolder + "/ciphertext1.txt", ct1, BINARY):
+if not res:
     raise Exception("Could not read the ciphertext")
-
 print("The first ciphertext has been deserialized.")
-
-if not DeserializeFromFile(datafolder + "/ciphertext2.txt", ct2, BINARY):
+cc.get_ptr()
+ct1.get_ptr()
+print('---above ptr shuld be the same---')
+ct2, res = DeserializeCiphertext(datafolder + "/ciphertext2.txt", BINARY)
+if not res:
     raise Exception("Could not read the ciphertext")
-
 print("The second ciphertext has been deserialized.")
 
-if not DeserializeFromFile(datafolder + "/ciphertext3.txt", ct3, BINARY):   
+ct3, res = DeserializeCiphertext(datafolder + "/ciphertext3.txt", BINARY)
+if not res:   
     raise Exception("Could not read the ciphertext")
-
 print("The third ciphertext has been deserialized.")
 
 # Homomorphic addition
