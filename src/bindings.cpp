@@ -66,6 +66,8 @@ void bind_crypto_context(py::module &m)
         .def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel)
         .def("SetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::SetKeyGenLevel)
+        .def("get_ptr", [](const CryptoContext<DCRTPoly> &self)
+             { std::cout << "CC shared ptr (python cc)" << self->GetCryptoParameters().get() << std::endl; })
         //.def("GetScheme",&CryptoContextImpl<DCRTPoly>::GetScheme)
         //.def("GetCryptoParameters", &CryptoContextImpl<DCRTPoly>::GetCryptoParameters)
         .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension)
@@ -76,28 +78,80 @@ void bind_crypto_context(py::module &m)
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
-        .def("MakeCKKSPackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<std::complex<double>>&,size_t, uint32_t,const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of complex doubles",
-            py::arg("value"),
-            py::arg("depth") = static_cast<size_t>(1),
-            py::arg("level") = static_cast<uint32_t>(0),
-            py::arg("params") = py::none(),
-            py::arg("slots") = 0)
-        .def("MakeCKKSPackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&,size_t, uint32_t,const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of doubles",
-            py::arg("value"),
-            py::arg("depth") = static_cast<size_t>(1),
-            py::arg("level") = static_cast<uint32_t>(0),
-            py::arg("params") = py::none(),
-            py::arg("slots") = 0)
+        .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<std::complex<double>> &, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of complex doubles",
+             py::arg("value"),
+             py::arg("depth") = static_cast<size_t>(1),
+             py::arg("level") = static_cast<uint32_t>(0),
+             py::arg("params") = py::none(),
+             py::arg("slots") = 0)
+        .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double> &, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of doubles",
+             py::arg("value"),
+             py::arg("depth") = static_cast<size_t>(1),
+             py::arg("level") = static_cast<uint32_t>(0),
+             py::arg("params") = py::none(),
+             py::arg("slots") = 0)
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
         .def("EvalFastRotationPrecompute", &EvalFastRotationPrecomputeWrapper)
         .def("EvalFastRotation", &EvalFastRotationWrapper)
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
-        .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly>&, const PrivateKey<DCRTPoly>, ConstCiphertext<DCRTPoly>)>(&DecryptWrapper),
+        .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly> &, const PrivateKey<DCRTPoly>, ConstCiphertext<DCRTPoly>)>(&DecryptWrapper),
              "Decrypt a ciphertext using private key")
-        .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly>&, ConstCiphertext<DCRTPoly>,const PrivateKey<DCRTPoly>)>(&DecryptWrapper),
+        .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly> &, ConstCiphertext<DCRTPoly>, const PrivateKey<DCRTPoly>)>(&DecryptWrapper),
              "Decrypt a ciphertext using private key")
-        .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
+        //.def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
+
+        .def("EvalAdd", [](const CryptoContext<DCRTPoly> &self, ConstCiphertext<DCRTPoly> ct1, ConstCiphertext<DCRTPoly> ct2)
+             {
+            // Identical if the parameters and the schemes are identical... the exact
+        // same object, OR the same type and the same values
+        auto a = ct1->GetCryptoContext().get();
+        auto b = self.get();
+        std::cout << "Comparing shared CryptoContexts: " << std::endl;
+        std::cout << "ct1 ---" << a << std::endl;
+        std::cout << "self --" << b << std::endl;
+        if(a!=b){
+            std::cout << "CryptoContexts are not identical" << std::endl;
+        }
+        std::cout << "Comparing params: " << std::endl;
+        std::cout << "ct1 ---" << a->GetCryptoParameters().get() << std::endl;
+        std::cout << "self --" << b->GetCryptoParameters().get() << std::endl;
+        if (a->GetCryptoParameters().get() == b->GetCryptoParameters().get()) {
+            std::cout << "Params are identical" << std::endl;
+        }
+        else {
+            std::cout << "type ids:"<< std::endl;
+            std::cout << "ct1 ---" << typeid(*a->GetCryptoParameters().get()).name() << std::endl;
+            std::cout << "self --" << typeid(*b->GetCryptoParameters().get()).name() << std::endl;
+            if (typeid(*a->GetCryptoParameters().get()) != typeid(*b->GetCryptoParameters().get())) {
+                std::cout << "Params typeid are not identical" << std::endl;
+            }
+            std::cout << "Comparing params *values: " << std::endl;
+            std::cout << "ct1 ---" << *a->GetCryptoParameters().get() << std::endl;
+            std::cout << "self --" << *b->GetCryptoParameters().get() << std::endl;
+            if (*a->GetCryptoParameters().get() != *b->GetCryptoParameters().get())
+                std::cout << "Params * values are not identical" << std::endl;
+        }
+        std::cout << "Comparing schemes: " << std::endl;
+        std::cout << "ct1 ---" << a->GetScheme().get() << std::endl;
+        std::cout << "self --" << b->GetScheme().get() << std::endl;
+        if (a->GetScheme().get() == b->GetScheme().get()) {
+            std::cout << "Schemes are identical" << std::endl;
+        }
+        else {
+            std::cout << "Scheme type ids:"<< std::endl;
+            std::cout << "ct1 ---" << typeid(*a->GetScheme().get()).name() << std::endl;
+            std::cout << "self --" << typeid(*b->GetScheme().get()).name() << std::endl;
+            if (typeid(*a->GetScheme().get()) != typeid(*b->GetScheme().get())) {
+                std::cout << "Scheme typeid are not identical" << std::endl;
+            }
+            std::cout << "Comparing scheme *values: " << std::endl;
+            std::cout << "ct1 ---" << *a->GetScheme().get() << std::endl;
+            std::cout << "self --" << *b->GetScheme().get() << std::endl;
+            if (*a->GetScheme().get() != *b->GetScheme().get())
+                std::cout << "Scheme * values are not identical" << std::endl;
+        }
+            return self->EvalAdd(ct1, ct2); })
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add a ciphertext with a scalar")
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract two ciphertexts")
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract double from ciphertext")
@@ -105,32 +159,32 @@ void bind_crypto_context(py::module &m)
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
         .def("EvalLogistic", &CryptoContextImpl<DCRTPoly>::EvalLogistic,
-            py::arg("ciphertext"),
-            py::arg("a"),
-            py::arg("b"),
-            py::arg("degree"))
+             py::arg("ciphertext"),
+             py::arg("a"),
+             py::arg("b"),
+             py::arg("degree"))
         .def("EvalChebyshevFunction", &CryptoContextImpl<DCRTPoly>::EvalChebyshevFunction,
-            py::arg("func"),
-            py::arg("ciphertext"),
-            py::arg("a"),
-            py::arg("b"),
-            py::arg("degree"))
+             py::arg("func"),
+             py::arg("ciphertext"),
+             py::arg("a"),
+             py::arg("b"),
+             py::arg("degree"))
         .def("EvalPoly", &CryptoContextImpl<DCRTPoly>::EvalPoly,
-            py::arg("ciphertext"),
-            py::arg("coefficients"))
+             py::arg("ciphertext"),
+             py::arg("coefficients"))
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
         .def("EvalBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalBootstrapSetup,
-            py::arg("levelBudget") = std::vector<uint32_t>({5,4}),
-            py::arg("dim1") = std::vector<uint32_t>({0,0}),
-            py::arg("slots") = 0,
-            py::arg("correctionFactor") = 0            )
+             py::arg("levelBudget") = std::vector<uint32_t>({5, 4}),
+             py::arg("dim1") = std::vector<uint32_t>({0, 0}),
+             py::arg("slots") = 0,
+             py::arg("correctionFactor") = 0)
         .def("EvalBootstrapKeyGen", &CryptoContextImpl<DCRTPoly>::EvalBootstrapKeyGen,
-            py::arg("privateKey"),
-            py::arg("slots"))
+             py::arg("privateKey"),
+             py::arg("slots"))
         .def("EvalBootstrap", &CryptoContextImpl<DCRTPoly>::EvalBootstrap,
-            py::arg("ciphertext"),
-            py::arg("numIterations") = 1,
-            py::arg("precision") = 0)
+             py::arg("ciphertext"),
+             py::arg("numIterations") = 1,
+             py::arg("precision") = 0)
         .def_static(
             "ClearEvalMultKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
@@ -163,8 +217,8 @@ void bind_crypto_context(py::module &m)
                 outfile.close();
                 return res; },
             py::arg("filename"), py::arg("sertype"), py::arg("id") = "", "Serialize evaluation keys for rotation")
-        .def("DeserializeEvalMultKey", [](CryptoContext<DCRTPoly>& self,const std::string& filename, const SerType::SERBINARY& sertype)
-                    {
+        .def("DeserializeEvalMultKey", [](CryptoContext<DCRTPoly> &self, const std::string &filename, const SerType::SERBINARY &sertype)
+             {
                         std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
                          if (!emkeys.is_open()) {
                             std::cerr << "I cannot read serialization from " << filename << std::endl;
@@ -176,8 +230,8 @@ void bind_crypto_context(py::module &m)
         //     py::arg("filename"),
         //     py::arg("sertype"),
         //     "Deserialize an evaluation key for multiplication")
-        .def("DeserializeEvalAutomorphismKey", [](std::shared_ptr<CryptoContextImpl<DCRTPoly>>& self,const std::string& filename, const SerType::SERBINARY& sertype)
-                    {
+        .def("DeserializeEvalAutomorphismKey", [](std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, const std::string &filename, const SerType::SERBINARY &sertype)
+             {
                         std::ifstream erkeys(filename, std::ios::in | std::ios::binary);
                          if (!erkeys.is_open()) {
                             std::cerr << "I cannot read serialization from " << filename << std::endl;
@@ -191,6 +245,7 @@ void bind_crypto_context(py::module &m)
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBGVRNS>);
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextCKKSRNS>);
     m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
+    m.def("GetAllContexts", &CryptoContextFactory<DCRTPoly>::GetAllContexts);
 }
 
 int get_native_int(){
@@ -309,7 +364,9 @@ void bind_ciphertext(py::module &m)
     // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
     // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
      .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel)
-     .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel);
+     .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel)
+     .def("get_ptr",[](const Ciphertext<DCRTPoly> &self){
+        std::cout<< "cryptoparameters shared ptr (python)" << self->GetCryptoContext()->GetCryptoParameters().get() << std::endl;});
     // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
     // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
