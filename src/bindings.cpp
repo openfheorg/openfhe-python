@@ -1,5 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/complex.h>
+#include <pybind11/functional.h>
 #include <pybind11/operators.h>
 #include <pybind11/iostream.h>
 #include <iostream>
@@ -7,6 +9,7 @@
 #include "key/key-ser.h"
 #include "bindings.h"
 #include "cryptocontext_wrapper.h"
+#include "binfhe_bindings.h"
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -72,7 +75,13 @@ void bind_crypto_context(py::module &m)
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
-        .def("MakeCKKSPackedPlaintext",&MakeCKKSPackedPlaintextWrapper, "Make a CKKS plaintext from a vector of floats",
+        .def("MakeCKKSPackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<std::complex<double>>&,size_t, uint32_t,const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of complex doubles",
+            py::arg("value"),
+            py::arg("depth") = static_cast<size_t>(1),
+            py::arg("level") = static_cast<uint32_t>(0),
+            py::arg("params") = py::none(),
+            py::arg("slots") = 0)
+        .def("MakeCKKSPackedPlaintext",static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double>&,size_t, uint32_t,const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of doubles",
             py::arg("value"),
             py::arg("depth") = static_cast<size_t>(1),
             py::arg("level") = static_cast<uint32_t>(0),
@@ -83,11 +92,31 @@ void bind_crypto_context(py::module &m)
         .def("EvalFastRotation", &EvalFastRotationWrapper)
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
+        .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly>&, const PrivateKey<DCRTPoly>, ConstCiphertext<DCRTPoly>)>(&DecryptWrapper),
+             "Decrypt a ciphertext using private key")
+        .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly>&, ConstCiphertext<DCRTPoly>,const PrivateKey<DCRTPoly>)>(&DecryptWrapper),
+             "Decrypt a ciphertext using private key")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add two ciphertexts")
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalAdd), "Add a ciphertext with a scalar")
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract two ciphertexts")
+        .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract double from ciphertext")
+        .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(double, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalSub), "Subtract ciphertext from double")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply two ciphertexts")
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>(&CryptoContextImpl<DCRTPoly>::EvalMult), "Multiply a ciphertext with a scalar")
+        .def("EvalLogistic", &CryptoContextImpl<DCRTPoly>::EvalLogistic,
+            py::arg("ciphertext"),
+            py::arg("a"),
+            py::arg("b"),
+            py::arg("degree"))
+        .def("EvalChebyshevFunction", &CryptoContextImpl<DCRTPoly>::EvalChebyshevFunction,
+            py::arg("func"),
+            py::arg("ciphertext"),
+            py::arg("a"),
+            py::arg("b"),
+            py::arg("degree"))
+        .def("EvalPoly", &CryptoContextImpl<DCRTPoly>::EvalPoly,
+            py::arg("ciphertext"),
+            py::arg("coefficients"))
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
         .def("EvalBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalBootstrapSetup,
             py::arg("levelBudget") = std::vector<uint32_t>({5,4}),
@@ -154,6 +183,13 @@ void bind_crypto_context(py::module &m)
     m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
 }
 
+int get_native_int(){
+    #if NATIVEINT == 128 && !defined(__EMSCRIPTEN__)
+        return 128;
+    #else
+        return 64;    
+    #endif
+}
 void bind_enums_and_constants(py::module &m)
 {
     /* ---- PKE enums ---- */ 
@@ -210,6 +246,9 @@ void bind_enums_and_constants(py::module &m)
     /*TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else */
     using ParmType = typename DCRTPoly::Params;
     py::class_<ParmType, std::shared_ptr<ParmType>>(m, "ParmType");
+
+    //NATIVEINT function
+    m.def("get_native_int", &get_native_int);
 }
 
 void bind_keys(py::module &m)
@@ -235,6 +274,7 @@ void bind_encodings(py::module &m)
         //.def("GetEncondingParams", &PlaintextImpl::GetEncondingParams)
         .def("Encode", &PlaintextImpl::Encode)
         .def("Decode", &PlaintextImpl::Decode)
+        .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
@@ -280,13 +320,18 @@ void bind_schemes(py::module &m){
 PYBIND11_MODULE(openfhe, m)
 {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
+    // pke library
     bind_parameters(m);
-    bind_crypto_context(m);
     bind_enums_and_constants(m);
+    bind_crypto_context(m);
     bind_keys(m);
     bind_encodings(m);
     bind_ciphertext(m);
-    bind_decryption(m);
     bind_serialization(m);
     bind_schemes(m);
+    // binfhe library
+    bind_binfhe_enums(m);
+    bind_binfhe_context(m);
+    bind_binfhe_keys(m);
+    bind_binfhe_ciphertext(m);
 }

@@ -13,12 +13,6 @@ namespace py = pybind11;
 using namespace lbcrypto;
 using ParmType = typename DCRTPoly::Params;
 
-Plaintext MakeCKKSPackedPlaintextWrapper(std::shared_ptr<CryptoContextImpl<DCRTPoly>> &self, 
-            const std::vector<float> &value, 
-            size_t depth, uint32_t level, 
-            const std::shared_ptr<ParmType> params,
-            usint slots);
-
 Ciphertext<DCRTPoly> EvalFastRotationPrecomputeWrapper(CryptoContext<DCRTPoly>& self,
                                                         ConstCiphertext<DCRTPoly> ciphertext);
 
@@ -27,5 +21,10 @@ Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,
                                               const usint index,
                                               const usint m,
                                               ConstCiphertext<DCRTPoly> digits);
+
+Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,
+ConstCiphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey);
+Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,
+const PrivateKey<DCRTPoly> privateKey,ConstCiphertext<DCRTPoly> ciphertext);
 
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H
