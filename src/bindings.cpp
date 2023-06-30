@@ -87,50 +87,6 @@ void bind_parameters(py::module &m,const std::string name)
         //
 
 }
-void bind_parameters_deprecated(py::module &m)
-{
-    // py::class_<Params>(m, "Params");
-    // py::class_<CCParams<CryptoContextBFVRNS>, Params>(m, "CCParamsBFVRNS")
-    //     .def(py::init<>())
-    //     // setters
-    //     .def("SetPlaintextModulus", &CCParams<CryptoContextBFVRNS>::SetPlaintextModulus)
-    //     .def("SetMultiplicativeDepth", &CCParams<CryptoContextBFVRNS>::SetMultiplicativeDepth)
-    //     // getters
-    //     .def("GetPlaintextModulus", &CCParams<CryptoContextBFVRNS>::GetPlaintextModulus)
-    //     .def("GetMultiplicativeDepth", &CCParams<CryptoContextBFVRNS>::GetMultiplicativeDepth);
-    py::class_<CCParams<CryptoContextBGVRNS>, Params>(m, "CCParamsBGVRNS")
-        .def(py::init<>())
-        // setters
-        .def("SetPlaintextModulus", &CCParams<CryptoContextBGVRNS>::SetPlaintextModulus)
-        .def("SetMultiplicativeDepth", &CCParams<CryptoContextBGVRNS>::SetMultiplicativeDepth)
-        // getters
-        .def("GetPlaintextModulus", &CCParams<CryptoContextBGVRNS>::GetPlaintextModulus)
-        .def("GetMultiplicativeDepth", &CCParams<CryptoContextBGVRNS>::GetMultiplicativeDepth);
-    // bind ckks rns params
-    py::class_<CCParams<CryptoContextCKKSRNS>, Params>(m, "CCParamsCKKSRNS")
-        .def(py::init<>())
-        // setters
-        .def("SetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::SetPlaintextModulus)
-        .def("SetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::SetMultiplicativeDepth)
-        .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
-        .def("SetBatchSize", &CCParams<CryptoContextCKKSRNS>::SetBatchSize)
-        .def("SetScalingTechnique", &CCParams<CryptoContextCKKSRNS>::SetScalingTechnique)
-        .def("SetNumLargeDigits", &CCParams<CryptoContextCKKSRNS>::SetNumLargeDigits)
-        .def("SetKeySwitchTechnique", &CCParams<CryptoContextCKKSRNS>::SetKeySwitchTechnique)
-        .def("SetFirstModSize", &CCParams<CryptoContextCKKSRNS>::SetFirstModSize)
-        .def("SetDigitSize", &CCParams<CryptoContextCKKSRNS>::SetDigitSize)
-        .def("SetSecretKeyDist", &CCParams<CryptoContextCKKSRNS>::SetSecretKeyDist)
-        .def("SetSecurityLevel", &CCParams<CryptoContextCKKSRNS>::SetSecurityLevel)
-        .def("SetRingDim", &CCParams<CryptoContextCKKSRNS>::SetRingDim)
-        .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
-
-        // getters
-        .def("GetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::GetPlaintextModulus)
-        .def("GetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::GetMultiplicativeDepth)
-        .def("GetScalingModSize", &CCParams<CryptoContextCKKSRNS>::GetScalingModSize)
-        .def("GetBatchSize", &CCParams<CryptoContextCKKSRNS>::GetBatchSize)
-        .def("GetScalingTechnique", &CCParams<CryptoContextCKKSRNS>::GetScalingTechnique);
-}
 
 void bind_crypto_context(py::module &m)
 {
