@@ -123,6 +123,8 @@ void bind_crypto_context(py::module &m)
         .def("EvalRotate", &CryptoContextImpl<DCRTPoly>::EvalRotate, "Rotate a ciphertext")
         .def("EvalFastRotationPrecompute", &EvalFastRotationPrecomputeWrapper)
         .def("EvalFastRotation", &EvalFastRotationWrapper)
+        .def("EvalFastRotationExt", &EvalFastRotationExtWrapper)
+        .def("EvalAtIndexKeyGen", &CryptoContextImpl<DCRTPoly>::EvalAtIndexKeyGen)
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
         .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly> &, const PrivateKey<DCRTPoly>, ConstCiphertext<DCRTPoly>)>(&DecryptWrapper),
@@ -197,6 +199,8 @@ void bind_crypto_context(py::module &m)
              py::arg("precision") = 0)
         .def("EvalAutomorphismKeyGen", &EvalAutomorphismKeyGenWrapper, py::return_value_policy::reference_internal)
         .def("EvalAutomorphismKeyGen", &EvalAutomorphismKeyGenWrapper_PublicKey, py::return_value_policy::reference_internal)
+        .def("FindAutomorphismIndex", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndex)
+        .def("FindAutomorphismIndices", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndices)
         .def_static(
             "ClearEvalMultKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
