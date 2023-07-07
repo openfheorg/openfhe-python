@@ -14,49 +14,78 @@
 using namespace lbcrypto;
 namespace py = pybind11;
 
-void bind_parameters(py::module &m)
+template <typename T>
+void bind_parameters(py::module &m,const std::string name)
 {
-    py::class_<Params>(m, "Params");
-    py::class_<CCParams<CryptoContextBFVRNS>, Params>(m, "CCParamsBFVRNS")
+    py::class_<CCParams<T>>(m, name.c_str())
         .def(py::init<>())
-        // setters
-        .def("SetPlaintextModulus", &CCParams<CryptoContextBFVRNS>::SetPlaintextModulus)
-        .def("SetMultiplicativeDepth", &CCParams<CryptoContextBFVRNS>::SetMultiplicativeDepth)
         // getters
-        .def("GetPlaintextModulus", &CCParams<CryptoContextBFVRNS>::GetPlaintextModulus)
-        .def("GetMultiplicativeDepth", &CCParams<CryptoContextBFVRNS>::GetMultiplicativeDepth);
-    py::class_<CCParams<CryptoContextBGVRNS>, Params>(m, "CCParamsBGVRNS")
-        .def(py::init<>())
+        .def("GetPlaintextModulus", &CCParams<T>::GetPlaintextModulus)
+        .def("GetScheme", &CCParams<T>::GetScheme)
+        .def("GetDigitSize", &CCParams<T>::GetDigitSize)
+        .def("GetStandardDeviation", &CCParams<T>::GetStandardDeviation)
+        .def("GetSecretKeyDist", &CCParams<T>::GetSecretKeyDist)
+        .def("GetMaxRelinSkDeg", &CCParams<T>::GetMaxRelinSkDeg)
+        .def("GetPREMode", &CCParams<T>::GetPREMode)
+        .def("GetMultipartyMode", &CCParams<T>::GetMultipartyMode)
+        .def("GetExecutionMode", &CCParams<T>::GetExecutionMode)
+        .def("GetDecryptionNoiseMode", &CCParams<T>::GetDecryptionNoiseMode)
+        .def("GetNoiseEstimate", &CCParams<T>::GetNoiseEstimate)
+        .def("GetDesiredPrecision", &CCParams<T>::GetDesiredPrecision)
+        .def("GetStatisticalSecurity", &CCParams<T>::GetStatisticalSecurity)
+        .def("GetNumAdversarialQueries", &CCParams<T>::GetNumAdversarialQueries)
+        .def("GetThresholdNumOfParties", &CCParams<T>::GetThresholdNumOfParties)
+        .def("GetKeySwitchTechnique", &CCParams<T>::GetKeySwitchTechnique)
+        .def("GetScalingTechnique", &CCParams<T>::GetScalingTechnique)
+        .def("GetBatchSize", &CCParams<T>::GetBatchSize)
+        .def("GetFirstModSize", &CCParams<T>::GetFirstModSize)
+        .def("GetNumLargeDigits", &CCParams<T>::GetNumLargeDigits)
+        .def("GetMultiplicativeDepth", &CCParams<T>::GetMultiplicativeDepth)
+        .def("GetScalingModSize", &CCParams<T>::GetScalingModSize)
+        .def("GetSecurityLevel", &CCParams<T>::GetSecurityLevel)
+        .def("GetRingDim", &CCParams<T>::GetRingDim)
+        .def("GetEvalAddCount", &CCParams<T>::GetEvalAddCount)
+        .def("GetKeySwitchCount", &CCParams<T>::GetKeySwitchCount)
+        .def("GetEncryptionTechnique", &CCParams<T>::GetEncryptionTechnique)
+        .def("GetMultiplicationTechnique", &CCParams<T>::GetMultiplicationTechnique)
+        .def("GetMultiHopModSize", &CCParams<T>::GetMultiHopModSize)
         // setters
-        .def("SetPlaintextModulus", &CCParams<CryptoContextBGVRNS>::SetPlaintextModulus)
-        .def("SetMultiplicativeDepth", &CCParams<CryptoContextBGVRNS>::SetMultiplicativeDepth)
-        // getters
-        .def("GetPlaintextModulus", &CCParams<CryptoContextBGVRNS>::GetPlaintextModulus)
-        .def("GetMultiplicativeDepth", &CCParams<CryptoContextBGVRNS>::GetMultiplicativeDepth);
-    // bind ckks rns params
-    py::class_<CCParams<CryptoContextCKKSRNS>, Params>(m, "CCParamsCKKSRNS")
-        .def(py::init<>())
-        // setters
-        .def("SetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::SetPlaintextModulus)
-        .def("SetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::SetMultiplicativeDepth)
-        .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
-        .def("SetBatchSize", &CCParams<CryptoContextCKKSRNS>::SetBatchSize)
-        .def("SetScalingTechnique", &CCParams<CryptoContextCKKSRNS>::SetScalingTechnique)
-        .def("SetNumLargeDigits", &CCParams<CryptoContextCKKSRNS>::SetNumLargeDigits)
-        .def("SetKeySwitchTechnique", &CCParams<CryptoContextCKKSRNS>::SetKeySwitchTechnique)
-        .def("SetFirstModSize", &CCParams<CryptoContextCKKSRNS>::SetFirstModSize)
-        .def("SetDigitSize", &CCParams<CryptoContextCKKSRNS>::SetDigitSize)
-        .def("SetSecretKeyDist", &CCParams<CryptoContextCKKSRNS>::SetSecretKeyDist)
-        .def("SetSecurityLevel", &CCParams<CryptoContextCKKSRNS>::SetSecurityLevel)
-        .def("SetRingDim", &CCParams<CryptoContextCKKSRNS>::SetRingDim)
-        .def("SetScalingModSize", &CCParams<CryptoContextCKKSRNS>::SetScalingModSize)
+        .def("SetPlaintextModulus", &CCParams<T>::SetPlaintextModulus)
+        .def("SetDigitSize", &CCParams<T>::SetDigitSize)
+        .def("SetStandardDeviation", &CCParams<T>::SetStandardDeviation)
+        .def("SetSecretKeyDist", &CCParams<T>::SetSecretKeyDist)
+        .def("SetMaxRelinSkDeg", &CCParams<T>::SetMaxRelinSkDeg)
+        .def("SetPREMode", &CCParams<T>::SetPREMode)
+        .def("SetMultipartyMode", &CCParams<T>::SetMultipartyMode)
+        .def("SetExecutionMode", &CCParams<T>::SetExecutionMode)
+        .def("SetDecryptionNoiseMode", &CCParams<T>::SetDecryptionNoiseMode)
+        .def("SetNoiseEstimate", &CCParams<T>::SetNoiseEstimate)
+        .def("SetDesiredPrecision", &CCParams<T>::SetDesiredPrecision)
+        .def("SetStatisticalSecurity", &CCParams<T>::SetStatisticalSecurity)
+        .def("SetNumAdversarialQueries", &CCParams<T>::SetNumAdversarialQueries)
+        .def("SetThresholdNumOfParties", &CCParams<T>::SetThresholdNumOfParties)
+        .def("SetKeySwitchTechnique", &CCParams<T>::SetKeySwitchTechnique)
+        .def("SetScalingTechnique", &CCParams<T>::SetScalingTechnique)
+        .def("SetBatchSize", &CCParams<T>::SetBatchSize)
+        .def("SetFirstModSize", &CCParams<T>::SetFirstModSize)
+        .def("SetNumLargeDigits", &CCParams<T>::SetNumLargeDigits)
+        .def("SetMultiplicativeDepth", &CCParams<T>::SetMultiplicativeDepth)
+        .def("SetScalingModSize", &CCParams<T>::SetScalingModSize)
+        .def("SetSecurityLevel", &CCParams<T>::SetSecurityLevel)
+        .def("SetRingDim", &CCParams<T>::SetRingDim)
+        .def("SetEvalAddCount", &CCParams<T>::SetEvalAddCount)
+        .def("SetKeySwitchCount", &CCParams<T>::SetKeySwitchCount)
+        .def("SetEncryptionTechnique", &CCParams<T>::SetEncryptionTechnique)
+        .def("SetMultiplicationTechnique", &CCParams<T>::SetMultiplicationTechnique)
+        .def("SetMultiHopModSize", &CCParams<T>::SetMultiHopModSize)
+        .def("__str__",[](const CCParams<T> &params) {
+            std::stringstream stream;
+            stream << params;
+            return stream.str();
+        });
 
-        // getters
-        .def("GetPlaintextModulus", &CCParams<CryptoContextCKKSRNS>::GetPlaintextModulus)
-        .def("GetMultiplicativeDepth", &CCParams<CryptoContextCKKSRNS>::GetMultiplicativeDepth)
-        .def("GetScalingModSize", &CCParams<CryptoContextCKKSRNS>::GetScalingModSize)
-        .def("GetBatchSize", &CCParams<CryptoContextCKKSRNS>::GetBatchSize)
-        .def("GetScalingTechnique", &CCParams<CryptoContextCKKSRNS>::GetScalingTechnique);
+        //
+
 }
 
 void bind_crypto_context(py::module &m)
@@ -190,6 +219,7 @@ int get_native_int(){
         return 64;    
     #endif
 }
+
 void bind_enums_and_constants(py::module &m)
 {
     /* ---- PKE enums ---- */ 
@@ -199,6 +229,11 @@ void bind_enums_and_constants(py::module &m)
         .value("CKKSRNS_SCHEME", SCHEME::CKKSRNS_SCHEME)
         .value("BFVRNS_SCHEME", SCHEME::BFVRNS_SCHEME)
         .value("BGVRNS_SCHEME", SCHEME::BGVRNS_SCHEME);
+    m.attr("INVALID_SCHEME") = py::cast(SCHEME::INVALID_SCHEME);
+    m.attr("CKKSRNS_SCHEME") = py::cast(SCHEME::CKKSRNS_SCHEME);
+    m.attr("BFVRNS_SCHEME") = py::cast(SCHEME::BFVRNS_SCHEME);
+    m.attr("BGVRNS_SCHEME") = py::cast(SCHEME::BGVRNS_SCHEME);
+
     // PKE Features
     py::enum_<PKESchemeFeature>(m, "PKESchemeFeature")
         .value("PKE", PKESchemeFeature::PKE)
@@ -208,6 +243,14 @@ void bind_enums_and_constants(py::module &m)
         .value("ADVANCEDSHE", PKESchemeFeature::ADVANCEDSHE)
         .value("MULTIPARTY", PKESchemeFeature::MULTIPARTY)
         .value("FHE", PKESchemeFeature::FHE);
+    m.attr("PKE") = py::cast(PKESchemeFeature::PKE);
+    m.attr("KEYSWITCH") = py::cast(PKESchemeFeature::KEYSWITCH);
+    m.attr("PRE") = py::cast(PKESchemeFeature::PRE);
+    m.attr("LEVELEDSHE") = py::cast(PKESchemeFeature::LEVELEDSHE);
+    m.attr("ADVANCEDSHE") = py::cast(PKESchemeFeature::ADVANCEDSHE);
+    m.attr("MULTIPARTY") = py::cast(PKESchemeFeature::MULTIPARTY);
+    m.attr("FHE") = py::cast(PKESchemeFeature::FHE);
+
     // Serialization Types
     py::class_<SerType::SERJSON>(m, "SERJSON");
     py::class_<SerType::SERBINARY>(m, "SERBINARY");
@@ -222,16 +265,84 @@ void bind_enums_and_constants(py::module &m)
        .value("FLEXIBLEAUTOEXT", ScalingTechnique::FLEXIBLEAUTOEXT)
        .value("NORESCALE", ScalingTechnique::NORESCALE)
        .value("INVALID_RS_TECHNIQUE", ScalingTechnique::INVALID_RS_TECHNIQUE);
+    m.attr("FIXEDMANUAL") = py::cast(ScalingTechnique::FIXEDMANUAL);
+    m.attr("FIXEDAUTO") = py::cast(ScalingTechnique::FIXEDAUTO);
+    m.attr("FLEXIBLEAUTO") = py::cast(ScalingTechnique::FLEXIBLEAUTO);
+    m.attr("FLEXIBLEAUTOEXT") = py::cast(ScalingTechnique::FLEXIBLEAUTOEXT);
+    m.attr("NORESCALE") = py::cast(ScalingTechnique::NORESCALE);
+    m.attr("INVALID_RS_TECHNIQUE") = py::cast(ScalingTechnique::INVALID_RS_TECHNIQUE);
+
     // Key Switching Techniques
     py::enum_<KeySwitchTechnique>(m, "KeySwitchTechnique")
         .value("INVALID_KS_TECH", KeySwitchTechnique::INVALID_KS_TECH)
         .value("BV", KeySwitchTechnique::BV)
         .value("HYBRID", KeySwitchTechnique::HYBRID);
+    m.attr("INVALID_KS_TECH") = py::cast(KeySwitchTechnique::INVALID_KS_TECH);
+    m.attr("BV") = py::cast(KeySwitchTechnique::BV);
+    m.attr("HYBRID") = py::cast(KeySwitchTechnique::HYBRID);
+
     // Secret Key Dist
     py::enum_<SecretKeyDist>(m, "SecretKeyDist")
         .value("GAUSSIAN", SecretKeyDist::GAUSSIAN)
         .value("UNIFORM_TERNARY", SecretKeyDist::UNIFORM_TERNARY)
-        .value("SPARsE_TERNARY", SecretKeyDist::SPARSE_TERNARY);
+        .value("SPARSE_TERNARY", SecretKeyDist::SPARSE_TERNARY);
+    m.attr("GAUSSIAN") = py::cast(SecretKeyDist::GAUSSIAN);
+    m.attr("UNIFORM_TERNARY") = py::cast(SecretKeyDist::UNIFORM_TERNARY);
+    m.attr("SPARSE_TERNARY") = py::cast(SecretKeyDist::SPARSE_TERNARY);
+
+    // ProxyReEncryptionMode
+    py::enum_<ProxyReEncryptionMode>(m, "ProxyReEncryptionMode")
+        .value("NOT_SET", ProxyReEncryptionMode::NOT_SET)
+        .value("INDCPA", ProxyReEncryptionMode::INDCPA)
+        .value("FIXED_NOISE_HRA", ProxyReEncryptionMode::FIXED_NOISE_HRA)
+        .value("NOISE_FLOODING_HRA", ProxyReEncryptionMode::NOISE_FLOODING_HRA)
+        .value("DIVIDE_AND_ROUND_HRA", ProxyReEncryptionMode::DIVIDE_AND_ROUND_HRA);
+    m.attr("NOT_SET") = py::cast(ProxyReEncryptionMode::NOT_SET);
+    m.attr("INDCPA") = py::cast(ProxyReEncryptionMode::INDCPA);
+    m.attr("FIXED_NOISE_HRA") = py::cast(ProxyReEncryptionMode::FIXED_NOISE_HRA);
+    m.attr("NOISE_FLOODING_HRA") = py::cast(ProxyReEncryptionMode::NOISE_FLOODING_HRA);
+    m.attr("DIVIDE_AND_ROUND_HRA") = py::cast(ProxyReEncryptionMode::DIVIDE_AND_ROUND_HRA);
+    
+    // MultipartyMode
+    py::enum_<MultipartyMode>(m, "MultipartyMode")
+        .value("INVALID_MULTIPARTY_MODE", MultipartyMode::INVALID_MULTIPARTY_MODE)
+        .value("FIXED_NOISE_MULTIPARTY", MultipartyMode::FIXED_NOISE_MULTIPARTY)
+        .value("NOISE_FLOODING_MULTIPARTY", MultipartyMode::NOISE_FLOODING_MULTIPARTY);
+    m.attr("INVALID_MULTIPARTY_MODE") = py::cast(MultipartyMode::INVALID_MULTIPARTY_MODE);
+    m.attr("FIXED_NOISE_MULTIPARTY") = py::cast(MultipartyMode::FIXED_NOISE_MULTIPARTY);
+    m.attr("NOISE_FLOODING_MULTIPARTY") = py::cast(MultipartyMode::NOISE_FLOODING_MULTIPARTY);
+
+    // ExecutionMode
+    py::enum_<ExecutionMode>(m, "ExecutionMode")
+        .value("EXEC_EVALUATION", ExecutionMode::EXEC_EVALUATION)
+        .value("EXEC_NOISE_ESTIMATION", ExecutionMode::EXEC_NOISE_ESTIMATION);
+    m.attr("EXEC_EVALUATION") = py::cast(ExecutionMode::EXEC_EVALUATION);
+    m.attr("EXEC_NOISE_ESTIMATION") = py::cast(ExecutionMode::EXEC_NOISE_ESTIMATION);
+
+    // DecryptionNoiseMode
+    py::enum_<DecryptionNoiseMode>(m, "DecryptionNoiseMode")
+        .value("FIXED_NOISE_DECRYPT", DecryptionNoiseMode::FIXED_NOISE_DECRYPT)
+        .value("NOISE_FLOODING_DECRYPT", DecryptionNoiseMode::NOISE_FLOODING_DECRYPT);
+    m.attr("FIXED_NOISE_DECRYPT") = py::cast(DecryptionNoiseMode::FIXED_NOISE_DECRYPT);
+    m.attr("NOISE_FLOODING_DECRYPT") = py::cast(DecryptionNoiseMode::NOISE_FLOODING_DECRYPT);
+
+    // EncryptionTechnique
+    py::enum_<EncryptionTechnique>(m, "EncryptionTechnique")
+        .value("STANDARD", EncryptionTechnique::STANDARD)
+        .value("EXTENDED", EncryptionTechnique::EXTENDED);
+    m.attr("STANDARD") = py::cast(EncryptionTechnique::STANDARD);
+    m.attr("EXTENDED") = py::cast(EncryptionTechnique::EXTENDED);
+
+    // MultiplicationTechnique
+    py::enum_<MultiplicationTechnique>(m, "MultiplicationTechnique")
+        .value("BEHZ", MultiplicationTechnique::BEHZ)
+        .value("HPS", MultiplicationTechnique::HPS)
+        .value("HPSPOVERQ", MultiplicationTechnique::HPSPOVERQ)
+        .value("HPSPOVERQLEVELED", MultiplicationTechnique::HPSPOVERQLEVELED);
+    m.attr("BEHZ") = py::cast(MultiplicationTechnique::BEHZ);
+    m.attr("HPS") = py::cast(MultiplicationTechnique::HPS);
+    m.attr("HPSPOVERQ") = py::cast(MultiplicationTechnique::HPSPOVERQ);
+    m.attr("HPSPOVERQLEVELED") = py::cast(MultiplicationTechnique::HPSPOVERQLEVELED);
 
     /* ---- CORE enums ---- */ 
     // Security Level
@@ -240,7 +351,10 @@ void bind_enums_and_constants(py::module &m)
         .value("HEStd_192_classic", SecurityLevel::HEStd_192_classic)
         .value("HEStd_256_classic", SecurityLevel::HEStd_256_classic)
         .value("HEStd_NotSet", SecurityLevel::HEStd_NotSet);
-
+    m.attr("HEStd_128_classic") = py::cast(SecurityLevel::HEStd_128_classic);
+    m.attr("HEStd_192_classic") = py::cast(SecurityLevel::HEStd_192_classic);
+    m.attr("HEStd_256_classic") = py::cast(SecurityLevel::HEStd_256_classic);
+    m.attr("HEStd_NotSet") = py::cast(SecurityLevel::HEStd_NotSet);
     
     //Parameters Type
     /*TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else */
@@ -321,8 +435,10 @@ PYBIND11_MODULE(openfhe, m)
 {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
     // pke library
-    bind_parameters(m);
     bind_enums_and_constants(m);
+    bind_parameters<CryptoContextBFVRNS>(m,"CCParamsBFVRNS");
+    bind_parameters<CryptoContextBGVRNS>(m,"CCParamsBGVRNS");
+    bind_parameters<CryptoContextCKKSRNS>(m,"CCParamsCKKSRNS");
     bind_crypto_context(m);
     bind_keys(m);
     bind_encodings(m);
