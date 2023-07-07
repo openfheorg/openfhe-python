@@ -17,7 +17,7 @@ namespace py = pybind11;
 template <typename T>
 void bind_parameters(py::module &m,const std::string name)
 {
-    py::class_<CCParams<T>, Params>(m, name.c_str())
+    py::class_<CCParams<T>>(m, name.c_str())
         .def(py::init<>())
         // getters
         .def("GetPlaintextModulus", &CCParams<T>::GetPlaintextModulus)
@@ -363,9 +363,6 @@ void bind_enums_and_constants(py::module &m)
 
     //NATIVEINT function
     m.def("get_native_int", &get_native_int);
-
-    // Params
-    py::class_<Params>(m, "Params");
 }
 
 void bind_keys(py::module &m)
