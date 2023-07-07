@@ -35,3 +35,11 @@ Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly
     self->Decrypt(privateKey, ciphertext,&plaintextDecResult);
     return plaintextDecResult;
 }
+
+const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly> privateKey,const std::vector<usint> &indexList){
+    return *(self->EvalAutomorphismKeyGen(privateKey, indexList));
+}
+
+const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper_PublicKey(CryptoContext<DCRTPoly>& self,const PublicKey<DCRTPoly> publicKey, const PrivateKey<DCRTPoly> privateKey, const std::vector<usint> &indexList){
+    return *(self->EvalAutomorphismKeyGen(publicKey, privateKey, indexList));
+};

@@ -27,4 +27,6 @@ ConstCiphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey);
 Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,
 const PrivateKey<DCRTPoly> privateKey,ConstCiphertext<DCRTPoly> ciphertext);
 
+const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly> privateKey,const std::vector<usint> &indexList);
+const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper_PublicKey(CryptoContext<DCRTPoly>& self,const PublicKey<DCRTPoly> publicKey, const PrivateKey<DCRTPoly> privateKey, const std::vector<usint> &indexList);
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H
