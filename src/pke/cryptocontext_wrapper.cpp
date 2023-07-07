@@ -24,6 +24,12 @@ Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,Const
         return self->EvalFastRotation(ciphertext, index, m, digitsElementsPtr);
     }
 
+Ciphertext<DCRTPoly> EvalFastRotationExtWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, const usint index, ConstCiphertext<DCRTPoly> digits, bool addFirst) {
+    std::vector<DCRTPoly> digitsElements = digits->GetElements();
+    std::shared_ptr<std::vector<DCRTPoly>> digitsElementsPtr = std::make_shared<std::vector<DCRTPoly>>(digitsElements);
+    return self->EvalFastRotationExt(ciphertext, index, digitsElementsPtr, addFirst);
+}
+
 
 Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey){
     Plaintext plaintextDecResult;

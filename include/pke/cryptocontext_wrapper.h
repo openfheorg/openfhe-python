@@ -21,6 +21,7 @@ Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,
                                               const usint index,
                                               const usint m,
                                               ConstCiphertext<DCRTPoly> digits);
+Ciphertext<DCRTPoly> EvalFastRotationExtWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, const usint index, ConstCiphertext<DCRTPoly> digits, bool addFirst);
 
 Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,
 ConstCiphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey);
