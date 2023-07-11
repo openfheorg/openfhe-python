@@ -106,8 +106,10 @@ void bind_crypto_context(py::module &m)
         .def("EvalMultKeysGen", &CryptoContextImpl<DCRTPoly>::EvalMultKeysGen)
         .def("EvalRotateKeyGen", &CryptoContextImpl<DCRTPoly>::EvalRotateKeyGen, "Generate the evaluation key for rotation",
              py::arg("privateKey"), py::arg("indexList"), py::arg("publicKey") = nullptr)
+        .def("MakeStringPlaintext", &CryptoContextImpl<DCRTPoly>::MakeStringPlaintext)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
+        .def("MakeCoefPackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakeCoefPackedPlaintext)
         .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<std::complex<double>> &, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of complex doubles",
              py::arg("value"),
              py::arg("depth") = static_cast<size_t>(1),
@@ -176,18 +178,9 @@ void bind_crypto_context(py::module &m)
              py::arg("a"),
              py::arg("b"),
              py::arg("degree"))
-        .def("EvalChebyshevSeries", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeries,
-             py::arg("ciphertext"),
-             py::arg("a"),
-             py::arg("b"))
-        .def("EvalChebyshevSeriesLinear", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeriesLinear,
-             py::arg("ciphertext"),
-             py::arg("a"),
-             py::arg("b"))
-        .def("EvalChebyshevSeriesPS", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeriesPS,
-             py::arg("ciphertext"),
-             py::arg("a"),
-             py::arg("b"))
+        .def("EvalChebyshevSeries", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeries)
+        .def("EvalChebyshevSeriesLinear", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeriesLinear)
+        .def("EvalChebyshevSeriesPS", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeriesPS)
         .def("EvalChebyshevFunction", &CryptoContextImpl<DCRTPoly>::EvalChebyshevFunction,
              py::arg("func"),
              py::arg("ciphertext"),
@@ -209,15 +202,33 @@ void bind_crypto_context(py::module &m)
              py::arg("a"),
              py::arg("b"),
              py::arg("degree"))
-        .def("EvalPoly", &CryptoContextImpl<DCRTPoly>::EvalPoly,
+        .def("EvalSumKeyGen", &CryptoContextImpl<DCRTPoly>::EvalSumKeyGen,
+             py::arg("privateKey"),
+             py::arg("publicKey") = py::none())
+        .def("EvalSumRowsKeyGen", &CryptoContextImpl<DCRTPoly>::EvalSumRowsKeyGen,
+             py::arg("privateKey"),
+             py::arg("publicKey") = py::none(),
+             py::arg("rowSize") = 0,
+             py::arg("subringDim") = 0)
+        .def("EvalSumColsKeyGen", &CryptoContextImpl<DCRTPoly>::EvalSumColsKeyGen,
+             py::arg("privateKey"),
+             py::arg("publicKey") = py::none())
+        .def("EvalSumRows", &CryptoContextImpl<DCRTPoly>::EvalSumRows,
              py::arg("ciphertext"),
-             py::arg("coefficients"))
-        .def("EvalPolyLinear", &CryptoContextImpl<DCRTPoly>::EvalPolyLinear,
+             py::arg("rowSize"),
+             py::arg("evalSumKeyMap"),
+             py::arg("subringDim") = 0)
+        .def("EvalSumCols", &CryptoContextImpl<DCRTPoly>::EvalSumCols,
              py::arg("ciphertext"),
-             py::arg("coefficients"))
-        .def("EvalPolyPS", &CryptoContextImpl<DCRTPoly>::EvalPolyPS,
-             py::arg("ciphertext"),
-             py::arg("coefficients"))
+             py::arg("rowSize"),
+             py::arg("evalSumKeyMap"))
+        .def("EvalInnerProduct", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)
+            (ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>, usint) const>(&CryptoContextImpl<DCRTPoly>::EvalInnerProduct))
+        .def("EvalInnerProduct", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)
+            (ConstCiphertext<DCRTPoly>, ConstPlaintext, usint) const>(&CryptoContextImpl<DCRTPoly>::EvalInnerProduct))        
+        .def("EvalPoly", &CryptoContextImpl<DCRTPoly>::EvalPoly)
+        .def("EvalPolyLinear", &CryptoContextImpl<DCRTPoly>::EvalPolyLinear)
+        .def("EvalPolyPS", &CryptoContextImpl<DCRTPoly>::EvalPolyPS)
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
         .def("EvalBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalBootstrapSetup,
              py::arg("levelBudget") = std::vector<uint32_t>({5, 4}),
