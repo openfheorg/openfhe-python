@@ -20,7 +20,7 @@ PYBIND11_MAKE_OPAQUE(std::map<usint, EvalKey<DCRTPoly>>);
 template <typename T>
 void bind_parameters(py::module &m,const std::string name)
 {
-    py::class_<CCParams<T>, Params>(m, name.c_str())
+    py::class_<CCParams<T>>(m, name.c_str())
         .def(py::init<>())
         // getters
         .def("GetPlaintextModulus", &CCParams<T>::GetPlaintextModulus)
@@ -450,9 +450,6 @@ void bind_enums_and_constants(py::module &m)
 
     //NATIVEINT function
     m.def("get_native_int", &get_native_int);
-
-    // Params
-    py::class_<Params>(m, "Params");
 
     // EvalKeyMap
     py::bind_map<std::map<usint, EvalKey<DCRTPoly>>>(m, "EvalKeyMap");
