@@ -125,6 +125,7 @@ void bind_crypto_context(py::module &m)
         .def("EvalFastRotation", &EvalFastRotationWrapper)
         .def("EvalFastRotationExt", &EvalFastRotationExtWrapper)
         .def("EvalAtIndexKeyGen", &CryptoContextImpl<DCRTPoly>::EvalAtIndexKeyGen)
+        .def("EvalAtIndex", &CryptoContextImpl<DCRTPoly>::EvalAtIndex)
         .def("Encrypt", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, Plaintext) const>(&CryptoContextImpl<DCRTPoly>::Encrypt),
              "Encrypt a plaintext using public key")
         .def("Decrypt", static_cast<Plaintext (*)(CryptoContext<DCRTPoly> &, const PrivateKey<DCRTPoly>, ConstCiphertext<DCRTPoly>)>(&DecryptWrapper),
@@ -175,13 +176,46 @@ void bind_crypto_context(py::module &m)
              py::arg("a"),
              py::arg("b"),
              py::arg("degree"))
+        .def("EvalChebyshevSeries", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeries,
+             py::arg("ciphertext"),
+             py::arg("a"),
+             py::arg("b"))
+        .def("EvalChebyshevSeriesLinear", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeriesLinear,
+             py::arg("ciphertext"),
+             py::arg("a"),
+             py::arg("b"))
+        .def("EvalChebyshevSeriesPS", &CryptoContextImpl<DCRTPoly>::EvalChebyshevSeriesPS,
+             py::arg("ciphertext"),
+             py::arg("a"),
+             py::arg("b"))
         .def("EvalChebyshevFunction", &CryptoContextImpl<DCRTPoly>::EvalChebyshevFunction,
              py::arg("func"),
              py::arg("ciphertext"),
              py::arg("a"),
              py::arg("b"),
              py::arg("degree"))
+        .def("EvalSin", &CryptoContextImpl<DCRTPoly>::EvalSin,
+             py::arg("ciphertext"),
+             py::arg("a"),
+             py::arg("b"),
+             py::arg("degree"))
+        .def("EvalCos", &CryptoContextImpl<DCRTPoly>::EvalCos,
+             py::arg("ciphertext"),
+             py::arg("a"),
+             py::arg("b"),
+             py::arg("degree"))
+        .def("EvalDivide", &CryptoContextImpl<DCRTPoly>::EvalDivide,
+             py::arg("ciphertext"),
+             py::arg("a"),
+             py::arg("b"),
+             py::arg("degree"))
         .def("EvalPoly", &CryptoContextImpl<DCRTPoly>::EvalPoly,
+             py::arg("ciphertext"),
+             py::arg("coefficients"))
+        .def("EvalPolyLinear", &CryptoContextImpl<DCRTPoly>::EvalPolyLinear,
+             py::arg("ciphertext"),
+             py::arg("coefficients"))
+        .def("EvalPolyPS", &CryptoContextImpl<DCRTPoly>::EvalPolyPS,
              py::arg("ciphertext"),
              py::arg("coefficients"))
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale, "Rescale a ciphertext")
