@@ -24,6 +24,12 @@ Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,Const
         return self->EvalFastRotation(ciphertext, index, m, digitsElementsPtr);
     }
 
+Ciphertext<DCRTPoly> EvalFastRotationExtWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, const usint index, ConstCiphertext<DCRTPoly> digits, bool addFirst) {
+    std::vector<DCRTPoly> digitsElements = digits->GetElements();
+    std::shared_ptr<std::vector<DCRTPoly>> digitsElementsPtr = std::make_shared<std::vector<DCRTPoly>>(digitsElements);
+    return self->EvalFastRotationExt(ciphertext, index, digitsElementsPtr, addFirst);
+}
+
 
 Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey){
     Plaintext plaintextDecResult;
@@ -35,3 +41,11 @@ Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly
     self->Decrypt(privateKey, ciphertext,&plaintextDecResult);
     return plaintextDecResult;
 }
+
+const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly> privateKey,const std::vector<usint> &indexList){
+    return *(self->EvalAutomorphismKeyGen(privateKey, indexList));
+}
+
+const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper_PublicKey(CryptoContext<DCRTPoly>& self,const PublicKey<DCRTPoly> publicKey, const PrivateKey<DCRTPoly> privateKey, const std::vector<usint> &indexList){
+    return *(self->EvalAutomorphismKeyGen(publicKey, privateKey, indexList));
+};
