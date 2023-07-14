@@ -110,6 +110,7 @@ void bind_crypto_context(py::module &m)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext, "Make a plaintext from a vector of integers",
              py::arg("value"), py::arg("depth") = 1, py::arg("level") = 0)
         .def("MakeCoefPackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakeCoefPackedPlaintext)
+        // TODO (Oliveira): allow user to specify different params values
         .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<std::complex<double>> &, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), "Make a CKKS plaintext from a vector of complex doubles",
              py::arg("value"),
              py::arg("depth") = static_cast<size_t>(1),
