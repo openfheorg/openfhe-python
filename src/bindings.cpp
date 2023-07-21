@@ -12,6 +12,7 @@
 #include "bindings.h"
 #include "cryptocontext_wrapper.h"
 #include "binfhe_bindings.h"
+#include "cryptocontext_docs.h"
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -99,7 +100,7 @@ void bind_crypto_context(py::module &m)
         .def("SetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::SetKeyGenLevel)
         //.def("GetScheme",&CryptoContextImpl<DCRTPoly>::GetScheme)
         //.def("GetCryptoParameters", &CryptoContextImpl<DCRTPoly>::GetCryptoParameters)
-        .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension)
+        .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension,cc_GetRingDimension_docs)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), "Enable a feature for the CryptoContext")
         .def("KeyGen", &CryptoContextImpl<DCRTPoly>::KeyGen, "Generate a key pair with public and private keys")
         .def("EvalMultKeyGen", &CryptoContextImpl<DCRTPoly>::EvalMultKeyGen, "Generate the evaluation key for multiplication")
