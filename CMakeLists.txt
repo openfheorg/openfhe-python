@@ -20,6 +20,7 @@ include_directories( ${OpenFHE_INCLUDE}/binfhe )
 # include_directories( ${OpenFHE_Py_SOURCES} )
 include_directories( ${OpenFHE_Py_INCLUDES}/pke )
 include_directories( ${OpenFHE_Py_INCLUDES}/binfhe )
+include_directories( ${OpenFHE_Py_INCLUDES}/docstrings )
 include_directories( ${OpenFHE_Py_INCLUDES} )
 ### add directories for other OpenFHE modules as needed for your project
 
@@ -48,8 +49,16 @@ pybind11_add_module(openfhe
                     src/pke/cryptocontext_wrapper.cpp
                     )
 ### Python installation 
-find_package(Python REQUIRED COMPONENTS Interpreter Development)
+# Allow the user to specify the path to Python executable (if not provided, find it)
+option(PYTHON_EXECUTABLE_PATH "Path to Python executable" "")
 
+if(NOT PYTHON_EXECUTABLE_PATH)
+    # Find Python and its development components
+    find_package(Python REQUIRED COMPONENTS Interpreter Development)
+else()
+    # Set Python_EXECUTABLE to the specified path
+    set(Python_EXECUTABLE "${PYTHON_EXECUTABLE_PATH}")
+endif()
 execute_process(
     COMMAND "${Python_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
