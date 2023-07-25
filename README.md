@@ -19,13 +19,15 @@ Before building, make sure you have the following dependencies installed:
 - [Python 3.6+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
 
+We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then get back to this repo.
+
 You can install pybind11 by runnning:
   
 ```bash
-pip install pybind11 // or alternatively, if you use conda:
+pip install pybind11 # or alternatively, if you use conda:
 conda install -c conda-forge pybind11
 ```
-For custom installation or any other issues, please refer to the official pybind documentation in the link above.
+For custom installation or any other issues, please refer to the official pybind11 documentation in the link above.
 
 ### Linux
 
@@ -34,7 +36,7 @@ With all the dependencies set up, clone the repository, open a terminal in the r
 ```bash
 mkdir build
 cd build
-cmake ..  // Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe
+cmake ..  # Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe
 make
 ```
 
@@ -56,7 +58,7 @@ To do this, run the following commands:
 ```bash
 mkdir build
 cd build
-cmake ..  // Or cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python
+cmake ..  # Or cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python
 make
 ```
 
@@ -77,7 +79,7 @@ which creates a lib folder, moves the built `.so` file into that lib folder, and
 #### System install
 
 ```
-make install  // You may have to run sudo make install
+make install  # You may have to run sudo make install
 ```
 
 ## Code Examples
