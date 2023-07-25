@@ -5,6 +5,7 @@
 #include "binfhe_bindings.h"
 #include "binfhecontext.h"
 #include "binfhecontext_wrapper.h"
+#include "binfhecontext_docs.h"
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -105,25 +106,32 @@ void bind_binfhe_context(py::module &m)
     py::class_<BinFHEContext>(m, "BinFHEContext")
         .def(py::init<>())
         .def("GenerateBinFHEContext", static_cast<void (BinFHEContext::*)(BINFHE_PARAMSET, BINFHE_METHOD)>(&BinFHEContext::GenerateBinFHEContext),
+             binfhe_GenerateBinFHEContext_parset_docs,
              py::arg("set"), 
              py::arg("method") = GINX)
-        .def("KeyGen", &BinFHEContext::KeyGen)
-        .def("BTKeyGen", &BinFHEContext::BTKeyGen)
+        .def("KeyGen", &BinFHEContext::KeyGen,
+            binfhe_KeyGen_docs)
+        .def("BTKeyGen", &BinFHEContext::BTKeyGen,
+            binfhe_BTKeyGen_docs)
         .def("Encrypt", &binfhe_EncryptWrapper,
+             binfhe_Encrypt_docs,
              py::arg("sk"),
              py::arg("m"),
              py::arg("output") = BOOTSTRAPPED,
              py::arg("p") = 4, 
              py::arg("mod") = 0)
         .def("Decrypt",&binfhe_DecryptWrapper,
+             binfhe_Decrypt_docs,
              py::arg("sk"),
              py::arg("ct"),
              py::arg("p") = 4)
         .def("EvalBinGate",&BinFHEContext::EvalBinGate,
+             binfhe_EvalBinGate_docs,
              py::arg("gate"),
              py::arg("ct1"),
              py::arg("ct2"))
         .def("EvalNOT",&BinFHEContext::EvalNOT,
+             binfhe_EvalNOT_docs,
              py::arg("ct"));
             
 }
