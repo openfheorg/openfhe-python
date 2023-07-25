@@ -107,7 +107,7 @@ To get familiar with the OpenFHE Python API, check out the examples:
   <!-- - [Code with Binary Serialization](src/binfhe/examples/boolean-serial-binary.py) -->
   <!-- - [Large-Precision Comparison](src/binfhe/examples/eval-sign.py) -->
   <!-- - [Small-Precison Arbitrary Function Evaluation](src/binfhe/examples/eval-function.py) -->
-<!-- - Threshold FHE:
-  - [Code Example for BGV, BFV, and CKKS](src/pke/examples/threshold-fhe.py)
-  - [Code Example for BFV with 5 parties](src/pke/examples/threshold-fhe-5p.py) -->
+  <!-- - Threshold FHE:  -->
+  <!-- - [Code Example for BGV, BFV, and CKKS](src/pke/examples/threshold-fhe.py) -->
+  <!-- - [Code Example for BFV with 5 parties](src/pke/examples/threshold-fhe-5p.py) -->
 
