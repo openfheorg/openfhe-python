@@ -209,7 +209,7 @@ def fast_rotation_demo1():
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
     parameters.SetScalingModSize(50)
-    parameters.SetBatchSize(batchSize)
+    parameters.SetBatchSize(batch_size)
 
     cc = GenCryptoContext(parameters)
 

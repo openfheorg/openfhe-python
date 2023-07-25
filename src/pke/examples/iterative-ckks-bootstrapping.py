@@ -60,7 +60,7 @@ def iterative_bootstrap_example():
     # Step 2: Precomputations for bootstrapping
     # We use a sparse packing
     num_slots = 8
-    cryptocontext.EvalBootstrapSetup(levelBudget, bsgs_dim, num_slots)
+    cryptocontext.EvalBootstrapSetup(level_budget, bsgs_dim, num_slots)
 
     # Step 3: Key generation
     key_pair = cryptocontext.KeyGen()

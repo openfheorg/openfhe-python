@@ -1,4 +1,4 @@
-# [Work in Progress] Official Python wrapper for OpenFHE
+# Official Python wrapper for OpenFHE
 
 ## Table of Contents
 
@@ -7,7 +7,7 @@
   - [Linux Install](#linux)
     - [Installing the .so: Conda](#conda)
     - [Installing the .so: System](#system-install)
-- [Running Examples](#examples)
+- [Running Examples](#code-examples)
 
 ## Building
 
@@ -15,10 +15,17 @@
 
 Before building, make sure you have the following dependencies installed:
 
-- [CMake](https://cmake.org/)
+- [OpenFHE](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.6+](https://www.python.org/)
-- [pybind11](https://pybind11.readthedocs.io)
-- [OpenFHE](https://github.com/openfheorg/openfhe-development)
+- [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
+
+You can install pybind11 by runnning:
+  
+```bash
+pip install pybind11 // or alternatively, if you use conda:
+conda install -c conda-forge pybind11
+```
+For custom installation or any other issues, please refer to the official pybind documentation in the link above.
 
 ### Linux
 
