@@ -54,8 +54,12 @@ def eval_function_example():
     parameters.SetSecurityLevel(SecurityLevel.HEStd_NotSet)
     parameters.SetRingDim(1 << 10)
 
-    scaling_mod_size = 59
-    first_mod_size = 60
+    if get_native_int() == 128:
+        scaling_mod_size = 78
+        first_mod_size = 89
+    else:
+        scaling_mod_size = 50
+        first_mod_size = 60
 
     parameters.SetScalingModSize(scaling_mod_size)
     parameters.SetFirstModSize(first_mod_size)
@@ -78,8 +82,8 @@ def eval_function_example():
     plaintext = cc.MakeCKKSPackedPlaintext(input)
     ciphertext = cc.Encrypt(key_pair.publicKey, plaintext)
 
-    lower_bound = 1
-    upper_bound = 9
+    lower_bound = 0
+    upper_bound = 10
     result = cc.EvalChebyshevFunction(math.sqrt,ciphertext, lower_bound, upper_bound, poly_degree)
 
     plaintext_dec = cc.Decrypt(result, key_pair.secretKey)
