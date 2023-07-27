@@ -1,161 +1,162 @@
 #ifndef CRYPTOCONTEXT_DOCSTRINGS_H
 #define CRYPTOCONTEXT_DOCSTRINGS_H
 
-const char* cc_SetKeyGenLevel_docs = R"doc(
-    Parameters:
-    ----------
-        level (int): the level to set the key generation to
-)doc";
+#include "pybind11/pybind11.h"
+#include "pybind11/attr.h"
 
-const char* cc_GetKeyGenLevel_docs = R"doc(
+namespace py = pybind11;
+
+// const char* cc_docs = R"doc(
+//     test
+// )doc";
+// auto cc_docs2 = py::doc(cc_docs);
+
+const char* cc_SetKeyGenLevel_docs = R"pbdoc(
+    Set the level used for key generation
+
+    :param level: the level to set the key generation to
+    :type level: int
+)pbdoc";
+
+const char* cc_GetKeyGenLevel_docs = R"pbdoc(
     Get the level used for key generation
 
-    Returns:
-        int: The level used for key generation
-)doc";
+    :return: The level used for key generation
+    :rtype: int
+)pbdoc";
 
-const char* cc_GetRingDimension_docs = R"doc(
+const char* cc_GetRingDimension_docs = R"pbdoc(
     Get the ring dimension used for this context
 
-    Returns:
-        int: The ring dimension
-)doc";
+    :return: The ring dimension
+    :rtype: int
+)pbdoc";
 
-const char* cc_Enable_docs = R"doc(
+const char* cc_Enable_docs = R"pbdoc(
     Enable a particular feature for use with this CryptoContext
 
-    Parameters:
-    ----------
-        feature (PKESchemeFeature): the feature that should be enabled. 
-            The list of available features is defined in the PKESchemeFeature enum.
-    
-)doc";
+    :param feature: the feature that should be enabled. 
+                    The list of available features is defined in the PKESchemeFeature enum.
+    :type feature: PKESchemeFeature
+)pbdoc";
 
-const char* cc_KeyGen_docs = R"doc(
+const char* cc_KeyGen_docs = R"pbdoc(
     Generate a public and private key pair
 
-    Returns:
-        KeyPair: a public/secret key pair
-)doc";
+    :return: a public/secret key pair
+    :rtype: KeyPair
+)pbdoc";
 
-const char* cc_EvalMultKeyGen_docs = R"doc(
-    EvalMultKeyGen creates a key that can be used with the OpenFHE EvalMult operator the new evaluation key is stored in cryptocontext.
+const char* cc_EvalMultKeyGen_docs = R"pbdoc(
+    EvalMultKeyGen creates a key that can be used with the OpenFHE EvalMult operator.
+    The new evaluation key is stored in cryptocontext.
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): the private key
-)doc";
+    :param privateKey: the private key
+    :type privateKey: PrivateKey
+)pbdoc";
 
-const char* cc_EvalMultKeysGen_docs = R"doc(
-    EvalMultsKeyGen creates a vector evalmult keys that can be used with the OpenFHE EvalMult operator 1st key (for s^2) is used for multiplication of ciphertexts of depth 1 2nd key (for s^3) is used for multiplication of ciphertexts of depth 2, etc. a vector of new evaluation keys is stored in crytpocontext
+const char* cc_EvalMultKeysGen_docs = R"pbdoc(
+    EvalMultsKeyGen creates a vector evalmult keys that can be used with the OpenFHE EvalMult operator.
+    The 1st key (for s^2) is used for multiplication of ciphertexts of depth 1.
+    The 2nd key (for s^3) is used for multiplication of ciphertexts of depth 2, etc.
+    A vector of new evaluation keys is stored in cryptocontext.
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): the private key
-)doc";
+    :param privateKey: the private key
+    :type privateKey: PrivateKey
+)pbdoc";
 
-const char* cc_EvalRotateKeyGen_docs = R"doc(
+const char* cc_EvalRotateKeyGen_docs = R"pbdoc(
     EvalRotateKeyGen generates evaluation keys for a list of indices
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): private key
-        indexList (list): list of (integers) indices
-        publicKey (PublicKey): public key (used in NTRU schemes)
-)doc";
+    :param privateKey: private key
+    :type privateKey: PrivateKey
+    :param indexList: list of integers representing the indices
+    :type indexList: list
+    :param publicKey: public key (used in NTRU schemes)
+    :type publicKey: PublicKey
+)pbdoc";
 
 // MakeStringPlaintext
-const char* cc_MakeStringPlaintext_docs = R"doc(
-    MakeStringPlaintext constructs a StringEncoding in this context
+const char* cc_MakeStringPlaintext_docs = R"pbdoc(
+    MakeStringPlaintext constructs a StringEncoding in this context.
 
-    Parameters:
-    ----------
-        str (str): the string to convert
+    :param str: the string to convert
+    :type str: str
+    :return: plaintext
+)pbdoc";
 
-    Returns:
-    ----------
-        Plaintext: plaintext
-)doc";
-
-//MakePackedPlaintext
-const char* cc_MakePackedPlaintext_docs = R"doc(
+const char* cc_MakePackedPlaintext_docs = R"pbdoc(
     MakePackedPlaintext constructs a PackedEncoding in this context
 
-    Parameters:
-    ----------
-        value (list): the vector (of integers) to convert
-        depth (int): is the multiplicative depth to encode the plaintext at
-        level (int): is the level to encode the plaintext at
+    :param value: the vector (of integers) to convert
+    :type value: list
+    :param depth: is the multiplicative depth to encode the plaintext at
+    :type depth: int
+    :param level: is the level to encode the plaintext at
+    :type level: int
+    :return: plaintext
+    :rtype: Plaintext
+)pbdoc";
 
-    Returns:
-    ----------
-        Plaintext: plaintext
-)doc";
-
-//inline Plaintext MakeCoefPackedPlaintext(const std::vector<int64_t> &value, size_t depth = 1, uint32_t level = 0) const
-const char* cc_MakeCoefPackedPlaintext_docs = R"doc(
+const char* cc_MakeCoefPackedPlaintext_docs = R"pbdoc(
     MakeCoefPackedPlaintext constructs a CoefPackedEncoding in this context
 
-    Parameters:
-    ----------
-        value (list): the vector (of integers) to convert
-        depth (int): is the multiplicative depth to encode the plaintext at
-        level (int): is the level to encode the plaintext at
+    :param value: the vector (of integers) to convert
+    :type value: list
+    :param depth: is the multiplicative depth to encode the plaintext at
+    :type depth: int
+    :param level: is the level to encode the plaintext at
+    :type level: int
+    :return: plaintext
+    :rtype: Plaintext
+)pbdoc";
 
-    Returns:
-    ----------
-        Plaintext: plaintext
-)doc";
-//MakeCKKSPackedPlaintext(const std::vector<std::complex<double>> &value, size_t depth = 1, uint32_t level = 0, const std::shared_ptr<ParmType> params = nullptr, usint slots = 0)
-const char* cc_MakeCKKSPackedPlaintextComplex_docs = R"doc(
+const char* cc_MakeCKKSPackedPlaintextComplex_docs = R"pbdoc(
     COMPLEX ARITHMETIC IS NOT AVAILABLE STARTING WITH OPENFHE 1.10.6, AND THIS METHOD BE DEPRECATED. USE THE REAL-NUMBER METHOD INSTEAD. MakeCKKSPackedPlaintext constructs a CKKSPackedEncoding in this context from a vector of complex numbers
 
-    Parameters:
-    ----------
-        value (list): input vector (of complex numbers)
-        depth (int): depth used to encode the vector
-        level (int): level at each the vector will get encrypted
-        params (openfhe.ParmType): parameters to be used for the ciphertext (Only accepting params = None in this version)
-        slots (int): number of slots
+    :param value: input vector (of complex numbers)
+    :type value: list
+    :param depth: depth used to encode the vector
+    :type depth: int
+    :param level: level at each the vector will get encrypted
+    :type level: int
+    :param params: parameters to be used for the ciphertext (Only accepting params = None in this version)
+    :type params: openfhe.ParmType
+    :param slots: number of slots
+    :type slots: int
+    :return: plaintext
+    :rtype: Plaintext
+)pbdoc";
 
-    Returns:
-    ----------
-        Plaintext: plaintext
-)doc";
-
-//MakeCKKSPlaintextReal
-const char* cc_MakeCKKSPlaintextReal_docs = R"doc(
+const char* cc_MakeCKKSPlaintextReal_docs = R"pbdoc(
     MakeCKKSPlaintext constructs a CKKSPackedEncoding in this context from a vector of real numbers
 
-    Parameters:
-    ----------
-        value (list): input vector (of floats)
-        depth (int): depth used to encode the vector
-        level (int): level at each the vector will get encrypted
-        params (openfhe.ParmType): parameters to be used for the ciphertext (Only accepting params = None in this version)
-        slots (int): number of slots
+    :param value: input vector (of floats)
+    :type value: list
+    :param depth: depth used to encode the vector
+    :type depth: int
+    :param level: level at each the vector will get encrypted
+    :type level: int
+    :param params: parameters to be used for the ciphertext (Only accepting params = None in this version)
+    :type params: openfhe.ParmType
+    :param slots: number of slots
+    :type slots: int
+    :return: plaintext
+    :rtype: Plaintext
+)pbdoc";
 
-    Returns:
-    ----------
-        Plaintext: plaintext
-)doc";
-
-//EvalRotate
-const char* cc_EvalRotate_docs = R"doc(
+const char* cc_EvalRotate_docs = R"pbdoc(
     EvalRotate rotates a ciphertext by a given index
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): the ciphertext to rotate
-        index (int): the index of the rotation. Positive indices correspond to left rotations and negative indices correspond to right rotations.
+    :param ciphertext: the ciphertext to rotate
+    :type ciphertext: Ciphertext
+    :param index: the index of the rotation. Positive indices correspond to left rotations and negative indices correspond to right rotations.
+    :type index: int
+    :return: the rotated ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the rotated ciphertext
-)doc";
-
-//EvalFastRotationPreCompute
-const char* cc_EvalFastRotationPreCompute_docs = R"doc(
+const char* cc_EvalFastRotationPreCompute_docs = R"pbdoc(
     EvalFastRotationPrecompute implements the precomputation step of hoisted automorphisms.
 
     Please refer to Section 5 of Halevi and Shoup, "Faster Homomorphic
@@ -176,17 +177,13 @@ const char* cc_EvalFastRotationPreCompute_docs = R"doc(
 
     EvalFastRotationPrecompute implements the digit decomposition step of hoisted automorphisms.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): the input ciphertext on which to do the precomputation (digit decomposition)
+    :param ciphertext: the input ciphertext on which to do the precomputation (digit decomposition)
+    :type ciphertext: Ciphertext
+    :return: the precomputed ciphertext created using the digit decomposition
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the precomputed ciphertext created using the digit decomposition
-)doc";
-
-//EvalFastRotation
-const char* cc_EvalFastRotation_docs = R"doc(
+const char* cc_EvalFastRotation_docs = R"pbdoc(
     EvalFastRotation implements the automorphism and key switching step of hoisted automorphisms.
 
     Please refer to Section 5 of Halevi and Shoup, "Faster Homomorphic
@@ -211,803 +208,647 @@ const char* cc_EvalFastRotation_docs = R"doc(
     This may not be true if we are using baby-step/giant-step key switching.
     Please refer to Section 5.1 of the above reference and EvalPermuteBGStepHoisted to see how to deal with this issue.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext):  the input ciphertext to perform the automorphism on
-        index (int): the index of the rotation. Positive indices correspond to left rotations and negative indices correspond to right rotations.
-        m (int): is the cyclotomic order
-        digits (Ciphertext): the precomputed ciphertext created by EvalFastRotationPrecompute using the digit decomposition at the precomputation step
-)doc";
+    :param ciphertext:  the input ciphertext to perform the automorphism on
+    :type ciphertext: Ciphertext
+    :param index: the index of the rotation. Positive indices correspond to left rotations and negative indices correspond to right rotations.
+    :type index: int
+    :param m: is the cyclotomic order
+    :type m: int
+    :param digits: the precomputed ciphertext created by EvalFastRotationPrecompute using the digit decomposition at the precomputation step
+    :type digits: Ciphertext
+    :return: the rotated ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-//EvalFastRotationExt
-const char* cc_EvalFastRotationExt_docs = R"doc(
+
+const char* cc_EvalFastRotationExt_docs = R"pbdoc(
     Only supported for hybrid key switching. Performs fast (hoisted) rotation and returns the results in the extended CRT basis P*Q
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        index (int): the rotation index
-        digits (Ciphertext): the precomputed ciphertext created by EvalFastRotationPrecompute
-        addFirst (bool): if true, the the first element c0 is also computed (otherwise ignored)
-    
-    Returns:
-    ----------
-        Ciphertext: resulting ciphertext
-)doc";
-//phertext<Element> EvalAtIndex(ConstCiphertext<Element> ciphertext, int32_t index) const
-const char* cc_EvalAtIndex_docs = R"doc(
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param index: the rotation index
+    :type index: int
+    :param digits: the precomputed ciphertext created by EvalFastRotationPrecompute
+    :type digits: Ciphertext
+    :param addFirst: if true, the first element c0 is also computed (otherwise ignored)
+    :type addFirst: bool
+    :return: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_EvalAtIndex_docs = R"pbdoc(
     Moves i-th slot to slot 0
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): the ciphertext
-        i (int): the index
-    
-    Returns:
-    ----------
-        Ciphertext: resulting ciphertext
-)doc";
-//void EvalAtIndexKeyGen(const PrivateKey<Element> privateKey, const std::vector<int32_t> &indexList, const PublicKey<Element> publicKey = nullptr)
-const char* cc_EvalAtIndexKeyGen_docs = R"doc(
+    :param ciphertext: the ciphertext
+    :type ciphertext: Ciphertext
+    :param i: the index
+    :type i: int
+    :return: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_EvalAtIndexKeyGen_docs = R"pbdoc(
     EvalAtIndexKeyGen generates evaluation keys for a list of indices
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): the private key
-        indexList (list): list of indices
-        publicKey (PublicKey): the public key (used in NTRU schemes)
-    
-    Returns:
-    ----------
-        None
-)doc";
+    :param privateKey: the private key
+    :type privateKey: PrivateKey
+    :param indexList: list of indices
+    :type indexList: list
+    :param publicKey: the public key (used in NTRU schemes)
+    :type publicKey: PublicKey
+    :return: None
+)pbdoc";
 
-//Encrypt
 const char* cc_Encrypt_docs = R"doc(
     Encrypt a plaintext using a given public key
 
-    Parameters:
-    ----------
-        plaintext (Plaintext): the plaintext to encrypt
-        publicKey (PublicKey): the public key
-
-    Returns:
-    ----------
-        Ciphertext: ciphertext (or null on failure)
+    :param plaintext: the plaintext to encrypt
+    :type plaintext: Plaintext
+    :param publicKey: the public key
+    :type publicKey: PublicKey
+    :return: ciphertext (or null on failure)
+    :rtype: Ciphertext
 )doc";
 
-//Decrypt
-const char* cc_Decrypt_docs = R"doc(
-    Decrypt a single ciphertext into the appropriate plaintext
+const char* cc_Decrypt_docs = R"pbdoc(
+Decrypt a single ciphertext into the appropriate plaintext
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): ciphertext to decrypt
-        privateKey (PrivateKey): decryption key
+:param ciphertext: ciphertext to decrypt
+:type ciphertext: Ciphertext
+:param privateKey: decryption key
+:type privateKey: PrivateKey
+:return: decrypted plaintext
+:rtype: Plaintext
+)pbdoc";
 
-    Returns:
-    ----------
-        Plaintext: decrypted plaintext
-)doc";
+const char* cc_EvalAdd_docs = R"pbdoc(
+Add two ciphertexts
 
-//EvalAdd
-const char* cc_EvalAdd_docs = R"doc(
-    Add two ciphertexts
+:param ct1: first ciphertext
+:type ct1: Ciphertext
+:param ct2: second ciphertext
+:type ct2: Ciphertext
+:return: resulting ciphertext
+:rtype: Ciphertext
+)pbdoc";
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): first ciphertext
-        ct2 (Ciphertext): second ciphertext
+const char* cc_EvalAddfloat_docs = R"pbdoc(
+EvalAdd - OpenFHE EvalAdd method for a ciphertext and constant
 
-    Returns:
-    ----------
-        Ciphertext: resulting ciphertext
-)doc";
+:param ct: ciphertext
+:type ct: Ciphertext
+:param constant: constant to add
+:type constant: float
+:return: new ciphertext for ciphertext + constant
+:rtype: Ciphertext
+)pbdoc";
 
-//EvalAdd(ciphertext,double)
-const char* cc_EvalAddfloat_docs = R"doc(
-    EvalAdd - OpenFHE EvalAdd method for a ciphertext and constant
+const char* cc_EvalAddInPlace_docs = R"pbdoc(
+EvalAdd - OpenFHE EvalAddInPlace method for a pair of ciphertexts
 
-    Parameters:
-    ----------
-        ct (Ciphertext): ciphertext
-        constant (float): constant to add
+:param ct1: Input/output ciphertext
+:type ct1: Ciphertext
+:param ct2: Input ciphertext
+:type ct2: Ciphertext
+:return: ct1 contains ct1 + ct2
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ciphertext + constant
-)doc";
+const char* cc_EvalAddInPlacePlaintext_docs = R"pbdoc(
+EvalAdd - OpenFHE EvalAddInPlace method for a ciphertext and plaintext
 
-//EvalAddInPlace
-const char* cc_EvalAddInPlace_docs = R"doc(
-    EvalAdd - OpenFHE EvalAddInPlace method for a pair of ciphertexts
+:param ct: Input/output ciphertext
+:type ct: Ciphertext
+:param pt: Input plaintext
+:type pt: Plaintext
+:return: ct contains ct + pt
+)pbdoc";
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): Input/output ciphertext
-        ct2 (Ciphertext): Input cipherext
+const char* cc_EvalAddMutable_docs = R"pbdoc(
+EvalAdd - OpenFHE EvalAddMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-    Returns:
-    ----------
-        ct1 contains ct1 + ct2
-)doc";
+:param ct1: first ciphertext
+:type ct1: Ciphertext
+:param ct2: second ciphertext
+:type ct2: Ciphertext
+:return: new ciphertext for ct1 + ct2
+:rtype: Ciphertext
+)pbdoc";
 
-//EvalAddInPlace(ciphertext,plaintext)
-const char* cc_EvalAddInPlacePlaintext_docs = R"doc(
-    EvalAdd - OpenFHE EvalAddInPlace method for a ciphertext and plaintext
+const char* cc_EvalAddMutablePlaintext_docs = R"pbdoc(
+EvalAdd - OpenFHE EvalAddMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-    Parameters:
-    ----------
-        ct (Ciphertext): Input/output ciphertext
-        pt (Plaintext): Input plaintext
+:param ciphertext: ciphertext
+:type ciphertext: Ciphertext
+:param plaintext: plaintext
+:type plaintext: Plaintext
+:return: new ciphertext for ciphertext + plaintext
+:rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        ct contains ct + pt
-)doc";
 
-//EvalAddMutable
-const char* cc_EvalAddMutable_docs = R"doc(
-    EvalAdd - OpenFHE EvalAddMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
-
-    Parameters:
-    ----------
-        ct1 (Ciphertext): first ciphertext
-        ct2 (Ciphertext): second ciphertext
-
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ct1 + ct2
-)doc";
-
-//EvalAddMutable(ciphertext,plaintext)
-const char* cc_EvalAddMutablePlaintext_docs = R"doc(
-    EvalAdd - OpenFHE EvalAddMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
-
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): ciphertext
-        plaintext (Plaintext): plaintext
-
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ciphertext + plaintext
-)doc";
-
-//EvalAddMutableInPlace
-const char* cc_EvalAddMutableInPlace_docs = R"doc(
+const char* cc_EvalAddMutableInPlace_docs = R"pbdoc(
     EvalAdd - Inplace version of EvalAddMutable
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): Input/output ciphertext
-        ct2 (Ciphertext): Input cipherext
+    :param ct1: Input/output ciphertext
+    :type ct1: Ciphertext
+    :param ct2: Input ciphertext
+    :type ct2: Ciphertext
+    :return: ct1 contains ct1 + ct2
+)pbdoc";
 
-    Returns:
-    ----------
-        ct1 contains ct1 + ct2
-)doc";
+const char* cc_EvalSub_docs = R"pbdoc(
+EvalSub - OpenFHE EvalSub method for a pair of ciphertexts
 
-//EvalSub
-const char* cc_EvalSub_docs = R"doc(
-    EvalSub - OpenFHE EvalSub method for a pair of ciphertexts
+:param ct1: first ciphertext
+:type ct1: Ciphertext
+:param ct2: second ciphertext
+:type ct2: Ciphertext
+:return: new ciphertext for ct1 - ct2
+:rtype: Ciphertext
+)pbdoc";
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): first ciphertext
-        ct2 (Ciphertext): second ciphertext
+const char* cc_EvalSubfloat_docs = R"pbdoc(
+EvalSub - OpenFHE EvalSub method for a ciphertext and constant
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ct1 - ct2
-)doc";
+:param ciphertext: ciphertext
+:type ciphertext: Ciphertext
+:param constant: constant to subtract
+:type constant: float
+:return: new ciphertext for ciphertext - constant
+:rtype: Ciphertext
+)pbdoc";
 
-//EvalSub(ciphertext,double)
-const char* cc_EvalSubfloat_docs = R"doc(
-    EvalSub - OpenFHE EvalSub method for a ciphertext and constant
+const char* cc_EvalSubPlaintext_docs = R"pbdoc(
+EvalSub - OpenFHE EvalSub method for a ciphertext and plaintext
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): ciphertext
-        constant (float): constant to subtract
+:param ciphertext: ciphertext
+:type ciphertext: Ciphertext
+:param plaintext: plaintext
+:type plaintext: Plaintext
+:return: new ciphertext for ciphertext - plaintext
+:rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ciphertext - constant
-)doc";
+const char* cc_EvalSubInPlace_docs = R"pbdoc(
+Inplace version of EvalSub for a pair of ciphertexts
 
-//EvalSub(ciphertext,plaintext)
-const char* cc_EvalSubPlaintext_docs = R"doc(
-    EvalSub - OpenFHE EvalSub method for a ciphertext and plaintext
+:param ct1: Input/output ciphertext
+:type ct1: Ciphertext
+:param ct2: Input ciphertext
+:type ct2: Ciphertext
+:return: ct1 contains ct1 - ct2
+)pbdoc";
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): ciphertext
-        plaintext (Plaintext): plaintext
+const char* cc_EvalSubInPlacefloat_docs = R"pbdoc(
+Inplace version of EvalSub for a ciphertext and constant
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ciphertext - plaintext
-)doc";
+:param ciphertext: Input/output ciphertext
+:type ciphertext: Ciphertext
+:param constant: constant to subtract
+:type constant: float
+:return: ciphertext contains ciphertext - constant
+)pbdoc";
 
-//EvalSubInPlace
-const char* cc_EvalSubInPlace_docs = R"doc(
-    Inplace version of EvalSub for a pair of ciphertexts
+// EvalSubMutable
+const char* cc_EvalSubMutable_docs = R"pbdoc(
+EvalSub - OpenFHE EvalSubMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): Input/output ciphertext
-        ct2 (Ciphertext): Input cipherext
+:param ct1: first ciphertext
+:type ct1: Ciphertext
+:param ct2: second ciphertext
+:type ct2: Ciphertext
+:return: new ciphertext for ct1 - ct2
+)pbdoc";
 
-    Returns:
-    ----------
-        ct1 contains ct1 - ct2
-)doc";
+// EvalSubMutableInPlace
+const char* cc_EvalSubMutableInPlace_docs = R"pbdoc(
+    EvalSub - Inplace variant for EvalSubMutable.
 
-//EvalSubInPlace(ciphertext,double)
-const char* cc_EvalSubInPlacefloat_docs = R"doc(
-    Inplace version of EvalSub for a ciphertext and constant
+    :param ct1: Input/output ciphertext
+    :type ct1: Ciphertext
+    :param ct2: Input ciphertext
+    :type ct2: Ciphertext
+    :return: ct1 contains ct1 - ct2
+)pbdoc";
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): Input/output ciphertext
-        constant (float): constant to subtract
+// EvalSubMutablePlaintext
+const char* cc_EvalSubMutablePlaintext_docs = R"pbdoc(
+EvalSub - OpenFHE EvalSubMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-    Returns:
-    ----------
-        ciphertext contains ciphertext - constant
-)doc";
+:param ciphertext: ciphertext
+:type ciphertext: Ciphertext
+:param plaintext: plaintext
+:type plaintext: Plaintext
+:return: new ciphertext for ciphertext - plaintext
+)pbdoc";
 
-//EvalSubMutable
-const char* cc_EvalSubMutable_docs = R"doc(
-    EvalSub - OpenFHE EvalSubMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
+const char* cc_EvalMult_docs = R"pbdoc(
+EvalMult - OpenFHE EvalMult method for a pair of ciphertexts - with key switching
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): first ciphertext
-        ct2 (Ciphertext): second ciphertext
+:param ct1: first ciphertext
+:type ct1: Ciphertext
+:param ct2: second ciphertext
+:type ct2: Ciphertext
+:return: new ciphertext for ct1 * ct2
+:rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ct1 - ct2
-)doc";
+const char* cc_EvalMultfloat_docs = R"pbdoc(
+EvalMult - OpenFHE EvalMult method for a ciphertext and constant
 
-const char* cc_EvalSubMutableInPlace_docs = R"doc(
-    EvalSub - Inplace variant for EvalSubMutable
-)doc";
-//EvalSubMutable(ciphertext,plaintext)
-const char* cc_EvalSubMutablePlaintext_docs = R"doc(
-    EvalSub - OpenFHE EvalSubMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
+:param ciphertext: the ciphertext
+:type ciphertext: Ciphertext
+:param constant: constant to multiply
+:type constant: float
+:return: new ciphertext for ciphertext * constant
+:rtype: Ciphertext
+)pbdoc";
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): 
-        plaintext (Plaintext): 
+const char* cc_EvalMultPlaintext_docs = R"pbdoc(
+EvalMult - OpenFHE EvalMult method for a ciphertext and plaintext
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ciphertext - plaintext
-)doc";
+:param ciphertext: the ciphertext
+:type ciphertext: Ciphertext
+:param plaintext: the plaintext
+:type plaintext: Plaintext
+:return: new ciphertext for ciphertext * plaintext
+:rtype: Ciphertext
+)pbdoc";
 
-//EvalMult
-const char* cc_EvalMult_docs = R"doc(
-    EvalMult - OpenFHE EvalMult method for a pair of ciphertexts - with key switching
+const char* cc_EvalMultMutable_docs = R"pbdoc(
+EvalMult - OpenFHE EvalMultMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): first ciphertext
-        ct2 (Ciphertext): second ciphertext
+:param ct1: first ciphertext
+:type ct1: Ciphertext
+:param ct2: second ciphertext
+:type ct2: Ciphertext
+:return: new ciphertext for ct1 * ct2
+:rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ct1 * ct2
-)doc";
+const char* cc_EvalMultMutablePlaintext_docs = R"pbdoc(
+EvalMult - OpenFHE EvalMultMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-//EvalMult(ciphertext,double)
-const char* cc_EvalMultfloat_docs = R"doc(
-    EvalMult - OpenFHE EvalMult method for a ciphertext and constant
+:param ciphertext: the ciphertext
+:type ciphertext: Ciphertext
+:param plaintext: the plaintext
+:type plaintext: Plaintext
+:return: new ciphertext for ciphertext * plaintext
+:rtype: Ciphertext
+)pbdoc";
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): the ciphertext
-        constant (float): constant to multiply
+const char* cc_EvalMultMutableInPlace_docs = R"pbdoc(
+    EvalMult - OpenFHE EvalMult method for a pair of ciphertexts - with key switching. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ciphertext * constant
-)doc";
+    :param ct1: Input/output ciphertext
+    :type ct1: Ciphertext
+    :param ct2: Input cipherext
+    :type ct2: Ciphertext
+    :return: ct1 contains ct1 * ct2
+)pbdoc";
 
-//EvalMult(ciphertext,plaintext)
-const char* cc_EvalMultPlaintext_docs = R"doc(
-    EvalMult - OpenFHE EvalMult method for a ciphertext and plaintext
-
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): the ciphertext
-        plaintext (Plaintext): the plaintext
-
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ciphertext * plaintext
-)doc";
-
-//EvalMultMutable
-const char* cc_EvalMultMutable_docs = R"doc(
-    EvalMult - OpenFHE EvalMultMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
-
-    Parameters:
-    ----------
-        ct1 (Ciphertext): first ciphertext
-        ct2 (Ciphertext): second ciphertext
-
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ct1 * ct2
-)doc";
-
-//EvalMultMutable(ciphertext,plaintext)
-const char* cc_EvalMultMutablePlaintext_docs = R"doc(
-    EvalMult - OpenFHE EvalMultMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
-
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): the ciphertext
-        plaintext (Plaintext): the plaintext
-
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ciphertext * plaintext
-)doc";
-
-//EvalMultMutableInPlace
-const char* cc_EvalMultMutableInPlace_docs = R"doc(
-    EvalMult - OpenFHE EvalMult method for a pair of ciphertexts - with key switching This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
-
-    Parameters:
-    ----------
-        ct1 (Ciphertext): Input/output ciphertext
-        ct2 (Ciphertext): Input cipherext
-
-    Returns:
-    ----------
-        ct1 contains ct1 * ct2
-)doc";
-
-//EvalSquare
-const char* cc_EvalSquare_docs = R"doc(
+const char* cc_EvalSquare_docs = R"pbdoc(
     EvalSquare - OpenFHE EvalSquare method for a ciphertext
 
-    Parameters:
-    ----------
-        ct (Ciphertext): the ciphertext to square
+    :param ct: the ciphertext to square
+    :type ct: Ciphertext
+    :return: new ciphertext for ct^2 = ct * ct
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ct^2 = ct * ct
-)doc";
-
-//EvalSquareMutable
-const char* cc_EvalSquareMutable_docs = R"doc(
+const char* cc_EvalSquareMutable_docs = R"pbdoc(
     EvalSquare - OpenFHE EvalSquareMutable method for a ciphertext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-    Parameters:
-    ----------
-        ct (Ciphertext): the ciphertext to square
+    :param ct: the ciphertext to square
+    :type ct: Ciphertext
+    :return: new ciphertext for ct^2 = ct * ct
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ct^2 = ct * ct
-)doc";
-
-//EvalSquareInPlace
-const char* cc_EvalSquareInPlace_docs = R"doc(
+const char* cc_EvalSquareInPlace_docs = R"pbdoc(
     EvalSquare - OpenFHE EvalSquare method for a ciphertext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
 
-    Parameters:
-    ----------
-        ct (Ciphertext): Input/output ciphertext
+    :param ct: Input/output ciphertext
+    :type ct: Ciphertext
+    :return: ct contains ct^2 = ct * ct
+)pbdoc";
 
-    Returns:
-    ----------
-        ct contains ct^2 = ct * ct
-)doc";
 
-//EvalMultNoRelin
-const char* cc_EvalMultNoRelin_docs = R"doc(
+const char* cc_EvalMultNoRelin_docs = R"pbdoc(
     EvalMultNoRelin - OpenFHE EvalMult method for a pair of ciphertexts - no key switching (relinearization)
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): first ciphertext
-        ct2 (Ciphertext): second ciphertext
+    :param ct1: first ciphertext
+    :type ct1: Ciphertext
+    :param ct2: second ciphertext
+    :type ct2: Ciphertext
+    :return: new ciphertext for ct1 * ct2
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext for ct1 * ct2
-)doc";
-
-//Relinearize
-const char* cc_Relinearize_docs = R"doc(
+const char* cc_Relinearize_docs = R"pbdoc(
     Function for relinearization of a ciphertext.
 
-    Parameters:
-    ----------
-        ct (Ciphertext): input ciphertext
+    :param ct: input ciphertext
+    :type ct: Ciphertext
+    :return: relienarized ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: relienarized ciphertext
-)doc";
-
-//RelinearizeInPlace
-const char* cc_RelinearizeInPlace_docs = R"doc(
+const char* cc_RelinearizeInPlace_docs = R"pbdoc(
     Function for inplace relinearization of a ciphertext.
 
-    Parameters:
-    ----------
-        ct (Ciphertext): input/output ciphertext
+    :param ct: input/output ciphertext
+    :type ct: Ciphertext
+    :return: ct contains relienarized ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        ct contains relienarized ciphertext
-)doc";
-
-//EvalMultAndRelinearize
-const char* cc_EvalMultAndRelinearize_docs = R"doc(
+const char* cc_EvalMultAndRelinearize_docs = R"pbdoc(
     Function for evaluating multiplication on ciphertext followed by relinearization operation. Currently it assumes that the input arguments have total depth smaller than the supported depth. Otherwise, it throws an error
 
-    Parameters:
-    ----------
-        ct1 (Ciphertext): first input ciphertext
-        ct2 (Ciphertext): second input ciphertext
+    :param ct1: first input ciphertext
+    :type ct1: Ciphertext
+    :param ct2: second input ciphertext
+    :type ct2: Ciphertext
+    :return: new ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext
-)doc";
-
-//EvalNegate
-const char* cc_EvalNegate_docs = R"doc(
+const char* cc_EvalNegate_docs = R"pbdoc(
     EvalSub - OpenFHE Negate method for a ciphertext
 
-    Parameters:
-    ----------
-        ct (Ciphertext): input ciphertext
+    :param ct: input ciphertext
+    :type ct: Ciphertext
+    :return: new ciphertext -ct
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: new ciphertext -ct
-)doc";
-
-//EvalNegateInPlace
-const char* cc_EvalNegateInPlace_docs = R"doc(
+const char* cc_EvalNegateInPlace_docs = R"pbdoc(
     EvalSub - Inplace OpenFHE Negate method for a ciphertext
 
-    Parameters:
-    ----------
-        ct (Ciphertext): input/output ciphertext
+    :param ct: input/output ciphertext
+    :type ct: Ciphertext
+    :return: ct contains -ct
+)pbdoc";
 
-    Returns:
-    ----------
-        ct contains -ct
-)doc";
-
-//EvalLogistic((ConstCiphertext<Element> ciphertext, double a, double b, uint32_t degree)
-// const char* cc_EvalLogistic_docs = R"doc(
-//     Evaluate approximate logistic function 1/(1 + exp(-x)) on a ciphertext using the Chebyshev approximation.
-
-//     Parameters:
-//     ----------
-//         ciphertext (Ciphertext): input ciphertext
-//         a (float): lower bound of argument for which the coefficients were found
-//         b (float): upper bound of argument for which the coefficients were found
-//         degree (int): Desired degree of approximation
-
-//     Returns:
-//     ----------
-//         Ciphertext: the result of polynomial evaluation
-// )doc";
-
-//EvalChebyshevSeries(ConstCiphertext<Element> ciphertext, const std::vector<double> &coefficients, double a, double b)
-const char* cc_EvalChebyshevSeries_docs = R"doc(
+const char* cc_EvalChebyshevSeries_docs = R"pbdoc(
     Method for evaluating Chebyshev polynomial interpolation; first the range [a,b] is mapped to [-1,1] using linear transformation 1 + 2 (x-a)/(b-a) If the degree of the polynomial is less than 5, use EvalChebyshevSeriesLinear, otherwise, use EvalChebyshevSeriesPS.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        coefficients (list): is the list of coefficients in Chebyshev expansion
-        a (float): lower bound of argument for which the coefficients were found
-        b (float): upper bound of argument for which the coefficients were found
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param coefficients: list of coefficients in Chebyshev expansion
+    :type coefficients: list
+    :param a: lower bound of argument for which the coefficients were found
+    :type a: float
+    :param b: upper bound of argument for which the coefficients were found
+    :type b: float
+    :return: the result of polynomial evaluation
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation
-)doc";
-
-//EvalChebyshevSeriesLinear(ConstCiphertext<Element> ciphertext, const std::vector<double> &coefficients, double a, double b)
-const char* cc_EvalChebyshevSeriesLinear_docs = R"doc(
+const char* cc_EvalChebyshevSeriesLinear_docs = R"pbdoc(
     Evaluate Chebyshev polynomial of degree less than 5.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        coefficients (list): is the list of coefficients in Chebyshev expansion
-        a (float): lower bound of argument for which the coefficients were found
-        b (float): upper bound of argument for which the coefficients were found
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param coefficients: list of coefficients in Chebyshev expansion
+    :type coefficients: list
+    :param a: lower bound of argument for which the coefficients were found
+    :type a: float
+    :param b: upper bound of argument for which the coefficients were found
+    :type b: float
+    :return: the result of polynomial evaluation
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation
-)doc";
-
-//EvalChebyshevSeriesPS(ConstCiphertext<Element> ciphertext, const std::vector<double> &coefficients, double a, double b)
-const char* cc_EvalChebyshevSeriesPS_docs = R"doc(
+const char* cc_EvalChebyshevSeriesPS_docs = R"pbdoc(
     Evaluate Chebyshev polynomial of degree greater or equal to 5.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        coefficients (list): is the list of coefficients in Chebyshev expansion
-        a (float): lower bound of argument for which the coefficients were found
-        b (float): upper bound of argument for which the coefficients were found
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param coefficients: list of coefficients in Chebyshev expansion
+    :type coefficients: list
+    :param a: lower bound of argument for which the coefficients were found
+    :type a: float
+    :param b: upper bound of argument for which the coefficients were found
+    :type b: float
+    :return: the result of polynomial evaluation
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation
-)doc";
-
-//EvalChebyshevFunction(std::function<double(double)> func, ConstCiphertext<Element> ciphertext, double a, double b, uint32_t degree)
-const char* cc_EvalChebyshevFunction_docs = R"doc(
+const char* cc_EvalChebyshevFunction_docs = R"pbdoc(
     Method for calculating Chebyshev evaluation on a ciphertext for a smooth input function over the range [a,b].
 
-    Parameters:
-    ----------
-        func (function): is the function to be approximated
-        ciphertext (Ciphertext): input ciphertext
-        a (float): lower bound of argument for which the coefficients were found
-        b (float): upper bound of argument for which the coefficients were found
-        degree (int): Desired degree of approximation
+    :param func: the function to be approximated
+    :type func: function
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param a: lower bound of argument for which the coefficients were found
+    :type a: float
+    :param b: upper bound of argument for which the coefficients were found
+    :type b: float
+    :param degree: Desired degree of approximation
+    :type degree: int
+    :return: the coefficients of the Chebyshev approximation.
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the coefficients of the Chebyshev approximation.
-)doc";
-
-//EvanSin(ciphertext,double,double,degree)
-const char* cc_EvalSin_docs = R"doc(
+const char* cc_EvalSin_docs = R"pbdoc(
     Evaluate approximate sine function on a ciphertext using the Chebyshev approximation.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        a (float): lower bound of argument for which the coefficients were found
-        b (float): upper bound of argument for which the coefficients were found
-        degree (int): Desired degree of approximation
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param a: lower bound of argument for which the coefficients were found
+    :type a: float
+    :param b: upper bound of argument for which the coefficients were found
+    :type b: float
+    :param degree: Desired degree of approximation
+    :type degree: int
+    :return: the result of polynomial evaluation.
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation.
-)doc";
-
-//EvalCos(ciphertext,double,double,degree)
-const char* cc_EvalCos_docs = R"doc(
+const char* cc_EvalCos_docs = R"pbdoc(
     Evaluate approximate cosine function on a ciphertext using the Chebyshev approximation.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        a (float): lower bound of argument for which the coefficients were found
-        b (float): upper bound of argument for which the coefficients were found
-        degree (int): Desired degree of approximation
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param a: lower bound of argument for which the coefficients were found
+    :type a: float
+    :param b: upper bound of argument for which the coefficients were found
+    :type b: float
+    :param degree: Desired degree of approximation
+    :type degree: int
+    :return: the result of polynomial evaluation.
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation.
-)doc";
-
-//EvalLogistic(ciphertext,double,double,degree)
-const char* cc_EvalLogistic_docs = R"doc(
+const char* cc_EvalLogistic_docs = R"pbdoc(
     Evaluate approximate logistic function 1/(1 + exp(-x)) on a ciphertext using the Chebyshev approximation.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        a (float): lower bound of argument for which the coefficients were found
-        b (float): upper bound of argument for which the coefficients were found
-        degree (int): Desired degree of approximation
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param a: lower bound of argument for which the coefficients were found
+    :type a: float
+    :param b: upper bound of argument for which the coefficients were found
+    :type b: float
+    :param degree: Desired degree of approximation
+    :type degree: int
+    :return: the result of polynomial evaluation.
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation.
-)doc";
-
-//EvalDivide(ciphertext,double,double,degree)
-const char* cc_EvalDivide_docs = R"doc(
+const char* cc_EvalDivide_docs = R"pbdoc(
     Evaluate approximate division function 1/x where x >= 1 on a ciphertext using the Chebyshev approximation.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        a (float): lower bound of argument for which the coefficients were found
-        b (float): upper bound of argument for which the coefficients were found
-        degree (int): Desired degree of approximation
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param a: lower bound of argument for which the coefficients were found
+    :type a: float
+    :param b: upper bound of argument for which the coefficients were found
+    :type b: float
+    :param degree: Desired degree of approximation
+    :type degree: int
+    :return: the result of polynomial evaluation.
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation.
-)doc";
-
-//EvalSumKeyGen(const PrivateKey<Element> privateKey, const PublicKey<Element> publicKey = nullptr)
-const char* cc_EvalSumKeyGen_docs = R"doc(
+const char* cc_EvalSumKeyGen_docs = R"pbdoc(
     EvalSumKeyGen generates the key map to be used by evalsum
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): private key
-        publicKey (PublicKey): public key (used in NTRU schemes)
-    
-    Returns:
-    ----------
-        None
-)doc";
+    :param privateKey: private key
+    :type privateKey: PrivateKey
+    :param publicKey: public key (used in NTRU schemes)
+    :type publicKey: PublicKey
+    :return: None
+)pbdoc";
 
-//EvalSumRowsKeyGen(const PrivateKey<Element> privateKey, const PublicKey<Element> publicKey = nullptr, usint rowSize = 0, usint subringDim = 0)
-const char* cc_EvalSumRowsKeyGen_docs = R"doc(
+const char* cc_EvalSumRowsKeyGen_docs = R"pbdoc(
     EvalSumRowsKeyGen generates the key map to be used by EvalSumRows
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): private key
-        publicKey (PublicKey): public key (used in NTRU schemes)
-        rowSize (int): number of rows
-        subringDim (int): dimension of the subring
-    
-    Returns:
-    ----------
-        dict: Evaluation key map, where the keys being integer indexes and values being EvalKey objects
-)doc";
+    :param privateKey: private key
+    :type privateKey: PrivateKey
+    :param publicKey: public key (used in NTRU schemes)
+    :type publicKey: PublicKey
+    :param rowSize: number of rows
+    :type rowSize: int
+    :param subringDim: dimension of the subring
+    :type subringDim: int
+    :return: dict: Evaluation key map, where the keys being integer indexes and values being EvalKey objects
+)pbdoc";
 
-//EvalSumColsKeyGen(const PrivateKey<Element> privateKey, const PublicKey<Element> publicKey = nullptr)
-const char* cc_EvalSumColsKeyGen_docs = R"doc(
+const char* cc_EvalSumColsKeyGen_docs = R"pbdoc(
     EvalSumColsKeyGen generates the key map to be used by EvalSumCols
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): private key
-        publicKey (PublicKey): public key (used in NTRU schemes)
-    
-    Returns:
-    ----------
-        dict: Evaluation key map, where the keys being integer indexes and values being EvalKey objects
-)doc";
+    :param privateKey: private key
+    :type privateKey: PrivateKey
+    :param publicKey: public key (used in NTRU schemes)
+    :type publicKey: PublicKey
+    :return: dict: Evaluation key map, where the keys being integer indexes and values being EvalKey objects
+)pbdoc";
 
-//Ciphertext<Element> EvalSumRows(ConstCiphertext<Element> ciphertext, usint rowSize, const std::map<usint, EvalKey<Element>> &evalSumKeyMap, usint subringDim = 0)
-const char* cc_EvalSumRows_docs = R"doc(
+const char* cc_EvalSumRows_docs = R"pbdoc(
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        rowSize (int): number of rows
-        evalSumKeyMap (dict): evaluation key map, where the keys being integer indexes and values being EvalKey objects
-        subringDim (int): dimension of the subring
-    
-    Returns:
-    ----------
-        Ciphertext: resulting ciphertext
-)doc";
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param rowSize: number of rows
+    :type rowSize: int
+    :param evalSumKeyMap: evaluation key map, where the keys being integer indexes and values being EvalKey objects
+    :type evalSumKeyMap: dict
+    :param subringDim: dimension of the subring
+    :type subringDim: int
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-//Ciphertext<Element> EvalSumCols(ConstCiphertext<Element> ciphertext, usint rowSize, const std::map<usint, EvalKey<Element>> &evalSumKeyMap
-const char* cc_EvalSumCols_docs = R"doc(
+const char* cc_EvalSumCols_docs = R"pbdoc(
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        rowSize (int): number of rows
-        evalSumKeyMap (dict): evaluation key map, where the keys being integer indexes and values being EvalKey objects
-    
-    Returns:
-    ----------
-        Ciphertext: resulting ciphertext
-)doc";
-//EvalInnerProduct(ciphertext,ciphertext,batchSize)
-const char* cc_EvalInnerProduct_docs = R"doc(
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param rowSize: number of rows
+    :type rowSize: int
+    :param evalSumKeyMap: evaluation key map, where the keys being integer indexes and values being EvalKey objects
+    :type evalSumKeyMap: dict
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_EvalInnerProduct_docs = R"pbdoc(
     Evaluates inner product in batched encoding
 
-    Parameters:
-    ----------
-        ciphertext1 (Ciphertext): first vector
-        ciphertext2 (Ciphertext): second vector
-        batchSize (int): size of the batch to be summed up
+    :param ciphertext1: first vector
+    :type ciphertext1: Ciphertext
+    :param ciphertext2: second vector
+    :type ciphertext2: Ciphertext
+    :param batchSize: size of the batch to be summed up
+    :type batchSize: int
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: resulting ciphertext
-)doc";
-
-//EvalInnerProduct(cipher,plain,batchsize)
-const char* cc_EvalInnerProductPlaintext_docs = R"doc(
+const char* cc_EvalInnerProductPlaintext_docs = R"pbdoc(
     Evaluates inner product in batched encoding
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): first vector - ciphertext
-        plaintext (Plaintext): second vector - plaintext
-        batchSize (int): size of the batch to be summed up
+    :param ciphertext: first vector - ciphertext
+    :type ciphertext: Ciphertext
+    :param plaintext: second vector - plaintext
+    :type plaintext: Plaintext
+    :param batchSize: size of the batch to be summed up
+    :type batchSize: int
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: resulting ciphertext
-)doc";
-
-//Ciphertext<Element> EvalMerge(const std::vector<Ciphertext<Element>> &ciphertextVec) const
-const char* cc_EvalMerge_docs = R"doc(
+const char* cc_EvalMerge_docs = R"pbdoc(
     Merges multiple ciphertexts with encrypted results in slot 0 into a single ciphertext The slot assignment is done based on the order of ciphertexts in the vector
 
-    Parameters:
-    ----------
-        ciphertextVec (list): vector of ciphertexts to be merged.
+    :param ciphertextVec: vector of ciphertexts to be merged.
+    :type ciphertextVec: list
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: resulting ciphertext
-)doc";
-
-//inline virtual Ciphertext<Element> EvalPoly(ConstCiphertext<Element> ciphertext, const std::vector<double> &coefficients) const
-const char* cc_EvalPoly_docs = R"doc(
+const char* cc_EvalPoly_docs = R"pbdoc(
     Method for polynomial evaluation for polynomials represented as power series.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        coefficients (list): is the vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial + 1
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param coefficients: vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial + 1
+    :type coefficients: list
+    :return: Ciphertext: the result of polynomial evaluation.
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation.
-)doc";
-
-//inline Ciphertext<Element> EvalPolyLinear(ConstCiphertext<Element> ciphertext, const std::vector<double> &coefficients)
-const char* cc_EvalPolyLinear_docs = R"doc(
+const char* cc_EvalPolyLinear_docs = R"pbdoc(
     Method for polynomial evaluation for polynomials represented in the power series. This uses EvalPolyLinear, which uses a binary tree computation of the polynomial powers.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        coefficients (list): is the vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param coefficients: vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial
+    :type coefficients: list
+    :return: Ciphertext: the result of polynomial evaluation.
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation.
-)doc";
+const char* cc_EvalPolyPS_docs = R"pbdoc(
 
-//inline Ciphertext<Element> EvalPolyPS(ConstCiphertext<Element> ciphertext, const std::vector<double> &coefficients) const
-const char* cc_EvalPolyPS_docs = R"doc(
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param coefficients: vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial
+    :type coefficients: list
+    :return: Ciphertext: the result of polynomial evaluation.
+    :rtype: Ciphertext
+)pbdoc";
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): input ciphertext
-        coefficients (list): is the vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial
-
-    Returns:
-    ----------
-        Ciphertext: the result of polynomial evaluation.
-)doc";
-
-//Rescale(cipher)
-const char* cc_Rescale_docs = R"doc(
+const char* cc_Rescale_docs = R"pbdoc(
     Rescale - An alias for OpenFHE ModReduce method. This is because ModReduce is called Rescale in CKKS.
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): ciphertext
+    :param ciphertext: ciphertext
+    :type ciphertext: Ciphertext
+    :return: Ciphertext: mod reduced ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: mod reduced ciphertext
-)doc";
-
-//void EvalBootstrapSetup(std::vector<uint32_t> levelBudget = {5, 4}, std::vector<uint32_t> dim1 = {0, 0}, uint32_t slots = 0, uint32_t correctionFactor = 0)
-const char* cc_EvalBootstrapSetup_docs = R"doc(
+const char* cc_EvalBootstrapSetup_docs = R"pbdoc(
     Bootstrap functionality: There are three methods that have to be called in this specific order:
 
     1. EvalBootstrapSetup: computes and encodes the coefficients for encoding and decoding and stores the necessary parameters
@@ -1016,169 +857,129 @@ const char* cc_EvalBootstrapSetup_docs = R"doc(
 
     3. EvalBootstrap: refreshes the given ciphertext Sets all parameters for the linear method for the FFT-like method
 
-    Parameters:
-    ----------
-        levelBudget (list):  vector of budgets for the amount of levels in encoding and decoding
-        dim1 (list): vector of inner dimension in the baby-step giant-step routine for encoding and decodingl
-        slots (int): number of slots to be bootstraped
-        correctionFactor (int): alue to rescale message by to improve precision. If set to 0, we use the default logic. This value is only used when get_native_int()=64
+    :param levelBudget: vector of budgets for the amount of levels in encoding and decoding
+    :type levelBudget: list
+    :param dim1: vector of inner dimension in the baby-step giant-step routine for encoding and decodingl
+    :type dim1: list
+    :param slots: number of slots to be bootstraped
+    :type slots: int
+    :param correctionFactor: alue to rescale message by to improve precision. If set to 0, we use the default logic. This value is only used when get_native_int()=64
+    :type correctionFactor: int
+    :return: None
+)pbdoc";
 
-    Returns:
-    ----------
-        None
-)doc";
-
-//void EvalBootstrapKeyGen(const PrivateKey<Element> privateKey, uint32_t slots)
-const char* cc_EvalBootstrapKeyGen_docs = R"doc(
+const char* cc_EvalBootstrapKeyGen_docs = R"pbdoc(
     Generates all automorphism keys for EvalBT. EvalBootstrapKeyGen uses the baby-step/giant-step strategy.
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): private key.
-        slots (int): number of slots to support permutations on.
+    :param privateKey: private key.
+    :type privateKey: PrivateKey
+    :param slots: number of slots to support permutations on.
+    :type slots: int
+    :return: None
+)pbdoc";
 
-    Returns:
-    ----------
-        None
-)doc";
-
-//Ciphertext<Element> EvalBootstrap(ConstCiphertext<Element> ciphertext, uint32_t numIterations = 1, uint32_t precision = 0)
-const char* cc_EvalBootstrap_docs = R"doc(
+const char* cc_EvalBootstrap_docs = R"pbdoc(
     Defines the bootstrapping evaluation of ciphertext using either the FFT-like method or the linear method
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): the input ciphertext
-        numIterations (int): number of iterations to run iterative bootstrapping (Meta-BTS). Increasing the iterations increases the precision of bootstrapping
-        precision (int): precision of initial bootstrapping algorithm. This value is determined by the user experimentally by first running EvalBootstrap with numIterations = 1 and precision = 0 (unused).
+    :param ciphertext: the input ciphertext
+    :type ciphertext: Ciphertext
+    :param numIterations: number of iterations to run iterative bootstrapping (Meta-BTS). Increasing the iterations increases the precision of bootstrapping
+    :type numIterations: int
+    :param precision: precision of initial bootstrapping algorithm. This value is determined by the user experimentally by first running EvalBootstrap with numIterations = 1 and precision = 0 (unused).
+    :type precision: int
+    :return: Ciphertext: the refreshed ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
-    Returns:
-    ----------
-        Ciphertext: the refreshed ciphertext
-)doc";
-
-//inline std::shared_ptr<std::map<usint, EvalKey<Element>>> EvalAutomorphismKeyGen(const PrivateKey<Element> privateKey, const std::vector<usint> &indexLis
-const char* cc_EvalAutomorphismKeyGen_docs = R"doc(
+const char* cc_EvalAutomorphismKeyGen_docs = R"pbdoc(
     Generate automophism keys for a given private key; Uses the private key for encryption
 
-    Parameters:
-    ----------
-        privateKey (PrivateKey): private key.
-        indexList (list): list of automorphism indices to be computed.
+    :param privateKey: private key.
+    :type privateKey: PrivateKey
+    :param indexList: list of automorphism indices to be computed.
+    :type indexList: list
+    :return: dict: returns the evaluation key
+)pbdoc";
 
-    Returns:
-    ----------
-        dict: returns the evaluation key
-)doc";
-
-//inline std::shared_ptr<std::map<usint, EvalKey<Element>>> EvalAutomorphismKeyGen(const PublicKey<Element> publicKey, const PrivateKey<Element> privateKey, const std::vector<usint> &indexList) const
-const char* cc_EvalAutomorphismKeyGenPublic_docs = R"doc(
+const char* cc_EvalAutomorphismKeyGenPublic_docs = R"pbdoc(
     Generate automophism keys for a given private key.
 
-    Parameters:
-    ----------
-        publicKey (PublicKey): original public key.
-        privateKey (PrivateKey): original private key.
-        indexList (list): list of automorphism indices to be computed.
+    :param publicKey: original public key.
+    :type publicKey: PublicKey
+    :param privateKey: original private key.
+    :type privateKey: PrivateKey
+    :param indexList: list of automorphism indices to be computed.
+    :type indexList: list
+    :return: dict: returns the evaluation keys; index 0 of the vector corresponds to plaintext index 2, index 1 to plaintex index 3, etc.
+)pbdoc";
 
-    Returns:
-    ----------
-        dict: returns the evaluation keys; index 0 of the vector corresponds to plaintext index 2, index 1 to plaintex index 3, etc.
-)doc";
-
-//inline usint FindAutomorphismIndex(const usint idx) const
-const char* cc_FindAutomorphismIndex_docs = R"doc(
+const char* cc_FindAutomorphismIndex_docs = R"pbdoc(
     Find the automorphism index for a given plaintext index
 
-    Parameters:
-    ----------
-        idx (int): plaintext index
+    :param idx: plaintext index
+    :type idx: int
+    :return: int: automorphism index
+)pbdoc";
 
-    Returns:
-    ----------
-        int: automorphism index
-)doc";
-
-//inline std::vector<usint> FindAutomorphismIndices(const std::vector<usint> idxList) const
-const char* cc_FindAutomorphismIndices_docs = R"doc(
+const char* cc_FindAutomorphismIndices_docs = R"pbdoc(
     Find the automorphism indices for a given list of plaintext indices
 
-    Parameters:
-    ----------
-        idxList (list): list of plaintext indices
+    :param idxList: list of plaintext indices
+    :type idxList: list
+    :return: list: list of automorphism indices
+)pbdoc";
 
-    Returns:
-    ----------
-        list: list of automorphism indices
-)doc";
-
-//ClearEvalMultKeys()
-const char* cc_ClearEvalMultKeys_docs = R"doc(
+const char* cc_ClearEvalMultKeys_docs = R"pbdoc(
     ClearEvalMultKeys - flush EvalMultKey cache
-)doc";
+)pbdoc";
 
-//ClearEvalAutomorphismKeys()
-const char* cc_ClearEvalAutomorphismKeys_docs = R"doc(
+const char* cc_ClearEvalAutomorphismKeys_docs = R"pbdoc(
     ClearEvalAutomorphismKeys - flush EvalAutomorphismKey cache
-)doc";
+)pbdoc";
 
-//static inline bool SerializeEvalAutomorphismKey(std::ostream &ser, const ST &sertype, std::string id = "")
-const char* cc_SerializeEvalAutomorphismKey_docs = R"doc(
+const char* cc_SerializeEvalAutomorphismKey_docs = R"pbdoc(
     SerializeEvalAutomorphismKey for a single EvalAuto key or all of the EvalAuto keys
 
-    Parameters:
-    ----------
-        filename (str): output file
-        sertype (SERJSON, SERBINARY): serialization type
-        id (str): key to serialize; empty string means all keys
+    :param filename: output file
+    :type filename: str
+    :param sertype: serialization type
+    :type sertype: SERJSON, SERBINARY
+    :param id: key to serialize; empty string means all keys
+    :type id: str
+    :return: bool: true on success
+)pbdoc";
 
-    Returns:
-    ----------
-        bool: true on success
-)doc";
-
-//SerializeEvalMultKey(filename,sertype,id)
-const char* cc_SerializeEvalMultKey_docs = R"doc(
+const char* cc_SerializeEvalMultKey_docs = R"pbdoc(
     SerializeEvalMultKey for a single EvalMult key or all of the EvalMult keys
 
-    Parameters:
-    ----------
-        filename (str): output file
-        sertype (SERJSON, SERBINARY): type of serialization
-        id (str): for key to serialize - if empty string, serialize them all
+    :param filename: output file
+    :type filename: str
+    :param sertype: type of serialization
+    :type sertype: SERJSON, SERBINARY
+    :param id: for key to serialize - if empty string, serialize them all
+    :type id: str
+    :return: bool: true on success
+)pbdoc";
 
-    Returns:
-    ----------
-        bool: true on success
-)doc";
-
-//DeserializeEvalAutomorphismKey(filename,sertype)
-const char* cc_DeserializeEvalAutomorphismKey_docs = R"doc(
+const char* cc_DeserializeEvalAutomorphismKey_docs = R"pbdoc(
     DeserializeEvalAutomorphismKey deserialize all keys in the serialization deserialized keys silently replace any existing matching keys deserialization will create CryptoContext if necessary
 
-    Parameters:
-    ----------
-        filename (str): path for the file to deserialize from
-        sertype (SERJSON, SERBINARY): type of serialization
+    :param filename: path for the file to deserialize from
+    :type filename: str
+    :param sertype: type of serialization
+    :type sertype: SERJSON, SERBINARY
+    :return: bool: true on success
+)pbdoc";
 
-    Returns:
-    ----------
-        bool: true on success
-)doc";
-
-//DeserializeEvalMultKey(filename,sertype)
-const char* cc_DeserializeEvalMultKey_docs = R"doc(
+const char* cc_DeserializeEvalMultKey_docs = R"pbdoc(
     DeserializeEvalMultKey deserialize all keys in the serialization deserialized keys silently replace any existing matching keys deserialization will create CryptoContext if necessary
 
-    Parameters:
-    ----------
-        filename (str): path for the file to deserialize from
-        sertype (SERJSON, SERBINARY): type of serialization
-
-    Returns:
-    ----------
-        bool: true on success
-)doc";
+    :param filename: path for the file to deserialize from
+    :type filename: str
+    :param sertype: type of serialization
+    :type sertype: SERJSON, SERBINARY
+    :return: bool: true on success
+)pbdoc";
 
 
 #endif //CRYPTOCONTEXT_DOCSTRINGS_H
