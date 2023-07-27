@@ -1,5 +1,5 @@
-Ciphertet
-=============
+Ciphertext
+==========
 
 .. autoclass:: openfhe.Ciphertext
     :members:
