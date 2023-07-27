@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BinFHEContext &mdash; openfhe-python 0.8.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="BinFHE enums" href="binfhe_enums.html" />
+    <link rel="prev" title="PKE enums" href="pke_enums.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            openfhe-python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cryptocontext.html">CryptoContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#private-key">Private Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#keypair">KeyPair</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pke_enums.html">PKE enums</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BinFHEContext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#openfhe.BinFHEContext"><code class="docutils literal notranslate"><span class="pre">BinFHEContext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.BTKeyGen"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.BTKeyGen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.Decrypt"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Decrypt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.Encrypt"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Encrypt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.EvalBinGate"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalBinGate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.EvalNOT"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalNOT()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GenerateBinFHEContext"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GenerateBinFHEContext()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.KeyGen"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.KeyGen()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#lweciphertext">LWECiphertext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#openfhe.LWECiphertext"><code class="docutils literal notranslate"><span class="pre">LWECiphertext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.LWECiphertext.GetLength"><code class="docutils literal notranslate"><span class="pre">LWECiphertext.GetLength()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#lweprivatekey">LWEPrivateKey</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#openfhe.LWEPrivateKey"><code class="docutils literal notranslate"><span class="pre">LWEPrivateKey</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.LWEPrivateKey.GetLength"><code class="docutils literal notranslate"><span class="pre">LWEPrivateKey.GetLength()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe_enums.html">BinFHE enums</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">openfhe-python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BinFHEContext</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/binfhe.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="binfhecontext">
+<h1>BinFHEContext<a class="headerlink" href="#binfhecontext" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">BinFHEContext</span></span><a class="headerlink" href="#openfhe.BinFHEContext" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.BTKeyGen">
+<span class="sig-name descname"><span class="pre">BTKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.BTKeyGen" title="Permalink to this definition"></a></dt>
+<dd><p>Generates bootstrapping keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sk</strong> (<a class="reference internal" href="#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><em>LWEPrivateKey</em></a>) – The secret key.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.Decrypt">
+<span class="sig-name descname"><span class="pre">Decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Decrypt" title="Permalink to this definition"></a></dt>
+<dd><p>Decrypts a ciphertext using a secret key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sk</strong> (<a class="reference internal" href="#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><em>LWEPrivateKey</em></a>) – The secret key.</p></li>
+<li><p><strong>ct</strong> (<a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><em>LWECiphertext</em></a>) – The ciphertext.</p></li>
+<li><p><strong>p</strong> (<em>int</em>) – Plaintext modulus (default 4).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The plaintext.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.Encrypt">
+<span class="sig-name descname"><span class="pre">Encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output:</span> <span class="pre">openfhe.BINFHE_OUTPUT</span> <span class="pre">=</span> <span class="pre">&lt;BINFHE_OUTPUT.BOOTSTRAPPED:</span> <span class="pre">2&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Encrypt" title="Permalink to this definition"></a></dt>
+<dd><p>Encrypts a bit using a secret key (symmetric key encryption).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sk</strong> (<a class="reference internal" href="#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><em>LWEPrivateKey</em></a>) – The secret key.</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – The plaintext.</p></li>
+<li><p><strong>output</strong> (<a class="reference internal" href="binfhe_enums.html#openfhe.BINFHE_OUTPUT" title="openfhe.BINFHE_OUTPUT"><em>BINFHE_OUTPUT</em></a>) – FRESH to generate a fresh ciphertext, BOOTSTRAPPED to generate a refreshed ciphertext (default).</p></li>
+<li><p><strong>p</strong> (<em>int</em>) – Plaintext modulus (default 4).</p></li>
+<li><p><strong>mod</strong> (<em>int</em>) – Encrypt according to mod instead of m_q if mod != 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ciphertext.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext">LWECiphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalBinGate">
+<span class="sig-name descname"><span class="pre">EvalBinGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate:</span> <span class="pre">openfhe.BINGATE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct1:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct2:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalBinGate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates a binary gate (calls bootstrapping as a subroutine).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> (<a class="reference internal" href="binfhe_enums.html#openfhe.BINGATE" title="openfhe.BINGATE"><em>BINGATE</em></a>) – The gate; can be AND, OR, NAND, NOR, XOR, or XNOR.</p></li>
+<li><p><strong>ct1</strong> (<a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><em>LWECiphertext</em></a>) – First ciphertext.</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><em>LWECiphertext</em></a>) – Second ciphertext.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting ciphertext.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext">LWECiphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalNOT">
+<span class="sig-name descname"><span class="pre">EvalNOT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalNOT" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the NOT gate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><em>LWECiphertext</em></a>) – The input ciphertext.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting ciphertext.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext">LWECiphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.GenerateBinFHEContext">
+<span class="sig-name descname"><span class="pre">GenerateBinFHEContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set:</span> <span class="pre">openfhe.BINFHE_PARAMSET</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method:</span> <span class="pre">openfhe.BINFHE_METHOD</span> <span class="pre">=</span> <span class="pre">&lt;BINFHE_METHOD.GINX:</span> <span class="pre">2&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GenerateBinFHEContext" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a crypto context using predefined parameter sets. Recommended for most users.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>set</strong> (<a class="reference internal" href="binfhe_enums.html#openfhe.BINFHE_PARAMSET" title="openfhe.BINFHE_PARAMSET"><em>BINFHE_PARAMSET</em></a>) – The parameter set: TOY, MEDIUM, STD128, STD192, STD256.</p></li>
+<li><p><strong>method</strong> (<a class="reference internal" href="binfhe_enums.html#openfhe.BINFHE_METHOD" title="openfhe.BINFHE_METHOD"><em>BINFHE_METHOD</em></a>) – The bootstrapping method (DM or CGGI).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created crypto context.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext">BinFHEContext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.KeyGen">
+<span class="sig-name descname"><span class="pre">KeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.KeyGen" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a secret key for the main LWE scheme.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The secret key.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey">LWEPrivateKey</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="lweciphertext">
+<h1>LWECiphertext<a class="headerlink" href="#lweciphertext" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.LWECiphertext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">LWECiphertext</span></span><a class="headerlink" href="#openfhe.LWECiphertext" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.LWECiphertext.GetLength">
+<span class="sig-name descname"><span class="pre">GetLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><span class="pre">openfhe.LWECiphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.LWECiphertext.GetLength" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="lweprivatekey">
+<h1>LWEPrivateKey<a class="headerlink" href="#lweprivatekey" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.LWEPrivateKey">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">LWEPrivateKey</span></span><a class="headerlink" href="#openfhe.LWEPrivateKey" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.LWEPrivateKey.GetLength">
+<span class="sig-name descname"><span class="pre">GetLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><span class="pre">openfhe.LWEPrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.LWEPrivateKey.GetLength" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pke_enums.html" class="btn btn-neutral float-left" title="PKE enums" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="binfhe_enums.html" class="btn btn-neutral float-right" title="BinFHE enums" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Yuriy Polyakov, Ian Quah, Rener Oliveira, and Matthew Triplett..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

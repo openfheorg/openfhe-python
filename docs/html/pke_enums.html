@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PKE enums &mdash; openfhe-python 0.8.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="BinFHEContext" href="binfhe.html" />
+    <link rel="prev" title="Public Key" href="keys.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            openfhe-python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cryptocontext.html">CryptoContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#private-key">Private Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#keypair">KeyPair</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PKE enums</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#scheme-types">Scheme Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.SCHEME"><code class="docutils literal notranslate"><span class="pre">SCHEME</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SCHEME.BFVRNS_SCHEME"><code class="docutils literal notranslate"><span class="pre">SCHEME.BFVRNS_SCHEME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SCHEME.BGVRNS_SCHEME"><code class="docutils literal notranslate"><span class="pre">SCHEME.BGVRNS_SCHEME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SCHEME.CKKSRNS_SCHEME"><code class="docutils literal notranslate"><span class="pre">SCHEME.CKKSRNS_SCHEME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SCHEME.INVALID_SCHEME"><code class="docutils literal notranslate"><span class="pre">SCHEME.INVALID_SCHEME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SCHEME.name"><code class="docutils literal notranslate"><span class="pre">SCHEME.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SCHEME.value"><code class="docutils literal notranslate"><span class="pre">SCHEME.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pke-scheme-features">PKE Scheme Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.PKESchemeFeature"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.ADVANCEDSHE"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.ADVANCEDSHE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.FHE"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.FHE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.KEYSWITCH"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.KEYSWITCH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.LEVELEDSHE"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.LEVELEDSHE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.MULTIPARTY"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.MULTIPARTY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.PKE"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.PKE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.PRE"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.PRE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.name"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.PKESchemeFeature.value"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scaling-techniques">Scaling Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.ScalingTechnique"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ScalingTechnique.FIXEDAUTO"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique.FIXEDAUTO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ScalingTechnique.FIXEDMANUAL"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique.FIXEDMANUAL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ScalingTechnique.FLEXIBLEAUTO"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique.FLEXIBLEAUTO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ScalingTechnique.FLEXIBLEAUTOEXT"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique.FLEXIBLEAUTOEXT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ScalingTechnique.INVALID_RS_TECHNIQUE"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique.INVALID_RS_TECHNIQUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ScalingTechnique.NORESCALE"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique.NORESCALE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ScalingTechnique.name"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ScalingTechnique.value"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#key-switching-techniques">Key Switching Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.KeySwitchTechnique"><code class="docutils literal notranslate"><span class="pre">KeySwitchTechnique</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.KeySwitchTechnique.BV"><code class="docutils literal notranslate"><span class="pre">KeySwitchTechnique.BV</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.KeySwitchTechnique.HYBRID"><code class="docutils literal notranslate"><span class="pre">KeySwitchTechnique.HYBRID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.KeySwitchTechnique.INVALID_KS_TECH"><code class="docutils literal notranslate"><span class="pre">KeySwitchTechnique.INVALID_KS_TECH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.KeySwitchTechnique.name"><code class="docutils literal notranslate"><span class="pre">KeySwitchTechnique.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.KeySwitchTechnique.value"><code class="docutils literal notranslate"><span class="pre">KeySwitchTechnique.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#secret-key-dist">Secret Key Dist</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.SecretKeyDist"><code class="docutils literal notranslate"><span class="pre">SecretKeyDist</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecretKeyDist.GAUSSIAN"><code class="docutils literal notranslate"><span class="pre">SecretKeyDist.GAUSSIAN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecretKeyDist.SPARSE_TERNARY"><code class="docutils literal notranslate"><span class="pre">SecretKeyDist.SPARSE_TERNARY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecretKeyDist.UNIFORM_TERNARY"><code class="docutils literal notranslate"><span class="pre">SecretKeyDist.UNIFORM_TERNARY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecretKeyDist.name"><code class="docutils literal notranslate"><span class="pre">SecretKeyDist.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecretKeyDist.value"><code class="docutils literal notranslate"><span class="pre">SecretKeyDist.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#proxy-reencryption-mode">Proxy Reencryption Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.ProxyReEncryptionMode"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ProxyReEncryptionMode.DIVIDE_AND_ROUND_HRA"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode.DIVIDE_AND_ROUND_HRA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ProxyReEncryptionMode.FIXED_NOISE_HRA"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode.FIXED_NOISE_HRA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ProxyReEncryptionMode.INDCPA"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode.INDCPA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ProxyReEncryptionMode.NOISE_FLOODING_HRA"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode.NOISE_FLOODING_HRA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ProxyReEncryptionMode.NOT_SET"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode.NOT_SET</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ProxyReEncryptionMode.name"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ProxyReEncryptionMode.value"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multiparty-mode">Multiparty Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.MultipartyMode"><code class="docutils literal notranslate"><span class="pre">MultipartyMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultipartyMode.FIXED_NOISE_MULTIPARTY"><code class="docutils literal notranslate"><span class="pre">MultipartyMode.FIXED_NOISE_MULTIPARTY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultipartyMode.INVALID_MULTIPARTY_MODE"><code class="docutils literal notranslate"><span class="pre">MultipartyMode.INVALID_MULTIPARTY_MODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultipartyMode.NOISE_FLOODING_MULTIPARTY"><code class="docutils literal notranslate"><span class="pre">MultipartyMode.NOISE_FLOODING_MULTIPARTY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultipartyMode.name"><code class="docutils literal notranslate"><span class="pre">MultipartyMode.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultipartyMode.value"><code class="docutils literal notranslate"><span class="pre">MultipartyMode.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#execution-mode">Execution Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.ExecutionMode"><code class="docutils literal notranslate"><span class="pre">ExecutionMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ExecutionMode.EXEC_EVALUATION"><code class="docutils literal notranslate"><span class="pre">ExecutionMode.EXEC_EVALUATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ExecutionMode.EXEC_NOISE_ESTIMATION"><code class="docutils literal notranslate"><span class="pre">ExecutionMode.EXEC_NOISE_ESTIMATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ExecutionMode.name"><code class="docutils literal notranslate"><span class="pre">ExecutionMode.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.ExecutionMode.value"><code class="docutils literal notranslate"><span class="pre">ExecutionMode.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#decryption-noise-mode">Decryption Noise Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.DecryptionNoiseMode"><code class="docutils literal notranslate"><span class="pre">DecryptionNoiseMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.DecryptionNoiseMode.FIXED_NOISE_DECRYPT"><code class="docutils literal notranslate"><span class="pre">DecryptionNoiseMode.FIXED_NOISE_DECRYPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.DecryptionNoiseMode.NOISE_FLOODING_DECRYPT"><code class="docutils literal notranslate"><span class="pre">DecryptionNoiseMode.NOISE_FLOODING_DECRYPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.DecryptionNoiseMode.name"><code class="docutils literal notranslate"><span class="pre">DecryptionNoiseMode.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.DecryptionNoiseMode.value"><code class="docutils literal notranslate"><span class="pre">DecryptionNoiseMode.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#encryption-technique">Encryption Technique</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.EncryptionTechnique"><code class="docutils literal notranslate"><span class="pre">EncryptionTechnique</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.EncryptionTechnique.EXTENDED"><code class="docutils literal notranslate"><span class="pre">EncryptionTechnique.EXTENDED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.EncryptionTechnique.STANDARD"><code class="docutils literal notranslate"><span class="pre">EncryptionTechnique.STANDARD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.EncryptionTechnique.name"><code class="docutils literal notranslate"><span class="pre">EncryptionTechnique.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.EncryptionTechnique.value"><code class="docutils literal notranslate"><span class="pre">EncryptionTechnique.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multiplication-technique">Multiplication Technique</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.MultiplicationTechnique"><code class="docutils literal notranslate"><span class="pre">MultiplicationTechnique</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultiplicationTechnique.BEHZ"><code class="docutils literal notranslate"><span class="pre">MultiplicationTechnique.BEHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultiplicationTechnique.HPS"><code class="docutils literal notranslate"><span class="pre">MultiplicationTechnique.HPS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultiplicationTechnique.HPSPOVERQ"><code class="docutils literal notranslate"><span class="pre">MultiplicationTechnique.HPSPOVERQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultiplicationTechnique.HPSPOVERQLEVELED"><code class="docutils literal notranslate"><span class="pre">MultiplicationTechnique.HPSPOVERQLEVELED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultiplicationTechnique.name"><code class="docutils literal notranslate"><span class="pre">MultiplicationTechnique.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.MultiplicationTechnique.value"><code class="docutils literal notranslate"><span class="pre">MultiplicationTechnique.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#security-level">Security Level</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.SecurityLevel"><code class="docutils literal notranslate"><span class="pre">SecurityLevel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecurityLevel.HEStd_128_classic"><code class="docutils literal notranslate"><span class="pre">SecurityLevel.HEStd_128_classic</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecurityLevel.HEStd_192_classic"><code class="docutils literal notranslate"><span class="pre">SecurityLevel.HEStd_192_classic</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecurityLevel.HEStd_256_classic"><code class="docutils literal notranslate"><span class="pre">SecurityLevel.HEStd_256_classic</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecurityLevel.HEStd_NotSet"><code class="docutils literal notranslate"><span class="pre">SecurityLevel.HEStd_NotSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecurityLevel.name"><code class="docutils literal notranslate"><span class="pre">SecurityLevel.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.SecurityLevel.value"><code class="docutils literal notranslate"><span class="pre">SecurityLevel.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html">BinFHEContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweciphertext">LWECiphertext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweprivatekey">LWEPrivateKey</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe_enums.html">BinFHE enums</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">openfhe-python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PKE enums</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pke_enums.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pke-enums">
+<h1>PKE enums<a class="headerlink" href="#pke-enums" title="Permalink to this heading"></a></h1>
+<section id="scheme-types">
+<h2>Scheme Types<a class="headerlink" href="#scheme-types" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.SCHEME">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">SCHEME</span></span><a class="headerlink" href="#openfhe.SCHEME" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>INVALID_SCHEME</p>
+<p>CKKSRNS_SCHEME</p>
+<p>BFVRNS_SCHEME</p>
+<p>BGVRNS_SCHEME</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SCHEME.BFVRNS_SCHEME">
+<span class="sig-name descname"><span class="pre">BFVRNS_SCHEME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SCHEME.BFVRNS_SCHEME:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.SCHEME.BFVRNS_SCHEME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SCHEME.BGVRNS_SCHEME">
+<span class="sig-name descname"><span class="pre">BGVRNS_SCHEME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SCHEME.BGVRNS_SCHEME:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#openfhe.SCHEME.BGVRNS_SCHEME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SCHEME.CKKSRNS_SCHEME">
+<span class="sig-name descname"><span class="pre">CKKSRNS_SCHEME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SCHEME.CKKSRNS_SCHEME:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.SCHEME.CKKSRNS_SCHEME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SCHEME.INVALID_SCHEME">
+<span class="sig-name descname"><span class="pre">INVALID_SCHEME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SCHEME.INVALID_SCHEME:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.SCHEME.INVALID_SCHEME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.SCHEME.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.SCHEME.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.SCHEME.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.SCHEME.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="pke-scheme-features">
+<h2>PKE Scheme Features<a class="headerlink" href="#pke-scheme-features" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">PKESchemeFeature</span></span><a class="headerlink" href="#openfhe.PKESchemeFeature" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>PKE</p>
+<p>KEYSWITCH</p>
+<p>PRE</p>
+<p>LEVELEDSHE</p>
+<p>ADVANCEDSHE</p>
+<p>MULTIPARTY</p>
+<p>FHE</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.ADVANCEDSHE">
+<span class="sig-name descname"><span class="pre">ADVANCEDSHE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;PKESchemeFeature.ADVANCEDSHE:</span> <span class="pre">16&gt;</span></em><a class="headerlink" href="#openfhe.PKESchemeFeature.ADVANCEDSHE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.FHE">
+<span class="sig-name descname"><span class="pre">FHE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;PKESchemeFeature.FHE:</span> <span class="pre">64&gt;</span></em><a class="headerlink" href="#openfhe.PKESchemeFeature.FHE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.KEYSWITCH">
+<span class="sig-name descname"><span class="pre">KEYSWITCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;PKESchemeFeature.KEYSWITCH:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.PKESchemeFeature.KEYSWITCH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.LEVELEDSHE">
+<span class="sig-name descname"><span class="pre">LEVELEDSHE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;PKESchemeFeature.LEVELEDSHE:</span> <span class="pre">8&gt;</span></em><a class="headerlink" href="#openfhe.PKESchemeFeature.LEVELEDSHE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.MULTIPARTY">
+<span class="sig-name descname"><span class="pre">MULTIPARTY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;PKESchemeFeature.MULTIPARTY:</span> <span class="pre">32&gt;</span></em><a class="headerlink" href="#openfhe.PKESchemeFeature.MULTIPARTY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.PKE">
+<span class="sig-name descname"><span class="pre">PKE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;PKESchemeFeature.PKE:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.PKESchemeFeature.PKE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.PRE">
+<span class="sig-name descname"><span class="pre">PRE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;PKESchemeFeature.PRE:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#openfhe.PKESchemeFeature.PRE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.PKESchemeFeature.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.PKESchemeFeature.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.PKESchemeFeature.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="scaling-techniques">
+<h2>Scaling Techniques<a class="headerlink" href="#scaling-techniques" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">ScalingTechnique</span></span><a class="headerlink" href="#openfhe.ScalingTechnique" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>FIXEDMANUAL</p>
+<p>FIXEDAUTO</p>
+<p>FLEXIBLEAUTO</p>
+<p>FLEXIBLEAUTOEXT</p>
+<p>NORESCALE</p>
+<p>INVALID_RS_TECHNIQUE</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique.FIXEDAUTO">
+<span class="sig-name descname"><span class="pre">FIXEDAUTO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ScalingTechnique.FIXEDAUTO:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.ScalingTechnique.FIXEDAUTO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique.FIXEDMANUAL">
+<span class="sig-name descname"><span class="pre">FIXEDMANUAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ScalingTechnique.FIXEDMANUAL:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.ScalingTechnique.FIXEDMANUAL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique.FLEXIBLEAUTO">
+<span class="sig-name descname"><span class="pre">FLEXIBLEAUTO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ScalingTechnique.FLEXIBLEAUTO:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.ScalingTechnique.FLEXIBLEAUTO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique.FLEXIBLEAUTOEXT">
+<span class="sig-name descname"><span class="pre">FLEXIBLEAUTOEXT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ScalingTechnique.FLEXIBLEAUTOEXT:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#openfhe.ScalingTechnique.FLEXIBLEAUTOEXT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique.INVALID_RS_TECHNIQUE">
+<span class="sig-name descname"><span class="pre">INVALID_RS_TECHNIQUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ScalingTechnique.INVALID_RS_TECHNIQUE:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#openfhe.ScalingTechnique.INVALID_RS_TECHNIQUE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique.NORESCALE">
+<span class="sig-name descname"><span class="pre">NORESCALE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ScalingTechnique.NORESCALE:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#openfhe.ScalingTechnique.NORESCALE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.ScalingTechnique.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.ScalingTechnique.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.ScalingTechnique.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="key-switching-techniques">
+<h2>Key Switching Techniques<a class="headerlink" href="#key-switching-techniques" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.KeySwitchTechnique">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">KeySwitchTechnique</span></span><a class="headerlink" href="#openfhe.KeySwitchTechnique" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>INVALID_KS_TECH</p>
+<p>BV</p>
+<p>HYBRID</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.KeySwitchTechnique.BV">
+<span class="sig-name descname"><span class="pre">BV</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;KeySwitchTechnique.BV:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.KeySwitchTechnique.BV" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.KeySwitchTechnique.HYBRID">
+<span class="sig-name descname"><span class="pre">HYBRID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;KeySwitchTechnique.HYBRID:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.KeySwitchTechnique.HYBRID" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.KeySwitchTechnique.INVALID_KS_TECH">
+<span class="sig-name descname"><span class="pre">INVALID_KS_TECH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;KeySwitchTechnique.INVALID_KS_TECH:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.KeySwitchTechnique.INVALID_KS_TECH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.KeySwitchTechnique.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.KeySwitchTechnique.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.KeySwitchTechnique.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.KeySwitchTechnique.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="secret-key-dist">
+<h2>Secret Key Dist<a class="headerlink" href="#secret-key-dist" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.SecretKeyDist">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">SecretKeyDist</span></span><a class="headerlink" href="#openfhe.SecretKeyDist" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>GAUSSIAN</p>
+<p>UNIFORM_TERNARY</p>
+<p>SPARSE_TERNARY</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SecretKeyDist.GAUSSIAN">
+<span class="sig-name descname"><span class="pre">GAUSSIAN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SecretKeyDist.GAUSSIAN:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.SecretKeyDist.GAUSSIAN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SecretKeyDist.SPARSE_TERNARY">
+<span class="sig-name descname"><span class="pre">SPARSE_TERNARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SecretKeyDist.SPARSE_TERNARY:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.SecretKeyDist.SPARSE_TERNARY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SecretKeyDist.UNIFORM_TERNARY">
+<span class="sig-name descname"><span class="pre">UNIFORM_TERNARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SecretKeyDist.UNIFORM_TERNARY:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.SecretKeyDist.UNIFORM_TERNARY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.SecretKeyDist.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.SecretKeyDist.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.SecretKeyDist.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.SecretKeyDist.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="proxy-reencryption-mode">
+<h2>Proxy Reencryption Mode<a class="headerlink" href="#proxy-reencryption-mode" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.ProxyReEncryptionMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">ProxyReEncryptionMode</span></span><a class="headerlink" href="#openfhe.ProxyReEncryptionMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>NOT_SET</p>
+<p>INDCPA</p>
+<p>FIXED_NOISE_HRA</p>
+<p>NOISE_FLOODING_HRA</p>
+<p>DIVIDE_AND_ROUND_HRA</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ProxyReEncryptionMode.DIVIDE_AND_ROUND_HRA">
+<span class="sig-name descname"><span class="pre">DIVIDE_AND_ROUND_HRA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ProxyReEncryptionMode.DIVIDE_AND_ROUND_HRA:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#openfhe.ProxyReEncryptionMode.DIVIDE_AND_ROUND_HRA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ProxyReEncryptionMode.FIXED_NOISE_HRA">
+<span class="sig-name descname"><span class="pre">FIXED_NOISE_HRA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ProxyReEncryptionMode.FIXED_NOISE_HRA:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.ProxyReEncryptionMode.FIXED_NOISE_HRA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ProxyReEncryptionMode.INDCPA">
+<span class="sig-name descname"><span class="pre">INDCPA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ProxyReEncryptionMode.INDCPA:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.ProxyReEncryptionMode.INDCPA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ProxyReEncryptionMode.NOISE_FLOODING_HRA">
+<span class="sig-name descname"><span class="pre">NOISE_FLOODING_HRA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ProxyReEncryptionMode.NOISE_FLOODING_HRA:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#openfhe.ProxyReEncryptionMode.NOISE_FLOODING_HRA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ProxyReEncryptionMode.NOT_SET">
+<span class="sig-name descname"><span class="pre">NOT_SET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ProxyReEncryptionMode.NOT_SET:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.ProxyReEncryptionMode.NOT_SET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.ProxyReEncryptionMode.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.ProxyReEncryptionMode.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.ProxyReEncryptionMode.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.ProxyReEncryptionMode.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="multiparty-mode">
+<h2>Multiparty Mode<a class="headerlink" href="#multiparty-mode" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.MultipartyMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">MultipartyMode</span></span><a class="headerlink" href="#openfhe.MultipartyMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>INVALID_MULTIPARTY_MODE</p>
+<p>FIXED_NOISE_MULTIPARTY</p>
+<p>NOISE_FLOODING_MULTIPARTY</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.MultipartyMode.FIXED_NOISE_MULTIPARTY">
+<span class="sig-name descname"><span class="pre">FIXED_NOISE_MULTIPARTY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;MultipartyMode.FIXED_NOISE_MULTIPARTY:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.MultipartyMode.FIXED_NOISE_MULTIPARTY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.MultipartyMode.INVALID_MULTIPARTY_MODE">
+<span class="sig-name descname"><span class="pre">INVALID_MULTIPARTY_MODE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;MultipartyMode.INVALID_MULTIPARTY_MODE:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.MultipartyMode.INVALID_MULTIPARTY_MODE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.MultipartyMode.NOISE_FLOODING_MULTIPARTY">
+<span class="sig-name descname"><span class="pre">NOISE_FLOODING_MULTIPARTY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;MultipartyMode.NOISE_FLOODING_MULTIPARTY:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.MultipartyMode.NOISE_FLOODING_MULTIPARTY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.MultipartyMode.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.MultipartyMode.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.MultipartyMode.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.MultipartyMode.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="execution-mode">
+<h2>Execution Mode<a class="headerlink" href="#execution-mode" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.ExecutionMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">ExecutionMode</span></span><a class="headerlink" href="#openfhe.ExecutionMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>EXEC_EVALUATION</p>
+<p>EXEC_NOISE_ESTIMATION</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ExecutionMode.EXEC_EVALUATION">
+<span class="sig-name descname"><span class="pre">EXEC_EVALUATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ExecutionMode.EXEC_EVALUATION:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.ExecutionMode.EXEC_EVALUATION" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.ExecutionMode.EXEC_NOISE_ESTIMATION">
+<span class="sig-name descname"><span class="pre">EXEC_NOISE_ESTIMATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ExecutionMode.EXEC_NOISE_ESTIMATION:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.ExecutionMode.EXEC_NOISE_ESTIMATION" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.ExecutionMode.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.ExecutionMode.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.ExecutionMode.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.ExecutionMode.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="decryption-noise-mode">
+<h2>Decryption Noise Mode<a class="headerlink" href="#decryption-noise-mode" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.DecryptionNoiseMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">DecryptionNoiseMode</span></span><a class="headerlink" href="#openfhe.DecryptionNoiseMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>FIXED_NOISE_DECRYPT</p>
+<p>NOISE_FLOODING_DECRYPT</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.DecryptionNoiseMode.FIXED_NOISE_DECRYPT">
+<span class="sig-name descname"><span class="pre">FIXED_NOISE_DECRYPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;DecryptionNoiseMode.FIXED_NOISE_DECRYPT:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.DecryptionNoiseMode.FIXED_NOISE_DECRYPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.DecryptionNoiseMode.NOISE_FLOODING_DECRYPT">
+<span class="sig-name descname"><span class="pre">NOISE_FLOODING_DECRYPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;DecryptionNoiseMode.NOISE_FLOODING_DECRYPT:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.DecryptionNoiseMode.NOISE_FLOODING_DECRYPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.DecryptionNoiseMode.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.DecryptionNoiseMode.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.DecryptionNoiseMode.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.DecryptionNoiseMode.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="encryption-technique">
+<h2>Encryption Technique<a class="headerlink" href="#encryption-technique" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.EncryptionTechnique">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">EncryptionTechnique</span></span><a class="headerlink" href="#openfhe.EncryptionTechnique" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>STANDARD</p>
+<p>EXTENDED</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.EncryptionTechnique.EXTENDED">
+<span class="sig-name descname"><span class="pre">EXTENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;EncryptionTechnique.EXTENDED:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.EncryptionTechnique.EXTENDED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.EncryptionTechnique.STANDARD">
+<span class="sig-name descname"><span class="pre">STANDARD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;EncryptionTechnique.STANDARD:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.EncryptionTechnique.STANDARD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.EncryptionTechnique.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.EncryptionTechnique.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.EncryptionTechnique.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.EncryptionTechnique.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="multiplication-technique">
+<h2>Multiplication Technique<a class="headerlink" href="#multiplication-technique" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.MultiplicationTechnique">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">MultiplicationTechnique</span></span><a class="headerlink" href="#openfhe.MultiplicationTechnique" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>BEHZ</p>
+<p>HPS</p>
+<p>HPSPOVERQ</p>
+<p>HPSPOVERQLEVELED</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.MultiplicationTechnique.BEHZ">
+<span class="sig-name descname"><span class="pre">BEHZ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;MultiplicationTechnique.BEHZ:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.MultiplicationTechnique.BEHZ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.MultiplicationTechnique.HPS">
+<span class="sig-name descname"><span class="pre">HPS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;MultiplicationTechnique.HPS:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.MultiplicationTechnique.HPS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.MultiplicationTechnique.HPSPOVERQ">
+<span class="sig-name descname"><span class="pre">HPSPOVERQ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;MultiplicationTechnique.HPSPOVERQ:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.MultiplicationTechnique.HPSPOVERQ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.MultiplicationTechnique.HPSPOVERQLEVELED">
+<span class="sig-name descname"><span class="pre">HPSPOVERQLEVELED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;MultiplicationTechnique.HPSPOVERQLEVELED:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#openfhe.MultiplicationTechnique.HPSPOVERQLEVELED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.MultiplicationTechnique.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.MultiplicationTechnique.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.MultiplicationTechnique.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.MultiplicationTechnique.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="security-level">
+<h2>Security Level<a class="headerlink" href="#security-level" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.SecurityLevel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">SecurityLevel</span></span><a class="headerlink" href="#openfhe.SecurityLevel" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>HEStd_128_classic</p>
+<p>HEStd_192_classic</p>
+<p>HEStd_256_classic</p>
+<p>HEStd_NotSet</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SecurityLevel.HEStd_128_classic">
+<span class="sig-name descname"><span class="pre">HEStd_128_classic</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SecurityLevel.HEStd_128_classic:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.SecurityLevel.HEStd_128_classic" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SecurityLevel.HEStd_192_classic">
+<span class="sig-name descname"><span class="pre">HEStd_192_classic</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SecurityLevel.HEStd_192_classic:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.SecurityLevel.HEStd_192_classic" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SecurityLevel.HEStd_256_classic">
+<span class="sig-name descname"><span class="pre">HEStd_256_classic</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SecurityLevel.HEStd_256_classic:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.SecurityLevel.HEStd_256_classic" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.SecurityLevel.HEStd_NotSet">
+<span class="sig-name descname"><span class="pre">HEStd_NotSet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;SecurityLevel.HEStd_NotSet:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#openfhe.SecurityLevel.HEStd_NotSet" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.SecurityLevel.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.SecurityLevel.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.SecurityLevel.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.SecurityLevel.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p>“””</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="keys.html" class="btn btn-neutral float-left" title="Public Key" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="binfhe.html" class="btn btn-neutral float-right" title="BinFHEContext" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Yuriy Polyakov, Ian Quah, Rener Oliveira, and Matthew Triplett..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

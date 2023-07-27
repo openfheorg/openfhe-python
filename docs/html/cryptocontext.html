@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CryptoContext &mdash; openfhe-python 0.8.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Ciphertext" href="ciphertext.html" />
+    <link rel="prev" title="Welcome to OpenFHE - Python’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            openfhe-python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CryptoContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#private-key">Private Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#keypair">KeyPair</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pke_enums.html">PKE enums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html">BinFHEContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweciphertext">LWECiphertext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweprivatekey">LWEPrivateKey</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe_enums.html">BinFHE enums</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">openfhe-python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CryptoContext</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryptocontext.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptocontext">
+<h1>CryptoContext<a class="headerlink" href="#cryptocontext" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">CryptoContext</span></span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ClearEvalAutomorphismKeys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>ClearEvalAutomorphismKeys - flush EvalAutomorphismKey cache</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ClearEvalMultKeys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>ClearEvalMultKeys - flush EvalMultKey cache</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>Decrypt(self: openfhe.CryptoContext, privateKey: openfhe.PrivateKey, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Plaintext</p></li>
+</ol>
+<p>Decrypt a single ciphertext into the appropriate plaintext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – ciphertext to decrypt</p></li>
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – decryption key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>decrypted plaintext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext">Plaintext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>Decrypt(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, privateKey: openfhe.PrivateKey) -&gt; openfhe.Plaintext</p></li>
+</ol>
+<p>Decrypt a single ciphertext into the appropriate plaintext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – ciphertext to decrypt</p></li>
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – decryption key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>decrypted plaintext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext">Plaintext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DeserializeEvalAutomorphismKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sertype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.SERBINARY</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dd><p>DeserializeEvalAutomorphismKey deserialize all keys in the serialization deserialized keys silently replace any existing matching keys deserialization will create CryptoContext if necessary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – path for the file to deserialize from</p></li>
+<li><p><strong>sertype</strong> (<em>SERJSON</em><em>, </em><em>SERBINARY</em>) – type of serialization</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool: true on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DeserializeEvalMultKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sertype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.SERBINARY</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dd><p>DeserializeEvalMultKey deserialize all keys in the serialization deserialized keys silently replace any existing matching keys deserialization will create CryptoContext if necessary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – path for the file to deserialize from</p></li>
+<li><p><strong>sertype</strong> (<em>SERJSON</em><em>, </em><em>SERBINARY</em>) – type of serialization</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool: true on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Enable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pke_enums.html#openfhe.PKESchemeFeature" title="openfhe.PKESchemeFeature"><span class="pre">openfhe.PKESchemeFeature</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Enable a particular feature for use with this CryptoContext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>feature</strong> (<a class="reference internal" href="pke_enums.html#openfhe.PKESchemeFeature" title="openfhe.PKESchemeFeature"><em>PKESchemeFeature</em></a>) – the feature that should be enabled.
+The list of available features is defined in the PKESchemeFeature enum.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plaintext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><span class="pre">openfhe.Plaintext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Encrypt a plaintext using a given public key</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plaintext</strong> (<a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><em>Plaintext</em></a>) – the plaintext to encrypt</p></li>
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – the public key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ciphertext (or null on failure)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAdd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>EvalAdd(self: openfhe.CryptoContext, ciphertext1: openfhe.Ciphertext, ciphertext2: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>Add two ciphertexts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – first ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – second ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>resulting ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>EvalAdd(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, scalar: float) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalAdd - OpenFHE EvalAdd method for a ciphertext and constant</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – ciphertext</p></li>
+<li><p><strong>constant</strong> (<em>float</em>) – constant to add</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ciphertext + constant</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAddInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>EvalAddInPlace(self: openfhe.CryptoContext, ciphertext1: openfhe.Ciphertext, ciphertext2: openfhe.Ciphertext) -&gt; None</p></li>
+</ol>
+<p>EvalAdd - OpenFHE EvalAddInPlace method for a pair of ciphertexts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input/output ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct1 contains ct1 + ct2</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>EvalAddInPlace(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, plaintext: openfhe.Plaintext) -&gt; None</p></li>
+</ol>
+<p>EvalAdd - OpenFHE EvalAddInPlace method for a ciphertext and plaintext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input/output ciphertext</p></li>
+<li><p><strong>pt</strong> (<a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><em>Plaintext</em></a>) – Input plaintext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct contains ct + pt</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>EvalAddInPlace(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; None</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAddMutable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>EvalAddMutable(self: openfhe.CryptoContext, ct1: openfhe.Ciphertext, ct2: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalAdd - OpenFHE EvalAddMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – first ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – second ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ct1 + ct2</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>EvalAddMutable(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, plaintext: openfhe.Plaintext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalAdd - OpenFHE EvalAddMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – ciphertext</p></li>
+<li><p><strong>plaintext</strong> (<a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><em>Plaintext</em></a>) – plaintext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ciphertext + plaintext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>EvalAddMutable(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAddMutableInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalAdd - Inplace version of EvalAddMutable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input/output ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct1 contains ct1 + ct2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAtIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Moves i-th slot to slot 0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the ciphertext</p></li>
+<li><p><strong>i</strong> (<em>int</em>) – the index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>resulting ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAtIndexKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexList</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalAtIndexKeyGen generates evaluation keys for a list of indices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – the private key</p></li>
+<li><p><strong>indexList</strong> (<em>list</em>) – list of indices</p></li>
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – the public key (used in NTRU schemes)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAutomorphismKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic">
+<li><p>EvalAutomorphismKeyGen(self: openfhe.CryptoContext, privateKey: openfhe.PrivateKey, indexList: List[int]) -&gt; openfhe.EvalKeyMap</p>
+<blockquote>
+<div><p>Generate automophism keys for a given private key; Uses the private key for encryption</p>
+<dl class="field-list simple">
+<dt class="field-odd">param privateKey<span class="colon">:</span></dt>
+<dd class="field-odd"><p>private key.</p>
+</dd>
+<dt class="field-even">type privateKey<span class="colon">:</span></dt>
+<dd class="field-even"><p>PrivateKey</p>
+</dd>
+<dt class="field-odd">param indexList<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of automorphism indices to be computed.</p>
+</dd>
+<dt class="field-even">type indexList<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict: returns the evaluation key</p>
+</dd>
+</dl>
+</div></blockquote>
+</li>
+<li><p>EvalAutomorphismKeyGen(self: openfhe.CryptoContext, publicKey: openfhe.PublicKey, privateKey: openfhe.PrivateKey, indexList: List[int]) -&gt; openfhe.EvalKeyMap</p>
+<blockquote>
+<div><p>Generate automophism keys for a given private key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">param publicKey<span class="colon">:</span></dt>
+<dd class="field-odd"><p>original public key.</p>
+</dd>
+<dt class="field-even">type publicKey<span class="colon">:</span></dt>
+<dd class="field-even"><p>PublicKey</p>
+</dd>
+<dt class="field-odd">param privateKey<span class="colon">:</span></dt>
+<dd class="field-odd"><p>original private key.</p>
+</dd>
+<dt class="field-even">type privateKey<span class="colon">:</span></dt>
+<dd class="field-even"><p>PrivateKey</p>
+</dd>
+<dt class="field-odd">param indexList<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of automorphism indices to be computed.</p>
+</dd>
+<dt class="field-even">type indexList<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict: returns the evaluation keys; index 0 of the vector corresponds to plaintext index 2, index 1 to plaintex index 3, etc.</p>
+</dd>
+</dl>
+</div></blockquote>
+</li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalBootstrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numIterations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Defines the bootstrapping evaluation of ciphertext using either the FFT-like method or the linear method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the input ciphertext</p></li>
+<li><p><strong>numIterations</strong> (<em>int</em>) – number of iterations to run iterative bootstrapping (Meta-BTS). Increasing the iterations increases the precision of bootstrapping</p></li>
+<li><p><strong>precision</strong> (<em>int</em>) – precision of initial bootstrapping algorithm. This value is determined by the user experimentally by first running EvalBootstrap with numIterations = 1 and precision = 0 (unused).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext: the refreshed ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalBootstrapKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">slots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Generates all automorphism keys for EvalBT. EvalBootstrapKeyGen uses the baby-step/giant-step strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – private key.</p></li>
+<li><p><strong>slots</strong> (<em>int</em>) – number of slots to support permutations on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalBootstrapSetup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levelBudget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[5,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correctionFactor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Bootstrap functionality: There are three methods that have to be called in this specific order:</p>
+<ol class="arabic simple">
+<li><p>EvalBootstrapSetup: computes and encodes the coefficients for encoding and decoding and stores the necessary parameters</p></li>
+<li><p>EvalBootstrapKeyGen: computes and stores the keys for rotations and conjugation</p></li>
+<li><p>EvalBootstrap: refreshes the given ciphertext Sets all parameters for the linear method for the FFT-like method</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>levelBudget</strong> (<em>list</em>) – vector of budgets for the amount of levels in encoding and decoding</p></li>
+<li><p><strong>dim1</strong> (<em>list</em>) – vector of inner dimension in the baby-step giant-step routine for encoding and decodingl</p></li>
+<li><p><strong>slots</strong> (<em>int</em>) – number of slots to be bootstraped</p></li>
+<li><p><strong>correctionFactor</strong> (<em>int</em>) – alue to rescale message by to improve precision. If set to 0, we use the default logic. This value is only used when get_native_int()=64</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalChebyshevFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Method for calculating Chebyshev evaluation on a ciphertext for a smooth input function over the range [a,b].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<em>function</em>) – the function to be approximated</p></li>
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – lower bound of argument for which the coefficients were found</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – upper bound of argument for which the coefficients were found</p></li>
+<li><p><strong>degree</strong> (<em>int</em>) – Desired degree of approximation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the coefficients of the Chebyshev approximation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalChebyshevSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Method for evaluating Chebyshev polynomial interpolation; first the range [a,b] is mapped to [-1,1] using linear transformation 1 + 2 (x-a)/(b-a) If the degree of the polynomial is less than 5, use EvalChebyshevSeriesLinear, otherwise, use EvalChebyshevSeriesPS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>coefficients</strong> (<em>list</em>) – list of coefficients in Chebyshev expansion</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – lower bound of argument for which the coefficients were found</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – upper bound of argument for which the coefficients were found</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result of polynomial evaluation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalChebyshevSeriesLinear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Evaluate Chebyshev polynomial of degree less than 5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>coefficients</strong> (<em>list</em>) – list of coefficients in Chebyshev expansion</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – lower bound of argument for which the coefficients were found</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – upper bound of argument for which the coefficients were found</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result of polynomial evaluation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalChebyshevSeriesPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Evaluate Chebyshev polynomial of degree greater or equal to 5.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>coefficients</strong> (<em>list</em>) – list of coefficients in Chebyshev expansion</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – lower bound of argument for which the coefficients were found</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – upper bound of argument for which the coefficients were found</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result of polynomial evaluation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalCos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Evaluate approximate cosine function on a ciphertext using the Chebyshev approximation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – lower bound of argument for which the coefficients were found</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – upper bound of argument for which the coefficients were found</p></li>
+<li><p><strong>degree</strong> (<em>int</em>) – Desired degree of approximation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result of polynomial evaluation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalDivide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Evaluate approximate division function 1/x where x &gt;= 1 on a ciphertext using the Chebyshev approximation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – lower bound of argument for which the coefficients were found</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – upper bound of argument for which the coefficients were found</p></li>
+<li><p><strong>degree</strong> (<em>int</em>) – Desired degree of approximation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result of polynomial evaluation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalFastRotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>EvalFastRotation implements the automorphism and key switching step of hoisted automorphisms.</p>
+<p>Please refer to Section 5 of Halevi and Shoup, “Faster Homomorphic
+linear transformations in HELib.” for more details, link:
+<a class="reference external" href="https://eprint.iacr.org/2018/244">https://eprint.iacr.org/2018/244</a>.</p>
+<p>Generally, automorphisms are performed with three steps:
+(1) The automorphism is applied to the ciphertext.
+(2) The automorphed values are decomposed into digits.
+(3) Key switching is applied to enable further computations on the ciphertext.</p>
+<p>Hoisted automorphisms are a technique that performs the digit decomposition for the original ciphertext first,
+and then performs the automorphism and the key switching on the decomposed digits.
+The benefit of this is that the digit decomposition is independent of the automorphism rotation index,
+so it can be reused for multiple different indices.
+This can greatly improve performance when we have to compute many automorphisms on the same ciphertext.
+This routinely happens when we do permutations (EvalPermute).</p>
+<p>EvalFastRotation implements the automorphism and key switching step of hoisted automorphisms.</p>
+<p>This method assumes that all required rotation keys exist.
+This may not be true if we are using baby-step/giant-step key switching.
+Please refer to Section 5.1 of the above reference and EvalPermuteBGStepHoisted to see how to deal with this issue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the input ciphertext to perform the automorphism on</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – the index of the rotation. Positive indices correspond to left rotations and negative indices correspond to right rotations.</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – is the cyclotomic order</p></li>
+<li><p><strong>digits</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the precomputed ciphertext created by EvalFastRotationPrecompute using the digit decomposition at the precomputation step</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the rotated ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalFastRotationExt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">addFirst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Only supported for hybrid key switching. Performs fast (hoisted) rotation and returns the results in the extended CRT basis P*Q</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – the rotation index</p></li>
+<li><p><strong>digits</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the precomputed ciphertext created by EvalFastRotationPrecompute</p></li>
+<li><p><strong>addFirst</strong> (<em>bool</em>) – if true, the first element c0 is also computed (otherwise ignored)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>resulting ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalFastRotationPrecompute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>EvalFastRotationPrecompute implements the precomputation step of hoisted automorphisms.</p>
+<p>Please refer to Section 5 of Halevi and Shoup, “Faster Homomorphic
+linear transformations in HELib.” for more details, link:
+<a class="reference external" href="https://eprint.iacr.org/2018/244">https://eprint.iacr.org/2018/244</a>.</p>
+<p>Generally, automorphisms are performed with three steps:
+(1) The automorphism is applied to the ciphertext.
+(2) The automorphed values are decomposed into digits.
+(3) Key switching is applied to enable further computations on the ciphertext.</p>
+<p>Hoisted automorphisms are a technique that performs the digit decomposition for the original ciphertext first,
+and then performs the automorphism and the key switching on the decomposed digits.
+The benefit of this is that the digit decomposition is independent of the automorphism rotation index,
+so it can be reused for multiple different indices.
+This can greatly improve performance when we have to compute many automorphisms on the same ciphertext.
+This routinely happens when we do permutations (EvalPermute).</p>
+<p>EvalFastRotationPrecompute implements the digit decomposition step of hoisted automorphisms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the input ciphertext on which to do the precomputation (digit decomposition)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the precomputed ciphertext created using the digit decomposition</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalInnerProduct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic">
+<li><p>EvalInnerProduct(self: openfhe.CryptoContext, ciphertext1: openfhe.Ciphertext, ciphertext2: openfhe.Ciphertext, batchSize: int) -&gt; openfhe.Ciphertext</p>
+<blockquote>
+<div><p>Evaluates inner product in batched encoding</p>
+<dl class="field-list simple">
+<dt class="field-odd">param ciphertext1<span class="colon">:</span></dt>
+<dd class="field-odd"><p>first vector</p>
+</dd>
+<dt class="field-even">type ciphertext1<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext</p>
+</dd>
+<dt class="field-odd">param ciphertext2<span class="colon">:</span></dt>
+<dd class="field-odd"><p>second vector</p>
+</dd>
+<dt class="field-even">type ciphertext2<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext</p>
+</dd>
+<dt class="field-odd">param batchSize<span class="colon">:</span></dt>
+<dd class="field-odd"><p>size of the batch to be summed up</p>
+</dd>
+<dt class="field-even">type batchSize<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Ciphertext: resulting ciphertext</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext</p>
+</dd>
+</dl>
+</div></blockquote>
+</li>
+<li><p>EvalInnerProduct(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, plaintext: openfhe.Plaintext, batchSize: int) -&gt; openfhe.Ciphertext</p>
+<blockquote>
+<div><p>Evaluates inner product in batched encoding</p>
+<dl class="field-list simple">
+<dt class="field-odd">param ciphertext<span class="colon">:</span></dt>
+<dd class="field-odd"><p>first vector - ciphertext</p>
+</dd>
+<dt class="field-even">type ciphertext<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext</p>
+</dd>
+<dt class="field-odd">param plaintext<span class="colon">:</span></dt>
+<dd class="field-odd"><p>second vector - plaintext</p>
+</dd>
+<dt class="field-even">type plaintext<span class="colon">:</span></dt>
+<dd class="field-even"><p>Plaintext</p>
+</dd>
+<dt class="field-odd">param batchSize<span class="colon">:</span></dt>
+<dd class="field-odd"><p>size of the batch to be summed up</p>
+</dd>
+<dt class="field-even">type batchSize<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Ciphertext: resulting ciphertext</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext</p>
+</dd>
+</dl>
+</div></blockquote>
+</li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalLogistic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Evaluate approximate logistic function 1/(1 + exp(-x)) on a ciphertext using the Chebyshev approximation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – lower bound of argument for which the coefficients were found</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – upper bound of argument for which the coefficients were found</p></li>
+<li><p><strong>degree</strong> (<em>int</em>) – Desired degree of approximation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result of polynomial evaluation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMerge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertextVec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Merges multiple ciphertexts with encrypted results in slot 0 into a single ciphertext The slot assignment is done based on the order of ciphertexts in the vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ciphertextVec</strong> (<em>list</em>) – vector of ciphertexts to be merged.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext: resulting ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>EvalMult(self: openfhe.CryptoContext, ct1: openfhe.Ciphertext, ct2: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalMult - OpenFHE EvalMult method for a pair of ciphertexts - with key switching</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – first ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – second ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ct1 * ct2</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>EvalMult(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, constant: float) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalMult - OpenFHE EvalMult method for a ciphertext and constant</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the ciphertext</p></li>
+<li><p><strong>constant</strong> (<em>float</em>) – constant to multiply</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ciphertext * constant</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>EvalMult(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, plaintext: openfhe.Plaintext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalMult - OpenFHE EvalMult method for a ciphertext and plaintext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the ciphertext</p></li>
+<li><p><strong>plaintext</strong> (<a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><em>Plaintext</em></a>) – the plaintext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ciphertext * plaintext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="4">
+<li><p>EvalMult(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+<li><p>EvalMult(self: openfhe.CryptoContext, constant: float, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMultAndRelinearize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Function for evaluating multiplication on ciphertext followed by relinearization operation. Currently it assumes that the input arguments have total depth smaller than the supported depth. Otherwise, it throws an error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – first input ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – second input ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMultKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalMultKeyGen creates a key that can be used with the OpenFHE EvalMult operator.
+The new evaluation key is stored in cryptocontext.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – the private key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMultKeysGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalMultsKeyGen creates a vector evalmult keys that can be used with the OpenFHE EvalMult operator.
+The 1st key (for s^2) is used for multiplication of ciphertexts of depth 1.
+The 2nd key (for s^3) is used for multiplication of ciphertexts of depth 2, etc.
+A vector of new evaluation keys is stored in cryptocontext.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – the private key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMultMutable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>EvalMultMutable(self: openfhe.CryptoContext, ct1: openfhe.Ciphertext, ct2: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalMult - OpenFHE EvalMultMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – first ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – second ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ct1 * ct2</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>EvalMultMutable(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, plaintext: openfhe.Plaintext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalMult - OpenFHE EvalMultMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the ciphertext</p></li>
+<li><p><strong>plaintext</strong> (<a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><em>Plaintext</em></a>) – the plaintext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ciphertext * plaintext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>EvalMultMutable(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMultMutableInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalMult - OpenFHE EvalMult method for a pair of ciphertexts - with key switching. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input/output ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input cipherext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct1 contains ct1 * ct2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMultNoRelin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>EvalMultNoRelin - OpenFHE EvalMult method for a pair of ciphertexts - no key switching (relinearization)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – first ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – second ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ct1 * ct2</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalNegate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>EvalSub - OpenFHE Negate method for a ciphertext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext -ct</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalNegateInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalSub - Inplace OpenFHE Negate method for a ciphertext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input/output ciphertext</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct contains -ct</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalPoly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Method for polynomial evaluation for polynomials represented as power series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>coefficients</strong> (<em>list</em>) – vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial + 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext: the result of polynomial evaluation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalPolyLinear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Method for polynomial evaluation for polynomials represented in the power series. This uses EvalPolyLinear, which uses a binary tree computation of the polynomial powers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>coefficients</strong> (<em>list</em>) – vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext: the result of polynomial evaluation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalPolyPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>coefficients</strong> (<em>list</em>) – vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext: the result of polynomial evaluation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalRotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>EvalRotate rotates a ciphertext by a given index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the ciphertext to rotate</p></li>
+<li><p><strong>index</strong> (<em>int</em>) – the index of the rotation. Positive indices correspond to left rotations and negative indices correspond to right rotations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the rotated ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalRotateKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexList</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalRotateKeyGen generates evaluation keys for a list of indices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – private key</p></li>
+<li><p><strong>indexList</strong> (<em>list</em>) – list of integers representing the indices</p></li>
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – public key (used in NTRU schemes)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Evaluate approximate sine function on a ciphertext using the Chebyshev approximation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – lower bound of argument for which the coefficients were found</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – upper bound of argument for which the coefficients were found</p></li>
+<li><p><strong>degree</strong> (<em>int</em>) – Desired degree of approximation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the result of polynomial evaluation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSquare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>EvalSquare - OpenFHE EvalSquare method for a ciphertext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the ciphertext to square</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ct^2 = ct * ct</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSquareInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalSquare - OpenFHE EvalSquare method for a ciphertext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input/output ciphertext</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct contains ct^2 = ct * ct</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSquareMutable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>EvalSquare - OpenFHE EvalSquareMutable method for a ciphertext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the ciphertext to square</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ct^2 = ct * ct</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>EvalSub(self: openfhe.CryptoContext, ct1: openfhe.Ciphertext, ct2: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalSub - OpenFHE EvalSub method for a pair of ciphertexts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – first ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – second ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ct1 - ct2</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>EvalSub(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, constant: float) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalSub - OpenFHE EvalSub method for a ciphertext and constant</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – ciphertext</p></li>
+<li><p><strong>constant</strong> (<em>float</em>) – constant to subtract</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ciphertext - constant</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>EvalSub(self: openfhe.CryptoContext, constant: float, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+<li><p>EvalSub(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, plaintext: openfhe.Plaintext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalSub - OpenFHE EvalSub method for a ciphertext and plaintext</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – ciphertext</p></li>
+<li><p><strong>plaintext</strong> (<a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><em>Plaintext</em></a>) – plaintext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ciphertext - plaintext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+<ol class="arabic simple" start="5">
+<li><p>EvalSub(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSubInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>EvalSubInPlace(self: openfhe.CryptoContext, ct1: openfhe.Ciphertext, ct2: openfhe.Ciphertext) -&gt; None</p></li>
+</ol>
+<p>Inplace version of EvalSub for a pair of ciphertexts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input/output ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct1 contains ct1 - ct2</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>EvalSubInPlace(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, constant: float) -&gt; None</p></li>
+</ol>
+<p>Inplace version of EvalSub for a ciphertext and constant</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input/output ciphertext</p></li>
+<li><p><strong>constant</strong> (<em>float</em>) – constant to subtract</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ciphertext contains ciphertext - constant</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>EvalSubInPlace(self: openfhe.CryptoContext, constant: float, ciphertext: openfhe.Ciphertext) -&gt; None</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSubMutable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>EvalSubMutable(self: openfhe.CryptoContext, ct1: openfhe.Ciphertext, ct2: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalSub - OpenFHE EvalSubMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – first ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – second ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ct1 - ct2</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>EvalSubMutable(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, plaintext: openfhe.Plaintext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+<p>EvalSub - OpenFHE EvalSubMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – ciphertext</p></li>
+<li><p><strong>plaintext</strong> (<a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><em>Plaintext</em></a>) – plaintext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new ciphertext for ciphertext - plaintext</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>EvalSubMutable(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSubMutableInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalSub - Inplace variant for EvalSubMutable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ct1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input/output ciphertext</p></li>
+<li><p><strong>ct2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct1 contains ct1 - ct2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSumCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rowSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalSumKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>rowSize</strong> (<em>int</em>) – number of rows</p></li>
+<li><p><strong>evalSumKeyMap</strong> (<em>dict</em>) – evaluation key map, where the keys being integer indexes and values being EvalKey objects</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext: resulting ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSumColsKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
+<dd><p>EvalSumColsKeyGen generates the key map to be used by EvalSumCols</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – private key</p></li>
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – public key (used in NTRU schemes)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict: Evaluation key map, where the keys being integer indexes and values being EvalKey objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSumKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>EvalSumKeyGen generates the key map to be used by evalsum</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – private key</p></li>
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – public key (used in NTRU schemes)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSumRows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rowSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalSumKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subringDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
+<li><p><strong>rowSize</strong> (<em>int</em>) – number of rows</p></li>
+<li><p><strong>evalSumKeyMap</strong> (<em>dict</em>) – evaluation key map, where the keys being integer indexes and values being EvalKey objects</p></li>
+<li><p><strong>subringDim</strong> (<em>int</em>) – dimension of the subring</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext: resulting ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalSumRowsKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rowSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subringDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
+<dd><p>EvalSumRowsKeyGen generates the key map to be used by EvalSumRows</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – private key</p></li>
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – public key (used in NTRU schemes)</p></li>
+<li><p><strong>rowSize</strong> (<em>int</em>) – number of rows</p></li>
+<li><p><strong>subringDim</strong> (<em>int</em>) – dimension of the subring</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict: Evaluation key map, where the keys being integer indexes and values being EvalKey objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">FindAutomorphismIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>Find the automorphism index for a given plaintext index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>idx</strong> (<em>int</em>) – plaintext index</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>int: automorphism index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">FindAutomorphismIndices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idxList</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span></dt>
+<dd><p>Find the automorphism indices for a given list of plaintext indices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>idxList</strong> (<em>list</em>) – list of plaintext indices</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list: list of automorphism indices</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetKeyGenLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>Get the level used for key generation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The level used for key generation</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetRingDimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd><p>Get the ring dimension used for this context</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The ring dimension</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">KeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="keys.html#openfhe.KeyPair" title="openfhe.KeyPair"><span class="pre">openfhe.KeyPair</span></a></span></span></dt>
+<dd><p>Generate a public and private key pair</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a public/secret key pair</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="keys.html#openfhe.KeyPair" title="openfhe.KeyPair">KeyPair</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">MakeCKKSPackedPlaintext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic">
+<li><p>MakeCKKSPackedPlaintext(self: openfhe.CryptoContext, value: List[complex], depth: int = 1, level: int = 0, params: openfhe.ParmType = None, slots: int = 0) -&gt; openfhe.Plaintext</p>
+<blockquote>
+<div><p>COMPLEX ARITHMETIC IS NOT AVAILABLE STARTING WITH OPENFHE 1.10.6, AND THIS METHOD BE DEPRECATED. USE THE REAL-NUMBER METHOD INSTEAD. MakeCKKSPackedPlaintext constructs a CKKSPackedEncoding in this context from a vector of complex numbers</p>
+<dl class="field-list simple">
+<dt class="field-odd">param value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>input vector (of complex numbers)</p>
+</dd>
+<dt class="field-even">type value<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">param depth<span class="colon">:</span></dt>
+<dd class="field-odd"><p>depth used to encode the vector</p>
+</dd>
+<dt class="field-even">type depth<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param level<span class="colon">:</span></dt>
+<dd class="field-odd"><p>level at each the vector will get encrypted</p>
+</dd>
+<dt class="field-even">type level<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param params<span class="colon">:</span></dt>
+<dd class="field-odd"><p>parameters to be used for the ciphertext (Only accepting params = None in this version)</p>
+</dd>
+<dt class="field-even">type params<span class="colon">:</span></dt>
+<dd class="field-even"><p>openfhe.ParmType</p>
+</dd>
+<dt class="field-odd">param slots<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number of slots</p>
+</dd>
+<dt class="field-even">type slots<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>plaintext</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>Plaintext</p>
+</dd>
+</dl>
+</div></blockquote>
+</li>
+<li><p>MakeCKKSPackedPlaintext(self: openfhe.CryptoContext, value: List[float], depth: int = 1, level: int = 0, params: openfhe.ParmType = None, slots: int = 0) -&gt; openfhe.Plaintext</p>
+<blockquote>
+<div><p>MakeCKKSPlaintext constructs a CKKSPackedEncoding in this context from a vector of real numbers</p>
+<dl class="field-list simple">
+<dt class="field-odd">param value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>input vector (of floats)</p>
+</dd>
+<dt class="field-even">type value<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">param depth<span class="colon">:</span></dt>
+<dd class="field-odd"><p>depth used to encode the vector</p>
+</dd>
+<dt class="field-even">type depth<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param level<span class="colon">:</span></dt>
+<dd class="field-odd"><p>level at each the vector will get encrypted</p>
+</dd>
+<dt class="field-even">type level<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param params<span class="colon">:</span></dt>
+<dd class="field-odd"><p>parameters to be used for the ciphertext (Only accepting params = None in this version)</p>
+</dd>
+<dt class="field-even">type params<span class="colon">:</span></dt>
+<dd class="field-even"><p>openfhe.ParmType</p>
+</dd>
+<dt class="field-odd">param slots<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number of slots</p>
+</dd>
+<dt class="field-even">type slots<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>plaintext</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>Plaintext</p>
+</dd>
+</dl>
+</div></blockquote>
+</li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">MakeCoefPackedPlaintext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><span class="pre">openfhe.Plaintext</span></a></span></span></dt>
+<dd><p>MakeCoefPackedPlaintext constructs a CoefPackedEncoding in this context</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>list</em>) – the vector (of integers) to convert</p></li>
+<li><p><strong>depth</strong> (<em>int</em>) – is the multiplicative depth to encode the plaintext at</p></li>
+<li><p><strong>level</strong> (<em>int</em>) – is the level to encode the plaintext at</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>plaintext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext">Plaintext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">MakePackedPlaintext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><span class="pre">openfhe.Plaintext</span></a></span></span></dt>
+<dd><p>MakePackedPlaintext constructs a PackedEncoding in this context</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>list</em>) – the vector (of integers) to convert</p></li>
+<li><p><strong>depth</strong> (<em>int</em>) – is the multiplicative depth to encode the plaintext at</p></li>
+<li><p><strong>level</strong> (<em>int</em>) – is the level to encode the plaintext at</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>plaintext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext">Plaintext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">MakeStringPlaintext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="plaintext.html#openfhe.Plaintext" title="openfhe.Plaintext"><span class="pre">openfhe.Plaintext</span></a></span></span></dt>
+<dd><p>MakeStringPlaintext constructs a StringEncoding in this context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>str</strong> (<em>str</em>) – the string to convert</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>plaintext</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Relinearize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Function for relinearization of a ciphertext.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>relienarized ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">RelinearizeInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Function for inplace relinearization of a ciphertext.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input/output ciphertext</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ct contains relienarized ciphertext</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Rescale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Rescale - An alias for OpenFHE ModReduce method. This is because ModReduce is called Rescale in CKKS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – ciphertext</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ciphertext: mod reduced ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SerializeEvalAutomorphismKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sertype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.SERBINARY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dd><p>SerializeEvalAutomorphismKey for a single EvalAuto key or all of the EvalAuto keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – output file</p></li>
+<li><p><strong>sertype</strong> (<em>SERJSON</em><em>, </em><em>SERBINARY</em>) – serialization type</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – key to serialize; empty string means all keys</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool: true on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SerializeEvalMultKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sertype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.SERBINARY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span></dt>
+<dd><p>SerializeEvalMultKey for a single EvalMult key or all of the EvalMult keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – output file</p></li>
+<li><p><strong>sertype</strong> (<em>SERJSON</em><em>, </em><em>SERBINARY</em>) – type of serialization</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – for key to serialize - if empty string, serialize them all</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool: true on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SetKeyGenLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Set the level used for key generation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>level</strong> (<em>int</em>) – the level to set the key generation to</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to OpenFHE - Python’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ciphertext.html" class="btn btn-neutral float-right" title="Ciphertext" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Yuriy Polyakov, Ian Quah, Rener Oliveira, and Matthew Triplett..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

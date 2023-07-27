@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BinFHE enums &mdash; openfhe-python 0.8.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="BinFHEContext" href="binfhe.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            openfhe-python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cryptocontext.html">CryptoContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#private-key">Private Key</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#keypair">KeyPair</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pke_enums.html">PKE enums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html">BinFHEContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweciphertext">LWECiphertext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweprivatekey">LWEPrivateKey</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BinFHE enums</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parameter-set">Parameter Set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.MEDIUM"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.MEDIUM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.SIGNED_MOD_TEST"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.SIGNED_MOD_TEST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD128"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD128</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD128Q"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD128Q</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD128Q_OPT"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD128Q_OPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD128_AP"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD128_AP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD128_APOPT"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD128_APOPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD128_OPT"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD128_OPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD192"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD192</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD192Q"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD192Q</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD192Q_OPT"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD192Q_OPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD192_OPT"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD192_OPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD256"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD256</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD256Q"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD256Q</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD256Q_OPT"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD256Q_OPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.STD256_OPT"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.STD256_OPT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.TOY"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.TOY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.name"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_PARAMSET.value"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#binfhe-method">BINFHE_METHOD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BINFHE_METHOD"><code class="docutils literal notranslate"><span class="pre">BINFHE_METHOD</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_METHOD.AP"><code class="docutils literal notranslate"><span class="pre">BINFHE_METHOD.AP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_METHOD.GINX"><code class="docutils literal notranslate"><span class="pre">BINFHE_METHOD.GINX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_METHOD.INVALID_METHOD"><code class="docutils literal notranslate"><span class="pre">BINFHE_METHOD.INVALID_METHOD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_METHOD.name"><code class="docutils literal notranslate"><span class="pre">BINFHE_METHOD.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_METHOD.value"><code class="docutils literal notranslate"><span class="pre">BINFHE_METHOD.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#binfhe-output">BinFHE Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BINFHE_OUTPUT"><code class="docutils literal notranslate"><span class="pre">BINFHE_OUTPUT</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_OUTPUT.BOOTSTRAPPED"><code class="docutils literal notranslate"><span class="pre">BINFHE_OUTPUT.BOOTSTRAPPED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_OUTPUT.FRESH"><code class="docutils literal notranslate"><span class="pre">BINFHE_OUTPUT.FRESH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_OUTPUT.INVALID_OUTPUT"><code class="docutils literal notranslate"><span class="pre">BINFHE_OUTPUT.INVALID_OUTPUT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_OUTPUT.name"><code class="docutils literal notranslate"><span class="pre">BINFHE_OUTPUT.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINFHE_OUTPUT.value"><code class="docutils literal notranslate"><span class="pre">BINFHE_OUTPUT.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#binary-gates">Binary Gates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BINGATE"><code class="docutils literal notranslate"><span class="pre">BINGATE</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.AND"><code class="docutils literal notranslate"><span class="pre">BINGATE.AND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.NAND"><code class="docutils literal notranslate"><span class="pre">BINGATE.NAND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.NOR"><code class="docutils literal notranslate"><span class="pre">BINGATE.NOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.OR"><code class="docutils literal notranslate"><span class="pre">BINGATE.OR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.XNOR"><code class="docutils literal notranslate"><span class="pre">BINGATE.XNOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.XNOR_FAST"><code class="docutils literal notranslate"><span class="pre">BINGATE.XNOR_FAST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.XOR"><code class="docutils literal notranslate"><span class="pre">BINGATE.XOR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.XOR_FAST"><code class="docutils literal notranslate"><span class="pre">BINGATE.XOR_FAST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.name"><code class="docutils literal notranslate"><span class="pre">BINGATE.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openfhe.BINGATE.value"><code class="docutils literal notranslate"><span class="pre">BINGATE.value</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">openfhe-python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BinFHE enums</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/binfhe_enums.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="binfhe-enums">
+<h1>BinFHE enums<a class="headerlink" href="#binfhe-enums" title="Permalink to this heading"></a></h1>
+<section id="parameter-set">
+<h2>Parameter Set<a class="headerlink" href="#parameter-set" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">BINFHE_PARAMSET</span></span><a class="headerlink" href="#openfhe.BINFHE_PARAMSET" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>TOY</p>
+<p>MEDIUM</p>
+<p>STD128_AP</p>
+<p>STD128_APOPT</p>
+<p>STD128</p>
+<p>STD128_OPT</p>
+<p>STD192</p>
+<p>STD192_OPT</p>
+<p>STD256</p>
+<p>STD256_OPT</p>
+<p>STD128Q</p>
+<p>STD128Q_OPT</p>
+<p>STD192Q</p>
+<p>STD192Q_OPT</p>
+<p>STD256Q</p>
+<p>STD256Q_OPT</p>
+<p>SIGNED_MOD_TEST</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.MEDIUM">
+<span class="sig-name descname"><span class="pre">MEDIUM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.MEDIUM:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.MEDIUM" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.SIGNED_MOD_TEST">
+<span class="sig-name descname"><span class="pre">SIGNED_MOD_TEST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.SIGNED_MOD_TEST:</span> <span class="pre">16&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.SIGNED_MOD_TEST" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD128">
+<span class="sig-name descname"><span class="pre">STD128</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD128:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD128" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD128Q">
+<span class="sig-name descname"><span class="pre">STD128Q</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD128Q:</span> <span class="pre">10&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD128Q" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD128Q_OPT">
+<span class="sig-name descname"><span class="pre">STD128Q_OPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD128Q_OPT:</span> <span class="pre">11&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD128Q_OPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD128_AP">
+<span class="sig-name descname"><span class="pre">STD128_AP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD128_AP:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD128_AP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD128_APOPT">
+<span class="sig-name descname"><span class="pre">STD128_APOPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD128_APOPT:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD128_APOPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD128_OPT">
+<span class="sig-name descname"><span class="pre">STD128_OPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD128_OPT:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD128_OPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD192">
+<span class="sig-name descname"><span class="pre">STD192</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD192:</span> <span class="pre">6&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD192" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD192Q">
+<span class="sig-name descname"><span class="pre">STD192Q</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD192Q:</span> <span class="pre">12&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD192Q" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD192Q_OPT">
+<span class="sig-name descname"><span class="pre">STD192Q_OPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD192Q_OPT:</span> <span class="pre">13&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD192Q_OPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD192_OPT">
+<span class="sig-name descname"><span class="pre">STD192_OPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD192_OPT:</span> <span class="pre">7&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD192_OPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD256">
+<span class="sig-name descname"><span class="pre">STD256</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD256:</span> <span class="pre">8&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD256" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD256Q">
+<span class="sig-name descname"><span class="pre">STD256Q</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD256Q:</span> <span class="pre">14&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD256Q" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD256Q_OPT">
+<span class="sig-name descname"><span class="pre">STD256Q_OPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD256Q_OPT:</span> <span class="pre">15&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD256Q_OPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.STD256_OPT">
+<span class="sig-name descname"><span class="pre">STD256_OPT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.STD256_OPT:</span> <span class="pre">9&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.STD256_OPT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.TOY">
+<span class="sig-name descname"><span class="pre">TOY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_PARAMSET.TOY:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.TOY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.BINFHE_PARAMSET.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.BINFHE_PARAMSET.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="binfhe-method">
+<h2>BINFHE_METHOD<a class="headerlink" href="#binfhe-method" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.BINFHE_METHOD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">BINFHE_METHOD</span></span><a class="headerlink" href="#openfhe.BINFHE_METHOD" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>INVALID_METHOD</p>
+<p>AP</p>
+<p>GINX</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_METHOD.AP">
+<span class="sig-name descname"><span class="pre">AP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_METHOD.AP:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_METHOD.AP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_METHOD.GINX">
+<span class="sig-name descname"><span class="pre">GINX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_METHOD.GINX:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_METHOD.GINX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_METHOD.INVALID_METHOD">
+<span class="sig-name descname"><span class="pre">INVALID_METHOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_METHOD.INVALID_METHOD:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_METHOD.INVALID_METHOD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.BINFHE_METHOD.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.BINFHE_METHOD.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.BINFHE_METHOD.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.BINFHE_METHOD.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="binfhe-output">
+<h2>BinFHE Output<a class="headerlink" href="#binfhe-output" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.BINFHE_OUTPUT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">BINFHE_OUTPUT</span></span><a class="headerlink" href="#openfhe.BINFHE_OUTPUT" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>INVALID_OUTPUT</p>
+<p>FRESH</p>
+<p>BOOTSTRAPPED</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_OUTPUT.BOOTSTRAPPED">
+<span class="sig-name descname"><span class="pre">BOOTSTRAPPED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_OUTPUT.BOOTSTRAPPED:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_OUTPUT.BOOTSTRAPPED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_OUTPUT.FRESH">
+<span class="sig-name descname"><span class="pre">FRESH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_OUTPUT.FRESH:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_OUTPUT.FRESH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINFHE_OUTPUT.INVALID_OUTPUT">
+<span class="sig-name descname"><span class="pre">INVALID_OUTPUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINFHE_OUTPUT.INVALID_OUTPUT:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.BINFHE_OUTPUT.INVALID_OUTPUT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.BINFHE_OUTPUT.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.BINFHE_OUTPUT.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.BINFHE_OUTPUT.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.BINFHE_OUTPUT.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="binary-gates">
+<h2>Binary Gates<a class="headerlink" href="#binary-gates" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="openfhe.BINGATE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">BINGATE</span></span><a class="headerlink" href="#openfhe.BINGATE" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<p>Members:</p>
+<p>OR</p>
+<p>AND</p>
+<p>NOR</p>
+<p>NAND</p>
+<p>XOR_FAST</p>
+<p>XNOR_FAST</p>
+<p>XOR</p>
+<p>XNOR</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINGATE.AND">
+<span class="sig-name descname"><span class="pre">AND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINGATE.AND:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#openfhe.BINGATE.AND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINGATE.NAND">
+<span class="sig-name descname"><span class="pre">NAND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINGATE.NAND:</span> <span class="pre">3&gt;</span></em><a class="headerlink" href="#openfhe.BINGATE.NAND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINGATE.NOR">
+<span class="sig-name descname"><span class="pre">NOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINGATE.NOR:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#openfhe.BINGATE.NOR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINGATE.OR">
+<span class="sig-name descname"><span class="pre">OR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINGATE.OR:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#openfhe.BINGATE.OR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINGATE.XNOR">
+<span class="sig-name descname"><span class="pre">XNOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINGATE.XNOR:</span> <span class="pre">7&gt;</span></em><a class="headerlink" href="#openfhe.BINGATE.XNOR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINGATE.XNOR_FAST">
+<span class="sig-name descname"><span class="pre">XNOR_FAST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINGATE.XNOR_FAST:</span> <span class="pre">5&gt;</span></em><a class="headerlink" href="#openfhe.BINGATE.XNOR_FAST" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINGATE.XOR">
+<span class="sig-name descname"><span class="pre">XOR</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINGATE.XOR:</span> <span class="pre">6&gt;</span></em><a class="headerlink" href="#openfhe.BINGATE.XOR" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="openfhe.BINGATE.XOR_FAST">
+<span class="sig-name descname"><span class="pre">XOR_FAST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BINGATE.XOR_FAST:</span> <span class="pre">4&gt;</span></em><a class="headerlink" href="#openfhe.BINGATE.XOR_FAST" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.BINGATE.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#openfhe.BINGATE.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="openfhe.BINGATE.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#openfhe.BINGATE.value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="binfhe.html" class="btn btn-neutral float-left" title="BinFHEContext" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Yuriy Polyakov, Ian Quah, Rener Oliveira, and Matthew Triplett..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
