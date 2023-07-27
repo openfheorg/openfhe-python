@@ -1,19 +1,20 @@
 #ifndef CIPHERTEXT_DOCSTRINGS_H
 #define CIPHERTEXT_DOCSTRINGS_H
 
-const char* ctx_GetLevel_docs = R"doc(
-    Get the number of scalings performed
+// GetLevel
+const char* ctx_GetLevel_docs = R"pbdoc(
+    Get the number of scalings performed.
 
-    Returns
-    -------
-        int: The level of the ciphertext.
-)doc";
+    :return: The level of the ciphertext.
+    :rtype: int
+)pbdoc";
 
-const char* ctx_SetLevel_docs = R"doc(
-    Set the number of scalings
+// SetLevel
+const char* ctx_SetLevel_docs = R"pbdoc(
+    Set the number of scalings.
 
-    Parameters
-    ----------
-        level (int): The level to set.
-)doc";
+    :param level: The level to set.
+    :type level: int
+)pbdoc";
+
 #endif // CIPHERTEXT_DOCSTRINGS_H
