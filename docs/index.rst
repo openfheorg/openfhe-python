@@ -11,6 +11,8 @@ Welcome to OpenFHE - Python's documentation!
    :caption: Contents:
       
    cryptocontext
+   ciphertext
+   plaintext
 
 
 Indices and tables

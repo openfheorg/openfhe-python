@@ -1,11 +1,21 @@
 #ifndef CRYPTOCONTEXT_DOCSTRINGS_H
 #define CRYPTOCONTEXT_DOCSTRINGS_H
 
-const char* cc_SetKeyGenLevel_docs = R"doc(
+#include "pybind11/pybind11.h"
+#include "pybind11/attr.h"
+
+namespace py = pybind11;
+
+// const char* cc_docs = R"doc(
+//     test
+// )doc";
+// auto cc_docs2 = py::doc(cc_docs);
+
+const char* cc_SetKeyGenLevel_docs = R"pbdoc(
     Parameters:
     ----------
         level (int): the level to set the key generation to
-)doc";
+)pbdoc";
 
 const char* cc_GetKeyGenLevel_docs = R"doc(
     Get the level used for key generation
@@ -65,17 +75,27 @@ const char* cc_EvalRotateKeyGen_docs = R"doc(
 )doc";
 
 // MakeStringPlaintext
-const char* cc_MakeStringPlaintext_docs = R"doc(
+// const char* cc_MakeStringPlaintext_docs = R"pbdoc(
+//     MakeStringPlaintext constructs a StringEncoding in this context
+
+//     Parameters
+//     ----------
+//     str : str
+//         the string to convert
+
+//     Returns
+//     --------
+//     Plaintext
+//         plaintext
+// )pbdoc";
+
+const char* cc_MakeStringPlaintext_docs = R"pbdoc(
     MakeStringPlaintext constructs a StringEncoding in this context
 
-    Parameters:
-    ----------
-        str (str): the string to convert
-
-    Returns:
-    ----------
-        Plaintext: plaintext
-)doc";
+    :param str: the string to convert
+    :type str: str
+    :return: plaintext
+)pbdoc";
 
 //MakePackedPlaintext
 const char* cc_MakePackedPlaintext_docs = R"doc(
@@ -277,18 +297,32 @@ const char* cc_Encrypt_docs = R"doc(
 )doc";
 
 //Decrypt
-const char* cc_Decrypt_docs = R"doc(
-    Decrypt a single ciphertext into the appropriate plaintext
+const char* cc_Decrypt_docs = R"pbdoc(
+Decrypt a single ciphertext into the appropriate plaintext
 
-    Parameters:
-    ----------
-        ciphertext (Ciphertext): ciphertext to decrypt
-        privateKey (PrivateKey): decryption key
+Parameters
+----------
+ciphertext : openfhe.Ciphertext
+    ciphertext to decrypt.
+privateKey : PrivateKey
+    decryption key.
 
-    Returns:
-    ----------
-        Plaintext: decrypted plaintext
-)doc";
+Returns
+-------
+openfhe.Plaintext
+    decrypted plaintext.
+)pbdoc";
+
+// const char* cc_Decrypt_docs = R"pbdoc(
+//     Decrypt a single ciphertext into the appropriate plaintext
+
+//     :param ciphertext: ciphertext to decrypt
+//     :type ciphertext: Ciphertext
+//     :param privateKey: decryption key
+//     :type privateKey: PrivateKey
+//     :return: decrypted plaintext
+//     :rtype: Plaintext
+// )pbdoc";
 
 //EvalAdd
 const char* cc_EvalAdd_docs = R"doc(
