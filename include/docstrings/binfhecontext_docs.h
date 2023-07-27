@@ -1,90 +1,117 @@
 #ifndef BINFHECONTEXT_DOCSTRINGS_H
 #define BINFHECONTEXT_DOCSTRINGS_H
 
-// BinFHEContext Docs:
+// GenerateBinFHEContext
 const char* binfhe_GenerateBinFHEContext_parset_docs = R"doc(
-    Creates a crypto context using predefined parameters sets. Recommended for most users.
+    Creates a crypto context using predefined parameter sets. Recommended for most users.
 
     Parameters:
     ----------
-        set (BINFHE_PARAMSET): the parameter set: TOY, MEDIUM, STD128, STD192, STD256.
-        method (BINFHE_METHOD):  the bootstrapping method (DM or CGGI).
+    set : BINFHE_PARAMSET
+        The parameter set: TOY, MEDIUM, STD128, STD192, STD256.
+    method : BINFHE_METHOD
+        The bootstrapping method (DM or CGGI).
 
     Returns:
     --------
-        create the crypto context
+    CryptoContext
+        The created crypto context.
 )doc";
 
+// KeyGen
 const char* binfhe_KeyGen_docs = R"doc(
-    Generates a secret key for the main LWE scheme
+    Generates a secret key for the main LWE scheme.
 
     Returns:
     --------
-        LWEPrivateKey: the secret key
+    LWEPrivateKey
+        The secret key.
 )doc";
 
+// BTKeyGen
 const char* binfhe_BTKeyGen_docs = R"doc(
-    Generates bootstrapping keys
+    Generates bootstrapping keys.
 
-    Psrameters:
+    Parameters:
     -----------
-        sk (LWEPrivateKey): secret key
+    sk : LWEPrivateKey
+        The secret key.
 )doc";
 
+// Encrypt
 const char* binfhe_Encrypt_docs = R"doc(
-    Encrypts a bit using a secret key (symmetric key encryption)
+    Encrypts a bit using a secret key (symmetric key encryption).
 
     Parameters:
     -----------
-        sk (LWEPrivateKey): the secret key
-        m (int): the plaintext
-        output (BINFHE_OUTPUT):  FRESH to generate fresh ciphertext, BOOTSTRAPPED to generate a refreshed ciphertext (default)
-        p (int): plaintext modulus (default 4)
-        mod (int): Encrypt according to mod instead of m_q if mod != 0
+    sk : LWEPrivateKey
+        The secret key.
+    m : int
+        The plaintext.
+    output : BINFHE_OUTPUT
+        FRESH to generate a fresh ciphertext, BOOTSTRAPPED to generate a refreshed ciphertext (default).
+    p : int
+        Plaintext modulus (default 4).
+    mod : int
+        Encrypt according to mod instead of m_q if mod != 0.
 
     Returns:
     --------
-        LWECiphertext: the ciphertext
+    LWECiphertext
+        The ciphertext.
 )doc";
 
+// Decrypt
 const char* binfhe_Decrypt_docs = R"doc(
-    Encrypt according to mod instead of m_q if mod != 0
+    Decrypts a ciphertext using a secret key.
 
     Parameters:
     -----------
-        sk (LWEPrivateKey): the secret key
-        ct (LWECiphertext): the ciphertext
-        p (int): plaintext modulus (default 4)
+    sk : LWEPrivateKey
+        The secret key.
+    ct : LWECiphertext
+        The ciphertext.
+    p : int
+        Plaintext modulus (default 4).
 
     Returns:
     --------
-       int: the plaintext
+    int
+        The plaintext.
 )doc";
 
+// EvalBinGate
 const char* binfhe_EvalBinGate_docs = R"doc(
-    Evaluates a binary gate (calls bootstrapping as a subroutine)
+    Evaluates a binary gate (calls bootstrapping as a subroutine).
 
     Parameters:
     -----------
-        gate (BINGATE): the gate; can be AND, OR, NAND, NOR, XOR, or XNOR
-        ct1 (LWECiphertext): first ciphertext
-        ct2 (LWECiphertext): second ciphertext
+    gate : BINGATE
+        The gate; can be AND, OR, NAND, NOR, XOR, or XNOR.
+    ct1 : LWECiphertext
+        First ciphertext.
+    ct2 : LWECiphertext
+        Second ciphertext.
 
     Returns:
     --------
-        LWECiphertext: the resulting ciphertext
+    LWECiphertext
+        The resulting ciphertext.
 )doc";
 
+// EvalNOT
 const char* binfhe_EvalNOT_docs = R"doc(
-    Evaluates NOT gate
+    Evaluates the NOT gate.
 
     Parameters:
     -----------
-        ct (LWECiphertext): the input ciphertext
+    ct : LWECiphertext
+        The input ciphertext.
 
     Returns:
     --------
-        LWECiphertext: the resulting ciphertext
+    LWECiphertext
+        The resulting ciphertext.
 )doc";
 
 
