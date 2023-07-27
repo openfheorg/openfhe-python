@@ -16,9 +16,12 @@ while keeping the efficiency of C++ FHE operations.
 .. toctree::
    :maxdepth: 1
    :caption: API Reference:
-      cryptocontext
-      ciphertext
-      plaintext
-      pke_enums
-      binfhe
-      binfhe_enums
+   
+   cryptocontext
+   ciphertext
+   plaintext
+   keys
+   pke_enums
+   binfhe
+   binfhe_enums
+
