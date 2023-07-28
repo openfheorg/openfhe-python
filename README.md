@@ -8,6 +8,7 @@
     - [Installing the .so: Conda](#conda)
     - [Installing the .so: System](#system-install)
 - [Running Examples](#code-examples)
+- [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
 
 ## Building
 
@@ -111,3 +112,6 @@ To get familiar with the OpenFHE Python API, check out the examples:
   <!-- - [Code Example for BGV, BFV, and CKKS](src/pke/examples/threshold-fhe.py) -->
   <!-- - [Code Example for BFV with 5 parties](src/pke/examples/threshold-fhe-5p.py) -->
 
+## OpenFHE Python Wrapper Documentation
+
+[OpenFHE Python Wrapper API Reference](https://openfheorg.github.io/openfhe-python/html/index.html)
