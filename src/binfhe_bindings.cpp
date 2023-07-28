@@ -37,42 +37,103 @@
 using namespace lbcrypto;
 namespace py = pybind11;
 
+TOY,                // no security
+    MEDIUM,             // 108 bits of security for classical and 100 bits for quantum
+    STD128_LMKCDEY,     // Optimized for LMKCDEY (using Gaussian secrets) -
+                        // more than 128 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD128_AP,          // Optimized for AP (has higher failure probability for GINX) -
+                        // more than 128 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD128,             // more than 128 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD192,             // more than 192 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD256,             // more than 256 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD128Q,            // more than 128 bits of security for quantum attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD128Q_LMKCDEY,    // Optimized for LMKCDEY (using Gaussian secrets) -
+                        // more than 128 bits of security for quantum attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD192Q,            // more than 192 bits of security for quantum attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD256Q,            // more than 256 bits of security for quantum attacks -
+                        // optimize runtime by finding a non-power-of-two n
+    STD128_3,           // more than 128 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 3 binary inputs
+    STD128_3_LMKCDEY,   // Optimized for LMKCDEY (using Gaussian secrets) -
+                        // more than 128 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 3 binary inputs
+    STD128Q_3,          // more than 128 bits of security for quantum computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 3 binary inputs
+    STD128Q_3_LMKCDEY,  // Optimized for LMKCDEY (using Gaussian secrets) -
+                        // more than 128 bits of security for quantum computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 3 binary inputs
+    STD192Q_3,          // more than 192 bits of security for quantum computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 3 binary inputs
+    STD256Q_3,          // more than 256 bits of security for quantum computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 3 binary inputs
+    STD128_4,           // more than 128 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 4 binary inputs
+    STD128_4_LMKCDEY,   // Optimized for LMKCDEY (using Gaussian secrets) -
+                        // more than 128 bits of security for classical computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 4 binary inputs
+    STD128Q_4,          // more than 128 bits of security for quantum computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 4 binary inputs
+    STD128Q_4_LMKCDEY,  // Optimized for LMKCDEY (using Gaussian secrets) -
+                        // more than 128 bits of security for quantum computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 4 binary inputs
+    STD192Q_4,          // more than 192 bits of security for quantum computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 4 binary inputs
+    STD256Q_4,          // more than 256 bits of security for quantum computer attacks -
+                        // optimize runtime by finding a non-power-of-two n for 4 binary inputs
+    SIGNED_MOD_TEST     // special parameter set for confirming the signed modular
+                        // reduction in the accumulator updates works correctly
+
 void bind_binfhe_enums(py::module &m)
 {
     py::enum_<BINFHE_PARAMSET>(m, "BINFHE_PARAMSET")
         .value("TOY", BINFHE_PARAMSET::TOY)
         .value("MEDIUM", BINFHE_PARAMSET::MEDIUM)
+        .value("STD128_LMKCDEY", BINFHE_PARAMSET::STD128_LMKCDEY)
         .value("STD128_AP", BINFHE_PARAMSET::STD128_AP)
-        .value("STD128_APOPT", BINFHE_PARAMSET::STD128_APOPT)
         .value("STD128", BINFHE_PARAMSET::STD128)
-        .value("STD128_OPT", BINFHE_PARAMSET::STD128_OPT)
         .value("STD192", BINFHE_PARAMSET::STD192)
-        .value("STD192_OPT", BINFHE_PARAMSET::STD192_OPT)
         .value("STD256", BINFHE_PARAMSET::STD256)
-        .value("STD256_OPT", BINFHE_PARAMSET::STD256_OPT)
         .value("STD128Q", BINFHE_PARAMSET::STD128Q)
-        .value("STD128Q_OPT", BINFHE_PARAMSET::STD128Q_OPT)
+        .value("STD128Q_LMKCDEY", BINFHE_PARAMSET::STD128Q_LMKCDEY)
         .value("STD192Q", BINFHE_PARAMSET::STD192Q)
-        .value("STD192Q_OPT", BINFHE_PARAMSET::STD192Q_OPT)
         .value("STD256Q", BINFHE_PARAMSET::STD256Q)
-        .value("STD256Q_OPT", BINFHE_PARAMSET::STD256Q_OPT)
+        .value("STD128_3", BINFHE_PARAMSET::STD128_3)
+        .value("STD128_3_LMKCDEY", BINFHE_PARAMSET::STD128_3_LMKCDEY)
+        .value("STD128Q_3", BINFHE_PARAMSET::STD128Q_3)
+        .value("STD128Q_3_LMKCDEY", BINFHE_PARAMSET::STD128Q_3_LMKCDEY)
+        .value("STD192Q_3", BINFHE_PARAMSET::STD192Q_3)
+        .value("STD256Q_3", BINFHE_PARAMSET::STD256Q_3)
+        .value("STD128_4", BINFHE_PARAMSET::STD128_4)
+        .value("STD128_4_LMKCDEY", BINFHE_PARAMSET::STD128_4_LMKCDEY)
+        .value("STD128Q_4", BINFHE_PARAMSET::STD128Q_4)
+        .value("STD128Q_4_LMKCDEY", BINFHE_PARAMSET::STD128Q_4_LMKCDEY)
+        .value("STD192Q_4", BINFHE_PARAMSET::STD192Q_4)
+        .value("STD256Q_4", BINFHE_PARAMSET::STD256Q_4)
         .value("SIGNED_MOD_TEST", BINFHE_PARAMSET::SIGNED_MOD_TEST);
     m.attr("TOY") = py::cast(BINFHE_PARAMSET::TOY);
     m.attr("MEDIUM") = py::cast(BINFHE_PARAMSET::MEDIUM);
-    m.attr("STD128_AP") = py::cast(BINFHE_PARAMSET::STD128_AP);
-    m.attr("STD128_APOPT") = py::cast(BINFHE_PARAMSET::STD128_APOPT);
-    m.attr("STD128") = py::cast(BINFHE_PARAMSET::STD128);
-    m.attr("STD128_OPT") = py::cast(BINFHE_PARAMSET::STD128_OPT);
-    m.attr("STD192") = py::cast(BINFHE_PARAMSET::STD192);
-    m.attr("STD192_OPT") = py::cast(BINFHE_PARAMSET::STD192_OPT);
-    m.attr("STD256") = py::cast(BINFHE_PARAMSET::STD256);
-    m.attr("STD256_OPT") = py::cast(BINFHE_PARAMSET::STD256_OPT);
-    m.attr("STD128Q") = py::cast(BINFHE_PARAMSET::STD128Q);
-    m.attr("STD128Q_OPT") = py::cast(BINFHE_PARAMSET::STD128Q_OPT);
-    m.attr("STD192Q") = py::cast(BINFHE_PARAMSET::STD192Q);
-    m.attr("STD192Q_OPT") = py::cast(BINFHE_PARAMSET::STD192Q_OPT);
-    m.attr("STD256Q") = py::cast(BINFHE_PARAMSET::STD256Q);
-    m.attr("STD256Q_OPT") = py::cast(BINFHE_PARAMSET::STD256Q_OPT);
+    m.attr("STD128_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_LMKCDEY);
+    m.attr("STD128Q_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_LMKCDEY);
+    m.attr("STD128_3") = py::cast(BINFHE_PARAMSET::STD128_3);
+    m.attr("STD128_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_3_LMKCDEY);
+    m.attr("STD128Q_3") = py::cast(BINFHE_PARAMSET::STD128Q_3);
+    m.attr("STD128Q_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_3_LMKCDEY);
+    m.attr("STD192Q_3") = py::cast(BINFHE_PARAMSET::STD192Q_3);
+    m.attr("STD256Q_3") = py::cast(BINFHE_PARAMSET::STD256Q_3);
+    m.attr("STD128_4") = py::cast(BINFHE_PARAMSET::STD128_4);
+    m.attr("STD128_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_4_LMKCDEY);
+    m.attr("STD128Q_4") = py::cast(BINFHE_PARAMSET::STD128Q_4);
+    m.attr("STD128Q_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_4_LMKCDEY);
+    m.attr("STD192Q_4") = py::cast(BINFHE_PARAMSET::STD192Q_4);
+    m.attr("STD256Q_4") = py::cast(BINFHE_PARAMSET::STD256Q_4);
     m.attr("SIGNED_MOD_TEST") = py::cast(BINFHE_PARAMSET::SIGNED_MOD_TEST);
 
     py::enum_<BINFHE_METHOD>(m, "BINFHE_METHOD")
