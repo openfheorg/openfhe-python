@@ -39,6 +39,7 @@ mkdir build
 cd build
 cmake ..  # Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe
 make
+make install  # You may have to run sudo make install
 ```
 
 At this point the `.so` file has been built. Your exact installation process will depend on your virtual environment.
@@ -61,6 +62,7 @@ mkdir build
 cd build
 cmake ..  # Or cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python
 make
+make install  # You may have to run sudo make install
 ```
 
 The CONDA_PREFIX variable is set by conda, and points to the root of your active conda environment.
@@ -76,12 +78,6 @@ conda develop lib
 which creates a lib folder, moves the built `.so` file into that lib folder, and tells conda where to look for external libraries.
 
 **Note** You may wish to copy the `.so` file to any projects of your own, or add it to your system path to source from.
-
-#### System install
-
-```
-make install  # You may have to run sudo make install
-```
 
 ## Code Examples
 
