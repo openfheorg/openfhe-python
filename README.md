@@ -60,7 +60,7 @@ To do this, run the following commands:
 ```bash
 mkdir build
 cd build
-cmake ..  # Or cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python
+cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python
 make
 make install  # You may have to run sudo make install
 ```
