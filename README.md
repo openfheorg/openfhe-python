@@ -110,7 +110,7 @@ To get familiar with the OpenFHE Python API, check out the examples:
   <!-- - [Small-Precison Arbitrary Function Evaluation](src/binfhe/examples/eval-function.py) -->
   <!-- - Threshold FHE:  -->
   <!-- - [Code Example for BGV, BFV, and CKKS](src/pke/examples/threshold-fhe.py) -->
-  <!-- - [Code Example for BFV with 5 parties](src/pke/examples/threshold-fhe-5p.py) 
+  <!-- - [Code Example for BFV with 5 parties](src/pke/examples/threshold-fhe-5p.py) -->
 
 ## OpenFHE Python Wrapper API
 
