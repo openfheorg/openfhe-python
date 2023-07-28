@@ -24,7 +24,7 @@ We recommend following OpenFHE C++ installation instructions first (which covers
 You can install pybind11 by runnning:
   
 ```bash
-pip install pybind11 # or alternatively, if you use conda:
+pip install pybind11[global] # or alternatively, if you use conda:
 conda install -c conda-forge pybind11
 ```
 For custom installation or any other issues, please refer to the official pybind11 documentation in the link above.
