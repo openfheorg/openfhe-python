@@ -4,3 +4,7 @@ build/
 .png
 .json
 .txt
+.cproject
+.project
+.settings/
+demoData/
