@@ -67,7 +67,14 @@ void bind_binfhe_enums(py::module &m)
     m.attr("TOY") = py::cast(BINFHE_PARAMSET::TOY);
     m.attr("MEDIUM") = py::cast(BINFHE_PARAMSET::MEDIUM);
     m.attr("STD128_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_LMKCDEY);
+    m.attr("STD128_AP") = py::cast(BINFHE_PARAMSET::STD128_AP);
+    m.attr("STD128") = py::cast(BINFHE_PARAMSET::STD128);
+    m.attr("STD192") = py::cast(BINFHE_PARAMSET::STD192);
+    m.attr("STD256") = py::cast(BINFHE_PARAMSET::STD256);
+    m.attr("STD128Q") = py::cast(BINFHE_PARAMSET::STD128Q);
     m.attr("STD128Q_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_LMKCDEY);
+    m.attr("STD192Q") = py::cast(BINFHE_PARAMSET::STD192Q);
+    m.attr("STD256Q") = py::cast(BINFHE_PARAMSET::STD256Q);
     m.attr("STD128_3") = py::cast(BINFHE_PARAMSET::STD128_3);
     m.attr("STD128_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_3_LMKCDEY);
     m.attr("STD128Q_3") = py::cast(BINFHE_PARAMSET::STD128Q_3);
