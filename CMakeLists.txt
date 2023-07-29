@@ -8,8 +8,8 @@ find_package(OpenFHE)
 find_package(pybind11 REQUIRED)
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
-set( OpenFHE_Py_SOURCES src)
-set( OpenFHE_Py_INCLUDES include)
+set( OpenFHE_Py_SOURCES src/lib)
+set( OpenFHE_Py_INCLUDES src/include)
 
 include_directories( ${OPENMP_INCLUDES} )
 include_directories( ${OpenFHE_INCLUDE} )
