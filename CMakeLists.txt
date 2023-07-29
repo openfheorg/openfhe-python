@@ -42,11 +42,11 @@ endif()
 
 ### Pybind Modules
 pybind11_add_module(openfhe 
-                    src/bindings.cpp 
-                    src/binfhe_bindings.cpp
-                    src/binfhe/binfhecontext_wrapper.cpp
-                    src/pke/serialization.cpp 
-                    src/pke/cryptocontext_wrapper.cpp
+                    src/lib/bindings.cpp 
+                    src/lib/binfhe_bindings.cpp
+                    src/lib/binfhe/binfhecontext_wrapper.cpp
+                    src/lib/pke/serialization.cpp 
+                    src/lib/pke/cryptocontext_wrapper.cpp
                     )
 ### Python installation 
 # Allow the user to specify the path to Python executable (if not provided, find it)
