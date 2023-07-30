@@ -97,6 +97,12 @@ void bind_binfhe_enums(py::module &m)
     m.attr("GINX") = py::cast(BINFHE_METHOD::GINX);
     m.attr("AP") = py::cast(BINFHE_METHOD::AP);
 
+    py::enum_<KEYGEN_MODE>(m, "KEYGEN_MODE")
+        .value("SYM_ENCRYPT", KEYGEN_MODE::SYM_ENCRYPT)
+        .value("PUB_ENCRYPT", KEYGEN_MODE::PUB_ENCRYPT);
+    m.attr("SYM_ENCRYPT") = py::cast(KEYGEN_MODE::SYM_ENCRYPT);
+    m.attr("PUB_ENCRYPT") = py::cast(KEYGEN_MODE::PUB_ENCRYPT);
+
     py::enum_<BINFHE_OUTPUT>(m, "BINFHE_OUTPUT")
         .value("INVALID_OUTPUT", BINFHE_OUTPUT::INVALID_OUTPUT)
         .value("FRESH", BINFHE_OUTPUT::FRESH)
