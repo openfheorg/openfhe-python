@@ -97,6 +97,12 @@ void bind_binfhe_enums(py::module &m)
     m.attr("GINX") = py::cast(BINFHE_METHOD::GINX);
     m.attr("AP") = py::cast(BINFHE_METHOD::AP);
 
+    py::enum_<KEYGEN_MODE>(m, "KEYGEN_MODE")
+        .value("SYM_ENCRYPT", KEYGEN_MODE::SYM_ENCRYPT)
+        .value("PUB_ENCRYPT", KEYGEN_MODE::PUB_ENCRYPT);
+    m.attr("SYM_ENCRYPT") = py::cast(KEYGEN_MODE::SYM_ENCRYPT);
+    m.attr("PUB_ENCRYPT") = py::cast(KEYGEN_MODE::PUB_ENCRYPT);
+
     py::enum_<BINFHE_OUTPUT>(m, "BINFHE_OUTPUT")
         .value("INVALID_OUTPUT", BINFHE_OUTPUT::INVALID_OUTPUT)
         .value("FRESH", BINFHE_OUTPUT::FRESH)
@@ -153,7 +159,9 @@ void bind_binfhe_context(py::module &m)
         .def("KeyGen", &BinFHEContext::KeyGen,
              binfhe_KeyGen_docs)
         .def("BTKeyGen", &BinFHEContext::BTKeyGen,
-             binfhe_BTKeyGen_docs)
+             binfhe_BTKeyGen_docs,
+             py::arg("sk"),
+             py::arg("keygenMode") = SYM_ENCRYPT)
         .def("Encrypt", &binfhe_EncryptWrapper,
              binfhe_Encrypt_docs,
              py::arg("sk"),
@@ -166,8 +174,6 @@ void bind_binfhe_context(py::module &m)
              py::arg("sk"),
              py::arg("ct"),
              py::arg("p") = 4)
-        // LWECiphertext EvalBinGate(BINGATE gate, ConstLWECiphertext& ct1, ConstLWECiphertext& ct2) const
-        // bind using static_cast
         .def("EvalBinGate", 
         static_cast<LWECiphertext (BinFHEContext::*)(BINGATE, ConstLWECiphertext &, ConstLWECiphertext &) const>(&BinFHEContext::EvalBinGate),
              binfhe_EvalBinGate_docs,
