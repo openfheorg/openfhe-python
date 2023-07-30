@@ -159,7 +159,9 @@ void bind_binfhe_context(py::module &m)
         .def("KeyGen", &BinFHEContext::KeyGen,
              binfhe_KeyGen_docs)
         .def("BTKeyGen", &BinFHEContext::BTKeyGen,
-             binfhe_BTKeyGen_docs)
+             binfhe_BTKeyGen_docs,
+             py::arg("sk"),
+             py::arg("keygenMode") = SYM_ENCRYPT)
         .def("Encrypt", &binfhe_EncryptWrapper,
              binfhe_Encrypt_docs,
              py::arg("sk"),
@@ -172,8 +174,6 @@ void bind_binfhe_context(py::module &m)
              py::arg("sk"),
              py::arg("ct"),
              py::arg("p") = 4)
-        // LWECiphertext EvalBinGate(BINGATE gate, ConstLWECiphertext& ct1, ConstLWECiphertext& ct2) const
-        // bind using static_cast
         .def("EvalBinGate", 
         static_cast<LWECiphertext (BinFHEContext::*)(BINGATE, ConstLWECiphertext &, ConstLWECiphertext &) const>(&BinFHEContext::EvalBinGate),
              binfhe_EvalBinGate_docs,
