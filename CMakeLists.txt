@@ -8,8 +8,8 @@ find_package(OpenFHE)
 find_package(pybind11 REQUIRED)
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
-set( OpenFHE_Py_SOURCES src)
-set( OpenFHE_Py_INCLUDES include)
+set( OpenFHE_Py_SOURCES src/lib)
+set( OpenFHE_Py_INCLUDES src/include)
 
 include_directories( ${OPENMP_INCLUDES} )
 include_directories( ${OpenFHE_INCLUDE} )
@@ -42,11 +42,11 @@ endif()
 
 ### Pybind Modules
 pybind11_add_module(openfhe 
-                    src/bindings.cpp 
-                    src/binfhe_bindings.cpp
-                    src/binfhe/binfhecontext_wrapper.cpp
-                    src/pke/serialization.cpp 
-                    src/pke/cryptocontext_wrapper.cpp
+                    src/lib/bindings.cpp 
+                    src/lib/binfhe_bindings.cpp
+                    src/lib/binfhe/binfhecontext_wrapper.cpp
+                    src/lib/pke/serialization.cpp 
+                    src/lib/pke/cryptocontext_wrapper.cpp
                     )
 ### Python installation 
 # Allow the user to specify the path to Python executable (if not provided, find it)

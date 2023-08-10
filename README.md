@@ -8,6 +8,7 @@
     - [Installing the .so: Conda](#conda)
     - [Installing the .so: System](#system-install)
 - [Running Examples](#code-examples)
+- [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
 
 ## Building
 
@@ -38,6 +39,7 @@ mkdir build
 cd build
 cmake ..  # Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe
 make
+make install  # You may have to run sudo make install
 ```
 
 At this point the `.so` file has been built. Your exact installation process will depend on your virtual environment.
@@ -58,8 +60,9 @@ To do this, run the following commands:
 ```bash
 mkdir build
 cd build
-cmake ..  # Or cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python
+cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python
 make
+make install  # You may have to run sudo make install
 ```
 
 The CONDA_PREFIX variable is set by conda, and points to the root of your active conda environment.
@@ -76,38 +79,36 @@ which creates a lib folder, moves the built `.so` file into that lib folder, and
 
 **Note** You may wish to copy the `.so` file to any projects of your own, or add it to your system path to source from.
 
-#### System install
-
-```
-make install  # You may have to run sudo make install
-```
-
 ## Code Examples
 
 To get familiar with the OpenFHE Python API, check out the examples:
 
 - FHE for arithmetic over integers (BFV):
-  - [Simple Code Example](src/pke/examples/simple-integers.py)
-  <!-- - [Simple Code Example with Serialization](src/pke/examples/simple-integers-serial.py) -->
+  - [Simple Code Example](examples/pke/simple-integers.py)
+  <!-- - [Simple Code Example with Serialization](examples/pke/simple-integers-serial.py) -->
 - FHE for arithmetic over integers (BGV):
-  - [Simple Code Example](src/pke/examples/simple-integers-bgvrns.py)
-  <!-- - [Simple Code Example with Serialization](src/pke/examples/simple-integers-serial-bgvrns.py) -->
+  - [Simple Code Example](examples/pke/simple-integers-bgvrns.py)
+  <!-- - [Simple Code Example with Serialization](examples/pke/simple-integers-serial-bgvrns.py) -->
 - FHE for arithmetic over real numbers (CKKS):
-  - [Simple Code Example](src/pke/examples/simple-real-numbers.py)
-  - [Advanced Code Example](src/pke/examples/advanced-real-numbers.py)
-  - [Advanced Code Example for High-Precision CKKS](src/pke/examples/advanced-real-numbers-128.py)
-  - [Arbitrary Smooth Function Evaluation](src/pke/examples/function-evaluation.py)
-  - [Simple CKKS Bootstrapping Example](src/pke/examples/simple-ckks-bootstrapping.py)
-  - [Advanced CKKS Bootstrapping Example](src/pke/examples/advanced-ckks-bootstrapping.cpp)
-  - [Double-Precision (Iterative) Bootstrapping Example](src/pke/examples/iterative-ckks-bootstrapping.py)
+  - [Simple Code Example](examples/pke/simple-real-numbers.py)
+  - [Advanced Code Example](examples/pke/advanced-real-numbers.py)
+  - [Advanced Code Example for High-Precision CKKS](examples/pke/advanced-real-numbers-128.py)
+  - [Arbitrary Smooth Function Evaluation](examples/pke/function-evaluation.py)
+  - [Simple CKKS Bootstrapping Example](examples/pke/simple-ckks-bootstrapping.py)
+  - [Advanced CKKS Bootstrapping Example](examples/pke/advanced-ckks-bootstrapping.cpp)
+  - [Double-Precision (Iterative) Bootstrapping Example](examples/pke/iterative-ckks-bootstrapping.py)
 - FHE for Boolean circuits and larger plaintext spaces (FHEW/TFHE):
-  - [Simple Code Example](src/binfhe/examples/boolean.py)
-  - [Truth Table Example](src/binfhe/examples/boolean-truth-table.py)
-  <!-- - [Code with JSON serialization](src/binfhe/examples/boolean-serial-json.py) -->
-  <!-- - [Code with Binary Serialization](src/binfhe/examples/boolean-serial-binary.py) -->
-  <!-- - [Large-Precision Comparison](src/binfhe/examples/eval-sign.py) -->
-  <!-- - [Small-Precison Arbitrary Function Evaluation](src/binfhe/examples/eval-function.py) -->
+  - [Simple Code Example](examples/binfhe/boolean.py)
+  - [Truth Table Example](examples/binfhe/boolean-truth-table.py)
+  <!-- - [Code with JSON serialization](examples/binfhe/boolean-serial-json.py) -->
+  <!-- - [Code with Binary Serialization](examples/binfhe/boolean-serial-binary.py) -->
+  <!-- - [Large-Precision Comparison](examples/binfhe/eval-sign.py) -->
+  <!-- - [Small-Precison Arbitrary Function Evaluation](examples/binfhe/eval-function.py) -->
   <!-- - Threshold FHE:  -->
-  <!-- - [Code Example for BGV, BFV, and CKKS](src/pke/examples/threshold-fhe.py) -->
-  <!-- - [Code Example for BFV with 5 parties](src/pke/examples/threshold-fhe-5p.py) -->
+  <!-- - [Code Example for BGV, BFV, and CKKS](examples/pke/threshold-fhe.py) -->
+  <!-- - [Code Example for BFV with 5 parties](examples/pke/threshold-fhe-5p.py) -->
+
+## OpenFHE Python Wrapper Documentation
+
+[OpenFHE Python Wrapper API Reference](https://openfheorg.github.io/openfhe-python/html/index.html)
 
