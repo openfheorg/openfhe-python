@@ -134,13 +134,13 @@ void bind_crypto_context(py::module &m)
         // TODO (Oliveira): allow user to specify different params values
         .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<std::complex<double>> &, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), cc_MakeCKKSPackedPlaintextComplex_docs,
              py::arg("value"),
-             py::arg("depth") = static_cast<size_t>(1),
+             py::arg("scaleDeg") = static_cast<size_t>(1),
              py::arg("level") = static_cast<uint32_t>(0),
              py::arg("params") = py::none(),
              py::arg("slots") = 0)
         .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<double> &, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), cc_MakeCKKSPlaintextReal_docs,
              py::arg("value"),
-             py::arg("depth") = static_cast<size_t>(1),
+             py::arg("scaleDeg") = static_cast<size_t>(1),
              py::arg("level") = static_cast<uint32_t>(0),
              py::arg("params") = py::none(),
              py::arg("slots") = 0)
@@ -794,7 +794,8 @@ void bind_schemes(py::module &m){
     py::class_<FHECKKSRNS>(m, "FHECKKSRNS")
         .def(py::init<>())
         //.def_static("GetBootstrapDepth", &FHECKKSRNS::GetBootstrapDepth)
-        .def_static("GetBootstrapDepth", static_cast<uint32_t (*)(uint32_t, const std::vector<uint32_t>&, SecretKeyDist)>(&FHECKKSRNS::GetBootstrapDepth));                               
+        .def_static("GetBootstrapDepth", static_cast<uint32_t (*)(uint32_t, const std::vector<uint32_t>&, SecretKeyDist)>(&FHECKKSRNS::GetBootstrapDepth))
+        .def_static("GetBootstrapDepth", static_cast<uint32_t (*)(const std::vector<uint32_t>&, SecretKeyDist)>(&FHECKKSRNS::GetBootstrapDepth));                               
     
 }
 

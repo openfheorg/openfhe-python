@@ -143,8 +143,8 @@ const char* cc_MakeCKKSPackedPlaintextComplex_docs = R"pbdoc(
 
     :param value: input vector (of complex numbers)
     :type value: list
-    :param depth: depth used to encode the vector
-    :type depth: int
+    :param scaleDeg: degree of scaling factor used to encode the vector
+    :type scaleDeg: int
     :param level: level at each the vector will get encrypted
     :type level: int
     :param params: parameters to be used for the ciphertext (Only accepting params = None in this version)
@@ -160,8 +160,8 @@ const char* cc_MakeCKKSPlaintextReal_docs = R"pbdoc(
 
     :param value: input vector (of floats)
     :type value: list
-    :param depth: depth used to encode the vector
-    :type depth: int
+    :param scaleDeg: degree of scaling factor used to encode the vector
+    :type scaleDeg: int
     :param level: level at each the vector will get encrypted
     :type level: int
     :param params: parameters to be used for the ciphertext (Only accepting params = None in this version)
