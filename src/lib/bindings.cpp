@@ -446,6 +446,22 @@ void bind_crypto_context(py::module &m)
              py::arg("ciphertext"),
              py::arg("plaintext"),
              py::arg("batchSize"))
+        .def("MultipartyKeyGen", static_cast<KeyPair<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PublicKey<DCRTPoly>, bool, bool)>(&CryptoContextImpl<DCRTPoly>::MultipartyKeyGen),
+             cc_MultipartyKeyGen_docs,
+             py::arg("publicKey"),
+             py::arg("makeSparse") = false,
+             py::arg("fresh") = false)
+        .def("MultipartyDecryptLead", &CryptoContextImpl<DCRTPoly>::MultipartyDecryptLead,
+             cc_MultipartyDecryptLead_docs,
+             py::arg("ciphertextVec"),
+             py::arg("privateKey"))
+        .def("MultipartyDecryptMain", &CryptoContextImpl<DCRTPoly>::MultipartyDecryptMain,
+            cc_MultipartyDecryptMain_docs,
+            py::arg("ciphertextVec"),
+            py::arg("privateKey"))
+        .def("MultipartyDecryptFusion", &MultipartyDecryptFusionWrapper,
+            cc_MultipartyDecryptFusion_docs,
+            py::arg("ciphertextVec"))
         .def("EvalMerge", &CryptoContextImpl<DCRTPoly>::EvalMerge,
              cc_EvalMerge_docs,
              py::arg("ciphertextVec"))
@@ -723,7 +739,8 @@ void bind_keys(py::module &m)
     py::class_<PrivateKeyImpl<DCRTPoly>, std::shared_ptr<PrivateKeyImpl<DCRTPoly>>>(m, "PrivateKey");
     py::class_<KeyPair<DCRTPoly>>(m, "KeyPair")
         .def_readwrite("publicKey", &KeyPair<DCRTPoly>::publicKey)
-        .def_readwrite("secretKey", &KeyPair<DCRTPoly>::secretKey);
+        .def_readwrite("secretKey", &KeyPair<DCRTPoly>::secretKey)
+        .def("good", &KeyPair<DCRTPoly>::good);
     py::class_<EvalKeyImpl<DCRTPoly>, std::shared_ptr<EvalKeyImpl<DCRTPoly>>>(m, "EvalKey")
         .def(py::init<>());
 }

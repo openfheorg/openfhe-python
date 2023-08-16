@@ -69,6 +69,12 @@ Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly
     return plaintextDecResult;
 }
 
+Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std::vector<Ciphertext<DCRTPoly>>& partialCiphertextVec){
+    Plaintext plaintextDecResult;
+    self->MultipartyDecryptFusion(partialCiphertextVec,&plaintextDecResult);
+    return plaintextDecResult;
+}
+
 const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly> privateKey,const std::vector<usint> &indexList){
     return *(self->EvalAutomorphismKeyGen(privateKey, indexList));
 }

@@ -825,6 +825,49 @@ const char* cc_EvalInnerProductPlaintext_docs = R"pbdoc(
     :rtype: Ciphertext
 )pbdoc";
 
+const char* cc_MultipartyKeyGen_docs = R"pbdoc(
+    Threshold FHE: Generation of a public key derived from a previous joined public key (for prior secret shares) and the secret key share of the current party.
+
+    :param publicKey:  joined public key from prior parties.
+    :type publicKey: PublicKey
+    :param makeSparse: set to true if ring reduce by a factor of 2 is to be used. NOT SUPPORTED BY ANY SCHEME ANYMORE.
+    :type makeSparse: bool
+    :param fresh: set to true if proxy re-encryption is used in the multi-party protocol or star topology is used
+    :type fresh: bool
+    :return: KeyPair: key pair including the secret share for the current party and joined public key
+    :rtype: KeyPair
+)pbdoc";
+
+const char* cc_MultipartyDecryptLead_docs = R"pbdoc(
+    Threshold FHE: Method for decryption operation run by the lead decryption client
+
+    :param ciphertextVec: a list of ciphertexts
+    :type ciphertextVec: list
+    :param privateKey:  secret key share used for decryption. list of partially decrypted ciphertexts.
+    :type privateKey: PrivateKey
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_MultipartyDecryptMain_docs = R"pbdoc(
+    Threshold FHE: "Partial" decryption computed by all parties except for the lead one
+
+    :param ciphertextVec: a list of ciphertexts
+    :type ciphertextVec: list
+    :param privateKey:  secret key share used for decryption. list of partially decrypted ciphertexts.
+    :type privateKey: PrivateKey
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+//Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std::vector<Ciphertext<DCRTPoly>>& partialCiphertextVec);
+const char* cc_MultipartyDecryptFusion_docs = R"pbdoc(
+    Threshold FHE: Method for combining the partially decrypted ciphertexts and getting the final decryption in the clear.
+
+    :param partialCiphertextVec: list of "partial" decryptions
+    :type partialCiphertextVec: list
+    :return: Plaintext: resulting plaintext
+    :rtype: Plaintext
+)pbdoc";
 const char* cc_EvalMerge_docs = R"pbdoc(
     Merges multiple ciphertexts with encrypted results in slot 0 into a single ciphertext The slot assignment is done based on the order of ciphertexts in the vector
 
