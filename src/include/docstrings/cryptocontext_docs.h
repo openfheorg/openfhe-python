@@ -308,6 +308,17 @@ Decrypt a single ciphertext into the appropriate plaintext
 :rtype: Plaintext
 )pbdoc";
 
+const char* cc_KeySwitchGen_docs = R"pbdoc(
+    KeySwitchGen creates a key that can be used with the OpenFHE KeySwitch operation
+
+    :param oldPrivateKey: input secrey key
+    :type oldPrivateKey: PrivateKey
+    :param newPrivateKey: output secret key
+    :type newPrivateKey: PrivateKey
+    :return: new evaluation key
+    :rtype: EvalKey
+)pbdoc";
+
 const char* cc_EvalAdd_docs = R"pbdoc(
 Add two ciphertexts
 

@@ -82,3 +82,27 @@ const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper(CryptoCon
 const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper_PublicKey(CryptoContext<DCRTPoly>& self,const PublicKey<DCRTPoly> publicKey, const PrivateKey<DCRTPoly> privateKey, const std::vector<usint> &indexList){
     return *(self->EvalAutomorphismKeyGen(publicKey, privateKey, indexList));
 };
+
+const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrapper(CryptoContext<DCRTPoly>& self,const std::string &id){
+    auto evalSumKeyMap = 
+        std::make_shared<std::map<usint, EvalKey<DCRTPoly>>>(self->GetEvalSumKeyMap(id));
+    return evalSumKeyMap;
+}
+
+// EvalKeyMapInterfaceType::EvalKeyMapInterfaceType(){
+//     m_EvalKeyMap = Ciphertext<DCRTPoly>(new CiphertextImpl<DCRTPoly>());
+//   }
+
+// EvalKeyMapInterfaceType::EvalKeyMapInterfaceType(std::map<usint, EvalKey<DCRTPoly>> evalkeymap){
+//     m_EvalKeyMap = std::make_shared<std::map<usint, EvalKey<DCRTPoly>>>(evalkeymap);
+//   }
+
+// EvalKeyMapInterfaceType::EvalKeyMapInterfaceType(std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> evalkeymap_ptr){
+//     m_EvalKeyMap = evalkeymap_ptr;
+//   }
+
+// EvalKeyMapInterfaceType::~EvalKeyMapInterfaceType() {}
+
+// const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> &EvalKeyMapInterfaceType::GetEvalKeyMap() const {
+//     return m_EvalKeyMap;
+//   }

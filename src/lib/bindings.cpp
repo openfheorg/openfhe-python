@@ -185,6 +185,10 @@ void bind_crypto_context(py::module &m)
             (&DecryptWrapper), cc_Decrypt_docs,
             py::arg("ciphertext"),
             py::arg("privateKey"))
+        .def("KeySwitchGen", &CryptoContextImpl<DCRTPoly>::KeySwitchGen,
+            cc_KeySwitchGen_docs,
+            py::arg("oldPrivateKey"),
+            py::arg("newPrivateKey"))
         .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>
             (&CryptoContextImpl<DCRTPoly>::EvalAdd), 
             cc_EvalAdd_docs,
@@ -521,6 +525,9 @@ void bind_crypto_context(py::module &m)
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
             cc_ClearEvalAutomorphismKeys_docs)
+        .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
+            "TODO: Add documentation",
+            py::return_value_policy::reference)
         .def_static(
             "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
             {
@@ -729,19 +736,28 @@ void bind_enums_and_constants(py::module &m)
     m.def("get_native_int", &get_native_int);
   
     // EvalKeyMap
-    py::bind_map<std::map<usint, EvalKey<DCRTPoly>>>(m, "EvalKeyMap");
+    //py::bind_map<std::map<usint, EvalKey<DCRTPoly>>>(m, "EvalKeyMap");
 }
 
 void bind_keys(py::module &m)
 {
     py::class_<PublicKeyImpl<DCRTPoly>, std::shared_ptr<PublicKeyImpl<DCRTPoly>>>(m, "PublicKey")
-        .def(py::init<>());
-    py::class_<PrivateKeyImpl<DCRTPoly>, std::shared_ptr<PrivateKeyImpl<DCRTPoly>>>(m, "PrivateKey");
+        .def(py::init<>())
+        .def("GetKeyTag", &PublicKeyImpl<DCRTPoly>::GetKeyTag)
+        .def("SetKeyTag", &PublicKeyImpl<DCRTPoly>::SetKeyTag);
+    py::class_<PrivateKeyImpl<DCRTPoly>, std::shared_ptr<PrivateKeyImpl<DCRTPoly>>>(m, "PrivateKey")
+        .def(py::init<>())
+        .def("GetKeyTag", &PrivateKeyImpl<DCRTPoly>::GetKeyTag)
+        .def("SetKeyTag", &PrivateKeyImpl<DCRTPoly>::SetKeyTag);
     py::class_<KeyPair<DCRTPoly>>(m, "KeyPair")
         .def_readwrite("publicKey", &KeyPair<DCRTPoly>::publicKey)
         .def_readwrite("secretKey", &KeyPair<DCRTPoly>::secretKey)
         .def("good", &KeyPair<DCRTPoly>::good);
     py::class_<EvalKeyImpl<DCRTPoly>, std::shared_ptr<EvalKeyImpl<DCRTPoly>>>(m, "EvalKey")
+        .def(py::init<>())
+        .def("GetKeyTag", &EvalKeyImpl<DCRTPoly>::GetKeyTag)
+        .def("SetKeyTag", &EvalKeyImpl<DCRTPoly>::SetKeyTag);
+    py::class_<std::map<usint, EvalKey<DCRTPoly>>, std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>>>(m, "EvalKeyMap")
         .def(py::init<>());
 }
 
