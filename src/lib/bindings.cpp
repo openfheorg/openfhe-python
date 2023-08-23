@@ -104,6 +104,9 @@ void bind_crypto_context(py::module &m)
         //.def("GetScheme",&CryptoContextImpl<DCRTPoly>::GetScheme)
         //.def("GetCryptoParameters", &CryptoContextImpl<DCRTPoly>::GetCryptoParameters)
         .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension, cc_GetRingDimension_docs)
+        .def("GetPlaintextModulus", &GetPlaintextModulusWrapper, cc_GetPlaintextModulus_docs)
+        .def("GetCyclotomicOrder", &CryptoContextImpl<DCRTPoly>::GetCyclotomicOrder, cc_GetCyclotomicOrder_docs)
+        .def("GetModulus", &CryptoContextImpl<DCRTPoly>::GetModulus, cc_GetModulus_docs)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), cc_Enable_docs,
              py::arg("feature"))
         .def("KeyGen", &CryptoContextImpl<DCRTPoly>::KeyGen, cc_KeyGen_docs)
@@ -429,6 +432,11 @@ void bind_crypto_context(py::module &m)
              cc_EvalSumColsKeyGen_docs,
              py::arg("privateKey"),
              py::arg("publicKey") = py::none())
+        //Ciphertext<Element> EvalSum(ConstCiphertext<Element> ciphertext, usint batchSize)
+        .def("EvalSum", &CryptoContextImpl<DCRTPoly>::EvalSum,
+             cc_EvalSum_docs,
+             py::arg("ciphertext"),
+             py::arg("batchSize"))
         .def("EvalSumRows", &CryptoContextImpl<DCRTPoly>::EvalSumRows,
              cc_EvalSumRows_docs,
              py::arg("ciphertext"),
@@ -466,6 +474,37 @@ void bind_crypto_context(py::module &m)
         .def("MultipartyDecryptFusion", &MultipartyDecryptFusionWrapper,
             cc_MultipartyDecryptFusion_docs,
             py::arg("ciphertextVec"))
+        .def("MultiKeySwitchGen", &CryptoContextImpl<DCRTPoly>::MultiKeySwitchGen,
+             cc_MultiKeySwitchGen_docs,
+             py::arg("originalPrivateKey"),
+             py::arg("newPrivateKey"),
+             py::arg("evalKey"))
+        .def("MultiEvalSumKeyGen", &CryptoContextImpl<DCRTPoly>::MultiEvalSumKeyGen,
+             cc_MultiEvalSumKeyGen_docs,
+             py::arg("privateKey"),
+             py::arg("evalKeyMap"),
+             py::arg("keyId") = "")
+        .def("MultiAddEvalKeys", &CryptoContextImpl<DCRTPoly>::MultiAddEvalKeys,
+             cc_MultiAddEvalKeys_docs,
+             py::arg("evalKey1"),
+             py::arg("evalKey2"),
+             py::arg("keyId") = "")
+        .def("MultiAddEvalMultKeys", &CryptoContextImpl<DCRTPoly>::MultiAddEvalMultKeys,
+             cc_MultiAddEvalMultKeys_docs,
+             py::arg("evalKey1"),
+             py::arg("evalKey2"),
+             py::arg("keyId") = "")
+        .def("MultiMultEvalKey", &CryptoContextImpl<DCRTPoly>::MultiMultEvalKey,
+             cc_MultiMultEvalKey_docs,
+             py::arg("privateKey"),
+             py::arg("evalKey"),
+             py::arg("keyId") = "")
+        //inline std::shared_ptr<std::map<usint, EvalKey<Element>>> MultiAddEvalSumKeys(const std::shared_ptr<std::map<usint, EvalKey<Element>>> evalKeyMap1, const std::shared_ptr<std::map<usint, EvalKey<Element>>> evalKeyMap2, const std::string &keyId = "")
+        .def("MultiAddEvalSumKeys", &CryptoContextImpl<DCRTPoly>::MultiAddEvalSumKeys,
+             cc_MultiAddEvalSumKeys_docs,
+             py::arg("evalKeyMap1"),
+             py::arg("evalKeyMap2"),
+             py::arg("keyId") = "")
         .def("EvalMerge", &CryptoContextImpl<DCRTPoly>::EvalMerge,
              cc_EvalMerge_docs,
              py::arg("ciphertextVec"))
@@ -483,6 +522,15 @@ void bind_crypto_context(py::module &m)
              py::arg("coefficients"))
         .def("Rescale", &CryptoContextImpl<DCRTPoly>::Rescale,
              cc_Rescale_docs,
+             py::arg("ciphertext"))
+        .def("RescaleInPlace", &CryptoContextImpl<DCRTPoly>::RescaleInPlace,
+             cc_RescaleInPlace_docs,
+             py::arg("ciphertext"))
+        .def("ModReduce", &CryptoContextImpl<DCRTPoly>::ModReduce,
+             cc_ModReduce_docs,
+             py::arg("ciphertext"))
+        .def("ModReduceInPlace", &CryptoContextImpl<DCRTPoly>::ModReduceInPlace,
+             cc_ModReduceInPlace_docs,
              py::arg("ciphertext"))
         .def("EvalBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalBootstrapSetup,
              cc_EvalBootstrapSetup_docs,
@@ -522,11 +570,19 @@ void bind_crypto_context(py::module &m)
             { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
             cc_ClearEvalMultKeys_docs)
         .def_static(
+            "InsertEvalSumKey", &CryptoContextImpl<DCRTPoly>::InsertEvalSumKey,
+            cc_InsertEvalSumKey_docs,
+            py::arg("evalKeyMap"))
+        .def_static(
+            "InsertEvalMultKey", &CryptoContextImpl<DCRTPoly>::InsertEvalMultKey,
+            cc_InsertEvalMultKey_docs,
+            py::arg("evalKeyVec"))
+        .def_static(
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
             cc_ClearEvalAutomorphismKeys_docs)
         .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
-            "TODO: Add documentation",
+            cc_GetEvalSumKeyMap_docs,
             py::return_value_policy::reference)
         .def_static(
             "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")

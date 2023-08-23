@@ -89,20 +89,6 @@ const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrappe
     return evalSumKeyMap;
 }
 
-// EvalKeyMapInterfaceType::EvalKeyMapInterfaceType(){
-//     m_EvalKeyMap = Ciphertext<DCRTPoly>(new CiphertextImpl<DCRTPoly>());
-//   }
-
-// EvalKeyMapInterfaceType::EvalKeyMapInterfaceType(std::map<usint, EvalKey<DCRTPoly>> evalkeymap){
-//     m_EvalKeyMap = std::make_shared<std::map<usint, EvalKey<DCRTPoly>>>(evalkeymap);
-//   }
-
-// EvalKeyMapInterfaceType::EvalKeyMapInterfaceType(std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> evalkeymap_ptr){
-//     m_EvalKeyMap = evalkeymap_ptr;
-//   }
-
-// EvalKeyMapInterfaceType::~EvalKeyMapInterfaceType() {}
-
-// const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> &EvalKeyMapInterfaceType::GetEvalKeyMap() const {
-//     return m_EvalKeyMap;
-//   }
+const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self){
+    return self->GetCryptoParameters()->GetPlaintextModulus();
+}

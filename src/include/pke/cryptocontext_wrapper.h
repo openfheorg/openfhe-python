@@ -59,32 +59,6 @@ Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std
 const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly> privateKey,const std::vector<usint> &indexList);
 const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper_PublicKey(CryptoContext<DCRTPoly>& self,const PublicKey<DCRTPoly> publicKey, const PrivateKey<DCRTPoly> privateKey, const std::vector<usint> &indexList);
 const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrapper(CryptoContext<DCRTPoly>& self, const std::string &id);
-
-// class EvalKeyMapInterfaceType {
-//  public:
-//   /**
-//    * Default constructor
-//    */
-//   EvalKeyMapInterfaceType();
-
-//   /**
-//    * Constructor from EvalKeyMap
-//    */
-//   EvalKeyMapInterfaceType(std::map<usint, EvalKey<DCRTPoly>> evalkeymap);
-//    /**
-//    * Constructor from EvalKeyMap shared pointer
-//    */
-//   EvalKeyMapInterfaceType(std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> evalkeymap_ptr);
-
-//   /**
-//    * Destructor
-//    */
-//   ~EvalKeyMapInterfaceType();
-
-//   const lbcrypto::CiphertextImpl<lbcrypto::DCRTPoly> &GetEvalKeyMap() const;
-
-//  private:
-//   std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> m_EvalKeyMap;
-// };
+const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self);
 
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H
