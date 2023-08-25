@@ -59,6 +59,11 @@ const char* cc_GetRingDimension_docs = R"pbdoc(
     :rtype: int
 )pbdoc";
 
+// TODO (Oliveira, R.) - Add documentation
+const char* cc_GetPlaintextModulus_docs = "";
+const char* cc_GetCyclotomicOrder_docs = "";
+const char* cc_GetModulus_docs = "";
+
 const char* cc_Enable_docs = R"pbdoc(
     Enable a particular feature for use with this CryptoContext
 
@@ -870,7 +875,7 @@ const char* cc_MultipartyDecryptMain_docs = R"pbdoc(
     :return: Ciphertext: resulting ciphertext
     :rtype: Ciphertext
 )pbdoc";
-//Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std::vector<Ciphertext<DCRTPoly>>& partialCiphertextVec);
+
 const char* cc_MultipartyDecryptFusion_docs = R"pbdoc(
     Threshold FHE: Method for combining the partially decrypted ciphertexts and getting the final decryption in the clear.
 
@@ -879,6 +884,32 @@ const char* cc_MultipartyDecryptFusion_docs = R"pbdoc(
     :return: Plaintext: resulting plaintext
     :rtype: Plaintext
 )pbdoc";
+
+const char* cc_MultiKeySwitchGen_docs = R"pbdoc(
+    Threshold FHE: Generates a joined evaluation key from the current secret share and a prior joined evaluation key
+
+    :param originalPrivateKey: secret key transformed from.
+    :type originalPrivateKey: PrivateKey
+    :param newPrivateKey: secret key transformed from.
+    :type newPrivateKey: PrivateKey
+    :param evalKey: the prior joined evaluation key.
+    :type evalKey: EvalKey
+    :return: EvalKey: the new joined evaluation key.
+    :rtype: EvalKey
+)pbdoc";
+
+// TODO (Oliveira, R.) - Complete the following documentation
+const char* cc_GetEvalSumKeyMap_docs = "";
+const char* cc_InsertEvalSumKey_docs = "";
+const char* cc_MultiEvalSumKeyGen_docs = "";
+const char* cc_MultiAddEvalKeys_docs = "";
+const char* cc_MultiMultEvalKey_docs = "";
+const char* cc_MultiAddEvalSumKeys_docs = "";
+const char* cc_MultiAddEvalMultKeys_docs = "";
+const char* cc_InsertEvalMultKey_docs = "";
+const char* cc_EvalSum_docs = "";
+
+
 const char* cc_EvalMerge_docs = R"pbdoc(
     Merges multiple ciphertexts with encrypted results in slot 0 into a single ciphertext The slot assignment is done based on the order of ciphertexts in the vector
 
@@ -927,6 +958,29 @@ const char* cc_Rescale_docs = R"pbdoc(
     :type ciphertext: Ciphertext
     :return: Ciphertext: mod reduced ciphertext
     :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_RescaleInPlace_docs = R"pbdoc(
+    RescaleInPlace - An alias for OpenFHE ModReduceInPlace method. This is because ModReduceInPlace is called RescaleInPlace in CKKS.
+
+    :param ciphertext: ciphertext
+    :type ciphertext: Ciphertext
+)pbdoc";
+
+const char* cc_ModReduce_docs = R"pbdoc(
+    ModReduce - OpenFHE ModReduce method used only for BGV/CKKS.
+
+    :param ciphertext: ciphertext
+    :type ciphertext: Ciphertext
+    :return: Ciphertext: mod reduced ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_ModReduceInPlace_docs = R"pbdoc(
+    ModReduce - OpenFHE ModReduceInPlace method used only for BGV/CKKS.
+
+    :param ciphertext: ciphertext to be mod-reduced in-place
+    :type ciphertext: Ciphertext
 )pbdoc";
 
 const char* cc_EvalBootstrapSetup_docs = R"pbdoc(

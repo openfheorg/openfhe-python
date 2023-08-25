@@ -92,3 +92,7 @@ const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrappe
 const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetPlaintextModulus();
 }
+
+const double GetModulusWrapper(CryptoContext<DCRTPoly>& self){
+    return self->GetCryptoParameters()->GetElementParams()->GetModulus().ConvertToDouble();
+}

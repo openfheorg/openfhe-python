@@ -1,4 +1,9 @@
 from openfhe import *
+from math import log2
+
+def main():
+    print("\n=================RUNNING FOR BFVrns======================\n")
+    RunBFVrns()
 
 def RunBFVrns():
     plaintextModulus = 65537
@@ -35,9 +40,9 @@ def RunBFVrns():
     ##########################################################
 
     # Output the generated parameters
-    print(f"p = {cc.GetCryptoParameters().GetPlaintextModulus()}")
-    print(f"n = {cc.GetCryptoParameters().GetElementParams().GetCyclotomicOrder() // 2}")
-    print(f"log2 q = {log2(cc.GetCryptoParameters().GetElementParams().GetModulus().ConvertToDouble())}")
+    print(f"p = {cc.GetPlaintextModulus()}")
+    print(f"n = {cc.GetCyclotomicOrder() / 2}")
+    print(f"log2 q = {log2(cc.GetModulus())}")
 
     ############################################################
     ## Perform Key Generation Operation
@@ -78,7 +83,7 @@ def RunBFVrns():
     evalMultBCDEABCDE = cc.MultiAddEvalMultKeys(evalMultBABCDE, evalMultCDEABCDE, evalMultBABCDE.GetKeyTag())
 
     evalMultFinal = cc.MultiAddEvalMultKeys(evalMultAABCDE, evalMultBCDEABCDE, kp5.publicKey.GetKeyTag())
-    cc.InsertEvalMultKey({evalMultFinal})
+    cc.InsertEvalMultKey([evalMultFinal])
 
     print("Round 1 of key generation completed.")
 
@@ -211,4 +216,5 @@ def RunBFVrns():
     print("\n Fused result after the Summation of ciphertext 3: \n")
     print(plaintextMultipartyEvalSum)
 
-RunBFVrns()
+if __name__ == "__main__":
+    main()
