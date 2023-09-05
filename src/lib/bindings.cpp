@@ -102,6 +102,8 @@ void bind_crypto_context(py::module &m)
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel, cc_GetKeyGenLevel_docs)
         .def("SetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::SetKeyGenLevel, cc_SetKeyGenLevel_docs,
              py::arg("level"))
+        .def("get_ptr", [](const CryptoContext<DCRTPoly> &self)
+             { std::cout << "CC shared ptr (python cc)" << self->GetCryptoParameters().get() << std::endl; })
         //.def("GetScheme",&CryptoContextImpl<DCRTPoly>::GetScheme)
         //.def("GetCryptoParameters", &CryptoContextImpl<DCRTPoly>::GetCryptoParameters)
         .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension, cc_GetRingDimension_docs)
@@ -914,7 +916,9 @@ void bind_ciphertext(py::module &m)
         ctx_GetLevel_docs)
      .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel,
         ctx_SetLevel_docs,
-        py::arg("level"));
+        py::arg("level"))
+    .def("get_ptr",[](const Ciphertext<DCRTPoly> &self){
+        std::cout<< "cryptoparameters shared ptr (python)" << self->GetCryptoContext()->GetCryptoParameters().get() << std::endl;});
     // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
     // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
