@@ -59,6 +59,27 @@ const char* cc_GetRingDimension_docs = R"pbdoc(
     :rtype: int
 )pbdoc";
 
+const char* cc_GetPlaintextModulus_docs = R"pbdoc(
+    Get the plaintext modulus used for this context
+
+    :return: The plaintext modulus
+    :rtype: int
+)pbdoc";
+
+const char* cc_GetCyclotomicOrder_docs = R"pbdoc(
+    Get the cyclotomic order used for this context
+
+    :return: The cyclotomic order
+    :rtype: int
+)pbdoc";
+
+const char* cc_GetModulus_docs = R"pbdoc(
+    Get the cyclotomic order used for this context
+
+    :return: The modulus
+    :rtype: int
+)pbdoc";
+
 const char* cc_Enable_docs = R"pbdoc(
     Enable a particular feature for use with this CryptoContext
 
@@ -306,6 +327,17 @@ Decrypt a single ciphertext into the appropriate plaintext
 :type privateKey: PrivateKey
 :return: decrypted plaintext
 :rtype: Plaintext
+)pbdoc";
+
+const char* cc_KeySwitchGen_docs = R"pbdoc(
+    KeySwitchGen creates a key that can be used with the OpenFHE KeySwitch operation
+
+    :param oldPrivateKey: input secrey key
+    :type oldPrivateKey: PrivateKey
+    :param newPrivateKey: output secret key
+    :type newPrivateKey: PrivateKey
+    :return: new evaluation key
+    :rtype: EvalKey
 )pbdoc";
 
 const char* cc_EvalAdd_docs = R"pbdoc(
@@ -825,6 +857,75 @@ const char* cc_EvalInnerProductPlaintext_docs = R"pbdoc(
     :rtype: Ciphertext
 )pbdoc";
 
+const char* cc_MultipartyKeyGen_docs = R"pbdoc(
+    Threshold FHE: Generation of a public key derived from a previous joined public key (for prior secret shares) and the secret key share of the current party.
+
+    :param publicKey:  joined public key from prior parties.
+    :type publicKey: PublicKey
+    :param makeSparse: set to true if ring reduce by a factor of 2 is to be used. NOT SUPPORTED BY ANY SCHEME ANYMORE.
+    :type makeSparse: bool
+    :param fresh: set to true if proxy re-encryption is used in the multi-party protocol or star topology is used
+    :type fresh: bool
+    :return: KeyPair: key pair including the secret share for the current party and joined public key
+    :rtype: KeyPair
+)pbdoc";
+
+const char* cc_MultipartyDecryptLead_docs = R"pbdoc(
+    Threshold FHE: Method for decryption operation run by the lead decryption client
+
+    :param ciphertextVec: a list of ciphertexts
+    :type ciphertextVec: list
+    :param privateKey:  secret key share used for decryption. list of partially decrypted ciphertexts.
+    :type privateKey: PrivateKey
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_MultipartyDecryptMain_docs = R"pbdoc(
+    Threshold FHE: "Partial" decryption computed by all parties except for the lead one
+
+    :param ciphertextVec: a list of ciphertexts
+    :type ciphertextVec: list
+    :param privateKey:  secret key share used for decryption. list of partially decrypted ciphertexts.
+    :type privateKey: PrivateKey
+    :return: Ciphertext: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_MultipartyDecryptFusion_docs = R"pbdoc(
+    Threshold FHE: Method for combining the partially decrypted ciphertexts and getting the final decryption in the clear.
+
+    :param partialCiphertextVec: list of "partial" decryptions
+    :type partialCiphertextVec: list
+    :return: Plaintext: resulting plaintext
+    :rtype: Plaintext
+)pbdoc";
+
+const char* cc_MultiKeySwitchGen_docs = R"pbdoc(
+    Threshold FHE: Generates a joined evaluation key from the current secret share and a prior joined evaluation key
+
+    :param originalPrivateKey: secret key transformed from.
+    :type originalPrivateKey: PrivateKey
+    :param newPrivateKey: secret key transformed from.
+    :type newPrivateKey: PrivateKey
+    :param evalKey: the prior joined evaluation key.
+    :type evalKey: EvalKey
+    :return: EvalKey: the new joined evaluation key.
+    :rtype: EvalKey
+)pbdoc";
+
+// TODO (Oliveira, R.) - Complete the following documentation
+const char* cc_GetEvalSumKeyMap_docs = "";
+const char* cc_InsertEvalSumKey_docs = "";
+const char* cc_MultiEvalSumKeyGen_docs = "";
+const char* cc_MultiAddEvalKeys_docs = "";
+const char* cc_MultiMultEvalKey_docs = "";
+const char* cc_MultiAddEvalSumKeys_docs = "";
+const char* cc_MultiAddEvalMultKeys_docs = "";
+const char* cc_InsertEvalMultKey_docs = "";
+const char* cc_EvalSum_docs = "";
+
+
 const char* cc_EvalMerge_docs = R"pbdoc(
     Merges multiple ciphertexts with encrypted results in slot 0 into a single ciphertext The slot assignment is done based on the order of ciphertexts in the vector
 
@@ -873,6 +974,29 @@ const char* cc_Rescale_docs = R"pbdoc(
     :type ciphertext: Ciphertext
     :return: Ciphertext: mod reduced ciphertext
     :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_RescaleInPlace_docs = R"pbdoc(
+    RescaleInPlace - An alias for OpenFHE ModReduceInPlace method. This is because ModReduceInPlace is called RescaleInPlace in CKKS.
+
+    :param ciphertext: ciphertext
+    :type ciphertext: Ciphertext
+)pbdoc";
+
+const char* cc_ModReduce_docs = R"pbdoc(
+    ModReduce - OpenFHE ModReduce method used only for BGV/CKKS.
+
+    :param ciphertext: ciphertext
+    :type ciphertext: Ciphertext
+    :return: Ciphertext: mod reduced ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_ModReduceInPlace_docs = R"pbdoc(
+    ModReduce - OpenFHE ModReduceInPlace method used only for BGV/CKKS.
+
+    :param ciphertext: ciphertext to be mod-reduced in-place
+    :type ciphertext: Ciphertext
 )pbdoc";
 
 const char* cc_EvalBootstrapSetup_docs = R"pbdoc(
