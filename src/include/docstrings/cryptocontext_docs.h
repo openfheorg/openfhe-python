@@ -59,10 +59,26 @@ const char* cc_GetRingDimension_docs = R"pbdoc(
     :rtype: int
 )pbdoc";
 
-// TODO (Oliveira, R.) - Add documentation
-const char* cc_GetPlaintextModulus_docs = "";
-const char* cc_GetCyclotomicOrder_docs = "";
-const char* cc_GetModulus_docs = "";
+const char* cc_GetPlaintextModulus_docs = R"pbdoc(
+    Get the plaintext modulus used for this context
+
+    :return: The plaintext modulus
+    :rtype: int
+)pbdoc";
+
+const char* cc_GetCyclotomicOrder_docs = R"pbdoc(
+    Get the cyclotomic order used for this context
+
+    :return: The cyclotomic order
+    :rtype: int
+)pbdoc";
+
+const char* cc_GetModulus_docs = R"pbdoc(
+    Get the cyclotomic order used for this context
+
+    :return: The modulus
+    :rtype: int
+)pbdoc";
 
 const char* cc_Enable_docs = R"pbdoc(
     Enable a particular feature for use with this CryptoContext

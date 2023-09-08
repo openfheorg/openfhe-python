@@ -107,7 +107,7 @@ void bind_crypto_context(py::module &m)
         .def("GetPlaintextModulus", &GetPlaintextModulusWrapper, cc_GetPlaintextModulus_docs)
         .def("GetModulus", &GetModulusWrapper, cc_GetModulus_docs)
         .def("GetCyclotomicOrder", &CryptoContextImpl<DCRTPoly>::GetCyclotomicOrder, cc_GetCyclotomicOrder_docs)
-        .def("GetModulus", &CryptoContextImpl<DCRTPoly>::GetModulus, cc_GetModulus_docs)
+        // .def("GetModulus", &CryptoContextImpl<DCRTPoly>::GetModulus, cc_GetModulus_docs)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), cc_Enable_docs,
              py::arg("feature"))
         .def("KeyGen", &CryptoContextImpl<DCRTPoly>::KeyGen, cc_KeyGen_docs)
@@ -433,7 +433,6 @@ void bind_crypto_context(py::module &m)
              cc_EvalSumColsKeyGen_docs,
              py::arg("privateKey"),
              py::arg("publicKey") = py::none())
-        //Ciphertext<Element> EvalSum(ConstCiphertext<Element> ciphertext, usint batchSize)
         .def("EvalSum", &CryptoContextImpl<DCRTPoly>::EvalSum,
              cc_EvalSum_docs,
              py::arg("ciphertext"),
@@ -500,7 +499,6 @@ void bind_crypto_context(py::module &m)
              py::arg("privateKey"),
              py::arg("evalKey"),
              py::arg("keyId") = "")
-        //inline std::shared_ptr<std::map<usint, EvalKey<Element>>> MultiAddEvalSumKeys(const std::shared_ptr<std::map<usint, EvalKey<Element>>> evalKeyMap1, const std::shared_ptr<std::map<usint, EvalKey<Element>>> evalKeyMap2, const std::string &keyId = "")
         .def("MultiAddEvalSumKeys", &CryptoContextImpl<DCRTPoly>::MultiAddEvalSumKeys,
              cc_MultiAddEvalSumKeys_docs,
              py::arg("evalKeyMap1"),
@@ -548,7 +546,6 @@ void bind_crypto_context(py::module &m)
              py::arg("ciphertext"),
              py::arg("numIterations") = 1,
              py::arg("precision") = 0)
-        //TODO (Oliveira, R.): Solve pointer handling bug when returning EvalKeyMap objects for the next functions
         .def("EvalAutomorphismKeyGen", &EvalAutomorphismKeyGenWrapper, 
             cc_EvalAutomorphismKeyGen_docs,
             py::arg("privateKey"),
@@ -792,8 +789,6 @@ void bind_enums_and_constants(py::module &m)
     //NATIVEINT function
     m.def("get_native_int", &get_native_int);
   
-    // EvalKeyMap
-    //py::bind_map<std::map<usint, EvalKey<DCRTPoly>>>(m, "EvalKeyMap");
 }
 
 void bind_keys(py::module &m)
@@ -809,7 +804,7 @@ void bind_keys(py::module &m)
     py::class_<KeyPair<DCRTPoly>>(m, "KeyPair")
         .def_readwrite("publicKey", &KeyPair<DCRTPoly>::publicKey)
         .def_readwrite("secretKey", &KeyPair<DCRTPoly>::secretKey)
-        .def("good", &KeyPair<DCRTPoly>::good);
+        .def("good", &KeyPair<DCRTPoly>::good,kp_good_docs);
     py::class_<EvalKeyImpl<DCRTPoly>, std::shared_ptr<EvalKeyImpl<DCRTPoly>>>(m, "EvalKey")
         .def(py::init<>())
         .def("GetKeyTag", &EvalKeyImpl<DCRTPoly>::GetKeyTag)

@@ -35,10 +35,9 @@ def RunBGVrnsAdditive():
     ##########################################################
 
     # Print out the parameters
-    print(f"p = {parameters.GetPlaintextModulus()}")
-    # TODO (Oliveira, R.) - Find a workaround for printing out the following parameters
-    # print(f"n = {parameters.GetElementParams().GetCyclotomicOrder()/2}")
-    # print(f"lo2 q = {log2(parameters.GetElementParams().GetModulus().ConvertToDouble())}")
+    print(f"p = {cc.GetPlaintextModulus()}")
+    print(f"n = {cc.GetCyclotomicOrder()/2}")
+    print(f"lo2 q = {log2(cc.GetModulus())}")
 
     ############################################################
     ## Perform Key Generation Operation
