@@ -29,9 +29,18 @@
 #define OPENFHE_SERIALIZATION_BINDINGS_H
 
 #include <pybind11/pybind11.h>
+#include "openfhe.h"
+#include "bindings.h"
+
 using namespace lbcrypto;
 
 template <typename ST>
 bool SerializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype, std::string id);
+
+template <typename ST>
+bool SerializeEvalAutomorphismKeyWrapper(const std::string& filename, const ST& sertype, std::string id);
+
+template <typename ST>
+bool DeserializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype);
 
 #endif // OPENFHE_SERIALIZATION_BINDINGS_H
