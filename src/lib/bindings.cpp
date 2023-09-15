@@ -103,7 +103,7 @@ void bind_crypto_context(py::module &m)
         .def("SetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::SetKeyGenLevel, cc_SetKeyGenLevel_docs,
              py::arg("level"))
         .def("get_ptr", [](const CryptoContext<DCRTPoly> &self)
-             { std::cout << "CC shared ptr (python cc)" << self->GetCryptoParameters().get() << std::endl; })
+             { std::cout << "CC shared ptr (python cc)" << self << std::endl; })
         //.def("GetScheme",&CryptoContextImpl<DCRTPoly>::GetScheme)
         //.def("GetCryptoParameters", &CryptoContextImpl<DCRTPoly>::GetCryptoParameters)
         .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension, cc_GetRingDimension_docs)
@@ -582,10 +582,7 @@ void bind_crypto_context(py::module &m)
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
             cc_ClearEvalAutomorphismKeys_docs)
-        .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
-            cc_GetEvalSumKeyMap_docs,
-            py::return_value_policy::reference)
-        .def_static( // SerializeEvalMultKey - Binary
+        .def_static(
             "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
             {
                 std::ofstream outfile(filename,std::ios::out | std::ios::binary);
@@ -913,7 +910,7 @@ void bind_ciphertext(py::module &m)
         ctx_SetLevel_docs,
         py::arg("level"))
     .def("get_ptr",[](const Ciphertext<DCRTPoly> &self){
-        std::cout<< "cryptoparameters shared ptr (python)" << self->GetCryptoContext()->GetCryptoParameters().get() << std::endl;});
+        std::cout<< "cryptoparameters shared ptr (python)" << self->GetCryptoContext().get() << std::endl;});
     // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
     // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
