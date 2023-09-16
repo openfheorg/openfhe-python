@@ -4,7 +4,6 @@ from openfhe import *
 
 datafolder = 'demoData'
 serType = BINARY # BINARY or JSON 
-serType = BINARY # BINARY or JSON 
 print("This program requres the subdirectory `" + datafolder + "' to exist, otherwise you will get an error writing serializations.")
 
 # Sample Program: Step 1: Set CryptoContext
@@ -20,7 +19,6 @@ cryptoContext.Enable(PKESchemeFeature.LEVELEDSHE)
 
 # Serialize cryptocontext
 if not SerializeToFile(datafolder + "/cryptocontext.txt", cryptoContext, serType):
-if not SerializeToFile(datafolder + "/cryptocontext.txt", cryptoContext, serType):
    raise Exception("Error writing serialization of the crypto context to cryptocontext.txt")
 print("The cryptocontext has been serialized.")
 
@@ -32,12 +30,10 @@ print("The keypair has been generated.")
 
 # Serialize the public key
 if not SerializeToFile(datafolder + "/key-public.txt", keypair.publicKey, serType):
-if not SerializeToFile(datafolder + "/key-public.txt", keypair.publicKey, serType):
    raise Exception("Error writing serialization of the public key to key-public.txt")
 print("The public key has been serialized.")
 
 # Serialize the secret key
-if not SerializeToFile(datafolder + "/key-private.txt", keypair.secretKey, serType):
 if not SerializeToFile(datafolder + "/key-private.txt", keypair.secretKey, serType):
    raise Exception("Error writing serialization of the secret key to key-private.txt")
 print("The secret key has been serialized.")
@@ -48,7 +44,6 @@ print("The relinearization key has been generated.")
 
 # Serialize the relinearization key
 if not cryptoContext.SerializeEvalMultKey(datafolder + "/key-eval-mult.txt",serType):
-if not cryptoContext.SerializeEvalMultKey(datafolder + "/key-eval-mult.txt",serType):
    raise Exception("Error writing serialization of the eval mult keys to \"key-eval-mult.txt\"")
 print("The relinearization key has been serialized.")
 
@@ -57,7 +52,6 @@ cryptoContext.EvalRotateKeyGen(keypair.secretKey, [1, 2, -1, -2])
 print("The rotation evaluation keys have been generated.")
 
 # Serialize the rotation evaluation keys
-if not cryptoContext.SerializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",serType):
 if not cryptoContext.SerializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",serType):
    raise Exception("Error writing serialization of the eval rotate keys to \"key-eval-rot.txt\"")
 print("The rotation evaluation keys have been serialized.")
@@ -84,17 +78,13 @@ ciphertext3 = cryptoContext.Encrypt(keypair.publicKey, plaintext3)
 print("The plaintexts have been encrypted.")
 
 if not SerializeToFile(datafolder + "/ciphertext1.txt", ciphertext1, serType):
-if not SerializeToFile(datafolder + "/ciphertext1.txt", ciphertext1, serType):
    raise Exception("Error writing serialization of ciphertext 1 to ciphertext1.txt")
 print("The first ciphertext has been serialized.")
-
-if not SerializeToFile(datafolder + "/ciphertext2.txt", ciphertext2, serType):
 
 if not SerializeToFile(datafolder + "/ciphertext2.txt", ciphertext2, serType):
    raise Exception("Error writing serialization of ciphertext2 to ciphertext2.txt")
 print("The second ciphertext has been serialized.")
 
-if not SerializeToFile(datafolder + "/ciphertext3.txt", ciphertext3, serType):   
 if not SerializeToFile(datafolder + "/ciphertext3.txt", ciphertext3, serType):   
    raise Exception("Error writing serialization of ciphertext3 to ciphertext3.txt")
 print("The third ciphertext has been serialized.")
@@ -110,10 +100,8 @@ cryptoContext.ClearEvalMultKeys()
 cryptoContext.ClearEvalAutomorphismKeys()
 ReleaseAllContexts()
 
-
 # Deserialize the crypto context
 
-cc, res = DeserializeCryptoContext(datafolder + "/cryptocontext.txt", serType)
 cc, res = DeserializeCryptoContext(datafolder + "/cryptocontext.txt", serType)
 if not res:
    raise Exception("Error reading serialization of the crypto context from cryptocontext.txt")
@@ -122,26 +110,21 @@ print("The cryptocontext has been deserialized.")
 # Deserialize the public key
 pk, res = DeserializePublicKey(datafolder + "/key-public.txt", serType)
 
-pk, res = DeserializePublicKey(datafolder + "/key-public.txt", serType)
-
 if not res:
    raise Exception("Error reading serialization of the public key from key-public.txt")
 print("The public key has been deserialized.")
 
-if not cc.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",serType):
 if not cc.DeserializeEvalMultKey(datafolder + "/key-eval-mult.txt",serType):
    raise Exception("Could not deserialize the eval mult key file")
 
 print("The relinearization key has been deserialized.")
 
 if not cc.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",serType):
-if not cc.DeserializeEvalAutomorphismKey(datafolder + "/key-eval-rot.txt",serType):
    raise Exception("Could not deserialize the eval rotation key file")
 
 print("Deserialized the eval rotation keys.")
 
 # Deserialize the ciphertexts
-ct1, res =  DeserializeCiphertext(datafolder + "/ciphertext1.txt", serType)
 ct1, res =  DeserializeCiphertext(datafolder + "/ciphertext1.txt", serType)
 
 if not res:
@@ -150,14 +133,10 @@ print("The first ciphertext has been deserialized.")
 
 ct2, res = DeserializeCiphertext(datafolder + "/ciphertext2.txt", serType)
 
-
-ct2, res = DeserializeCiphertext(datafolder + "/ciphertext2.txt", serType)
-
 if not res:
     raise Exception("Could not read the ciphertext")
 print("The second ciphertext has been deserialized.")
 
-ct3, res = DeserializeCiphertext(datafolder + "/ciphertext3.txt", serType)
 ct3, res = DeserializeCiphertext(datafolder + "/ciphertext3.txt", serType)
 if not res:   
     raise Exception("Could not read the ciphertext")
@@ -212,12 +191,3 @@ print("Left rotation of #1 by 1: " + str(plaintextRot1))
 print("Left rotation of #1 by 2: " + str(plaintextRot2))
 print("Right rotation of #1 by 1: " + str(plaintextRot3))
 print("Right rotation of #1 by 2: " + str(plaintextRot4))
-
-
-
-
-
-
-
-
-
