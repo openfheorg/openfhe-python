@@ -3,7 +3,7 @@ from openfhe import *
 # import openfhe.PKESchemeFeature as Feature
 
 datafolder = 'demoData'
-serType = JSON # BINARY or JSON 
+serType = BINARY # BINARY or JSON 
 print("This program requres the subdirectory `" + datafolder + "' to exist, otherwise you will get an error writing serializations.")
 
 # Sample Program: Step 1: Set CryptoContext
