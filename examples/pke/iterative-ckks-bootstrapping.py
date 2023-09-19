@@ -21,9 +21,14 @@ def iterative_bootstrap_example():
     parameters.SetSecurityLevel(SecurityLevel.HEStd_NotSet)
     parameters.SetRingDim(1 << 12)
 
-    rescale_tech = ScalingTechnique.FLEXIBLEAUTO
-    dcrt_bits = 59
-    first_mod = 60
+    if get_native_int()==128:
+        rescale_tech = ScalingTechnique.FIXEDAUTO
+        dcrt_bits = 78
+        first_mod = 89
+    else:
+        rescale_tech = ScalingTechnique.FLEXIBLEAUTO
+        dcrt_bits = 59
+        first_mod = 60
 
     parameters.SetScalingModSize(dcrt_bits)
     parameters.SetScalingTechnique(rescale_tech)
@@ -35,12 +40,10 @@ def iterative_bootstrap_example():
     num_iterations = 2
 
     level_budget = [3, 3]
-    # Each extra iteration on top of 1 requires an extra level to be consumed.
-    approx_bootstrapp_depth = 8 + (num_iterations - 1)
     bsgs_dim = [0,0]
 
-    levels_used_before_bootstrap = 10
-    depth = levels_used_before_bootstrap + FHECKKSRNS.GetBootstrapDepth(approx_bootstrapp_depth, level_budget, secret_key_dist)
+    levels_available_after_bootstrap = 10
+    depth = levels_available_after_bootstrap = 10 + FHECKKSRNS.GetBootstrapDepth(level_budget, secret_key_dist) + (num_iterations - 1)
     parameters.SetMultiplicativeDepth(depth)
 
     # Generate crypto context
@@ -80,6 +83,8 @@ def iterative_bootstrap_example():
         Here, we assume all ciphertexts in the cryptoContext will have num_slots slots.
         We start with a depleted ciphertext that has used up all of its levels."""
     ptxt = cryptocontext.MakeCKKSPackedPlaintext(x, 1, depth -1,None,num_slots)
+    ptxt.SetLength(num_slots)
+    print(f"Input: {ptxt}")
 
     # Encrypt the encoded vectors
     ciph = cryptocontext.Encrypt(key_pair.publicKey, ptxt)

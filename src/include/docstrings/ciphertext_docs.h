@@ -44,4 +44,12 @@ const char* ctx_SetLevel_docs = R"pbdoc(
     :type level: int
 )pbdoc";
 
+//KeyPair Docs
+const char* kp_good_docs = R"pbdoc(
+    Checks whether both public key and secret key are non-null, or correctly initialized.
+
+    :return: Result.
+    :rtype: bool
+)pbdoc";
+
 #endif // CIPHERTEXT_DOCSTRINGS_H
