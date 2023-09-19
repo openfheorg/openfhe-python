@@ -5,8 +5,7 @@
 - [Building](#building)
   - [Prerequisites](#requirements)
   - [Linux Install](#linux)
-    - [Installing the .so: Conda](#conda)
-    - [Installing the .so: System](#system-install)
+    - [Using Conda environments](#conda)
 - [Running Examples](#code-examples)
 - [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
 
