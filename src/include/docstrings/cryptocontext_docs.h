@@ -39,14 +39,14 @@ namespace py = pybind11;
 // auto cc_docs2 = py::doc(cc_docs);
 
 const char* cc_SetKeyGenLevel_docs = R"pbdoc(
-    Set the level used for key generation
+    For future use: setter for the level at which evaluation keys should be generated
 
     :param level: the level to set the key generation to
     :type level: int
 )pbdoc";
 
 const char* cc_GetKeyGenLevel_docs = R"pbdoc(
-    Get the level used for key generation
+    For future use: getter for the level at which evaluation keys should be generated
 
     :return: The level used for key generation
     :rtype: int
@@ -124,11 +124,10 @@ const char* cc_EvalRotateKeyGen_docs = R"pbdoc(
     :type publicKey: PublicKey
 )pbdoc";
 
-// MakeStringPlaintext
 const char* cc_MakeStringPlaintext_docs = R"pbdoc(
     MakeStringPlaintext constructs a StringEncoding in this context.
 
-    :param str: the string to convert
+    :param str: string to be encoded
     :type str: str
     :return: plaintext
 )pbdoc";
@@ -136,10 +135,10 @@ const char* cc_MakeStringPlaintext_docs = R"pbdoc(
 const char* cc_MakePackedPlaintext_docs = R"pbdoc(
     MakePackedPlaintext constructs a PackedEncoding in this context
 
-    :param value: the vector (of integers) to convert
-    :type value: list
-    :param depth: is the multiplicative depth to encode the plaintext at
-    :type depth: int
+    :param value: vector of signed integers mod t
+    :type value: List[int]
+    :param noiseScaleDeg: is degree of the scaling factor to encode the plaintext at
+    :type noiseScaleDeg: int
     :param level: is the level to encode the plaintext at
     :type level: int
     :return: plaintext
@@ -149,10 +148,10 @@ const char* cc_MakePackedPlaintext_docs = R"pbdoc(
 const char* cc_MakeCoefPackedPlaintext_docs = R"pbdoc(
     MakeCoefPackedPlaintext constructs a CoefPackedEncoding in this context
 
-    :param value: the vector (of integers) to convert
-    :type value: list
-    :param depth: is the multiplicative depth to encode the plaintext at
-    :type depth: int
+    :param value: vector of signed integers mod t
+    :type value: List[int]
+    :param noiseScaleDeg :  is degree of the scaling factor to encode the plaintext at
+    :type noiseScaleDeg : int
     :param level: is the level to encode the plaintext at
     :type level: int
     :return: plaintext
@@ -160,10 +159,10 @@ const char* cc_MakeCoefPackedPlaintext_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_MakeCKKSPackedPlaintextComplex_docs = R"pbdoc(
-    COMPLEX ARITHMETIC IS NOT AVAILABLE STARTING WITH OPENFHE 1.10.6, AND THIS METHOD BE DEPRECATED. USE THE REAL-NUMBER METHOD INSTEAD. MakeCKKSPackedPlaintext constructs a CKKSPackedEncoding in this context from a vector of complex numbers
+    COMPLEX ARITHMETIC IS NOT AVAILABLE, AND THIS METHOD BE DEPRECATED. USE THE REAL-NUMBER METHOD INSTEAD. MakeCKKSPackedPlaintext constructs a CKKSPackedEncoding in this context from a vector of complex numbers
 
-    :param value: input vector (of complex numbers)
-    :type value: list
+    :param value: input vector of complex numbers
+    :type value: List[complex]
     :param scaleDeg: degree of scaling factor used to encode the vector
     :type scaleDeg: int
     :param level: level at each the vector will get encrypted
@@ -310,9 +309,9 @@ const char* cc_EvalAtIndexKeyGen_docs = R"pbdoc(
 const char* cc_Encrypt_docs = R"doc(
     Encrypt a plaintext using a given public key
 
-    :param plaintext: the plaintext to encrypt
+    :param plaintext: plaintext
     :type plaintext: Plaintext
-    :param publicKey: the public key
+    :param publicKey: public key
     :type publicKey: PublicKey
     :return: ciphertext (or null on failure)
     :rtype: Ciphertext
@@ -341,60 +340,60 @@ const char* cc_KeySwitchGen_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_EvalAdd_docs = R"pbdoc(
-Add two ciphertexts
+Homomorphic addition of two ciphertexts
 
-:param ct1: first ciphertext
-:type ct1: Ciphertext
-:param ct2: second ciphertext
-:type ct2: Ciphertext
-:return: resulting ciphertext
+:param ciphertext1: first addend
+:type ciphertext1: Ciphertext
+:param ciphertext2: second addend
+:type ciphertext2: Ciphertext
+:return: the result as a new ciphertext
 :rtype: Ciphertext
 )pbdoc";
 
 const char* cc_EvalAddfloat_docs = R"pbdoc(
-EvalAdd - OpenFHE EvalAdd method for a ciphertext and constant
+EvalAdd - OpenFHE EvalAdd method for a ciphertext and a real number. Supported only in CKKS.
 
-:param ct: ciphertext
-:type ct: Ciphertext
-:param constant: constant to add
+:param ciphertext: input ciphertext
+:type ciphertext: Ciphertext
+:param constant: a real number
 :type constant: float
 :return: new ciphertext for ciphertext + constant
 :rtype: Ciphertext
 )pbdoc";
 
 const char* cc_EvalAddInPlace_docs = R"pbdoc(
-EvalAdd - OpenFHE EvalAddInPlace method for a pair of ciphertexts
+In-place homomorphic addition of two ciphertexts
 
-:param ct1: Input/output ciphertext
-:type ct1: Ciphertext
-:param ct2: Input ciphertext
-:type ct2: Ciphertext
-:return: ct1 contains ct1 + ct2
+:param ciphertext1: ciphertext1
+:type ciphertext1: Ciphertext
+:param ciphertext2: second addend
+:type ciphertext2: Ciphertext
+:return: ciphertext1 contains ciphertext1 + ciphertext2
 )pbdoc";
 
 const char* cc_EvalAddInPlacePlaintext_docs = R"pbdoc(
-EvalAdd - OpenFHE EvalAddInPlace method for a ciphertext and plaintext
+In-place addition for a ciphertext and plaintext
 
-:param ct: Input/output ciphertext
-:type ct: Ciphertext
-:param pt: Input plaintext
-:type pt: Plaintext
-:return: ct contains ct + pt
+:param ciphertext: Input/output ciphertext
+:type ciphertext: Ciphertext
+:param plaintext: Input plaintext
+:type plaintext: Plaintext
+:return: ciphertext contains ciphertext + plaintext
 )pbdoc";
 
 const char* cc_EvalAddMutable_docs = R"pbdoc(
-EvalAdd - OpenFHE EvalAddMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
+Homomorphic addition of two mutable ciphertexts (they can be changed during the operation)
 
-:param ct1: first ciphertext
-:type ct1: Ciphertext
-:param ct2: second ciphertext
-:type ct2: Ciphertext
-:return: new ciphertext for ct1 + ct2
+:param ciphertext1: first addend
+:type ciphertext1: Ciphertext
+:param ciphertext2: second addend
+:type ciphertext2: Ciphertext
+:return: the result as a new ciphertext
 :rtype: Ciphertext
 )pbdoc";
 
 const char* cc_EvalAddMutablePlaintext_docs = R"pbdoc(
-EvalAdd - OpenFHE EvalAddMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
+Homomorphic addition a mutable ciphertext and plaintext
 
 :param ciphertext: ciphertext
 :type ciphertext: Ciphertext
@@ -406,97 +405,96 @@ EvalAdd - OpenFHE EvalAddMutable method for a ciphertext and plaintext. This is 
 
 
 const char* cc_EvalAddMutableInPlace_docs = R"pbdoc(
-    EvalAdd - Inplace version of EvalAddMutable
+    Homomorphic addition a mutable ciphertext and plaintext
 
-    :param ct1: Input/output ciphertext
-    :type ct1: Ciphertext
-    :param ct2: Input ciphertext
-    :type ct2: Ciphertext
-    :return: ct1 contains ct1 + ct2
+    :param ciphertext1: first addend
+    :type ciphertext1: Ciphertext
+    :param ciphertext2: second addend
+    :type ciphertext2: Ciphertext
+    :return: ciphertext1 contains ciphertext1 + ciphertext2
 )pbdoc";
 
 const char* cc_EvalSub_docs = R"pbdoc(
-EvalSub - OpenFHE EvalSub method for a pair of ciphertexts
+Homomorphic subtraction of two ciphertexts
 
-:param ct1: first ciphertext
-:type ct1: Ciphertext
-:param ct2: second ciphertext
-:type ct2: Ciphertext
-:return: new ciphertext for ct1 - ct2
+:param ciphertext1: minuend
+:type ciphertext1: Ciphertext
+:param ciphertext2: subtrahend
+:type ciphertext2: Ciphertext
+:return: the result as a new ciphertext
 :rtype: Ciphertext
 )pbdoc";
 
 const char* cc_EvalSubfloat_docs = R"pbdoc(
-EvalSub - OpenFHE EvalSub method for a ciphertext and constant
+Subtraction of a ciphertext and a real number. Supported only in CKKS.
 
-:param ciphertext: ciphertext
+:param ciphertext: input ciphertext
 :type ciphertext: Ciphertext
-:param constant: constant to subtract
+:param constant: a real number
 :type constant: float
 :return: new ciphertext for ciphertext - constant
 :rtype: Ciphertext
 )pbdoc";
 
 const char* cc_EvalSubPlaintext_docs = R"pbdoc(
-EvalSub - OpenFHE EvalSub method for a ciphertext and plaintext
+Subtraction of a ciphertext and a real number. Supported only in CKKS.
 
-:param ciphertext: ciphertext
+:param ciphertext: minuend
 :type ciphertext: Ciphertext
-:param plaintext: plaintext
+:param plaintext: subtrahend
 :type plaintext: Plaintext
 :return: new ciphertext for ciphertext - plaintext
 :rtype: Ciphertext
 )pbdoc";
 
 const char* cc_EvalSubInPlace_docs = R"pbdoc(
-Inplace version of EvalSub for a pair of ciphertexts
+In-place homomorphic subtraction of two ciphertexts
 
-:param ct1: Input/output ciphertext
-:type ct1: Ciphertext
-:param ct2: Input ciphertext
-:type ct2: Ciphertext
-:return: ct1 contains ct1 - ct2
+:param ciphertext1: minuend
+:type ciphertext1: Ciphertext
+:param ciphertext2: subtrahend
+:type ciphertext2: Ciphertext
+:return: the result as a new ciphertext
 )pbdoc";
 
 const char* cc_EvalSubInPlacefloat_docs = R"pbdoc(
-Inplace version of EvalSub for a ciphertext and constant
+In-place subtraction of a ciphertext and a real number. Supported only in CKKS.
 
-:param ciphertext: Input/output ciphertext
+:param ciphertext: input ciphertext
 :type ciphertext: Ciphertext
-:param constant: constant to subtract
+:param constant: a real number
 :type constant: float
-:return: ciphertext contains ciphertext - constant
 )pbdoc";
 
 // EvalSubMutable
 const char* cc_EvalSubMutable_docs = R"pbdoc(
-EvalSub - OpenFHE EvalSubMutable method for a pair of ciphertexts. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
+Homomorphic subtraction of two mutable ciphertexts
 
-:param ct1: first ciphertext
-:type ct1: Ciphertext
-:param ct2: second ciphertext
-:type ct2: Ciphertext
-:return: new ciphertext for ct1 - ct2
+:param ciphertext1: minuend
+:type ciphertext1: Ciphertext
+:param ciphertext2: subtrahend
+:type ciphertext2: Ciphertext
+:return: the result as a new ciphertext
 )pbdoc";
 
 // EvalSubMutableInPlace
 const char* cc_EvalSubMutableInPlace_docs = R"pbdoc(
-    EvalSub - Inplace variant for EvalSubMutable.
+    In-place homomorphic subtraction of two mutable ciphertexts
 
-    :param ct1: Input/output ciphertext
-    :type ct1: Ciphertext
-    :param ct2: Input ciphertext
-    :type ct2: Ciphertext
-    :return: ct1 contains ct1 - ct2
+    :param ciphertext1: minuend
+    :type ciphertext1: Ciphertext
+    :param ciphertext2: subtrahend
+    :type ciphertext2: Ciphertext
+    :return: the updated minuend
 )pbdoc";
 
 // EvalSubMutablePlaintext
 const char* cc_EvalSubMutablePlaintext_docs = R"pbdoc(
-EvalSub - OpenFHE EvalSubMutable method for a ciphertext and plaintext. This is a mutable version - input ciphertexts may get automatically rescaled, or level-reduced.
+Homomorphic subtraction of mutable ciphertext and plaintext
 
-:param ciphertext: ciphertext
+:param ciphertext: minuend
 :type ciphertext: Ciphertext
-:param plaintext: plaintext
+:param plaintext: subtrahend
 :type plaintext: Plaintext
 :return: new ciphertext for ciphertext - plaintext
 )pbdoc";
@@ -633,20 +631,19 @@ const char* cc_EvalMultAndRelinearize_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_EvalNegate_docs = R"pbdoc(
-    EvalSub - OpenFHE Negate method for a ciphertext
+    Negates a ciphertext
 
-    :param ct: input ciphertext
-    :type ct: Ciphertext
-    :return: new ciphertext -ct
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :return: new ciphertext: -ciphertext
     :rtype: Ciphertext
 )pbdoc";
 
 const char* cc_EvalNegateInPlace_docs = R"pbdoc(
-    EvalSub - Inplace OpenFHE Negate method for a ciphertext
+    In-place negation of a ciphertext
 
-    :param ct: input/output ciphertext
-    :type ct: Ciphertext
-    :return: ct contains -ct
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
 )pbdoc";
 
 const char* cc_EvalChebyshevSeries_docs = R"pbdoc(
@@ -915,14 +912,28 @@ const char* cc_MultiKeySwitchGen_docs = R"pbdoc(
 )pbdoc";
 
 // TODO (Oliveira, R.) - Complete the following documentation
-const char* cc_GetEvalSumKeyMap_docs = "";
-const char* cc_InsertEvalSumKey_docs = "";
+const char* cc_GetEvalSumKeyMap_docs = R"pbdoc(
+    Get a map of summation keys (each is composed of several automorphism keys) for a specific secret key tag
+    :return: EvalKeyMap: key map
+    :rtype: EvalKeyMap
+)pbdoc";
+const char* cc_InsertEvalSumKey_docs = R"pbdoc(
+    InsertEvalSumKey - add the given map of keys to the map, replacing the existing map if there
+
+    :param evalKeyMap: key map
+    :type evalKeyMap: EvalKeyMap
+)pbdoc";
 const char* cc_MultiEvalSumKeyGen_docs = "";
 const char* cc_MultiAddEvalKeys_docs = "";
 const char* cc_MultiMultEvalKey_docs = "";
 const char* cc_MultiAddEvalSumKeys_docs = "";
 const char* cc_MultiAddEvalMultKeys_docs = "";
-const char* cc_InsertEvalMultKey_docs = "";
+const char* cc_InsertEvalMultKey_docs = R"pbdoc(
+    InsertEvalMultKey - add the given vector of keys to the map, replacing the existing vector if there
+
+    :param evalKeyVec: vector of keys
+    :type evalKeyVec: List[EvalKey]
+)pbdoc";
 const char* cc_EvalSum_docs = "";
 
 
@@ -1081,7 +1092,10 @@ const char* cc_FindAutomorphismIndices_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_ClearEvalMultKeys_docs = R"pbdoc(
-    ClearEvalMultKeys - flush EvalMultKey cache
+    ClearEvalMultKeys - flush EvalMultKey cache for a given id
+
+    :param id: the corresponding key id
+    :type id: str
 )pbdoc";
 
 const char* cc_ClearEvalAutomorphismKeys_docs = R"pbdoc(
@@ -1103,13 +1117,13 @@ const char* cc_SerializeEvalAutomorphismKey_docs = R"pbdoc(
 const char* cc_SerializeEvalMultKey_docs = R"pbdoc(
     SerializeEvalMultKey for a single EvalMult key or all of the EvalMult keys
 
-    :param filename: output file
+    :param filename: output file to serialize to
     :type filename: str
     :param sertype: type of serialization
     :type sertype: SERJSON, SERBINARY
     :param id: for key to serialize - if empty string, serialize them all
     :type id: str
-    :return: bool: true on success
+    :return: bool: true on success (false on failure or no keys found)
 )pbdoc";
 
 const char* cc_DeserializeEvalAutomorphismKey_docs = R"pbdoc(

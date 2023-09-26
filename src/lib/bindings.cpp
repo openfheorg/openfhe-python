@@ -130,12 +130,12 @@ void bind_crypto_context(py::module &m)
         .def("MakePackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakePackedPlaintext,
              cc_MakePackedPlaintext_docs,
              py::arg("value"),
-             py::arg("depth") = 1,
+             py::arg("noiseScaleDeg") = 1,
              py::arg("level") = 0)
         .def("MakeCoefPackedPlaintext", &CryptoContextImpl<DCRTPoly>::MakeCoefPackedPlaintext,
             cc_MakeCoefPackedPlaintext_docs,
             py::arg("value"),
-            py::arg("depth") = 1,
+            py::arg("noiseScaleDeg ") = 1,
             py::arg("level") = 0)
         // TODO (Oliveira): allow user to specify different params values
         .def("MakeCKKSPackedPlaintext", static_cast<Plaintext (CryptoContextImpl<DCRTPoly>::*)(const std::vector<std::complex<double>> &, size_t, uint32_t, const std::shared_ptr<ParmType>, usint) const>(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext), cc_MakeCKKSPackedPlaintextComplex_docs,
@@ -204,7 +204,7 @@ void bind_crypto_context(py::module &m)
             (&CryptoContextImpl<DCRTPoly>::EvalAdd), 
             cc_EvalAddfloat_docs,
             py::arg("ciphertext"),
-            py::arg("scalar"))
+            py::arg("constant"))
         .def("EvalAddInPlace", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, ConstCiphertext<DCRTPoly>) const>
             (&CryptoContextImpl<DCRTPoly>::EvalAddInPlace),
             cc_EvalAddInPlace_docs,
@@ -367,10 +367,10 @@ void bind_crypto_context(py::module &m)
             py::arg("ct2"))
         .def("EvalNegate", &CryptoContextImpl<DCRTPoly>::EvalNegate,
             cc_EvalNegate_docs,
-            py::arg("ct"))
+            py::arg("ciphertext"))
         .def("EvalNegateInPlace", &CryptoContextImpl<DCRTPoly>::EvalNegateInPlace,
             cc_EvalNegateInPlace_docs,
-            py::arg("ct"))
+            py::arg("ciphertext"))
         .def("EvalLogistic", &CryptoContextImpl<DCRTPoly>::EvalLogistic,
             cc_EvalLogistic_docs,
             py::arg("ciphertext"),
