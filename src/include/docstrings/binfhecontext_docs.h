@@ -58,7 +58,7 @@ const char* binfhe_BTKeyGen_docs = R"pbdoc(
 
 // Encrypt
 const char* binfhe_Encrypt_docs = R"pbdoc(
-    Encrypts a bit using a secret key (symmetric key encryption).
+    Encrypts a bit or integer using a secret key (symmetric key encryption).
 
     :param sk: The secret key.
     :type sk: LWEPrivateKey
