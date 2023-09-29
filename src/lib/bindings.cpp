@@ -223,8 +223,8 @@ void bind_crypto_context(py::module &m)
         .def("EvalAddMutable", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, Ciphertext<DCRTPoly> &) const>
             (&CryptoContextImpl<DCRTPoly>::EvalAddMutable),
             cc_EvalAddMutable_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("EvalAddMutable", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, Plaintext) const>
             (&CryptoContextImpl<DCRTPoly>::EvalAddMutable),
             cc_EvalAddMutablePlaintext_docs,
@@ -242,8 +242,8 @@ void bind_crypto_context(py::module &m)
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>
             (&CryptoContextImpl<DCRTPoly>::EvalSub),
             cc_EvalSub_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>
             (&CryptoContextImpl<DCRTPoly>::EvalSub),
             cc_EvalSubfloat_docs,
@@ -267,8 +267,8 @@ void bind_crypto_context(py::module &m)
         .def("EvalSubInPlace", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, ConstCiphertext<DCRTPoly>) const>
             (&CryptoContextImpl<DCRTPoly>::EvalSubInPlace),
             cc_EvalSubInPlace_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("EvalSubInPlace", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, double) const>
             (&CryptoContextImpl<DCRTPoly>::EvalSubInPlace),
             cc_EvalSubInPlacefloat_docs,
@@ -282,8 +282,8 @@ void bind_crypto_context(py::module &m)
         .def("EvalSubMutable", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, Ciphertext<DCRTPoly> &) const>
             (&CryptoContextImpl<DCRTPoly>::EvalSubMutable),
             cc_EvalSubMutable_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("EvalSubMutable", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, Plaintext) const>
             (&CryptoContextImpl<DCRTPoly>::EvalSubMutable),
             cc_EvalSubMutablePlaintext_docs,
@@ -301,8 +301,8 @@ void bind_crypto_context(py::module &m)
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstCiphertext<DCRTPoly>) const>
             (&CryptoContextImpl<DCRTPoly>::EvalMult),
             cc_EvalMult_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, double) const>
             (&CryptoContextImpl<DCRTPoly>::EvalMult),
             cc_EvalMultfloat_docs,
@@ -326,8 +326,8 @@ void bind_crypto_context(py::module &m)
         .def("EvalMultMutable", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, Ciphertext<DCRTPoly> &) const>
             (&CryptoContextImpl<DCRTPoly>::EvalMultMutable),
             cc_EvalMultMutable_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("EvalMultMutable", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, Plaintext) const>
             (&CryptoContextImpl<DCRTPoly>::EvalMultMutable),
             cc_EvalMultMutablePlaintext_docs,
@@ -340,21 +340,21 @@ void bind_crypto_context(py::module &m)
             py::arg("ciphertext"))
         .def("EvalMultMutableInPlace", &CryptoContextImpl<DCRTPoly>::EvalMultMutableInPlace,
             cc_EvalMultMutableInPlace_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("EvalSquare", &CryptoContextImpl<DCRTPoly>::EvalSquare,
             cc_EvalSquare_docs,
-            py::arg("ct"))
+            py::arg("ciphertext"))
         .def("EvalSquareMutable", &CryptoContextImpl<DCRTPoly>::EvalSquareMutable,
             cc_EvalSquareMutable_docs,
-            py::arg("ct"))
+            py::arg("ciphertext"))
         .def("EvalSquareInPlace", &CryptoContextImpl<DCRTPoly>::EvalSquareInPlace,
             cc_EvalSquareInPlace_docs,
-            py::arg("ct"))
+            py::arg("ciphertext"))
         .def("EvalMultNoRelin", &CryptoContextImpl<DCRTPoly>::EvalMultNoRelin,
             cc_EvalMultNoRelin_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("Relinearize", &CryptoContextImpl<DCRTPoly>::Relinearize,
             cc_Relinearize_docs,
             py::arg("ciphertext"))
@@ -363,8 +363,8 @@ void bind_crypto_context(py::module &m)
             py::arg("ciphertext"))
         .def("EvalMultAndRelinearize", &CryptoContextImpl<DCRTPoly>::EvalMultAndRelinearize,
             cc_EvalMultAndRelinearize_docs,
-            py::arg("ct1"),
-            py::arg("ct2"))
+            py::arg("ciphertext1"),
+            py::arg("ciphertext2"))
         .def("EvalNegate", &CryptoContextImpl<DCRTPoly>::EvalNegate,
             cc_EvalNegate_docs,
             py::arg("ciphertext"))
