@@ -56,6 +56,7 @@ void bind_parameters(py::module &m,const std::string name)
         .def("GetEncryptionTechnique", &CCParams<T>::GetEncryptionTechnique)
         .def("GetMultiplicationTechnique", &CCParams<T>::GetMultiplicationTechnique)
         .def("GetMultiHopModSize", &CCParams<T>::GetMultiHopModSize)
+        .def("GetInteractiveBootCompressionLevel", &CCParams<T>::GetInteractiveBootCompressionLevel)
         // setters
         .def("SetPlaintextModulus", &CCParams<T>::SetPlaintextModulus)
         .def("SetDigitSize", &CCParams<T>::SetDigitSize)
@@ -85,6 +86,7 @@ void bind_parameters(py::module &m,const std::string name)
         .def("SetEncryptionTechnique", &CCParams<T>::SetEncryptionTechnique)
         .def("SetMultiplicationTechnique", &CCParams<T>::SetMultiplicationTechnique)
         .def("SetMultiHopModSize", &CCParams<T>::SetMultiHopModSize)
+        .def("SetInteractiveBootCompressionLevel", &CCParams<T>::SetInteractiveBootCompressionLevel)
         .def("__str__",[](const CCParams<T> &params) {
             std::stringstream stream;
             stream << params;
@@ -496,6 +498,26 @@ void bind_crypto_context(py::module &m)
              py::arg("evalKey1"),
              py::arg("evalKey2"),
              py::arg("keyId") = "")
+        .def("IntMPBootAdjustScale",&CryptoContextImpl<DCRTPoly>::IntMPBootAdjustScale,
+             cc_IntMPBootAdjustScale_docs,
+             py::arg("ciphertext"))
+        .def("IntMPBootRandomElementGen", &CryptoContextImpl<DCRTPoly>::IntMPBootRandomElementGen,
+             cc_IntMPBootRandomElementGen_docs,
+             py::arg("publicKey"))
+        .def("IntMPBootDecrypt", &CryptoContextImpl<DCRTPoly>::IntMPBootDecrypt,
+             cc_IntMPBootDecrypt_docs,
+             py::arg("privateKey"),
+             py::arg("ciphertext"),
+             py::arg("a"))
+        .def("IntMPBootAdd", &CryptoContextImpl<DCRTPoly>::IntMPBootAdd,
+             cc_IntMPBootAdd_docs,
+             py::arg("sharePairVec"))
+        .def("IntMPBootEncrypt", &CryptoContextImpl<DCRTPoly>::IntMPBootEncrypt,
+             cc_IntMPBootEncrypt_docs,
+             py::arg("publicKey"),
+             py::arg("sharePair"),
+             py::arg("a"),
+             py::arg("ciphertext"))             
         .def("MultiMultEvalKey", &CryptoContextImpl<DCRTPoly>::MultiMultEvalKey,
              cc_MultiMultEvalKey_docs,
              py::arg("privateKey"),
@@ -717,7 +739,8 @@ void bind_enums_and_constants(py::module &m)
         .value("LEVELEDSHE", PKESchemeFeature::LEVELEDSHE)
         .value("ADVANCEDSHE", PKESchemeFeature::ADVANCEDSHE)
         .value("MULTIPARTY", PKESchemeFeature::MULTIPARTY)
-        .value("FHE", PKESchemeFeature::FHE);
+        .value("FHE", PKESchemeFeature::FHE)
+        .value("SCHEMESWITCH", PKESchemeFeature::SCHEMESWITCH);
     m.attr("PKE") = py::cast(PKESchemeFeature::PKE);
     m.attr("KEYSWITCH") = py::cast(PKESchemeFeature::KEYSWITCH);
     m.attr("PRE") = py::cast(PKESchemeFeature::PRE);
@@ -725,6 +748,7 @@ void bind_enums_and_constants(py::module &m)
     m.attr("ADVANCEDSHE") = py::cast(PKESchemeFeature::ADVANCEDSHE);
     m.attr("MULTIPARTY") = py::cast(PKESchemeFeature::MULTIPARTY);
     m.attr("FHE") = py::cast(PKESchemeFeature::FHE);
+    m.attr("SCHEMESWITCH") = py::cast(PKESchemeFeature::SCHEMESWITCH);
 
     // Serialization Types
     py::class_<SerType::SERJSON>(m, "SERJSON");
@@ -819,6 +843,13 @@ void bind_enums_and_constants(py::module &m)
     m.attr("HPSPOVERQ") = py::cast(MultiplicationTechnique::HPSPOVERQ);
     m.attr("HPSPOVERQLEVELED") = py::cast(MultiplicationTechnique::HPSPOVERQLEVELED);
 
+    // Compression Leval
+    py::enum_<COMPRESSION_LEVEL>(m,"COMPRESSION_LEVEL")
+        .value("COMPACT", COMPRESSION_LEVEL::COMPACT)
+        .value("SLACK", COMPRESSION_LEVEL::SLACK);
+    m.attr("COMPACT") = py::cast(COMPRESSION_LEVEL::COMPACT);
+    m.attr("SLACK") = py::cast(COMPRESSION_LEVEL::SLACK);
+        
     /* ---- CORE enums ---- */ 
     // Security Level
     py::enum_<SecurityLevel>(m,"SecurityLevel")
