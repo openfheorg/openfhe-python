@@ -132,6 +132,7 @@ def TCKKSCollectiveBoot(scaleTech):
     # Make a copy of input ciphertext and remove the first element (c0), we only
     # c1 for IntMPBootDecrypt
     c1 = inCtxt.Clone()
+<<<<<<< HEAD
     c1.RemoveElement(0)
 
     for i in range(numParties):
@@ -168,6 +169,15 @@ def TCKKSCollectiveBoot(scaleTech):
     print(f"Result after bootstrapping \n\t {plaintextMultiparty.GetCKKSPackedValue()}\n")
 
     print("\n============================ INTERACTIVE DECRYPTION ENDED ============================\n")      
+=======
+
+
+
+
+
+
+        
+>>>>>>> 3a4659f (scheme switchinh api + partial tkks example)
 
 if __name__ == "__main__":
     main()
