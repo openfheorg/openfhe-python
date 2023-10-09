@@ -879,6 +879,15 @@ const char* cc_MultipartyKeyGen_docs = R"pbdoc(
     :rtype: KeyPair
 )pbdoc";
 
+const char* cc_MultipartyKeyGen_vector_docs = R"pbdoc(
+    Threshold FHE: Generates a public key from a vector of secret shares. ONLY FOR DEBUGGIN PURPOSES. SHOULD NOT BE USED IN PRODUCTION.
+
+    :param privateKeyVec: secret key shares.
+    :type privateKeyVec: List[PrivateKey]
+    :return KeyPair: key pair including the private for the current party and joined public key
+    :rtype: KeyPair
+)pbdoc";
+
 const char* cc_MultipartyDecryptLead_docs = R"pbdoc(
     Threshold FHE: Method for decryption operation run by the lead decryption client
 
@@ -1191,6 +1200,23 @@ const char* cc_EvalBootstrap_docs = R"pbdoc(
     :return: Ciphertext: the refreshed ciphertext
     :rtype: Ciphertext
 )pbdoc";
+
+// TODO (Oliveira, R.) - Complete the following documentation
+const char* cc_EvalCKKStoFHEWSetup_docs = "";
+const char* cc_EvalCKKStoFHEWKeyGen_docs = "";
+const char* cc_EvalCKKStoFHEWPrecompute_docs = "";
+const char* cc_EvalCKKStoFHEW_docs = "";
+const char* cc_EvalFHEWtoCKKSSetup_docs = "";
+const char* cc_EvalFHEWtoCKKSKeyGen_docs = "";
+const char* cc_EvalFHEWtoCKKS_docs = "";
+const char* cc_EvalSchemeSwitchingSetup_docs = "";
+const char* cc_EvalSchemeSwitchingKeyGen_docs = "";
+const char* cc_EvalCompareSwitchPrecompute_docs = "";
+const char* cc_EvalCompareSchemeSwitching_docs = "";
+const char* cc_EvalMinSchemeSwitching_docs = "";
+const char* cc_EvalMinSchemeSwitchingAlt_docs = "";
+const char* cc_EvalMaxSchemeSwitching_docs = "";
+const char* cc_EvalMaxSchemeSwitchingAlt_docs = "";
 
 const char* cc_EvalAutomorphismKeyGen_docs = R"pbdoc(
     Generate automophism keys for a given private key; Uses the private key for encryption
