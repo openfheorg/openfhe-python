@@ -52,4 +52,10 @@ const char* kp_good_docs = R"pbdoc(
     :rtype: bool
 )pbdoc";
 
+const char* cc_RemoveElement_docs = R"pbdoc(
+    Remove an element from the ciphertext inner vector given its index.
+
+    :param index: The index of the element to remove.
+    :type index: int
+)pbdoc";
 #endif // CIPHERTEXT_DOCSTRINGS_H

@@ -96,3 +96,7 @@ const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self)
 const double GetModulusWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetElementParams()->GetModulus().ConvertToDouble();
 }
+
+void RemoveElementWrapper(Ciphertext<DCRTPoly> &self, usint index){
+    self->GetElements().erase(self->GetElements().begin()+index);
+}
