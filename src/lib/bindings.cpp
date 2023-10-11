@@ -1065,7 +1065,8 @@ void bind_ciphertext(py::module &m)
      .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel,
         ctx_SetLevel_docs,
         py::arg("level"))
-     .def("Clone", &CiphertextImpl<DCRTPoly>::Clone);
+     .def("Clone", &CiphertextImpl<DCRTPoly>::Clone)
+     .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs);
     // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
     // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)

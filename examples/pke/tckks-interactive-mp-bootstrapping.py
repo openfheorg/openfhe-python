@@ -132,13 +132,42 @@ def TCKKSCollectiveBoot(scaleTech):
     # Make a copy of input ciphertext and remove the first element (c0), we only
     # c1 for IntMPBootDecrypt
     c1 = inCtxt.Clone()
+    c1.RemoveElement(0)
 
+    for i in range(numParties):
+        print(f"Party {i} started its part in Collective Bootstrapping Protocol.\n")
+        parties[i].sharesPair = cryptoContext.IntMPBootDecrypt(parties[i].kpShard.secretKey, c1, a)
+        sharePairVec.append(parties[i].sharesPair)
+    
+    # P0 finalizes the protocol by aggregating the shares and reEncrypting the results
+    aggregatedSharesPair = cryptoContext.IntMPBootAdd(sharePairVec);
+    # Make sure you provide the non-striped ciphertext (inCtxt) in IntMPBootEncrypt
+    outCtxt = cryptoContext.IntMPBootEncrypt(parties[0].kpShard.publicKey, aggregatedSharesPair, a, inCtxt)
 
+    # INTERACTIVE BOOTSTRAPPING ENDS
+    print("\n============================ INTERACTIVE BOOTSTRAPPING ENDED ============================\n")
 
+    # Distributed Decryption
+    print("\n============================ INTERACTIVE DECRYPTION STARTED ============================ \n")
 
+    partialCiphertextVec = []
+    print("Party 0 started its part in the collective decryption protocol\n")
+    partialCiphertextVec.append(cryptoContext.MultipartyDecryptLead([outCtxt], parties[0].kpShard.secretKey)[0])
 
+    for i in range(1, numParties):
+        print(f"Party {i} started its part in the collective decryption protocol\n")
+        partialCiphertextVec.append(cryptoContext.MultipartyDecrypMain([outCtxt], parties[i].kpShard.secretKey)[0])
 
-        
+    # Checking the results
+    print("MultipartyDecryptFusion ...\n")
+    plaintextMultiparty = cryptoContext.MultipartyDecryptFusion(partialCiphertextVec)
+    plaintextMultiparty.SetLength(len(msg1))
+
+    # transform to python:
+    print(f"Original plaintext \n\t {ptxt1.GetCKKSPackedValue()}\n")
+    print(f"Result after bootstrapping \n\t {plaintextMultiparty.GetCKKSPackedValue()}\n")
+
+    print("\n============================ INTERACTIVE DECRYPTION ENDED ============================\n")      
 
 if __name__ == "__main__":
     main()
