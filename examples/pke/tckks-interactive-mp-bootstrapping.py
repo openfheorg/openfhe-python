@@ -156,7 +156,7 @@ def TCKKSCollectiveBoot(scaleTech):
 
     for i in range(1, numParties):
         print(f"Party {i} started its part in the collective decryption protocol\n")
-        partialCiphertextVec.append(cryptoContext.MultipartyDecrypMain([outCtxt], parties[i].kpShard.secretKey)[0])
+        partialCiphertextVec.append(cryptoContext.MultipartyDecryptMain([outCtxt], parties[i].kpShard.secretKey)[0])
 
     # Checking the results
     print("MultipartyDecryptFusion ...\n")
