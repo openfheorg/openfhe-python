@@ -132,8 +132,6 @@ def TCKKSCollectiveBoot(scaleTech):
     # Make a copy of input ciphertext and remove the first element (c0), we only
     # c1 for IntMPBootDecrypt
     c1 = inCtxt.Clone()
-<<<<<<< HEAD
-<<<<<<< HEAD
     c1.RemoveElement(0)
 
     for i in range(numParties):
@@ -170,10 +168,6 @@ def TCKKSCollectiveBoot(scaleTech):
     print(f"Result after bootstrapping \n\t {plaintextMultiparty.GetCKKSPackedValue()}\n")
 
     print("\n============================ INTERACTIVE DECRYPTION ENDED ============================\n")      
-=======
-=======
-    c1.RemoveElement(0)
->>>>>>> 0d741a6 (RemoveElement function + TCKKS Bootstrapping)
 
     for i in range(numParties):
         print(f"Party {i} started its part in Collective Bootstrapping Protocol.\n")
@@ -198,6 +192,8 @@ def TCKKSCollectiveBoot(scaleTech):
     for i in range(1, numParties):
         print(f"Party {i} started its part in the collective decryption protocol\n")
         partialCiphertextVec.append(cryptoContext.MultipartyDecrypMain([outCtxt], parties[i].kpShard.secretKey)[0])
+=======
+>>>>>>> 6425314 (TCKKS - chebyschev)
 
 <<<<<<< HEAD
         
