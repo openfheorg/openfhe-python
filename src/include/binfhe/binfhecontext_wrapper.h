@@ -46,4 +46,12 @@ LWEPlaintext binfhe_DecryptWrapper(BinFHEContext &self,
                                    ConstLWECiphertext ct,
                                    LWEPlaintextModulus p);
 
+uint32_t GetnWrapper(BinFHEContext &self);
+
+const double GetqWrapper(BinFHEContext &self) ;
+
+const int GetMaxPlaintextSpaceWrapper(BinFHEContext &self);
+
+const double GetBetaWrapper(BinFHEContext &self);
+
 #endif // BINFHE_CRYPTOCONTEXT_BINDINGS_H

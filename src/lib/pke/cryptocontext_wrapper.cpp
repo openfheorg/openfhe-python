@@ -100,3 +100,7 @@ const double GetModulusWrapper(CryptoContext<DCRTPoly>& self){
 void RemoveElementWrapper(Ciphertext<DCRTPoly> &self, usint index){
     self->GetElements().erase(self->GetElements().begin()+index);
 }
+
+const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l){
+    return 0;//self->GetCryptoParameters()->GetScalingFactorReal(l);
+}
