@@ -50,3 +50,26 @@ LWEPlaintext binfhe_DecryptWrapper(BinFHEContext &self,
     self.Decrypt(sk, ct, &result, p);
     return result;
 }
+
+uint32_t GetnWrapper(BinFHEContext &self)
+{
+    return self.GetParams()->GetLWEParams()->Getn();
+}
+
+const double GetqWrapper(BinFHEContext &self)
+{
+    return self.GetParams()->GetLWEParams()->Getq().ConvertToDouble();
+}
+
+const uint64_t GetMaxPlaintextSpaceWrapper(BinFHEContext &self)
+{
+    return self.GetMaxPlaintextSpace().ConvertToInt<uint64_t>();
+}
+
+const double GetBetaWrapper(BinFHEContext &self)
+{
+    return self.GetBeta().ConvertToDouble();
+}
+
+
+
