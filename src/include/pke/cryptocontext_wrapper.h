@@ -62,4 +62,5 @@ const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrappe
 const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self);
 const double GetModulusWrapper(CryptoContext<DCRTPoly>& self);
 void RemoveElementWrapper(Ciphertext<DCRTPoly>& self, usint index);
+const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l);
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H
