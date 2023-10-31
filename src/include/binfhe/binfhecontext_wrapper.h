@@ -48,10 +48,10 @@ LWEPlaintext binfhe_DecryptWrapper(BinFHEContext &self,
 
 uint32_t GetnWrapper(BinFHEContext &self);
 
-const double GetqWrapper(BinFHEContext &self) ;
+const uint64_t GetqWrapper(BinFHEContext &self) ;
 
-const int GetMaxPlaintextSpaceWrapper(BinFHEContext &self);
+const uint64_t GetMaxPlaintextSpaceWrapper(BinFHEContext &self);
 
-const double GetBetaWrapper(BinFHEContext &self);
+const uint64_t GetBetaWrapper(BinFHEContext &self);
 
 #endif // BINFHE_CRYPTOCONTEXT_BINDINGS_H

@@ -182,5 +182,9 @@ void bind_binfhe_context(py::module &m)
              py::arg("ct2"))
         .def("EvalNOT", &BinFHEContext::EvalNOT,
              binfhe_EvalNOT_docs,
-             py::arg("ct"));
+             py::arg("ct"))
+        .def("Getn",&GetnWrapper)
+        .def("Getq",&GetqWrapper)
+        .def("GetMaxPlaintextSpace",&GetMaxPlaintextSpaceWrapper)
+        .def("GetBeta",&GetBetaWrapper);
 }
