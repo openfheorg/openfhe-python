@@ -62,4 +62,14 @@ const char* ccparams_doc = R"doc(
     :ivar MultiplicationTechnique multiplicationTechnique: multiplication method in BFV: BEHZ, HPS, etc.
 )doc";
 
+const char* cc_GetScalingFactorReal_docs = R"pbdoc(
+    Method to retrieve the scaling factor of level l. For FIXEDMANUAL scaling technique method always returns 2^p, where p corresponds to plaintext modulus
+
+    :param l:  For FLEXIBLEAUTO scaling technique the level whose scaling factor we want to learn. Levels start from 0 (no scaling done - all towers) and go up to K-1, where K is the number of towers supported.
+    :type l: int
+    :return: the scaling factor.
+    :rtype: float
+)pbdoc";
+
+
 #endif // CRYPTOPARAMS_DOCSTRINGS_H

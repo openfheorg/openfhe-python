@@ -13,6 +13,7 @@
 #include "cryptocontext_wrapper.h"
 #include "binfhe_bindings.h"
 #include "cryptocontext_docs.h"
+#include "cryptoparameters_docs.h"
 #include "plaintext_docs.h"
 #include "ciphertext_docs.h"
 #include "serialization.h"
@@ -111,6 +112,8 @@ void bind_crypto_context(py::module &m)
         .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension, cc_GetRingDimension_docs)
         .def("GetPlaintextModulus", &GetPlaintextModulusWrapper, cc_GetPlaintextModulus_docs)
         .def("GetModulus", &GetModulusWrapper, cc_GetModulus_docs)
+        .def("GetModulusCKKS", &GetModulusCKKSWrapper)
+        .def("GetScalingFactorReal", &GetScalingFactorRealWrapper, cc_GetScalingFactorReal_docs)
         .def("GetCyclotomicOrder", &CryptoContextImpl<DCRTPoly>::GetCyclotomicOrder, cc_GetCyclotomicOrder_docs)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), cc_Enable_docs,
              py::arg("feature"))
@@ -1037,6 +1040,8 @@ void bind_encodings(py::module &m)
             ptx_Decode_docs)
         .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue,
             ptx_GetCKKSPackedValue_docs)
+        .def("GetRealPackedValue", &PlaintextImpl::GetRealPackedValue,
+            ptx_GetRealPackedValue_docs)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
