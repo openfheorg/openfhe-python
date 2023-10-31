@@ -56,9 +56,9 @@ uint32_t GetnWrapper(BinFHEContext &self)
     return self.GetParams()->GetLWEParams()->Getn();
 }
 
-const double GetqWrapper(BinFHEContext &self)
+const uint64_t GetqWrapper(BinFHEContext &self)
 {
-    return self.GetParams()->GetLWEParams()->Getq().ConvertToDouble();
+    return self.GetParams()->GetLWEParams()->Getq().ConvertToInt<uint64_t>();
 }
 
 const uint64_t GetMaxPlaintextSpaceWrapper(BinFHEContext &self)
@@ -66,10 +66,11 @@ const uint64_t GetMaxPlaintextSpaceWrapper(BinFHEContext &self)
     return self.GetMaxPlaintextSpace().ConvertToInt<uint64_t>();
 }
 
-const double GetBetaWrapper(BinFHEContext &self)
+const uint64_t GetBetaWrapper(BinFHEContext &self)
 {
-    return self.GetBeta().ConvertToDouble();
+    return self.GetBeta().ConvertToInt<uint64_t>();
 }
+
 
 
 
