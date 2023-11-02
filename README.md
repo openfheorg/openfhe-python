@@ -5,6 +5,7 @@
 - [Building](#building)
   - [Prerequisites](#requirements)
   - [Linux Install](#linux)
+    - [Installing directly on your system](#system-level-installation)
     - [Using Conda environments](#conda)
 - [Running Examples](#code-examples)
 - [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
@@ -15,7 +16,7 @@
 
 Before building, make sure you have the following dependencies installed:
 
-- [OpenFHE](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
+- [OpenFHE](https://github.com/openfheorg/openfhe-development) by following the instructions on [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.6+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
 
@@ -31,12 +32,14 @@ For custom installation or any other issues, please refer to the official pybind
 
 ### Linux
 
-With all the dependencies set up, clone the repository, open a terminal in the repo folder and run the following commands:
+#### System-level installation
+
+To install OpenFHE-python directly to your system, ensure the dependencies are set up. Then clone the repository, open a terminal in the repo folder and run the following commands:
 
 ```bash
 mkdir build
 cd build
-cmake ..  # Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe
+cmake ..  # Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe if you installed OpenFHE elsewhere
 make
 make install  # You may have to run sudo make install
 ```
@@ -45,6 +48,8 @@ At this point the `.so` file has been built. Your exact installation process wil
 Cmake will automatically find the python installation path, if unwanted, you can specify the python path by adding `-DPYTHON_EXECUTABLE_PATH=/path/to/python` to the cmake command.
 
 #### Conda
+
+Alternatively you can install the library and handle the linking via Conda. Clone the repository, open a terminal in the repo folder and run the following commands:
 
 ```bash
 conda create -n ${ENV_NAME} python=3.{X} anaconda
@@ -59,7 +64,7 @@ To do this, run the following commands:
 ```bash
 mkdir build
 cd build
-cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python
+cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python # Add in -DOpenFHE_DIR=/path/to/installed/openfhe if you installed OpenFHE elsewhere
 make
 make install  # You may have to run sudo make install
 ```
@@ -110,4 +115,3 @@ To get familiar with the OpenFHE Python API, check out the examples:
 ## OpenFHE Python Wrapper Documentation
 
 [OpenFHE Python Wrapper API Reference](https://openfheorg.github.io/openfhe-python/html/index.html)
-
