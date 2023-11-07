@@ -361,6 +361,17 @@ EvalAdd - OpenFHE EvalAdd method for a ciphertext and a real number. Supported o
 :rtype: Ciphertext
 )pbdoc";
 
+const char* cc_EvalAddPlaintext_docs = R"pbdoc(
+EvalAdd - OpenFHE EvalAdd method for a ciphertext and plaintext
+
+:param ciphertext: input ciphertext
+:type ciphertext: Ciphertext
+:param plaintex: input plaintext
+:type plaintext: Plaintext
+:return: new ciphertext for ciphertext + constant
+:rtype: Ciphertext
+)pbdoc";
+
 const char* cc_EvalAddInPlace_docs = R"pbdoc(
 In-place homomorphic addition of two ciphertexts
 
