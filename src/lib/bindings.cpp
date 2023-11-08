@@ -205,6 +205,12 @@ void bind_crypto_context(py::module &m)
             cc_EvalAddfloat_docs,
             py::arg("ciphertext"),
             py::arg("constant"))
+        //inline Ciphertext<Element> EvalAdd(ConstCiphertext<Element> ciphertext, ConstPlaintext plaintext) const
+        .def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(ConstCiphertext<DCRTPoly>, ConstPlaintext) const>
+            (&CryptoContextImpl<DCRTPoly>::EvalAdd),
+            cc_EvalAddPlaintext_docs,
+            py::arg("ciphertext"),
+            py::arg("plaintext"))
         .def("EvalAddInPlace", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(Ciphertext<DCRTPoly> &, ConstCiphertext<DCRTPoly>) const>
             (&CryptoContextImpl<DCRTPoly>::EvalAddInPlace),
             cc_EvalAddInPlace_docs,
