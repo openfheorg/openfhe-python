@@ -141,6 +141,13 @@ const char* binfhe_EvalDecomp_docs = R"pbdoc(
     :rtype: List[LWECiphertext]
 )pbdoc";
 
+
+    :param ct: ciphertext to be bootstrapped
+    :type ct: LWECiphertext
+    :return: a list with the resulting ciphertexts
+    :rtype: List[LWECiphertext]
+)pbdoc";
+
 const char* binfhe_EvalFloor_docs = R"pbdoc(
     Evaluate a round down function
 
