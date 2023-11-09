@@ -186,5 +186,8 @@ void bind_binfhe_context(py::module &m)
         .def("Getn",&GetnWrapper)
         .def("Getq",&GetqWrapper)
         .def("GetMaxPlaintextSpace",&GetMaxPlaintextSpaceWrapper)
-        .def("GetBeta",&GetBetaWrapper);
+        .def("GetBeta",&GetBetaWrapper)
+        .def("EvalDecomp",&BinFHEContext::EvalDecomp,
+             binfhe_EvalDecomp_docs,
+             py::arg("ct"));
 }
