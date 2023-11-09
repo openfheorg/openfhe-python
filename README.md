@@ -47,6 +47,14 @@ make install  # You may have to run sudo make install
 At this point the `.so` file has been built. Your exact installation process will depend on your virtual environment.
 Cmake will automatically find the python installation path, if unwanted, you can specify the python path by adding `-DPYTHON_EXECUTABLE_PATH=/path/to/python` to the cmake command.
 
+If you see an error saying that one of OpenFHE .so files cannot be found when running a Python example (occurs only for some environments), 
+add the path where the .so files reside to the `PYTHONPATH` environment variable:
+```
+export PYTHONPATH=(path_to_OpenFHE_so_files):$PYTHONPATH
+```
+
+In some environments (this happens rarely), it may also be necessary to add the OpenFHE libraries path to `LD_LIBRARY_PATH`.
+
 #### Conda
 
 Alternatively you can install the library and handle the linking via Conda. Clone the repository, open a terminal in the repo folder and run the following commands:
