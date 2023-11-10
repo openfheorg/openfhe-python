@@ -895,6 +895,9 @@ void bind_encodings(py::module &m)
             ptx_Decode_docs)
         .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue,
             ptx_GetCKKSPackedValue_docs)
+
+        .def("GetRealPackedValue", &PlaintextImpl::GetRealPackedValue,
+            ptx_GetRealPackedValue_docs)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
