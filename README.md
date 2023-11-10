@@ -20,15 +20,7 @@ Before building, make sure you have the following dependencies installed:
 - [Python 3.6+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
 
-We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then get back to this repo.
-
-You can install pybind11 by runnning:
-  
-```bash
-pip install "pybind11[global]" # or alternatively, if you use conda:
-conda install -c conda-forge pybind11
-```
-For custom installation or any other issues, please refer to the official pybind11 documentation in the link above.
+We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then get back to this repo. See notes on installing `pybind11` below
 
 ### Linux
 
@@ -37,6 +29,7 @@ For custom installation or any other issues, please refer to the official pybind
 To install OpenFHE-python directly to your system, ensure the dependencies are set up. Then clone the repository, open a terminal in the repo folder and run the following commands:
 
 ```bash
+pip install "pybind11[global]" 
 mkdir build
 cd build
 cmake ..  # Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe if you installed OpenFHE elsewhere
@@ -49,6 +42,7 @@ Cmake will automatically find the python installation path, if unwanted, you can
 
 If you see an error saying that one of OpenFHE .so files cannot be found when running a Python example (occurs only for some environments), 
 add the path where the .so files reside to the `PYTHONPATH` environment variable:
+
 ```
 export PYTHONPATH=(path_to_OpenFHE_so_files):$PYTHONPATH
 ```
@@ -64,24 +58,24 @@ conda create -n ${ENV_NAME} python=3.{X} anaconda
 ```
 
 where `${ENV_NAME}` should be replaced with the name of your environment, and `{X}` should be replaced with your desired python version. For example you might have `
-conda create -n openfhe_python python=3.9 anaconda`
+conda create -n openfhe_python python=3.9 anaconda`. Now, you would install `pybind11` either via:
 
-It's recommended to specify the python path to avoid any issues with conda environments.
-To do this, run the following commands:
+`pip install "pybind11[global]"` or via `conda install -c conda-forge pybind11`, but for now we recommend using the first method, with pip. Some users have reported issues when using the conda pybind11
+
+Now, you would clone the repository, and run the following commands to install :
 
 ```bash
 mkdir build
 cd build
-cmake .. -DPYTHON_EXECUTABLE_PATH=$CONDA_PREFIX/bin/python # Add in -DOpenFHE_DIR=/path/to/installed/openfhe if you installed OpenFHE elsewhere
+cmake .. # Add in -DOpenFHE_DIR=/path/to/installed/openfhe if you installed OpenFHE elsewhere
 make
 make install  # You may have to run sudo make install
 ```
 
-The CONDA_PREFIX variable is set by conda, and points to the root of your active conda environment.
-
-Then, you can develop the library:
+Then, you can develop the library to link
 
 ```
+cd ..
 mkdir lib
 mv *.so lib
 conda develop lib
