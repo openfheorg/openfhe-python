@@ -354,7 +354,7 @@ def fast_rotation_demo2():
     print(f"Result without hoisting: {result}")
     print(f" - 7 rotations without hoisting took {time_no_hoisting*1000} ms")
 
-    result = cc.Decrypt(c_res_no_hoist,keys.secretKey)
+    result = cc.Decrypt(c_res_hoist,keys.secretKey)
     result.SetLength(batch_size)
     print(f"Result with hoisting: {result}")
     print(f" - 7 rotations with hoisting took {time_hoisting*1000} ms")
