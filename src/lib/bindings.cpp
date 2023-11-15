@@ -114,6 +114,7 @@ void bind_crypto_context(py::module &m)
         .def("GetModulus", &GetModulusWrapper, cc_GetModulus_docs)
         .def("GetModulusCKKS", &GetModulusCKKSWrapper)
         .def("GetScalingFactorReal", &GetScalingFactorRealWrapper, cc_GetScalingFactorReal_docs)
+        .def("GetScalingTechnique",&GetScalingTechniqueWrapper)
         .def("GetCyclotomicOrder", &CryptoContextImpl<DCRTPoly>::GetCyclotomicOrder, cc_GetCyclotomicOrder_docs)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), cc_Enable_docs,
              py::arg("feature"))
