@@ -5,7 +5,7 @@ def main():
     SwitchCKKSToFHEW()
     SwitchFHEWtoCKKS()
     FloorViaSchemeSwitching()
-    # FuncViaSchemeSwitching()
+    FuncViaSchemeSwitching()
     # PolyViaSchemeSwitching()
     ComparisonViaSchemeSwitching()
     ArgminViaSchemeSwitching()
@@ -497,6 +497,7 @@ def FuncViaSchemeSwitching():
 
     print("Arcsin(switched result) * p/2pi gives the correct result if messages are < p/4: ", end="")
     for i in range(slots):
+        print(f"{i}/{slots}:\n")
         x = max(min(plaintextDec2.GetRealPackedValue()[i], 1.0), -1.0)
         print(asin(x) * pLWE / (2 * pi), end=" ")
     print()

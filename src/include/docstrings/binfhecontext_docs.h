@@ -141,6 +141,39 @@ const char* binfhe_EvalDecomp_docs = R"pbdoc(
     :rtype: List[LWECiphertext]
 )pbdoc";
 
+const char* binfhe_EvalFloor_docs = R"pbdoc(
+    Evaluate a round down function
+
+    :param ct: ciphertext to be bootstrapped
+    :type ct: LWECiphertext
+    :param roundbits: number of bits to be rounded
+    :type roundbits: int
+    :return: the resulting ciphertext
+    :rtype: LWECiphertext
+)pbdoc";
+
+const char* binfhe_GenerateLUTviaFunction_docs = R"pbdoc(
+    Generate the LUT for the to-be-evaluated function
+
+    :param f: the to-be-evaluated function on an integer message and a plaintext modulus
+    :type f: function(int, int) -> int
+    :param p: plaintext modulus
+    :type p: int
+    :return: the resulting ciphertext
+    :rtype: List[int]
+)pbdoc";
+
+const char* binfhe_EvalFunc_docs = R"pbdoc(
+    Evaluate an arbitrary function
+
+    :param ct: ciphertext to be bootstrapped
+    :type ct: LWECiphertext
+    :param LUT: the look-up table of the to-be-evaluated function
+    :type LUT: List[int]
+    :return: the resulting ciphertext
+    :rtype: LWECiphertext
+)pbdoc";
+
 
     :param ct: ciphertext to be bootstrapped
     :type ct: LWECiphertext
