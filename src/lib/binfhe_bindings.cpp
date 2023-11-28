@@ -211,5 +211,9 @@ void bind_binfhe_context(py::module &m)
         .def("EvalFunc",&EvalFuncWrapper,
              binfhe_EvalFunc_docs,
              py::arg("ct"),
-             py::arg("LUT"));
+             py::arg("LUT"))
+          .def("EvalSign",&BinFHEContext::EvalSign,
+               binfhe_EvalSign_docs,
+             py::arg("ct"),
+             py::arg("schemeSwitch") = false);
 }
