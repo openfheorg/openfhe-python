@@ -2,12 +2,12 @@ from openfhe import *
 from math import *
 
 def main():
-    SwitchCKKSToFHEW()
-    SwitchFHEWtoCKKS()
-    FloorViaSchemeSwitching()
-    FuncViaSchemeSwitching()
+    # SwitchCKKSToFHEW()
+    # SwitchFHEWtoCKKS()
+    # FloorViaSchemeSwitching()
+    # FuncViaSchemeSwitching()
     # PolyViaSchemeSwitching()
-    ComparisonViaSchemeSwitching()
+    # ComparisonViaSchemeSwitching()
     ArgminViaSchemeSwitching()
     ArgminViaSchemeSwitchingAlt()
     # ArgminViaSchemeSwitchingUnit()
@@ -507,10 +507,231 @@ def PolyViaSchemeSwitching():
     pass
 
 def ComparisonViaSchemeSwitching():
-    pass
+    print("\n-----ComparisonViaSchemeSwitching-----\n")
+    print("Output precision is only wrt the operations in CKKS after switching back.\n")
+
+    # Step 1: Setup CryptoContext for CKKS
+    scTech = FIXEDAUTO
+    multDepth = 17
+    if scTech == FLEXIBLEAUTOEXT:
+        multDepth += 1
+
+    scaleModSize = 50
+    firstModSize = 60
+    ringDim = 8192
+    sl = HEStd_NotSet
+    slBin = TOY
+    logQ_ccLWE = 25
+    slots = 16  # sparsely-packed
+    batchSize = slots
+
+    parameters = CCParamsCKKSRNS()
+    parameters.SetMultiplicativeDepth(multDepth)
+    parameters.SetScalingModSize(scaleModSize)
+    parameters.SetFirstModSize(firstModSize)
+    parameters.SetScalingTechnique(scTech)
+    parameters.SetSecurityLevel(sl)
+    parameters.SetRingDim(ringDim)
+    parameters.SetBatchSize(batchSize)
+    parameters.SetSecretKeyDist(UNIFORM_TERNARY)
+    parameters.SetKeySwitchTechnique(HYBRID)
+    parameters.SetNumLargeDigits(3)
+
+    cc = GenCryptoContext(parameters)
+
+    # Enable the features that you wish to use
+    cc.Enable(PKE)
+    cc.Enable(KEYSWITCH)
+    cc.Enable(LEVELEDSHE)
+    cc.Enable(ADVANCEDSHE)
+    cc.Enable(SCHEMESWITCH)
+
+    print(f"CKKS scheme is using ring dimension {cc.GetRingDimension()},\n and number of slots {slots}\n and supports a multiplicative depth of {multDepth}\n")
+
+    # Generate encryption keys.
+    keys = cc.KeyGen()
+
+    # Step 2: Prepare the FHEW cryptocontext and keys for FHEW and scheme switching
+    FHEWparams = cc.EvalSchemeSwitchingSetup(sl, slBin, False, logQ_ccLWE, False, slots)
+
+    ccLWE = FHEWparams[0]
+    privateKeyFHEW = FHEWparams[1]
+    ccLWE.BTKeyGen(privateKeyFHEW)
+
+    cc.EvalSchemeSwitchingKeyGen(keys, privateKeyFHEW)
+
+    print(f"FHEW scheme is using lattice parameter {ccLWE.Getn()},\n logQ {logQ_ccLWE},\n and modulus q {ccLWE.Getq()}\n")
+
+    # Set the scaling factor to be able to decrypt; the LWE mod switch is performed on the ciphertext at the last level
+    pLWE1 = ccLWE.GetMaxPlaintextSpace()  # Small precision
+    modulus_LWE = 1 << logQ_ccLWE
+    beta = ccLWE.GetBeta()
+    pLWE2 = modulus_LWE // (2 * beta)  # Large precision
+
+    scaleSignFHEW = 1
+    init_level = 0
+    if cc.GetScalingTechnique() == FLEXIBLEAUTOEXT:
+        init_level = 1 
+
+    cc.EvalCompareSwitchPrecompute(pLWE2, init_level, scaleSignFHEW)
+
+    # Step 3: Encoding and encryption of inputs
+    x1 = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0]
+    x2 = [5.25] * slots
+
+    ptxt1 = cc.MakeCKKSPackedPlaintext(x1, 1, 0, None, slots)
+    ptxt2 = cc.MakeCKKSPackedPlaintext(x2, 1, 0, None, slots)
+
+    c1 = cc.Encrypt(keys.publicKey, ptxt1)
+    c2 = cc.Encrypt(keys.publicKey, ptxt2)
+
+    cDiff = cc.EvalSub(c1, c2)
+
+    # Step 4: CKKS to FHEW switching and sign evaluation to test correctness
+    pDiff = cc.Decrypt(keys.secretKey, cDiff)
+    pDiff.SetLength(slots)
+
+    print("Difference of inputs: ", end="")
+    for i in range(slots):
+        print(pDiff.GetRealPackedValue()[i], end=" ")
+
+    eps = 0.0001
+    print("\nExpected sign result from CKKS: ", end="")
+    for i in range(slots):
+        print(int(round(pDiff.GetRealPackedValue()[i] / eps) * eps < 0), end=" ")
+    print()
+
+    LWECiphertexts = cc.EvalCKKStoFHEW(cDiff, slots)
+
+    print("\nFHEW decryption with plaintext modulus ", pLWE2, ": ", end="")
+    for i in range(len(LWECiphertexts)):
+        plainLWE = ccLWE.Decrypt(privateKeyFHEW, LWECiphertexts[i], pLWE2)
+        print(plainLWE, end=" ")
+
+    print("\nExpected sign result in FHEW with plaintext modulus ", pLWE2, " and scale ", scaleSignFHEW, ": ", end="")
+    for i in range(slots):
+        print((int(round(pDiff.GetRealPackedValue()[i] * scaleSignFHEW)) % pLWE2 - pLWE2 / 2.0 >= 0), end=" ")
+    print()
+
+    print("Obtained sign result in FHEW with plaintext modulus ", pLWE2, " and scale ", scaleSignFHEW, ": ", end="")
+    LWESign = [None] * len(LWECiphertexts)
+    for i in range(len(LWECiphertexts)):
+        LWESign[i] = ccLWE.EvalSign(LWECiphertexts[i])
+        plainLWE = ccLWE.Decrypt(privateKeyFHEW, LWESign[i], 2)
+        print(plainLWE, end=" ")
+    print()
+
+    # Step 5'': Direct comparison via CKKS->FHEW->CKKS
+    cResult = cc.EvalCompareSchemeSwitching(c1, c2, slots, 0, scaleSignFHEW)
+    plaintextDec3 = cc.Decrypt(keys.secretKey, cResult)
+    plaintextDec3.SetLength(slots)
+    print(f"Decrypted swutched result: {plaintextDec3}\n")
+   
 
 def ArgminViaSchemeSwitching():
-    pass
+    print("\n-----ArgminViaSchemeSwitching-----\n")
+    print("Output precision is only wrt the operations in CKKS after switching back\n")
+
+    # Step 1: Setup CryptoContext for CKKS
+    scaleModSize = 50
+    firstModSize = 60
+    ringDim = 8192
+    sl = HEStd_NotSet
+    slBin = TOY
+    logQ_ccLWE = 25
+    arbFunc = False
+    oneHot = True  # Change to false if the output should not be one-hot encoded
+
+    slots = 16  # sparsely-packed
+    batchSize = slots
+    numValues = 16
+    scTech = FIXEDMANUAL
+    multDepth = 9 + 3 + 1 + int(log2(numValues))  # 13 for FHEW to CKKS, log2(numValues) for argmin
+    if scTech == FLEXIBLEAUTOEXT:
+        multDepth += 1
+
+    parameters = CCParamsCKKSRNS()
+    parameters.SetMultiplicativeDepth(multDepth)
+    parameters.SetScalingModSize(scaleModSize)
+    parameters.SetFirstModSize(firstModSize)
+    parameters.SetScalingTechnique(scTech)
+    parameters.SetSecurityLevel(sl)
+    parameters.SetRingDim(ringDim)
+    parameters.SetBatchSize(batchSize)
+
+    cc = GenCryptoContext(parameters)
+
+    # Enable the features that you wish to use
+    cc.Enable(PKE)
+    cc.Enable(KEYSWITCH)
+    cc.Enable(LEVELEDSHE)
+    cc.Enable(ADVANCEDSHE)
+    cc.Enable(SCHEMESWITCH)
+
+    print("CKKS scheme is using ring dimension ", cc.GetRingDimension())
+    print(", and number of slots ", slots, ", and supports a depth of ", multDepth, "\n")
+
+    # Generate encryption keys
+    keys = cc.KeyGen()
+
+    # Step 2: Prepare the FHEW cryptocontext and keys for FHEW and scheme switching
+    FHEWparams = cc.EvalSchemeSwitchingSetup(sl, slBin, arbFunc, logQ_ccLWE, False, slots)
+    ccLWE = FHEWparams[0]
+    privateKeyFHEW = FHEWparams[1]
+
+    cc.EvalSchemeSwitchingKeyGen(keys, privateKeyFHEW, numValues, oneHot)
+
+    print(f"FHEW scheme is using lattice parameter {ccLWE.Getn()},\n logQ {logQ_ccLWE},\n and modulus q {ccLWE.Getq()}\n")
+
+    # Scale the inputs to ensure their difference is correctly represented after switching to FHEW
+    scaleSign = 512
+    modulus_LWE = 1 << logQ_ccLWE
+    beta = ccLWE.GetBeta()
+    pLWE = modulus_LWE // (2 * beta)  # Large precision
+
+    init_level = 0
+    if cc.GetScalingTechnique() == FLEXIBLEAUTOEXT:
+        init_level = 1
+    cc.EvalCompareSwitchPrecompute(pLWE, init_level, scaleSign)
+
+    # Step 3: Encoding and encryption of inputs
+    x1 = [-1.125, -1.12, 5.0, 6.0, -1.0, 2.0, 8.0, -1.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.25, 15.30]
+
+    print("Expected minimum value ", min(x1), " at location ", x1.index(min(x1)))
+    print("Expected maximum value ", max(x1), " at location ", x1.index(max(x1)))
+
+    ptxt1 = cc.MakeCKKSPackedPlaintext(x1)
+
+    c1 = cc.Encrypt(keys.publicKey, ptxt1)
+
+    # Step 4: Argmin evaluation
+    result = cc.EvalMinSchemeSwitching(c1, keys.publicKey, numValues, slots, oneHot)
+
+    ptxtMin = cc.Decrypt(keys.secretKey, result[0])
+    ptxtMin.SetLength(1)
+    print("Minimum value: ", ptxtMin)
+
+    ptxtMin = cc.Decrypt(keys.secretKey, result[1])
+    if oneHot:
+        ptxtMin.SetLength(numValues)
+        print("Argmin indicator vector: ", ptxtMin)
+    else:
+        ptxtMin.SetLength(1)
+        print("Argmin: ", ptxtMin)
+
+    result = cc.EvalMaxSchemeSwitching(c1, keys.publicKey, numValues, slots, oneHot)
+
+    ptxtMax = cc.Decrypt(keys.secretKey, result[0])
+    ptxtMax.SetLength(1)
+    print("Maximum value: ", ptxtMax)
+
+    ptxtMax = cc.Decrypt(keys.secretKey, result[1])
+    if oneHot:
+        ptxtMax.SetLength(numValues)
+        print("Argmax indicator vector: ", ptxtMax)
+    else:
+        ptxtMax.SetLength(1)
+        print("Argmax: ", ptxtMax)
 
 def ArgminViaSchemeSwitchingAlt():
     pass

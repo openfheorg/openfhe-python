@@ -174,5 +174,15 @@ const char* binfhe_EvalFunc_docs = R"pbdoc(
     :rtype: LWECiphertext
 )pbdoc";
 
+//LWECiphertext EvalSign(ConstLWECiphertext &ct, bool schemeSwitch = false)
+const char* binfhe_EvalSign_docs = R"pbdoc(
+    Evaluate a sign function over large precisions
 
+    :param ct: ciphertext to be bootstrapped
+    :type ct: LWECiphertext
+    :param schemeSwitch: flag that indicates if it should be compatible to scheme switching
+    :type schemeSwitch: bool
+    :return: the resulting ciphertext
+    :rtype: LWECiphertext
+)pbdoc";
 #endif // BINFHECONTEXT_DOCSTRINGS_H
