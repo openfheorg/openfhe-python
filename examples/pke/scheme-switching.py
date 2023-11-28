@@ -2,12 +2,12 @@ from openfhe import *
 from math import *
 
 def main():
-    # SwitchCKKSToFHEW()
-    # SwitchFHEWtoCKKS()
-    # FloorViaSchemeSwitching()
+    SwitchCKKSToFHEW()
+    SwitchFHEWtoCKKS()
+    FloorViaSchemeSwitching()
     # FuncViaSchemeSwitching()
     # PolyViaSchemeSwitching()
-    # ComparisonViaSchemeSwitching()
+    ComparisonViaSchemeSwitching()
     ArgminViaSchemeSwitching()
     ArgminViaSchemeSwitchingAlt()
     #ArgminViaSchemeSwitchingUnit()
