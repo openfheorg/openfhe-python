@@ -8,9 +8,9 @@ def main():
     # FuncViaSchemeSwitching()
     # PolyViaSchemeSwitching()
     # ComparisonViaSchemeSwitching()
-    ArgminViaSchemeSwitching()
-    ArgminViaSchemeSwitchingAlt()
-    # ArgminViaSchemeSwitchingUnit()
+    #ArgminViaSchemeSwitching()
+    #ArgminViaSchemeSwitchingAlt()
+    #ArgminViaSchemeSwitchingUnit()
     ArgminViaSchemeSwitchingAltUnit()
 
 def SwitchCKKSToFHEW():
@@ -734,13 +734,373 @@ def ArgminViaSchemeSwitching():
         print("Argmax: ", ptxtMax)
 
 def ArgminViaSchemeSwitchingAlt():
-    pass
+    print("\n-----ArgminViaSchemeSwitchingAlt-----\n")
+    print("Output precision is only wrt the operations in CKKS after switching back\n")
+
+    # Step 1: Setup CryptoContext for CKKS
+    scaleModSize = 50
+    firstModSize = 60
+    ringDim = 8192
+    sl = HEStd_NotSet
+    slBin = TOY
+    logQ_ccLWE = 25
+    arbFunc = False
+    oneHot = True
+    alt = True
+
+    slots = 16
+    batchSize = slots
+    numValues = 16
+    scTech = FIXEDAUTO
+    multDepth = 9 + 3 + 1 + int(log2(numValues))
+
+    parameters = CCParamsCKKSRNS()
+    parameters.SetMultiplicativeDepth(multDepth)
+    parameters.SetScalingModSize(scaleModSize)
+    parameters.SetFirstModSize(firstModSize)
+    parameters.SetScalingTechnique(scTech)
+    parameters.SetSecurityLevel(sl)
+    parameters.SetRingDim(ringDim)
+    parameters.SetBatchSize(batchSize)
+
+    cc = GenCryptoContext(parameters)
+
+    cc.Enable(PKE)
+    cc.Enable(KEYSWITCH)
+    cc.Enable(LEVELEDSHE)
+    cc.Enable(ADVANCEDSHE)
+    cc.Enable(SCHEMESWITCH)
+
+    print(f"CKKS scheme is using ring dimension {cc.GetRingDimension()},")
+    print(f"number of slots {slots}, and supports a multiplicative depth of {multDepth}\n")
+
+    keys = cc.KeyGen()
+
+    # Step 2: Prepare the FHEW cryptocontext and keys for FHEW and scheme switching
+    FHEWparams = cc.EvalSchemeSwitchingSetup(sl, slBin, arbFunc, logQ_ccLWE, False, slots)
+    ccLWE = FHEWparams[0]
+    privateKeyFHEW = FHEWparams[1]
+
+    cc.EvalSchemeSwitchingKeyGen(keys, privateKeyFHEW, numValues, oneHot, alt)
+
+    print(f"FHEW scheme is using lattice parameter {ccLWE.Getn()},\n logQ {logQ_ccLWE},\n and modulus q {ccLWE.Getq()}\n")
+
+    scaleSign = 512
+    modulus_LWE = 1 << logQ_ccLWE
+    beta = ccLWE.GetBeta()
+    pLWE = modulus_LWE // (2 * beta)
+
+    init_level = 0
+    if cc.GetScalingTechnique() == FLEXIBLEAUTOEXT:
+        init_level = 1
+    cc.EvalCompareSwitchPrecompute(pLWE, init_level, scaleSign)
+    # But we can also include the scaleSign in pLWE (here we use the fact both pLWE and scaleSign are powers of two)
+    # cc.EvalCompareSwitchPrecompute(pLWE / scaleSign, init_level, 1)
+
+    # Step 3: Encoding and encryption of inputs
+
+    # Inputs
+    x1 = [-1.125, -1.12, 5.0, 6.0, -1.0, 2.0, 8.0, -1.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.25, 15.30]
+
+    print("Expected minimum value ", min(x1), " at location ", x1.index(min(x1)))
+    print("Expected maximum value ", max(x1), " at location ", x1.index(max(x1)))
+
+    # Encoding as plaintexts
+    ptxt1 = cc.MakeCKKSPackedPlaintext(x1)  # Only if we set batchsize
+    # ptxt1 = cc.MakeCKKSPackedPlaintext(x1, 1, 0, None, slots) # If batchsize is not set
+
+    # Encrypt the encoded vectors
+    c1 = cc.Encrypt(keys.publicKey, ptxt1)
+
+    # Step 4: Argmin evaluation
+    result = cc.EvalMinSchemeSwitchingAlt(c1, keys.publicKey, numValues, slots, oneHot)
+
+    ptxtMin = cc.Decrypt(keys.secretKey, result[0])
+    ptxtMin.SetLength(1)
+    print("Minimum value: ", ptxtMin)
+
+    ptxtMin = cc.Decrypt(keys.secretKey, result[1])
+    if oneHot:
+        ptxtMin.SetLength(numValues)
+        print("Argmin indicator vector: ", ptxtMin)
+    else:
+        ptxtMin.SetLength(1)
+        print("Argmin: ", ptxtMin)
+
+    result = cc.EvalMaxSchemeSwitchingAlt(c1, keys.publicKey, numValues, slots, oneHot)
+
+    ptxtMax = cc.Decrypt(keys.secretKey, result[0])
+    ptxtMax.SetLength(1)
+    print("Maximum value: ", ptxtMax)
+
+    ptxtMax = cc.Decrypt(keys.secretKey, result[1])
+    if oneHot:
+        ptxtMax.SetLength(numValues)
+        print("Argmax indicator vector: ", ptxtMax)
+    else:
+        ptxtMax.SetLength(1)
+        print("Argmax: ", ptxtMax)
 
 def ArgminViaSchemeSwitchingUnit():
-    pass
+    print("\n-----ArgminViaSchemeSwitchingUnit-----\n")
+    print("Output precision is only wrt the operations in CKKS after switching back\n")
+
+    # Step 1: Setup CryptoContext for CKKS
+    scaleModSize = 50
+    firstModSize = 60
+    ringDim = 8192
+    sl = HEStd_NotSet
+    slBin = TOY
+    logQ_ccLWE = 25
+    arbFunc = False
+    oneHot = True
+
+    slots = 32  # sparsely-packed
+    batchSize = slots
+    numValues = 32
+    scTech = FLEXIBLEAUTOEXT
+    multDepth = 9 + 3 + 1 + int(log2(numValues))  # 1 for CKKS to FHEW, 13 for FHEW to CKKS, log2(numValues) for argmin
+    if scTech == FLEXIBLEAUTOEXT:
+        multDepth += 1
+
+    parameters = CCParamsCKKSRNS()
+    parameters.SetMultiplicativeDepth(multDepth)
+    parameters.SetScalingModSize(scaleModSize)
+    parameters.SetFirstModSize(firstModSize)
+    parameters.SetScalingTechnique(scTech)
+    parameters.SetSecurityLevel(sl)
+    parameters.SetRingDim(ringDim)
+    parameters.SetBatchSize(batchSize)
+
+    cc = GenCryptoContext(parameters)
+
+    # Enable the features that you wish to use
+    cc.Enable(PKE)
+    cc.Enable(KEYSWITCH)
+    cc.Enable(LEVELEDSHE)
+    cc.Enable(ADVANCEDSHE)
+    cc.Enable(SCHEMESWITCH)
+    cc.Enable(FHE)
+
+    print(f"CKKS scheme is using ring dimension {cc.GetRingDimension()},")
+    print(f"number of slots {slots}, and supports a multiplicative depth of {multDepth}\n")
+
+    # Generate encryption keys.
+    keys = cc.KeyGen()
+
+    # Step 2: Prepare the FHEW cryptocontext and keys for FHEW and scheme switching
+    FHEWparams = cc.EvalSchemeSwitchingSetup(sl, slBin, arbFunc, logQ_ccLWE, False, slots)
+
+    ccLWE = FHEWparams[0]
+    privateKeyFHEW = FHEWparams[1]
+
+    cc.EvalSchemeSwitchingKeyGen(keys, privateKeyFHEW, numValues, oneHot)
+
+    print(f"FHEW scheme is using lattice parameter {ccLWE.Getn()},\n logQ {logQ_ccLWE},\n and modulus q {ccLWE.Getq()}\n")
+
+    init_level = 0
+
+    if cc.GetScalingTechnique() == FLEXIBLEAUTOEXT:
+        init_level = 1
+
+    # Here we assume the message does not need scaling, as they are in the unit circle.
+    cc.EvalCompareSwitchPrecompute(1, init_level, 1)
+
+    # Step 3: Encoding and encryption of inputs
+
+    # Inputs
+    x1 = [-1.125, -1.12, 5.0, 6.0, -1.0, 2.0, 8.0, -1.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.25, 15.30]
+    if len(x1) < slots:
+        x1.extend([0] * (slots - len(x1)))
+    print("Input: ", x1)
+
+    p = 1 << (firstModSize - scaleModSize - 1)
+    x1 = [elem / (2 * p) for elem in x1]
+
+    print("Input scaled: ", x1)
+    print("Expected minimum value ", min(x1), " at location ", x1.index(min(x1)))
+    print("Expected maximum value ", max(x1), " at location ", x1.index(max(x1)))
+
+    # Encoding as plaintexts
+    ptxt1 = cc.MakeCKKSPackedPlaintext(x1)
+
+    # Encrypt the encoded vectors
+    c1 = cc.Encrypt(keys.publicKey, ptxt1)
+
+    # Step 4: Argmin evaluation
+    result = cc.EvalMinSchemeSwitching(c1, keys.publicKey, numValues, slots, oneHot)
+
+    ptxtMin = cc.Decrypt(keys.secretKey, result[0])
+    ptxtMin.SetLength(1)
+    print("Minimum value: ", ptxtMin)
+
+    ptxtMin = cc.Decrypt(keys.secretKey, result[1])
+    if oneHot:
+        ptxtMin.SetLength(numValues)
+        print("Argmin indicator vector: ", ptxtMin)
+    else:
+        ptxtMin.SetLength(1)
+        print("Argmin: ", ptxtMin)
+
+    result = cc.EvalMaxSchemeSwitching(c1, keys.publicKey, numValues, slots, oneHot)
+
+    ptxtMax = cc.Decrypt(keys.secretKey, result[0])
+    ptxtMax.SetLength(1)
+    print("Maximum value: ", ptxtMax)
+
+    ptxtMax = cc.Decrypt(keys.secretKey, result[1])
+    if oneHot:
+        ptxtMax.SetLength(numValues)
+        print("Argmax indicator vector: ", ptxtMax)
+    else:
+        ptxtMax.SetLength(1)
+        print("Argmax: ", ptxtMax)
 
 def ArgminViaSchemeSwitchingAltUnit():
-    pass
+    print("\n-----ArgminViaSchemeSwitchingAltUnit-----\n")
+    print("Output precision is only wrt the operations in CKKS after switching back\n")
+
+    # Step 1: Setup CryptoContext for CKKS
+    scaleModSize = 50
+    firstModSize = 60
+    ringDim = 8192
+    sl = HEStd_NotSet
+    slBin = TOY
+    logQ_ccLWE = 25
+    arbFunc = False
+    oneHot = True
+    alt = True  # alternative mode of argmin which has fewer rotation keys and does more operations in FHEW than in CKKS
+
+    slots = 32  # sparsely-packed
+    batchSize = slots
+    numValues = 32
+    scTech = FLEXIBLEAUTOEXT
+    multDepth = 9 + 3 + 1 + int(log2(numValues))  # 1 for CKKS to FHEW, 13 for FHEW to CKKS, log2(numValues) for argmin
+    if scTech == FLEXIBLEAUTOEXT:
+        multDepth += 1
+
+    parameters = CCParamsCKKSRNS()
+    parameters.SetMultiplicativeDepth(multDepth)
+    parameters.SetScalingModSize(scaleModSize)
+    parameters.SetFirstModSize(firstModSize)
+    parameters.SetScalingTechnique(scTech)
+    parameters.SetSecurityLevel(sl)
+    parameters.SetRingDim(ringDim)
+    parameters.SetBatchSize(batchSize)
+
+    cc = GenCryptoContext(parameters)
+
+    # Enable the features that you wish to use
+    cc.Enable(PKE)
+    cc.Enable(KEYSWITCH)
+    cc.Enable(LEVELEDSHE)
+    cc.Enable(ADVANCEDSHE)
+    cc.Enable(SCHEMESWITCH)
+    cc.Enable(FHE)
+
+    print(f"CKKS scheme is using ring dimension {cc.GetRingDimension()},")
+    print(f"number of slots {slots}, and supports a multiplicative depth of {multDepth}\n")
+
+    # Generate encryption keys.
+    keys = cc.KeyGen()
+
+    # Step 2: Prepare the FHEW cryptocontext and keys for FHEW and scheme switching
+    FHEWparams = cc.EvalSchemeSwitchingSetup(sl, slBin, arbFunc, logQ_ccLWE, False, slots)
+
+    ccLWE = FHEWparams[0]
+    privateKeyFHEW = FHEWparams[1]
+
+    cc.EvalSchemeSwitchingKeyGen(keys, privateKeyFHEW, numValues, oneHot, alt)
+
+    print(f"FHEW scheme is using lattice parameter {ccLWE.Getn()},\n logQ {logQ_ccLWE},\n and modulus q {ccLWE.Getq()}\n")
+
+    init_level = 0
+
+    if cc.GetScalingTechnique() == FLEXIBLEAUTOEXT:
+        init_level = 1
+    # Here we assume the message does not need scaling, as they are in the unit circle.
+    cc.EvalCompareSwitchPrecompute(1, init_level, 1)
+
+    # Step 3: Encoding and encryption of inputs
+    # Inputs
+    x1 = [-1.125, -1.12, 5.0, 6.0, -1.0, 2.0, 8.0, -1.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.25, 15.30]
+    if len(x1) < slots:
+        zeros = [0] * (slots - len(x1))
+        x1.extend(zeros)
+    print("Input: ", x1)
+
+    p = 1 << (firstModSize - scaleModSize - 1)
+    x1 = [elem / (2 * p) for elem in x1]
+
+    print("Input scaled: ", x1)
+    print("Expected minimum value ", min(x1), " at location ", x1.index(min(x1)))
+    print("Expected maximum value ", max(x1), " at location ", x1.index(max(x1)))
+
+    # Encoding as plaintexts
+    ptxt1 = cc.MakeCKKSPackedPlaintext(x1)
+
+    # Encrypt the encoded vectors
+    c1 = cc.Encrypt(keys.publicKey, ptxt1)
+
+    # Step 4: Argmin evaluation
+    result = cc.EvalMinSchemeSwitchingAlt(c1, keys.publicKey, numValues, slots, oneHot)
+
+    ptxtMin = cc.Decrypt(keys.secretKey, result[0])
+    ptxtMin.SetLength(1)
+    print("Minimum value: ", ptxtMin)
+
+    ptxtMin = cc.Decrypt(keys.secretKey, result[1])
+    if oneHot:
+        ptxtMin.SetLength(numValues)
+        print("Argmin indicator vector: ", ptxtMin)
+    else:
+        ptxtMin.SetLength(1)
+        print("Argmin: ", ptxtMin)
+
+    result = cc.EvalMaxSchemeSwitchingAlt(c1, keys.publicKey, numValues, slots, oneHot)
+
+    ptxtMax = cc.Decrypt(keys.secretKey, result[0])
+    ptxtMax.SetLength(1)
+    print("Maximum value: ", ptxtMax)
+
+    ptxtMax = cc.Decrypt(keys.secretKey, result[1])
+    if oneHot:
+        ptxtMax.SetLength(numValues)
+        print("Argmax indicator vector: ", ptxtMax)
+    else:
+        ptxtMax.SetLength(1)
+        print("Argmax: ", ptxtMax)
+
+# Helper functions:
+def ReduceRotation(index, slots):
+    islots = int(slots)
+
+    # if slots is a power of 2
+    if (slots & (slots - 1)) == 0:
+        n = int(log2(slots))
+        if index >= 0:
+            return index - ((index >> n) << n)
+        return index + islots + ((int(abs(index)) >> n) << n)
+    return (islots + index % islots) % islots
+
+def RotateInt(a, index):
+    slots = len(a)
+
+    result = [0]*slots
+
+    if index < 0 or index > slots:
+        index = ReduceRotation(index, slots)
+
+    if index == 0:
+        result = a.copy()
+    else:
+        # two cases: i+index <= slots and i+index > slots
+        for i in range(0, slots - index):
+            result[i] = a[i + index]
+        for i in range(slots - index, slots):
+            result[i] = a[i + index - slots]
+
+    return result
 
 if __name__ == "__main__":
     main()
