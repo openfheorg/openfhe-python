@@ -92,10 +92,12 @@ void bind_binfhe_enums(py::module &m)
     py::enum_<BINFHE_METHOD>(m, "BINFHE_METHOD")
         .value("INVALID_METHOD", BINFHE_METHOD::INVALID_METHOD)
         .value("AP", BINFHE_METHOD::AP)
-        .value("GINX", BINFHE_METHOD::GINX);
+        .value("GINX", BINFHE_METHOD::GINX)
+        .value("LMKCDEY", BINFHE_METHOD::LMKCDEY);
     m.attr("INVALID_METHOD") = py::cast(BINFHE_METHOD::INVALID_METHOD);
     m.attr("GINX") = py::cast(BINFHE_METHOD::GINX);
     m.attr("AP") = py::cast(BINFHE_METHOD::AP);
+    m.attr("LMKCDEY") = py::cast(BINFHE_METHOD::LMKCDEY);
 
     py::enum_<KEYGEN_MODE>(m, "KEYGEN_MODE")
         .value("SYM_ENCRYPT", KEYGEN_MODE::SYM_ENCRYPT)
