@@ -115,6 +115,7 @@ void bind_crypto_context(py::module &m)
         .def("GetModulusCKKS", &GetModulusCKKSWrapper)
         .def("GetScalingFactorReal", &GetScalingFactorRealWrapper, cc_GetScalingFactorReal_docs)
         .def("GetScalingTechnique",&GetScalingTechniqueWrapper)
+        .def("GetDigitSize", &GetDigitSizeWrapper)
         .def("GetCyclotomicOrder", &CryptoContextImpl<DCRTPoly>::GetCyclotomicOrder, cc_GetCyclotomicOrder_docs)
         .def("Enable", static_cast<void (CryptoContextImpl<DCRTPoly>::*)(PKESchemeFeature)>(&CryptoContextImpl<DCRTPoly>::Enable), cc_Enable_docs,
              py::arg("feature"))
@@ -544,6 +545,16 @@ void bind_crypto_context(py::module &m)
         .def("EvalMerge", &CryptoContextImpl<DCRTPoly>::EvalMerge,
              cc_EvalMerge_docs,
              py::arg("ciphertextVec"))
+             // use static_cast: inline EvalKey<Element> ReKeyGen(const PrivateKey<Element> oldPrivateKey, const PublicKey<Element> newPublicKey) const;
+        .def("ReKeyGen", static_cast<EvalKey<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const PrivateKey<DCRTPoly>, const PublicKey<DCRTPoly>) const>(&CryptoContextImpl<DCRTPoly>::ReKeyGen),
+             cc_ReKeyGen_docs,
+             py::arg("oldPrivateKey"),
+             py::arg("newPublicKey"))
+        .def("ReEncrypt", &CryptoContextImpl<DCRTPoly>::ReEncrypt,
+             cc_ReEncrypt_docs,
+             py::arg("ciphertext"),
+             py::arg("evalKey"),
+             py::arg("publicKey") = nullptr)
         .def("EvalPoly", &CryptoContextImpl<DCRTPoly>::EvalPoly,
              cc_EvalPoly_docs,
              py::arg("ciphertext"),
@@ -877,6 +888,12 @@ void bind_enums_and_constants(py::module &m)
     m.attr("FHE") = py::cast(PKESchemeFeature::FHE);
     m.attr("SCHEMESWITCH") = py::cast(PKESchemeFeature::SCHEMESWITCH);
 
+    // Plaintext enums
+    py::enum_<Format>(m, "Format")
+        .value("EVALUATION", Format::EVALUATION)
+        .value("COEFFICIENT", Format::COEFFICIENT);
+    m.attr("EVALUATION") = py::cast(Format::EVALUATION);
+    m.attr("COEFFICIENT") = py::cast(Format::COEFFICIENT);
     // Serialization Types
     py::class_<SerType::SERJSON>(m, "SERJSON");
     py::class_<SerType::SERBINARY>(m, "SERBINARY");
@@ -1030,6 +1047,8 @@ void bind_encodings(py::module &m)
         .def("SetScalingFactor", &PlaintextImpl::SetScalingFactor,
             ptx_SetScalingFactor_docs,
             py::arg("sf"))
+        .def("GetSchemeID", &PlaintextImpl::GetSchemeID,
+            ptx_GetSchemeID_docs)
         .def("GetLength", &PlaintextImpl::GetLength,
             ptx_GetLength_docs)
         .def("GetSchemeID", &PlaintextImpl::GetSchemeID,
@@ -1045,10 +1064,29 @@ void bind_encodings(py::module &m)
             ptx_Encode_docs)
         .def("Decode", &PlaintextImpl::Decode,
             ptx_Decode_docs)
+        .def("LowBound", &PlaintextImpl::LowBound,
+            ptx_LowBound_docs)
+        .def("HighBound", &PlaintextImpl::HighBound,
+            ptx_HighBound_docs)
+        .def("SetFormat", &PlaintextImpl::SetFormat,
+            ptx_SetFormat_docs,
+            py::arg("fmt"))
+        .def("GetPackedValue", &PlaintextImpl::GetPackedValue)
         .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue,
             ptx_GetCKKSPackedValue_docs)
         .def("GetRealPackedValue", &PlaintextImpl::GetRealPackedValue,
             ptx_GetRealPackedValue_docs)
+        .def("GetLevel", &PlaintextImpl::GetLevel)
+        .def("SetLevel", &PlaintextImpl::SetLevel)
+        .def("GetNoiseScaleDeg", &PlaintextImpl::GetNoiseScaleDeg)
+        .def("SetNoiseScaleDeg", &PlaintextImpl::SetNoiseScaleDeg)
+        .def("GetSlots", &PlaintextImpl::GetSlots)
+        .def("SetSlots", &PlaintextImpl::SetSlots)
+        .def("GetLogError", &PlaintextImpl::GetLogError)
+        .def("GetLogPrecision", &PlaintextImpl::GetLogPrecision)
+        .def("GetStringValue", &PlaintextImpl::GetStringValue)
+        .def("SetStringValue", &PlaintextImpl::SetStringValue)
+        .def("SetIntVectorValue", &PlaintextImpl::SetIntVectorValue)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;

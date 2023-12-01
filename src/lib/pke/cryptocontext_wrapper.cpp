@@ -100,6 +100,9 @@ const double GetModulusWrapper(CryptoContext<DCRTPoly>& self){
 void RemoveElementWrapper(Ciphertext<DCRTPoly> &self, usint index){
     self->GetElements().erase(self->GetElements().begin()+index);
 }
+const usint GetDigitSizeWrapper(CryptoContext<DCRTPoly>& self){
+    return self->GetCryptoParameters()->GetDigitSize();
+}
 
 const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l){
     if(self->getSchemeId()==SCHEME::CKKSRNS_SCHEME){
