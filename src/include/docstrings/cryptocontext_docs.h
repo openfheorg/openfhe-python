@@ -1078,7 +1078,31 @@ const char* cc_EvalMerge_docs = R"pbdoc(
 
     :param ciphertextVec: vector of ciphertexts to be merged.
     :type ciphertextVec: list
-    :return: Ciphertext: resulting ciphertext
+    :return: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_ReKeyGen_docs = R"pbdoc(
+    ReKeyGen produces an Eval Key that OpenFHE can use for Proxy Re-Encryption
+
+    :param oldPrivateKey: original private key
+    :type privateKey: PrivateKey
+    :param newPublicKey: public key
+    :type publicKey: PublicKey
+    :return: new evaluation key
+    :rtype: EvalKey
+)pbdoc";
+
+const char* cc_ReEncrypt_docs = R"pbdoc(
+    ReEncrypt - Proxy Re-Encryption mechanism for OpenFHE
+
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param evalKey: evaluation key for PRE keygen method
+    :type evalKey: EvalKey
+    :param publicKey: the public key of the recipient of the reencrypted ciphertext
+    :type publicKey: PublicKey
+    :return: the resulting ciphertext
     :rtype: Ciphertext
 )pbdoc";
 
