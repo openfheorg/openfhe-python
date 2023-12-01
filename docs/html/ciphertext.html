@@ -47,7 +47,9 @@
 <li class="toctree-l1"><a class="reference internal" href="cryptocontext.html">CryptoContext</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Ciphertext</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#openfhe.Ciphertext"><code class="docutils literal notranslate"><span class="pre">Ciphertext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.Ciphertext.Clone"><code class="docutils literal notranslate"><span class="pre">Ciphertext.Clone()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.Ciphertext.GetLevel"><code class="docutils literal notranslate"><span class="pre">Ciphertext.GetLevel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.Ciphertext.RemoveElement"><code class="docutils literal notranslate"><span class="pre">Ciphertext.RemoveElement()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.Ciphertext.SetLevel"><code class="docutils literal notranslate"><span class="pre">Ciphertext.SetLevel()</span></code></a></li>
 </ul>
 </li>
@@ -95,6 +97,11 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">Ciphertext</span></span><a class="headerlink" href="#openfhe.Ciphertext" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <dl class="py method">
+<dt class="sig sig-object py" id="openfhe.Ciphertext.Clone">
+<span class="sig-name descname"><span class="pre">Clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span><a class="headerlink" href="#openfhe.Ciphertext.Clone" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="openfhe.Ciphertext.GetLevel">
 <span class="sig-name descname"><span class="pre">GetLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.Ciphertext.GetLevel" title="Permalink to this definition"></a></dt>
 <dd><p>Get the number of scalings performed.</p>
@@ -104,6 +111,17 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.Ciphertext.RemoveElement">
+<span class="sig-name descname"><span class="pre">RemoveElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.Ciphertext.RemoveElement" title="Permalink to this definition"></a></dt>
+<dd><p>Remove an element from the ciphertext inner vector given its index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – The index of the element to remove.</p>
 </dd>
 </dl>
 </dd></dl>

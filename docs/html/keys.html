@@ -48,15 +48,24 @@
 <li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Public Key</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#openfhe.PublicKey"><code class="docutils literal notranslate"><span class="pre">PublicKey</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#openfhe.PublicKey"><code class="docutils literal notranslate"><span class="pre">PublicKey</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.PublicKey.GetKeyTag"><code class="docutils literal notranslate"><span class="pre">PublicKey.GetKeyTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.PublicKey.SetKeyTag"><code class="docutils literal notranslate"><span class="pre">PublicKey.SetKeyTag()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#private-key">Private Key</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#openfhe.PrivateKey"><code class="docutils literal notranslate"><span class="pre">PrivateKey</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#openfhe.PrivateKey"><code class="docutils literal notranslate"><span class="pre">PrivateKey</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.PrivateKey.GetKeyTag"><code class="docutils literal notranslate"><span class="pre">PrivateKey.GetKeyTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.PrivateKey.SetKeyTag"><code class="docutils literal notranslate"><span class="pre">PrivateKey.SetKeyTag()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#keypair">KeyPair</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#openfhe.KeyPair"><code class="docutils literal notranslate"><span class="pre">KeyPair</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.KeyPair.good"><code class="docutils literal notranslate"><span class="pre">KeyPair.good()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.KeyPair.publicKey"><code class="docutils literal notranslate"><span class="pre">KeyPair.publicKey</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.KeyPair.secretKey"><code class="docutils literal notranslate"><span class="pre">KeyPair.secretKey</span></code></a></li>
 </ul>
@@ -100,6 +109,16 @@
 <dt class="sig sig-object py" id="openfhe.PublicKey">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">PublicKey</span></span><a class="headerlink" href="#openfhe.PublicKey" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.PublicKey.GetKeyTag">
+<span class="sig-name descname"><span class="pre">GetKeyTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#openfhe.PublicKey.GetKeyTag" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.PublicKey.SetKeyTag">
+<span class="sig-name descname"><span class="pre">SetKeyTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.PublicKey.SetKeyTag" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -109,6 +128,16 @@
 <dt class="sig sig-object py" id="openfhe.PrivateKey">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">PrivateKey</span></span><a class="headerlink" href="#openfhe.PrivateKey" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.PrivateKey.GetKeyTag">
+<span class="sig-name descname"><span class="pre">GetKeyTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#openfhe.PrivateKey.GetKeyTag" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.PrivateKey.SetKeyTag">
+<span class="sig-name descname"><span class="pre">SetKeyTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.PrivateKey.SetKeyTag" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -118,6 +147,20 @@
 <dt class="sig sig-object py" id="openfhe.KeyPair">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">KeyPair</span></span><a class="headerlink" href="#openfhe.KeyPair" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.KeyPair.good">
+<span class="sig-name descname"><span class="pre">good</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.KeyPair" title="openfhe.KeyPair"><span class="pre">openfhe.KeyPair</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#openfhe.KeyPair.good" title="Permalink to this definition"></a></dt>
+<dd><p>Checks whether both public key and secret key are non-null, or correctly initialized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Result.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="openfhe.KeyPair.publicKey">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">publicKey</span></span><a class="headerlink" href="#openfhe.KeyPair.publicKey" title="Permalink to this definition"></a></dt>

@@ -96,6 +96,7 @@
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
@@ -156,6 +157,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pke_enums.html#openfhe.SCHEME.CKKSRNS_SCHEME">CKKSRNS_SCHEME (openfhe.SCHEME attribute)</a>
 </li>
+      <li><a href="ciphertext.html#openfhe.Ciphertext.Clone">Clone() (openfhe.Ciphertext method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -186,9 +189,17 @@
 </li>
       <li><a href="binfhe.html#openfhe.BinFHEContext.EvalBinGate">EvalBinGate() (openfhe.BinFHEContext method)</a>
 </li>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.EvalDecomp">EvalDecomp() (openfhe.BinFHEContext method)</a>
+</li>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.EvalFloor">EvalFloor() (openfhe.BinFHEContext method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.EvalFunc">EvalFunc() (openfhe.BinFHEContext method)</a>
+</li>
       <li><a href="binfhe.html#openfhe.BinFHEContext.EvalNOT">EvalNOT() (openfhe.BinFHEContext method)</a>
+</li>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.EvalSign">EvalSign() (openfhe.BinFHEContext method)</a>
 </li>
       <li><a href="pke_enums.html#openfhe.ExecutionMode.EXEC_EVALUATION">EXEC_EVALUATION (openfhe.ExecutionMode attribute)</a>
 </li>
@@ -234,8 +245,18 @@
 </li>
       <li><a href="binfhe.html#openfhe.BinFHEContext.GenerateBinFHEContext">GenerateBinFHEContext() (openfhe.BinFHEContext method)</a>
 </li>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.GenerateLUTviaFunction">GenerateLUTviaFunction() (openfhe.BinFHEContext method)</a>
+</li>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.GetBeta">GetBeta() (openfhe.BinFHEContext method)</a>
+</li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetCKKSPackedValue">GetCKKSPackedValue() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="keys.html#openfhe.PrivateKey.GetKeyTag">GetKeyTag() (openfhe.PrivateKey method)</a>
+
+      <ul>
+        <li><a href="keys.html#openfhe.PublicKey.GetKeyTag">(openfhe.PublicKey method)</a>
+</li>
+      </ul></li>
       <li><a href="binfhe.html#openfhe.LWECiphertext.GetLength">GetLength() (openfhe.LWECiphertext method)</a>
 
       <ul>
@@ -244,17 +265,43 @@
         <li><a href="plaintext.html#openfhe.Plaintext.GetLength">(openfhe.Plaintext method)</a>
 </li>
       </ul></li>
+      <li><a href="ciphertext.html#openfhe.Ciphertext.GetLevel">GetLevel() (openfhe.Ciphertext method)</a>
+
+      <ul>
+        <li><a href="plaintext.html#openfhe.Plaintext.GetLevel">(openfhe.Plaintext method)</a>
+</li>
+      </ul></li>
+      <li><a href="plaintext.html#openfhe.Plaintext.GetLogError">GetLogError() (openfhe.Plaintext method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ciphertext.html#openfhe.Ciphertext.GetLevel">GetLevel() (openfhe.Ciphertext method)</a>
-</li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetLogPrecision">GetLogPrecision() (openfhe.Plaintext method)</a>
+</li>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.GetMaxPlaintextSpace">GetMaxPlaintextSpace() (openfhe.BinFHEContext method)</a>
+</li>
+      <li><a href="binfhe.html#openfhe.LWECiphertext.GetModulus">GetModulus() (openfhe.LWECiphertext method)</a>
+</li>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.Getn">Getn() (openfhe.BinFHEContext method)</a>
+</li>
+      <li><a href="plaintext.html#openfhe.Plaintext.GetNoiseScaleDeg">GetNoiseScaleDeg() (openfhe.Plaintext method)</a>
+</li>
+      <li><a href="plaintext.html#openfhe.Plaintext.GetPackedValue">GetPackedValue() (openfhe.Plaintext method)</a>
+</li>
+      <li><a href="binfhe.html#openfhe.BinFHEContext.Getq">Getq() (openfhe.BinFHEContext method)</a>
+</li>
+      <li><a href="plaintext.html#openfhe.Plaintext.GetRealPackedValue">GetRealPackedValue() (openfhe.Plaintext method)</a>
 </li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetScalingFactor">GetScalingFactor() (openfhe.Plaintext method)</a>
 </li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetSchemeID">GetSchemeID() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="plaintext.html#openfhe.Plaintext.GetSlots">GetSlots() (openfhe.Plaintext method)</a>
+</li>
+      <li><a href="plaintext.html#openfhe.Plaintext.GetStringValue">GetStringValue() (openfhe.Plaintext method)</a>
+</li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_METHOD.GINX">GINX (openfhe.BINFHE_METHOD attribute)</a>
+</li>
+      <li><a href="keys.html#openfhe.KeyPair.good">good() (openfhe.KeyPair method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -272,6 +319,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="plaintext.html#openfhe.Plaintext.HighBound">HighBound() (openfhe.Plaintext method)</a>
+</li>
       <li><a href="pke_enums.html#openfhe.MultiplicationTechnique.HPS">HPS (openfhe.MultiplicationTechnique attribute)</a>
 </li>
       <li><a href="pke_enums.html#openfhe.MultiplicationTechnique.HPSPOVERQ">HPSPOVERQ (openfhe.MultiplicationTechnique attribute)</a>
@@ -328,8 +377,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pke_enums.html#openfhe.PKESchemeFeature.LEVELEDSHE">LEVELEDSHE (openfhe.PKESchemeFeature attribute)</a>
 </li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_METHOD.LMKCDEY">LMKCDEY (openfhe.BINFHE_METHOD attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="plaintext.html#openfhe.Plaintext.LowBound">LowBound() (openfhe.Plaintext method)</a>
+</li>
       <li><a href="binfhe.html#openfhe.LWECiphertext">LWECiphertext (class in openfhe)</a>
 </li>
       <li><a href="binfhe.html#openfhe.LWEPrivateKey">LWEPrivateKey (class in openfhe)</a>
@@ -441,6 +494,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ciphertext.html#openfhe.Ciphertext.RemoveElement">RemoveElement() (openfhe.Ciphertext method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -448,17 +509,39 @@
 </li>
       <li><a href="pke_enums.html#openfhe.SCHEME">SCHEME (class in openfhe)</a>
 </li>
+      <li><a href="pke_enums.html#openfhe.PKESchemeFeature.SCHEMESWITCH">SCHEMESWITCH (openfhe.PKESchemeFeature attribute)</a>
+</li>
       <li><a href="keys.html#openfhe.KeyPair.secretKey">secretKey (openfhe.KeyPair property)</a>
 </li>
       <li><a href="pke_enums.html#openfhe.SecretKeyDist">SecretKeyDist (class in openfhe)</a>
 </li>
       <li><a href="pke_enums.html#openfhe.SecurityLevel">SecurityLevel (class in openfhe)</a>
 </li>
+      <li><a href="plaintext.html#openfhe.Plaintext.SetFormat">SetFormat() (openfhe.Plaintext method)</a>
+</li>
+      <li><a href="plaintext.html#openfhe.Plaintext.SetIntVectorValue">SetIntVectorValue() (openfhe.Plaintext method)</a>
+</li>
+      <li><a href="keys.html#openfhe.PrivateKey.SetKeyTag">SetKeyTag() (openfhe.PrivateKey method)</a>
+
+      <ul>
+        <li><a href="keys.html#openfhe.PublicKey.SetKeyTag">(openfhe.PublicKey method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.SetLength">SetLength() (openfhe.Plaintext method)</a>
 </li>
       <li><a href="ciphertext.html#openfhe.Ciphertext.SetLevel">SetLevel() (openfhe.Ciphertext method)</a>
+
+      <ul>
+        <li><a href="plaintext.html#openfhe.Plaintext.SetLevel">(openfhe.Plaintext method)</a>
+</li>
+      </ul></li>
+      <li><a href="plaintext.html#openfhe.Plaintext.SetNoiseScaleDeg">SetNoiseScaleDeg() (openfhe.Plaintext method)</a>
 </li>
       <li><a href="plaintext.html#openfhe.Plaintext.SetScalingFactor">SetScalingFactor() (openfhe.Plaintext method)</a>
+</li>
+      <li><a href="plaintext.html#openfhe.Plaintext.SetSlots">SetSlots() (openfhe.Plaintext method)</a>
+</li>
+      <li><a href="plaintext.html#openfhe.Plaintext.SetStringValue">SetStringValue() (openfhe.Plaintext method)</a>
 </li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.SIGNED_MOD_TEST">SIGNED_MOD_TEST (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
@@ -466,35 +549,49 @@
 </li>
       <li><a href="pke_enums.html#openfhe.EncryptionTechnique.STANDARD">STANDARD (openfhe.EncryptionTechnique attribute)</a>
 </li>
-      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128">STD128 (openfhe.BINFHE_PARAMSET attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128">STD128 (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_3">STD128_3 (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_3_LMKCDEY">STD128_3_LMKCDEY (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_4">STD128_4 (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_4_LMKCDEY">STD128_4_LMKCDEY (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_AP">STD128_AP (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
-      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_APOPT">STD128_APOPT (openfhe.BINFHE_PARAMSET attribute)</a>
-</li>
-      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_OPT">STD128_OPT (openfhe.BINFHE_PARAMSET attribute)</a>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_LMKCDEY">STD128_LMKCDEY (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128Q">STD128Q (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
-      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128Q_OPT">STD128Q_OPT (openfhe.BINFHE_PARAMSET attribute)</a>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128Q_3">STD128Q_3 (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128Q_3_LMKCDEY">STD128Q_3_LMKCDEY (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128Q_4">STD128Q_4 (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128Q_4_LMKCDEY">STD128Q_4_LMKCDEY (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128Q_LMKCDEY">STD128Q_LMKCDEY (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD192">STD192 (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
-      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD192_OPT">STD192_OPT (openfhe.BINFHE_PARAMSET attribute)</a>
-</li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD192Q">STD192Q (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
-      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD192Q_OPT">STD192Q_OPT (openfhe.BINFHE_PARAMSET attribute)</a>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD192Q_3">STD192Q_3 (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD192Q_4">STD192Q_4 (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD256">STD256 (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
-      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD256_OPT">STD256_OPT (openfhe.BINFHE_PARAMSET attribute)</a>
-</li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD256Q">STD256Q (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
-      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD256Q_OPT">STD256Q_OPT (openfhe.BINFHE_PARAMSET attribute)</a>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD256Q_3">STD256Q_3 (openfhe.BINFHE_PARAMSET attribute)</a>
+</li>
+      <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD256Q_4">STD256Q_4 (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
   </ul></td>
 </tr></table>
