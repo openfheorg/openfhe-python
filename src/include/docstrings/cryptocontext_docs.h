@@ -879,6 +879,15 @@ const char* cc_MultipartyKeyGen_docs = R"pbdoc(
     :rtype: KeyPair
 )pbdoc";
 
+const char* cc_MultipartyKeyGen_vector_docs = R"pbdoc(
+    Threshold FHE: Generates a public key from a vector of secret shares. ONLY FOR DEBUGGIN PURPOSES. SHOULD NOT BE USED IN PRODUCTION.
+
+    :param privateKeyVec: secret key shares.
+    :type privateKeyVec: List[PrivateKey]
+    :return KeyPair: key pair including the private for the current party and joined public key
+    :rtype: KeyPair
+)pbdoc";
+
 const char* cc_MultipartyDecryptLead_docs = R"pbdoc(
     Threshold FHE: Method for decryption operation run by the lead decryption client
 
@@ -1000,6 +1009,62 @@ const char* cc_MultiAddEvalMultKeys_docs = R"pbdoc(
     :rtype: EvalKey
 )pbdoc";
 
+
+const char* cc_IntMPBootAdjustScale_docs = R"pbdoc(
+    Threshold FHE: Prepare a ciphertext for Multi-Party Interactive Bootstrapping.
+
+    :param ciphertext: Input Ciphertext
+    :type ciphertext: Ciphertext
+    :return: Resulting Ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_IntMPBootRandomElementGen_docs = R"pbdoc(
+    Threshold FHE: Generate a common random polynomial for Multi-Party Interactive Bootstrapping
+
+    :param publicKey: the scheme public key (you can also provide the lead party's public-key)
+    :type publicKey: PublicKey
+    :return: Resulting ring element
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_IntMPBootDecrypt_docs = R"pbdoc(
+    Threshold FHE: Does masked decryption as part of Multi-Party Interactive Bootstrapping. Each party calls this function as part of the protocol
+
+    :param privateKey: secret key share for party i
+    :type privateKey: PrivateKey
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param a: input common random polynomial
+    :type a: Ciphertext
+    :return: Resulting masked decryption
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_IntMPBootAdd_docs = R"pbdoc(
+    Threshold FHE: Aggregates a vector of masked decryptions and re-encryotion shares, which is the second step of the interactive multiparty bootstrapping procedure.
+
+    :param sharesPairVec: vector of pair of ciphertexts, each element of this vector contains (h_0i, h_1i) - the masked-decryption and encryption shares ofparty i
+    :type sharesPairVec: List[List[Ciphertext]]
+    :return: aggregated pair of shares ((h_0, h_1)
+    :rtype: List[Ciphertext]
+)pbdoc";
+
+const char* cc_IntMPBootEncrypt_docs = R"pbdoc(
+    Threshold FHE: Does public key encryption of lead party's masked decryption as part of interactive multi-party bootstrapping, which increases the ciphertext modulus and enables future computations. This operation is done by the lead party as the final step of interactive multi-party bootstrapping.
+
+    :param publicKey: the lead party's public key
+    :type publicKey: PublicKey
+    :param sharesPair: aggregated decryption and re-encryption shares
+    :type sharesPair: List[Ciphertext]
+    :param a: common random ring element
+    :type a: Ciphertext
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :return: Resulting encryption
+    :rtype: Ciphertext
+)pbdoc";
+
 const char* cc_InsertEvalMultKey_docs = R"pbdoc(
     InsertEvalMultKey - add the given vector of keys to the map, replacing the existing vector if there
 
@@ -1024,7 +1089,31 @@ const char* cc_EvalMerge_docs = R"pbdoc(
 
     :param ciphertextVec: vector of ciphertexts to be merged.
     :type ciphertextVec: list
-    :return: Ciphertext: resulting ciphertext
+    :return: resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_ReKeyGen_docs = R"pbdoc(
+    ReKeyGen produces an Eval Key that OpenFHE can use for Proxy Re-Encryption
+
+    :param oldPrivateKey: original private key
+    :type privateKey: PrivateKey
+    :param newPublicKey: public key
+    :type publicKey: PublicKey
+    :return: new evaluation key
+    :rtype: EvalKey
+)pbdoc";
+
+const char* cc_ReEncrypt_docs = R"pbdoc(
+    ReEncrypt - Proxy Re-Encryption mechanism for OpenFHE
+
+    :param ciphertext: input ciphertext
+    :type ciphertext: Ciphertext
+    :param evalKey: evaluation key for PRE keygen method
+    :type evalKey: EvalKey
+    :param publicKey: the public key of the recipient of the reencrypted ciphertext
+    :type publicKey: PublicKey
+    :return: the resulting ciphertext
     :rtype: Ciphertext
 )pbdoc";
 
@@ -1135,6 +1224,23 @@ const char* cc_EvalBootstrap_docs = R"pbdoc(
     :return: Ciphertext: the refreshed ciphertext
     :rtype: Ciphertext
 )pbdoc";
+
+// TODO (Oliveira, R.) - Complete the following documentation
+const char* cc_EvalCKKStoFHEWSetup_docs = "";
+const char* cc_EvalCKKStoFHEWKeyGen_docs = "";
+const char* cc_EvalCKKStoFHEWPrecompute_docs = "";
+const char* cc_EvalCKKStoFHEW_docs = "";
+const char* cc_EvalFHEWtoCKKSSetup_docs = "";
+const char* cc_EvalFHEWtoCKKSKeyGen_docs = "";
+const char* cc_EvalFHEWtoCKKS_docs = "";
+const char* cc_EvalSchemeSwitchingSetup_docs = "";
+const char* cc_EvalSchemeSwitchingKeyGen_docs = "";
+const char* cc_EvalCompareSwitchPrecompute_docs = "";
+const char* cc_EvalCompareSchemeSwitching_docs = "";
+const char* cc_EvalMinSchemeSwitching_docs = "";
+const char* cc_EvalMinSchemeSwitchingAlt_docs = "";
+const char* cc_EvalMaxSchemeSwitching_docs = "";
+const char* cc_EvalMaxSchemeSwitchingAlt_docs = "";
 
 const char* cc_EvalAutomorphismKeyGen_docs = R"pbdoc(
     Generate automophism keys for a given private key; Uses the private key for encryption

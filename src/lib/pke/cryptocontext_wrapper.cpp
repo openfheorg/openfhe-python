@@ -96,3 +96,61 @@ const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self)
 const double GetModulusWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetElementParams()->GetModulus().ConvertToDouble();
 }
+
+void RemoveElementWrapper(Ciphertext<DCRTPoly> &self, usint index){
+    self->GetElements().erase(self->GetElements().begin()+index);
+}
+const usint GetDigitSizeWrapper(CryptoContext<DCRTPoly>& self){
+    return self->GetCryptoParameters()->GetDigitSize();
+}
+
+const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l){
+    if(self->getSchemeId()==SCHEME::CKKSRNS_SCHEME){
+        const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersCKKSRNS>(self->GetCryptoParameters());
+        double scFactor = cryptoParams->GetScalingFactorReal(l);
+        return scFactor;
+    }
+    else if(self->getSchemeId()==SCHEME::BFVRNS_SCHEME){
+        const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersBFVRNS>(self->GetCryptoParameters());
+        double scFactor = cryptoParams->GetScalingFactorReal(l);
+        return scFactor;
+    }
+    else if(self->getSchemeId()==SCHEME::BGVRNS_SCHEME){
+        const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersBGVRNS>(self->GetCryptoParameters());
+        double scFactor = cryptoParams->GetScalingFactorReal(l);
+        return scFactor;
+    }
+    else{
+        OPENFHE_THROW(not_available_error, "GetScalingFactorRealWrapper: Invalid scheme");
+        return 0;
+    }
+}
+
+const uint64_t GetModulusCKKSWrapper(CryptoContext<DCRTPoly> &self)
+{
+
+    const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersCKKSRNS>(self->GetCryptoParameters());
+    ILDCRTParams<DCRTPoly::Integer> elementParams = *(cryptoParams->GetElementParams());
+    auto paramsQ = elementParams.GetParams();
+    uint64_t modulus_CKKS_from = paramsQ[0]->GetModulus().ConvertToInt<uint64_t>();
+    return modulus_CKKS_from;
+}
+
+const ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly> & self){
+    if(self->getSchemeId()==SCHEME::CKKSRNS_SCHEME){
+        const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersCKKSRNS>(self->GetCryptoParameters());
+        return cryptoParams->GetScalingTechnique();
+    }
+    else if(self->getSchemeId()==SCHEME::BFVRNS_SCHEME){
+        const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersBFVRNS>(self->GetCryptoParameters());
+        return cryptoParams->GetScalingTechnique();
+    }
+    else if(self->getSchemeId()==SCHEME::BGVRNS_SCHEME){
+        const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersBGVRNS>(self->GetCryptoParameters());
+        return cryptoParams->GetScalingTechnique();
+    }
+    else{
+        OPENFHE_THROW(not_available_error, "GetScalingTechniqueWrapper: Invalid scheme");
+    }
+
+}

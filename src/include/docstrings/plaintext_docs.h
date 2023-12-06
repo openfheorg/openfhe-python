@@ -94,6 +94,27 @@ const char* ptx_Decode_docs = R"pbdoc(
     Decode the polynomial into a plaintext.
 )pbdoc";
 
+const char* ptx_LowBound_docs = R"pbdoc(
+    Calculate and return lower bound that can be encoded with the plaintext modulus the number to encode MUST be greater than this value
+
+    :return: floor(-p/2)
+    :rtype: int
+)pbdoc";
+
+const char* ptx_HighBound_docs = R"pbdoc(
+    Calculate and return upper bound that can be encoded with the plaintext modulus the number to encode MUST be less than this value
+
+    :return: floor(p/2)
+    :rtype: int
+)pbdoc";
+
+const char* ptx_SetFormat_docs = R"pbdoc(
+    SetFormat - allows format to be changed for openfhe.Plaintext evaluations
+
+    :param fmt:
+    :type format: Format
+)pbdoc";
+
 // GetCKKSPackedValue
 const char* ptx_GetCKKSPackedValue_docs = R"pbdoc(
     Get the packed value of the plaintext for CKKS-based plaintexts.
@@ -108,7 +129,7 @@ const char* ptx_GetRealPackedValue_docs = R"pbdoc(
     Get the real component of the packed value of the plaintext for CKKS-based plaintexts.
 
     :return: The real-component of the packed value of the plaintext.
-    :rtype: List[float]
+    :rtype: List[double]
 )pbdoc";
 
 

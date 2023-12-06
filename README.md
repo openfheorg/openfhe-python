@@ -9,6 +9,7 @@
     - [Using Conda environments](#conda)
 - [Running Examples](#code-examples)
 - [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
+- [Contributing Guide](#contributing-guide)
 
 ## Building
 
@@ -104,16 +105,24 @@ To get familiar with the OpenFHE Python API, check out the examples:
   - [Advanced CKKS Bootstrapping Example](examples/pke/advanced-ckks-bootstrapping.cpp)
   - [Double-Precision (Iterative) Bootstrapping Example](examples/pke/iterative-ckks-bootstrapping.py)
 - FHE for Boolean circuits and larger plaintext spaces (FHEW/TFHE):
-  - [Simple Code Example](examples/binfhe/boolean.py)
+  - [Simple Code Example with Symmetric Encryption](examples/binfhe/boolean.py)
   - [Truth Table Example](examples/binfhe/boolean-truth-table.py)
+- Scheme Switching:
+  - [Examples with Scheme Switching between CKKS and FHEW/TFHE](examples/pke/scheme-switching.py)
   <!-- - [Code with JSON serialization](examples/binfhe/boolean-serial-json.py) -->
   <!-- - [Code with Binary Serialization](examples/binfhe/boolean-serial-binary.py) -->
   <!-- - [Large-Precision Comparison](examples/binfhe/eval-sign.py) -->
   <!-- - [Small-Precison Arbitrary Function Evaluation](examples/binfhe/eval-function.py) -->
-  <!-- - Threshold FHE:  -->
-  <!-- - [Code Example for BGV, BFV, and CKKS](examples/pke/threshold-fhe.py) -->
-  <!-- - [Code Example for BFV with 5 parties](examples/pke/threshold-fhe-5p.py) -->
+- Threshold FHE: 
+  - [Code Example for BGV, BFV, and CKKS](examples/pke/threshold-fhe.py)
+  - [Simple Interactive Bootstrapping Example](examples/pke/tckks-interactive-mp-bootstrapping.py)
+  - [Interactive Bootstrapping after Chebyshev Approximation](examples/pke/tckks-interactive-mp-bootstrapping-Chebyschev.py)
+  - [Code Example for BFV with 5 parties](examples/pke/threshold-fhe-5p.py)
 
 ## OpenFHE Python Wrapper Documentation
 
 [OpenFHE Python Wrapper API Reference](https://openfheorg.github.io/openfhe-python/html/index.html)
+
+## Contributing Guide
+
+[OpenFHE Development - Contributing Guide](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/contributing/contributing_workflow.html)

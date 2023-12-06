@@ -30,13 +30,33 @@
 
 // GenerateBinFHEContext
 const char* binfhe_GenerateBinFHEContext_parset_docs = R"pbdoc(
-    Creates a crypto context using predefined parameter sets. Recommended for most users.
+    Creates a crypto context using predefined parameters sets. Recommended for most users.
 
-    :param set: The parameter set: TOY, MEDIUM, STD128, STD192, STD256.
+    :param set: the parameter set: TOY, MEDIUM, STD128, STD192, STD256 with variants
     :type set: BINFHE_PARAMSET
-    :param method: The bootstrapping method (DM or CGGI).
+    :param method: the bootstrapping method (DM or CGGI or LMKCDEY)
     :type method: BINFHE_METHOD
     :return: The created crypto context.
+    :rtype: BinFHEContext
+)pbdoc";
+
+////void GenerateBinFHEContext(BINFHE_PARAMSET set, bool arbFunc, uint32_t logQ = 11, int64_t N = 0, BINFHE_METHOD method = GINX, bool timeOptimization = false)
+const char* binfhe_GenerateBinFHEContext_docs  = R"pbdoc(
+    Creates a crypto context using custom parameters. Should be used with care (only for advanced users familiar with LWE parameter selection).
+
+    :param set: The parameter set: TOY, MEDIUM, STD128, STD192, STD256 with variants.
+    :type set: BINFHE_PARAMSET
+    :param arbFunc:  whether need to evaluate an arbitrary function using functional bootstrapping
+    :type arbFunc: bool
+    :param logQ:  log(input ciphertext modulus)
+    :type logQ: int
+    :param N:  ring dimension for RingGSW/RLWE used in bootstrapping
+    :type N: int
+    :param method: the bootstrapping method (DM or CGGI or LMKCDEY)
+    :type method: BINFHE_METHOD
+    :param timeOptimization:  whether to use dynamic bootstrapping technique
+    :type timeOptimization: bool
+    :return: creates the cryptocontext.
     :rtype: BinFHEContext
 )pbdoc";
 
@@ -112,5 +132,57 @@ const char* binfhe_EvalNOT_docs = R"pbdoc(
     :rtype: LWECiphertext
 )pbdoc";
 
+const char* binfhe_EvalDecomp_docs = R"pbdoc(
+    Evaluate ciphertext decomposition
 
+    :param ct: ciphertext to be bootstrapped
+    :type ct: LWECiphertext
+    :return: a list with the resulting ciphertexts
+    :rtype: List[LWECiphertext]
+)pbdoc";
+
+const char* binfhe_EvalFloor_docs = R"pbdoc(
+    Evaluate a round down function
+
+    :param ct: ciphertext to be bootstrapped
+    :type ct: LWECiphertext
+    :param roundbits: number of bits to be rounded
+    :type roundbits: int
+    :return: the resulting ciphertext
+    :rtype: LWECiphertext
+)pbdoc";
+
+const char* binfhe_GenerateLUTviaFunction_docs = R"pbdoc(
+    Generate the LUT for the to-be-evaluated function
+
+    :param f: the to-be-evaluated function on an integer message and a plaintext modulus
+    :type f: function(int, int) -> int
+    :param p: plaintext modulus
+    :type p: int
+    :return: the resulting ciphertext
+    :rtype: List[int]
+)pbdoc";
+
+const char* binfhe_EvalFunc_docs = R"pbdoc(
+    Evaluate an arbitrary function
+
+    :param ct: ciphertext to be bootstrapped
+    :type ct: LWECiphertext
+    :param LUT: the look-up table of the to-be-evaluated function
+    :type LUT: List[int]
+    :return: the resulting ciphertext
+    :rtype: LWECiphertext
+)pbdoc";
+
+//LWECiphertext EvalSign(ConstLWECiphertext &ct, bool schemeSwitch = false)
+const char* binfhe_EvalSign_docs = R"pbdoc(
+    Evaluate a sign function over large precisions
+
+    :param ct: ciphertext to be bootstrapped
+    :type ct: LWECiphertext
+    :param schemeSwitch: flag that indicates if it should be compatible to scheme switching
+    :type schemeSwitch: bool
+    :return: the resulting ciphertext
+    :rtype: LWECiphertext
+)pbdoc";
 #endif // BINFHECONTEXT_DOCSTRINGS_H

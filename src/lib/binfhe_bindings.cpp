@@ -92,10 +92,12 @@ void bind_binfhe_enums(py::module &m)
     py::enum_<BINFHE_METHOD>(m, "BINFHE_METHOD")
         .value("INVALID_METHOD", BINFHE_METHOD::INVALID_METHOD)
         .value("AP", BINFHE_METHOD::AP)
-        .value("GINX", BINFHE_METHOD::GINX);
+        .value("GINX", BINFHE_METHOD::GINX)
+        .value("LMKCDEY", BINFHE_METHOD::LMKCDEY);
     m.attr("INVALID_METHOD") = py::cast(BINFHE_METHOD::INVALID_METHOD);
     m.attr("GINX") = py::cast(BINFHE_METHOD::GINX);
     m.attr("AP") = py::cast(BINFHE_METHOD::AP);
+    m.attr("LMKCDEY") = py::cast(BINFHE_METHOD::LMKCDEY);
 
     py::enum_<KEYGEN_MODE>(m, "KEYGEN_MODE")
         .value("SYM_ENCRYPT", KEYGEN_MODE::SYM_ENCRYPT)
@@ -144,6 +146,7 @@ void bind_binfhe_ciphertext(py::module &m)
     py::class_<LWECiphertextImpl, std::shared_ptr<LWECiphertextImpl>>(m, "LWECiphertext")
         .def(py::init<>())
         .def("GetLength", &LWECiphertextImpl::GetLength)
+        .def("GetModulus", &GetLWECiphertextModulusWrapper)
         .def(py::self == py::self)
         .def(py::self != py::self);
 }
@@ -156,6 +159,15 @@ void bind_binfhe_context(py::module &m)
              binfhe_GenerateBinFHEContext_parset_docs,
              py::arg("set"),
              py::arg("method") = GINX)
+        //void GenerateBinFHEContext(BINFHE_PARAMSET set, bool arbFunc, uint32_t logQ = 11, int64_t N = 0, BINFHE_METHOD method = GINX, bool timeOptimization = false)
+        .def("GenerateBinFHEContext", static_cast<void (BinFHEContext::*)(BINFHE_PARAMSET, bool, uint32_t, int64_t, BINFHE_METHOD, bool)>(&BinFHEContext::GenerateBinFHEContext),
+             binfhe_GenerateBinFHEContext_docs,
+             py::arg("set"),
+             py::arg("arbFunc"),
+             py::arg("logQ") = 11,
+             py::arg("N") = 0,
+             py::arg("method") = GINX,
+             py::arg("timeOptimization") = false)
         .def("KeyGen", &BinFHEContext::KeyGen,
              binfhe_KeyGen_docs)
         .def("BTKeyGen", &BinFHEContext::BTKeyGen,
@@ -182,5 +194,28 @@ void bind_binfhe_context(py::module &m)
              py::arg("ct2"))
         .def("EvalNOT", &BinFHEContext::EvalNOT,
              binfhe_EvalNOT_docs,
-             py::arg("ct"));
+             py::arg("ct"))
+        .def("Getn",&GetnWrapper)
+        .def("Getq",&GetqWrapper)
+        .def("GetMaxPlaintextSpace",&GetMaxPlaintextSpaceWrapper)
+        .def("GetBeta",&GetBetaWrapper)
+        .def("EvalDecomp",&BinFHEContext::EvalDecomp,
+             binfhe_EvalDecomp_docs,
+             py::arg("ct"))
+        .def("EvalFloor",&BinFHEContext::EvalFloor,
+             binfhe_EvalFloor_docs,
+             py::arg("ct"),
+             py::arg("roundbits") = 0)
+        .def("GenerateLUTviaFunction",&GenerateLUTviaFunctionWrapper,
+             binfhe_GenerateLUTviaFunction_docs,
+             py::arg("f"),
+             py::arg("p"))
+        .def("EvalFunc",&EvalFuncWrapper,
+             binfhe_EvalFunc_docs,
+             py::arg("ct"),
+             py::arg("LUT"))
+          .def("EvalSign",&BinFHEContext::EvalSign,
+               binfhe_EvalSign_docs,
+             py::arg("ct"),
+             py::arg("schemeSwitch") = false);
 }

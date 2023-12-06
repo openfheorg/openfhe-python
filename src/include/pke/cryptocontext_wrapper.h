@@ -61,4 +61,9 @@ const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper_PublicKey
 const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrapper(CryptoContext<DCRTPoly>& self, const std::string &id);
 const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self);
 const double GetModulusWrapper(CryptoContext<DCRTPoly>& self);
+void RemoveElementWrapper(Ciphertext<DCRTPoly>& self, usint index);
+const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l);
+const uint64_t GetModulusCKKSWrapper(CryptoContext<DCRTPoly>& self);
+const ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly>& self);
+const usint GetDigitSizeWrapper(CryptoContext<DCRTPoly>& self);
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H

@@ -32,6 +32,8 @@
 #include <pybind11/stl.h>
 #include "openfhe.h"
 #include "binfhecontext.h"
+#include <functional>
+#include <pybind11/functional.h>
 
 namespace py = pybind11;
 using namespace lbcrypto;
@@ -46,4 +48,22 @@ LWEPlaintext binfhe_DecryptWrapper(BinFHEContext &self,
                                    ConstLWECiphertext ct,
                                    LWEPlaintextModulus p);
 
+uint32_t GetnWrapper(BinFHEContext &self);
+
+const uint64_t GetqWrapper(BinFHEContext &self) ;
+
+const uint64_t GetMaxPlaintextSpaceWrapper(BinFHEContext &self);
+
+const uint64_t GetBetaWrapper(BinFHEContext &self);
+
+const uint64_t GetLWECiphertextModulusWrapper(LWECiphertext &self);
+
+std::vector<uint64_t> GenerateLUTviaFunctionWrapper(BinFHEContext &self, py::function f, uint64_t p);
+
+NativeInteger StaticFunction(NativeInteger m, NativeInteger p);
+
+// Define static variables to hold the state
+extern py::function static_f;
+
+LWECiphertext EvalFuncWrapper(BinFHEContext &self, ConstLWECiphertext &ct, const std::vector<uint64_t> &LUT);
 #endif // BINFHE_CRYPTOCONTEXT_BINDINGS_H
