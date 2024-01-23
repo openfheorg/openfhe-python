@@ -585,8 +585,7 @@ void bind_crypto_context(py::module &m)
              py::arg("dim1") = std::vector<uint32_t>({0, 0}),
              py::arg("slots") = 0,
              py::arg("correctionFactor") = 0,
-             py::arg("precompute")= true
-                     )
+             py::arg("precompute")= true)
         .def("EvalBootstrapKeyGen", &CryptoContextImpl<DCRTPoly>::EvalBootstrapKeyGen,
              cc_EvalBootstrapKeyGen_docs,
              py::arg("privateKey"),
