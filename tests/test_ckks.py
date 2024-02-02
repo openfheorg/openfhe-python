@@ -1,5 +1,5 @@
 import pytest
-import openfhe
+import openfhe as fhe
 
 
 @pytest.fixture(scope="module")
@@ -9,18 +9,19 @@ def ckks_context():
     We make it because context creation can be slow.
     """
     batch_size = 8
-    parameters = openfhe.CCParamsCKKSRNS()
+    parameters = fhe.CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
+    # Choose scaling < 64 so that this works for 64bit architectures.
     parameters.SetScalingModSize(56)
     parameters.SetBatchSize(batch_size)
-    parameters.SetScalingTechnique(openfhe.ScalingTechnique.FIXEDAUTO)
+    parameters.SetScalingTechnique(fhe.ScalingTechnique.FIXEDAUTO)
     parameters.SetNumLargeDigits(2)
-    cc = openfhe.GenCryptoContext(parameters)
-    cc.Enable(openfhe.PKESchemeFeature.PKE)
-    cc.Enable(openfhe.PKESchemeFeature.KEYSWITCH)
-    cc.Enable(openfhe.PKESchemeFeature.LEVELEDSHE)
+    cc = fhe.GenCryptoContext(parameters)
+    cc.Enable(fhe.PKESchemeFeature.PKE)
+    cc.Enable(fhe.PKESchemeFeature.KEYSWITCH)
+    cc.Enable(fhe.PKESchemeFeature.LEVELEDSHE)
     keys = cc.KeyGen()
-    cc.EvalRotateKeyGen(keys.secretKey,[1,-2])
+    cc.EvalRotateKeyGen(keys.secretKey, [1, -2])
     return parameters, cc, keys
 
 
