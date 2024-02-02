@@ -1,3 +1,5 @@
+import random
+
 import pytest
 import openfhe as fhe
 
@@ -28,10 +30,8 @@ def ckks_context():
 def test_add_two_numbers(ckks_context):
     params, cc, keys = ckks_context
     batch_size = params.GetBatchSize()
-    raw = [
-        [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7],
-        [2.0, 0.1, 1.3, 1.9, 4.1, 12.7, 0.02, 0.37],
-    ]
+    rng = random.Random(42429842)
+    raw = [[rng.uniform(-1, 1) for _ in range(batch_size)] for _ in range(2)]
     ptxt = [cc.MakeCKKSPackedPlaintext(x) for x in raw]
     ctxt = [cc.Encrypt(keys.publicKey, y) for y in ptxt]
 
@@ -40,6 +40,5 @@ def test_add_two_numbers(ckks_context):
     pt_added.SetLength(batch_size)
     final_added = pt_added.GetCKKSPackedValue()
     raw_added = [a + b for (a, b) in zip(*raw)]
-    total = 0.0
     total = sum(abs(a - b) for (a, b) in zip(raw_added, final_added))
     assert total < 1e-3
