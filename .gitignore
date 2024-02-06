@@ -11,3 +11,6 @@ build/
 .settings/
 docs/
 demoData/
+dist/
+openfhe/openfhe.so
+openfhe.egg-info/
