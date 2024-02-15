@@ -13,4 +13,7 @@ docs/
 demoData/
 dist/
 openfhe/openfhe.so
+openfhe/*.pyi
 openfhe.egg-info/
+stubs/
+.venv/
