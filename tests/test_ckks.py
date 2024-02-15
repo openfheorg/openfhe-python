@@ -13,11 +13,23 @@ def ckks_context():
     batch_size = 8
     parameters = fhe.CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
-    # Choose scaling < 64 so that this works for 64bit architectures.
-    parameters.SetScalingModSize(56)
-    parameters.SetBatchSize(batch_size)
-    parameters.SetScalingTechnique(fhe.ScalingTechnique.FIXEDAUTO)
-    parameters.SetNumLargeDigits(2)
+    if fhe.get_native_int() > 90:
+        parameters.SetFirstModSize(89)
+        parameters.SetScalingModSize(78)
+        parameters.SetBatchSize(batch_size)
+        parameters.SetScalingTechnique(fhe.ScalingTechnique.FIXEDAUTO)
+        parameters.SetNumLargeDigits(2)
+
+    elif fhe.get_native_int() > 60:
+        parameters.SetFirstModSize(60)
+        parameters.SetScalingModSize(56)
+        parameters.SetBatchSize(batch_size)
+        parameters.SetScalingTechnique(fhe.ScalingTechnique.FLEXIBLEAUTO)
+        parameters.SetNumLargeDigits(2)
+
+    else:
+        raise ValueError("Expected a native int size greater than 60.")
+
     cc = fhe.GenCryptoContext(parameters)
     cc.Enable(fhe.PKESchemeFeature.PKE)
     cc.Enable(fhe.PKESchemeFeature.KEYSWITCH)

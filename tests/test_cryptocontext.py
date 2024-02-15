@@ -3,6 +3,7 @@ import openfhe as fhe
 
 
 @pytest.mark.long
+@pytest.mark.skipif(fhe.get_native_int() < 80, reason="Only for NATIVE_INT=128")
 @pytest.mark.parametrize("scaling", [fhe.FIXEDAUTO, fhe.FIXEDMANUAL])
 def test_ckks_context(scaling):
     batch_size = 8
