@@ -72,7 +72,7 @@ setup(
         'build_ext': CMakeBuild,
         'sdist': SDist
     },
-    zip_safe=False,
     include_package_data=True,
     python_requires=">=3.6",
+    install_requires=['pybind11', 'pybind11-global']
 )
