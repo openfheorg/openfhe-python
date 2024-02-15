@@ -66,7 +66,7 @@ setup(
     url='https://github.com/openfheorg/openfhe-python',
     license='BSD-2-Clause',
     packages=['openfhe'],
-    package_data={'openfhe': ['*.so']},
+    package_data={'openfhe': ['*.so', '*.pyi']},
     ext_modules=[CMakeExtension('openfhe', sourcedir='')],
     cmdclass={
         'build_ext': CMakeBuild,
@@ -74,5 +74,5 @@ setup(
     },
     include_package_data=True,
     python_requires=">=3.6",
-    install_requires=['pybind11', 'pybind11-global']
+    install_requires=['pybind11', 'pybind11-global', 'pybind11-stubgen']
 )
