@@ -4,6 +4,12 @@ These tests use Pytest (https://docs.pytest.org/).
 
 ## Running and Using Tests
 
+These tests assume that openfhe-python is installed in the current python environment, which you can check by running
+```bash
+python -c "__import__('openfhe')"
+```
+and that the `pytest` package is installed, either through pip or by installing `python3-pytest` in the operating system package manager.
+
 ### Specific to the OpenFHE unit tests
 
 Some tests are marked with `@pytest.mark.long` if they are not meant to run
