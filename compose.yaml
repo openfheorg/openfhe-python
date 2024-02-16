@@ -1,0 +1,17 @@
+services:
+  fhe64mprel:
+    image: openfhe-python-fhe64mprel
+    build:
+      context: .devcontainer
+      args:
+        NATIVEBIT: "64"
+    volumes:
+      - .:/workspaces/openfhe-python
+  fhe128mprel:
+    image: openfhe-python-fhe128mprel
+    build:
+      context: .devcontainer
+      args:
+        NATIVEBIT: "128"
+    volumes:
+      - .:/workspaces/openfhe-python
