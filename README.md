@@ -2,6 +2,8 @@
 
 ## Table of Contents
 
+- [Installing pypi package](#installing-pypi-package)
+- [Running from docker](#running-from-docker)
 - [Building](#building)
   - [Prerequisites](#requirements)
   - [Linux Install](#linux)
@@ -10,6 +12,22 @@
 - [Running Examples](#code-examples)
 - [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
 - [Contributing Guide](#contributing-guide)
+
+## Installing pypi package
+
+Install using pip or pip3 (make sure the pip for Python3 is used)
+
+```
+pip install openfhe
+```
+or
+```
+pip3 install openfhe
+```
+
+## Running from docker
+
+Please see [Instructions for the Docker setup](docker/README.md)
 
 ## Building
 
