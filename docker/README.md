@@ -48,4 +48,4 @@ replace the <container-name> with the name that you see when you use the command
 
 This takes you to a terminal interface inside the container which has all the dependencies installed.
 
-You can now clone the github repo and run the code.
+You can now clone a github repo that depends on OpenFHE and run the code.

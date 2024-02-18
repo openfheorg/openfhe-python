@@ -27,7 +27,7 @@ RUN git clone https://github.com/openfheorg/openfhe-development.git \
     && cd openfhe-development \
     && mkdir build \
     && cd build \
-    && cmake .. \
+    && cmake -DBUILD_UNITTESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_BENCHMARKS=OFF .. \
     && make -j$(nproc) \
     && make install
 
