@@ -5,6 +5,7 @@
 ```docker
 docker build -t openfhe-docker .
 ```
+Make sure you run this command from the same folder where the Dockerfile is located (in the "docker" folder of the openfhe-python repository).
 
 ### Command to check if the image is built:
 
