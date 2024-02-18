@@ -2,7 +2,8 @@
 
 ## Table of Contents
 
-- [Building](#building)
+- [Running from Docker](#running-from-docker)
+- [Building from Source](#building-from-source)
   - [Prerequisites](#requirements)
   - [Linux Install](#linux)
     - [Installing directly on your system](#system-level-installation)
@@ -11,7 +12,11 @@
 - [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
 - [Contributing Guide](#contributing-guide)
 
-## Building
+## Running from Docker
+
+Please see [Instructions for the Docker setup](docker/README.md)
+
+## Building from Source
 
 ### Requirements
 
