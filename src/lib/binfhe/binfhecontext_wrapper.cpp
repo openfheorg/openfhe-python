@@ -115,3 +115,6 @@ LWECiphertext EvalFuncWrapper(BinFHEContext &self, ConstLWECiphertext &ct, const
     }
     return self.EvalFunc(ct, LUT_native_int);
 }
+
+
+
