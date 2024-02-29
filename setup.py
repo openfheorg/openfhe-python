@@ -74,5 +74,6 @@ setup(
     },
     include_package_data=True,
     python_requires=">=3.6",
-    install_requires=['pybind11', 'pybind11-global', 'pybind11-stubgen']
+    install_requires=['pybind11', 'pybind11-global', 'pybind11-stubgen'],
+    tests_require = ['pytest'],
 )
