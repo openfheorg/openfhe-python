@@ -715,12 +715,6 @@ void bind_crypto_context(py::module &m)
             py::arg("privateKey"),
             py::arg("indexList"),
             py::return_value_policy::reference_internal)
-        .def("EvalAutomorphismKeyGen", &EvalAutomorphismKeyGenWrapper_PublicKey, 
-            cc_EvalAutomorphismKeyGenPublic_docs,
-            py::arg("publicKey"),
-            py::arg("privateKey"),
-            py::arg("indexList"),
-            py::return_value_policy::reference_internal)
         .def("FindAutomorphismIndex", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndex,
             cc_FindAutomorphismIndex_docs,
             py::arg("idx"))

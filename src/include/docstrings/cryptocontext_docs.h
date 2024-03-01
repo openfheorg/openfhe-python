@@ -1253,10 +1253,6 @@ const char* cc_EvalAutomorphismKeyGen_docs = R"pbdoc(
     :rtype: EvalKeyMap
 )pbdoc";
 
-const char* cc_EvalAutomorphismKeyGenPublic_docs = R"pbdoc(
-    NOT USED BY ANY CRYPTO SCHEME: Generate automophism keys for a public and private key
-)pbdoc";
-
 const char* cc_FindAutomorphismIndex_docs = R"pbdoc(
     Finds an automorphism index for a given vector index using a scheme-specific algorithm
 
