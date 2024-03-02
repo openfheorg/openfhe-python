@@ -10,7 +10,7 @@ set(OPENFHE_PYTHON_VERSION ${OPENFHE_PYTHON_VERSION_MAJOR}.${OPENFHE_PYTHON_VERS
 set(CMAKE_CXX_STANDARD 17)
 option( BUILD_STATIC "Set to ON to include static versions of the library" OFF)
 
-find_package(OpenFHE)
+find_package(OpenFHE 1.1.2 EXACT REQUIRED)
 find_package(pybind11 REQUIRED)
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
