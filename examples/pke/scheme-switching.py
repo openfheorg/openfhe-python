@@ -57,9 +57,18 @@ def SwitchCKKSToFHEW():
     keys = cc.KeyGen()
 
     # Step 2: Prepare the FHEW cryptocontext and keys for FHEW and scheme switching
-    FHEWparams     = cc.EvalCKKStoFHEWSetup(sl, slBin, False, logQ_ccLWE, False, slots)
-    ccLWE          = FHEWparams[0]
-    privateKeyFHEW = FHEWparams[1]
+    # FHEWparams     = cc.EvalCKKStoFHEWSetup(sl, slBin, False, logQ_ccLWE, False, slots)    
+    params = SchSwchParams()
+    params.SetSecurityLevelCKKS(sl)
+    params.SetSecurityLevelFHEW(slBin)
+    params.SetCtxtModSizeFHEWLargePrec(logQ_ccLWE)
+    params.SetNumSlotsCKKS(slots)
+    
+    privateKeyFHEW = cc.EvalCKKStoFHEWSetup(params)
+    ccLWE = cc.GetBinCCForSchemeSwitch()
+    
+    # ccLWE          = FHEWparams[0]
+    # privateKeyFHEW = FHEWparams[1]
     cc.EvalCKKStoFHEWKeyGen(keys, privateKeyFHEW)
 
     print(f"FHEW scheme is using a lattice parameter {ccLWE.Getn()},")
