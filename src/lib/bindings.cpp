@@ -619,7 +619,7 @@ void bind_crypto_context(py::module &m)
              py::arg("keyPair"),
              py::arg("lwesk"),
              py::arg("numSlots") = 0,
-			 py::arg("numCtxts") = 0,
+             py::arg("numCtxts") = 0,
              py::arg("dim1") = 0,
              py::arg("L") = 0)
         .def("EvalFHEWtoCKKS", &CryptoContextImpl<DCRTPoly>::EvalFHEWtoCKKS,
@@ -630,7 +630,7 @@ void bind_crypto_context(py::module &m)
              py::arg("p") = 4,
              py::arg("pmin") = 0.0,
              py::arg("pmax") = 2.0,
-			 py::arg("dim1") = 0)
+             py::arg("dim1") = 0)
         .def("EvalSchemeSwitchingSetup", &CryptoContextImpl<DCRTPoly>::EvalSchemeSwitchingSetup,
              cc_EvalSchemeSwitchingSetup_docs,
              py::arg("schswchparams"))
@@ -705,7 +705,7 @@ void bind_crypto_context(py::module &m)
             "InsertEvalSumKey", &CryptoContextImpl<DCRTPoly>::InsertEvalSumKey,
             cc_InsertEvalSumKey_docs,
             py::arg("evalKeyMap"),
-			py::arg("keyTag") = "")
+            py::arg("keyTag") = "")
         .def_static(
             "InsertEvalMultKey", &CryptoContextImpl<DCRTPoly>::InsertEvalMultKey,
             cc_InsertEvalMultKey_docs,
@@ -717,7 +717,8 @@ void bind_crypto_context(py::module &m)
         .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
             cc_GetEvalSumKeyMap_docs,
             py::return_value_policy::reference)
-	    .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch)
+        .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch,
+        		py::return_value_policy::reference_internal)
         .def_static(
             "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
             {
@@ -1113,42 +1114,42 @@ void bind_sch_swch_params(py::module &m)
     py::class_<SchSwchParams>(m, "SchSwchParams")
         .def(py::init<>())
         .def("GetSecurityLevelCKKS", &SchSwchParams::GetSecurityLevelCKKS)
-		.def("GetSecurityLevelFHEW", &SchSwchParams::GetSecurityLevelFHEW)
-		.def("GetArbitraryFunctionEvaluation", &SchSwchParams::GetArbitraryFunctionEvaluation)
-		.def("GetUseDynamicModeFHEW", &SchSwchParams::GetUseDynamicModeFHEW)
-		.def("GetComputeArgmin", &SchSwchParams::GetComputeArgmin)
-		.def("GetOneHotEncoding", &SchSwchParams::GetOneHotEncoding)
+        .def("GetSecurityLevelFHEW", &SchSwchParams::GetSecurityLevelFHEW)
+        .def("GetArbitraryFunctionEvaluation", &SchSwchParams::GetArbitraryFunctionEvaluation)
+        .def("GetUseDynamicModeFHEW", &SchSwchParams::GetUseDynamicModeFHEW)
+        .def("GetComputeArgmin", &SchSwchParams::GetComputeArgmin)
+        .def("GetOneHotEncoding", &SchSwchParams::GetOneHotEncoding)
         .def("GetUseAltArgmin", &SchSwchParams::GetUseAltArgmin)
-		.def("GetNumSlotsCKKS", &SchSwchParams::GetNumSlotsCKKS)
-		.def("GetNumValues", &SchSwchParams::GetNumValues)
-		.def("GetCtxtModSizeFHEWLargePrec", &SchSwchParams::GetCtxtModSizeFHEWLargePrec)
-		.def("GetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::GetCtxtModSizeFHEWIntermedSwch)
-		.def("GetBStepLTrCKKStoFHEW", &SchSwchParams::GetBStepLTrCKKStoFHEW)
+        .def("GetNumSlotsCKKS", &SchSwchParams::GetNumSlotsCKKS)
+        .def("GetNumValues", &SchSwchParams::GetNumValues)
+        .def("GetCtxtModSizeFHEWLargePrec", &SchSwchParams::GetCtxtModSizeFHEWLargePrec)
+        .def("GetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::GetCtxtModSizeFHEWIntermedSwch)
+        .def("GetBStepLTrCKKStoFHEW", &SchSwchParams::GetBStepLTrCKKStoFHEW)
         .def("GetBStepLTrFHEWtoCKKS", &SchSwchParams::GetBStepLTrFHEWtoCKKS)
-		.def("GetLevelLTrCKKStoFHEW", &SchSwchParams::GetLevelLTrCKKStoFHEW)
-		.def("GetLevelLTrFHEWtoCKKS", &SchSwchParams::GetLevelLTrFHEWtoCKKS)
-		.def("GetInitialCKKSModulus", &SchSwchParams::GetInitialCKKSModulus)
-		.def("GetRingDimension", &SchSwchParams::GetRingDimension)
-		.def("GetScalingModSize", &SchSwchParams::GetScalingModSize)
+        .def("GetLevelLTrCKKStoFHEW", &SchSwchParams::GetLevelLTrCKKStoFHEW)
+        .def("GetLevelLTrFHEWtoCKKS", &SchSwchParams::GetLevelLTrFHEWtoCKKS)
+        .def("GetInitialCKKSModulus", &SchSwchParams::GetInitialCKKSModulus)
+        .def("GetRingDimension", &SchSwchParams::GetRingDimension)
+        .def("GetScalingModSize", &SchSwchParams::GetScalingModSize)
         .def("GetBatchSize", &SchSwchParams::GetBatchSize)
         .def("SetSecurityLevelCKKS", &SchSwchParams::SetSecurityLevelCKKS)
-		.def("SetSecurityLevelFHEW", &SchSwchParams::SetSecurityLevelFHEW)
-		.def("SetArbitraryFunctionEvaluation", &SchSwchParams::SetArbitraryFunctionEvaluation)
-		.def("SetUseDynamicModeFHEW", &SchSwchParams::SetUseDynamicModeFHEW)
-		.def("SetComputeArgmin", &SchSwchParams::SetComputeArgmin)
-		.def("SetOneHotEncoding", &SchSwchParams::SetOneHotEncoding)
+        .def("SetSecurityLevelFHEW", &SchSwchParams::SetSecurityLevelFHEW)
+        .def("SetArbitraryFunctionEvaluation", &SchSwchParams::SetArbitraryFunctionEvaluation)
+        .def("SetUseDynamicModeFHEW", &SchSwchParams::SetUseDynamicModeFHEW)
+        .def("SetComputeArgmin", &SchSwchParams::SetComputeArgmin)
+        .def("SetOneHotEncoding", &SchSwchParams::SetOneHotEncoding)
         .def("SetUseAltArgmin", &SchSwchParams::SetUseAltArgmin)
-		.def("SetNumSlotsCKKS", &SchSwchParams::SetNumSlotsCKKS)
-		.def("SetNumValues", &SchSwchParams::SetNumValues)
-		.def("SetCtxtModSizeFHEWLargePrec", &SchSwchParams::SetCtxtModSizeFHEWLargePrec)
-		.def("SetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::SetCtxtModSizeFHEWIntermedSwch)
-		.def("SetBStepLTrCKKStoFHEW", &SchSwchParams::SetBStepLTrCKKStoFHEW)
+        .def("SetNumSlotsCKKS", &SchSwchParams::SetNumSlotsCKKS)
+        .def("SetNumValues", &SchSwchParams::SetNumValues)
+        .def("SetCtxtModSizeFHEWLargePrec", &SchSwchParams::SetCtxtModSizeFHEWLargePrec)
+        .def("SetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::SetCtxtModSizeFHEWIntermedSwch)
+        .def("SetBStepLTrCKKStoFHEW", &SchSwchParams::SetBStepLTrCKKStoFHEW)
         .def("SetBStepLTrFHEWtoCKKS", &SchSwchParams::SetBStepLTrFHEWtoCKKS)
-		.def("SetLevelLTrCKKStoFHEW", &SchSwchParams::SetLevelLTrCKKStoFHEW)
-		.def("SetLevelLTrFHEWtoCKKS", &SchSwchParams::SetLevelLTrFHEWtoCKKS)
-		.def("SetInitialCKKSModulus", &SchSwchParams::SetInitialCKKSModulus)
-		.def("SetRingDimension", &SchSwchParams::SetRingDimension)
-		.def("SetScalingModSize", &SchSwchParams::SetScalingModSize)
+        .def("SetLevelLTrCKKStoFHEW", &SchSwchParams::SetLevelLTrCKKStoFHEW)
+        .def("SetLevelLTrFHEWtoCKKS", &SchSwchParams::SetLevelLTrFHEWtoCKKS)
+        .def("SetInitialCKKSModulus", &SchSwchParams::SetInitialCKKSModulus)
+        .def("SetRingDimension", &SchSwchParams::SetRingDimension)
+        .def("SetScalingModSize", &SchSwchParams::SetScalingModSize)
         .def("SetBatchSize", &SchSwchParams::SetBatchSize)
         .def("__str__",[](const SchSwchParams &params) {
             std::stringstream stream;
