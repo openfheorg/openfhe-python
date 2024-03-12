@@ -10,6 +10,10 @@ set(OPENFHE_PYTHON_VERSION ${OPENFHE_PYTHON_VERSION_MAJOR}.${OPENFHE_PYTHON_VERS
 set(CMAKE_CXX_STANDARD 17)
 option( BUILD_STATIC "Set to ON to include static versions of the library" OFF)
 
+if(APPLE)
+    set(CMAKE_CXX_VISIBILITY_PRESET default)
+endif()
+
 find_package(OpenFHE 1.1.3 REQUIRED)
 find_package(pybind11 REQUIRED)
 
