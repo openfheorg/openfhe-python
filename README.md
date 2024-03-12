@@ -22,11 +22,11 @@ Please see [Instructions for the Docker setup](docker/README.md)
 
 Before building, make sure you have the following dependencies installed:
 
-- [OpenFHE 1.1.3+](https://github.com/openfheorg/openfhe-development) by following the instructions on [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
+- [OpenFHE 1.1.3+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.6+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
 
-We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then get back to this repo. See notes on installing `pybind11` below
+We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then getting back to this repo. See notes on installing `pybind11` below
 
 ### Linux
 
