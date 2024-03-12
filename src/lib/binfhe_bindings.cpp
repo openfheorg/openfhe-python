@@ -153,7 +153,7 @@ void bind_binfhe_ciphertext(py::module &m)
 
 void bind_binfhe_context(py::module &m)
 {
-    py::class_<BinFHEContext>(m, "BinFHEContext")
+    py::class_<BinFHEContext, std::shared_ptr<BinFHEContext>>(m, "BinFHEContext")
         .def(py::init<>())
         .def("GenerateBinFHEContext", static_cast<void (BinFHEContext::*)(BINFHE_PARAMSET, BINFHE_METHOD)>(&BinFHEContext::GenerateBinFHEContext),
              binfhe_GenerateBinFHEContext_parset_docs,
