@@ -90,6 +90,13 @@ conda develop lib
 which creates a lib folder, moves the built `.so` file into that lib folder, and tells conda where to look for external libraries.
 
 **Note** You may wish to copy the `.so` file to any projects of your own, or add it to your system path to source from.
+## Running Tests
+
+Run tests with [pytest](https://docs.pytest.org). See the [testing readme](tests/README.md) for more information.
+
+```bash
+pytest [--run-long]
+```
 
 ## Code Examples
 
