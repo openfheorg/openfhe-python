@@ -1,0 +1,153 @@
+name: 'Generic Workflow Builder'
+description: 'A custom GitHub actions pipeline that wrappedup build, unit_test, benchmark and extract stages'
+  
+inputs:
+  module_name:
+    description: 'Name of the module'
+    required: true
+  openfhe_development_branch:
+    description: 'openfhe-development branch for testing'
+    required: true
+  cmake_args_openfhe_lib:
+    description: 'Argument for cmake command'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    #####################################################################################
+    - name: Print input parameters
+      id: print_input
+      shell: bash
+      run: |
+        pwd
+        whoami
+
+        # Debugging use only
+        echo "Input values:
+        openfhe_development_branch=${{inputs.openfhe_development_branch}}
+        cmake_args_openfhe_lib=${{inputs.cmake_args_openfhe_lib}}
+        "
+    #####################################################################################
+    - name: Prepare the run
+      id: create_build_dir
+      shell: bash
+      run: |
+        pwd
+        whoami
+
+        BUILD_DIR="$PWD/build"
+        if [ -d "$BUILD_DIR" ]; then
+          rm -Rf $BUILD_DIR;
+        fi
+        if [[ $? != 0 ]]; then
+          echo "Cannot remove $BUILD_DIR"
+          exit 1
+        fi      
+
+        mkdir build
+        if [[ $? != 0 ]]; then
+          echo "Cannot create $BUILD_DIR"
+          exit 2
+        fi      
+    #####################################################################################
+    - name: Build openfhe-development
+      id: build_openfhe_development
+      shell: bash
+      run: |
+        pwd
+        whoami
+
+        echo "$BUILD_DIR"
+        cd build
+
+        git clone https://github.com/openfheorg/openfhe-development.git
+        cd openfhe-development
+        git checkout ${{inputs.openfhe_development_branch}}
+        # if [[ $? != 0 ]]; then
+        #   echo "Cannot create $BUILD_DIR"
+        #   exit 3
+        # fi      
+
+        echo "Should be in build/"
+        pwd
+
+        # ls -l
+        # echo "LD_LIBRARY_PATH = ${LD_LIBRARY_PATH}"
+        
+    #####################################################################################
+    # -- cmake configuration
+    - name: '${{ inputs.module_name }}_cmake'
+      id: jjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+      shell: bash
+      run: |
+        echo "${{ inputs.module_name }}_cmake"
+        pwd
+        whoami
+        echo " -- cmake configuration"
+        
+    #     # Create the correct cmake arg string
+    #     cmake_args="${{inputs.cmake_args}}"
+
+    #     # Debugging use only
+    #     echo "Input values for ${{inputs.module_name}}
+    #     openfhe_development_branch=${{inputs.openfhe_development_branch}}
+    #     cmake_args=${{inputs.cmake_args}}
+    #     "
+    #     echo "CMAKE ARGS: ${cmake_args}"
+
+    #     cmake -S . -B build ${cmake_args}
+
+    # - name: '${{ inputs.module_name }}_build'
+    #   needs: [build_openfhe_development]
+    #   shell: bash
+    #   run: |
+    #     echo "${{ inputs.module_name }}_build"
+    #     pwd
+    #     cd build
+        
+    #     # run only if WITH_TCM input is set
+    #     if [[ "${{inputs.cmake_args}}" == *"WITH_TCM"* ]]; then
+    #       echo "running >$ make tcm ..."
+    #       make tcm -j $[$(nproc) / 2]
+    #     fi
+        
+    #     # Build the code base
+    #     make -j $[$(nproc) / 2] all
+
+    #     # Build allextras
+    #     make -j $[$(nproc) / 2] allextras
+
+    # - name: '${{ inputs.module_name }}_test_binfhe'
+    #   needs: [build_openfhe_development]
+    #   shell: bash
+    #   run: |
+    #     echo "${{ inputs.module_name }}_test_binfhe"
+    #     pwd
+    #     echo "LD_LIBRARY_PATH = ${LD_LIBRARY_PATH}"
+    #     build/unittest/binfhe_tests --gtest_output=xml
+
+    # - name: '${{ inputs.module_name }}_test_core'
+    #   shell: bash
+    #   run: |
+    #     echo "${{ inputs.module_name }}_test_core"
+    #     pwd
+    #     echo "LD_LIBRARY_PATH = ${LD_LIBRARY_PATH}"
+    #     build/unittest/core_tests --gtest_output=xml
+
+    # - name: '${{ inputs.module_name }}_test_pke'
+    #   needs: [build_openfhe_development]
+    #   shell: bash
+    #   run: |
+    #     echo "${{ inputs.module_name }}_test_pke"
+    #     pwd
+    #     echo "LD_LIBRARY_PATH = ${LD_LIBRARY_PATH}"
+    #     build/unittest/pke_tests --gtest_output=xml
+
+    #####################################################################################
+    # -- cleanup
+    - name: '${{ inputs.module_name }}_cleanup'
+      shell: bash
+      run: |
+        pwd
+        rm -rf build
