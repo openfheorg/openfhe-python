@@ -1,0 +1,71 @@
+name: Manual
+
+# the workflow_call block was added to this manual workflow (on workflow_dispatch:) because
+# it has to be included if a reuseable workflow is called.
+# The changes from the workflow_dispatch inputs to the workflow_call inputs are:
+# - "type: choice" is replaced with "type: string"
+# - all "options:" are removed
+# The variable/tag for the runner (var.RUNNER) is defined on the "Actions secrets and variables" page, tab "Variables":
+# https://github.com/openfheorg/openfhe-development/settings/variables/actions
+on:
+  workflow_call:
+    inputs:
+      compiler:
+        description: 'Compiler type'
+        type: string
+        required: true
+        default: 'GLANG-14'
+      native_backend:
+        description: 'Size of NativeInteger'
+        type: string
+        required: true
+        default: '64'
+      openfhe_development_branch:
+        description: 'openfhe-development branch'
+        type: string
+        required: true
+        default: 'main'
+    
+  workflow_dispatch:
+    inputs:
+      # # Selects the compiler to use, this choice will be used in the COMPILERS_MAP as the key to
+      # # retrieve the corresponding cmake compiler options to pass to the action
+      compiler:
+        description: 'Compiler type'
+        type: choice
+        options:
+        - 'GCC-12'
+        - 'CLANG-14'
+        required: true
+        default: 'GLANG-14'
+      native_backend:
+        description: 'Size of NativeInteger'
+        type: choice
+        options:
+        - '32'
+        - '64'
+        - '128'
+        - 'all'
+        required: true
+        default: '64'
+      openfhe_development_branch:
+        description: 'openfhe-development branch'
+        type: string
+        required: true
+        default: 'main'
+
+jobs:
+  call:
+    uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@github-ci
+    with:
+      runner: ${{ vars.RUNNER }}
+      compiler: "${{ inputs.compiler }}"
+      native_backend: "${{ inputs.native_backend }}"
+      openfhe_development_branch: "${{ inputs.openfhe_development_branch }}"
+      # cmake_args_map holds job specific additional cmake options. compiler flags, native_backend flag and
+      # OpenMP flag are set in generic_workflow.yml
+      cmake_args_map: '{
+                  "default"           : "-DBUILD_EXTRAS=ON",
+                }'
+      
+
