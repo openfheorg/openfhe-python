@@ -1,0 +1,119 @@
+name: 'Generic Workflow Builder'
+description: 'A custom GitHub actions pipeline that wrappedup build, unit_test, benchmark and extract stages'
+  
+inputs:
+  module_name:
+    description: 'Name of the module'
+    required: true
+  openfhe_development_branch:
+    description: 'openfhe-development branch for testing'
+    required: true
+  cmake_args_openfhe_lib:
+    description: 'Argument for cmake command'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    #####################################################################################
+    - name: '${{ inputs.module_name }}_print_input'
+      shell: bash
+      run: |
+        # pwd
+        echo "======> step ${{ inputs.module_name }}_print_input"
+
+        # Debugging use only
+        echo "Input values:
+        module_name=${{inputs.module_name}}
+        openfhe_development_branch=${{inputs.openfhe_development_branch}}
+        cmake_args_openfhe_lib=${{inputs.cmake_args_openfhe_lib}}
+        "
+    #####################################################################################
+    - name: '${{ inputs.module_name }}_cleanup'
+      shell: bash
+      run: |
+        # pwd
+        echo "======> step ${{ inputs.module_name }}_cleanup"
+
+        BUILD_DIR="$PWD/build"
+        echo "BUILD_DIR=$BUILD_DIR"
+        echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+        if [ -d "$BUILD_DIR" ]; then
+          rm -Rf $BUILD_DIR;
+        fi
+
+        OPENFHE_DIR="$PWD/openfhe-development"
+        echo "OPENFHE_DIR=$OPENFHE_DIR"
+        echo "OPENFHE_DIR=$OPENFHE_DIR" >> $GITHUB_ENV
+        if [ -d "$OPENFHE_DIR" ]; then
+          rm -Rf $OPENFHE_DIR;
+        fi
+
+        INSTALL_DIR="$PWD/install"
+        echo "INSTALL_DIR=$INSTALL_DIR"
+        echo "INSTALL_DIR=$INSTALL_DIR" >> $GITHUB_ENV
+        if [ -d "$INSTALL_DIR" ]; then
+          rm -Rf $INSTALL_DIR;
+        fi
+
+    #####################################################################################
+    - name: '${{ inputs.module_name }}_build_openfhe_development'
+      shell: bash
+      run: |
+        # pwd
+        echo "======> step ${{ inputs.module_name }}_build_openfhe_development"
+        
+        echo "$OPENFHE_DIR"
+        cmake_args="${{inputs.cmake_args_openfhe_lib}} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_PREFIX_PATH=${INSTALL_DIR}"
+        echo ${cmake_args}
+
+        git clone https://github.com/openfheorg/openfhe-development.git
+        cd $OPENFHE_DIR
+        git checkout ${{inputs.openfhe_development_branch}}
+
+        cmake -S . -B build ${cmake_args}
+
+        cd build
+        make -j $[$(nproc) / 2]
+        make install
+    #####################################################################################
+    - name: '${{ inputs.module_name }}_build_openfhe_python'
+      shell: bash
+      run: |
+        # pwd
+        echo "======> step ${{ inputs.module_name }}_build_openfhe_python"
+
+        # pip install "pybind11[global]" 
+
+        # PYBIND11_PATH="/home/ubuntu/.local/share/cmake/pybind11"
+        # cmake_args="-DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_PREFIX_PATH=${INSTALL_DIR}:${PYBIND11_PATH}"
+        cmake_args="${{inputs.cmake_args_openfhe_lib}} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_PREFIX_PATH=${INSTALL_DIR}"
+        echo ${cmake_args}
+
+        cmake -S . -B build ${cmake_args}
+
+        cd build
+        make -j $[$(nproc) / 2]
+        sudo make install
+    #####################################################################################
+    - name: '${{ inputs.module_name }}_tests'
+      shell: bash
+      run: |
+        # pwd
+        echo "======> step ${{ inputs.module_name }}_tests"
+
+        export LD_LIBRARY_PATH=${INSTALL_DIR}/lib
+        export PYTHONPATH=${LD_LIBRARY_PATH}:${PYTHONPATH}
+        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+        echo "PYTHONPATH=${PYTHONPATH}"
+
+        cd tests
+        pytest *.py
+    #####################################################################################
+    # - name: '${{ inputs.module_name }}_final_cleanup'
+    #   shell: bash
+    #   run: |
+    #     pwd
+    #     rm -rf ${BUILD_DIR}
+    #     rm -rf ${OPENFHE_DIR}
+    #     rm -rf ${INSTALL_DIR}
