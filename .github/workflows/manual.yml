@@ -28,8 +28,8 @@ on:
     
   workflow_dispatch:
     inputs:
-      # # Selects the compiler to use, this choice will be used in the COMPILERS_MAP as the key to
-      # # retrieve the corresponding cmake compiler options to pass to the action
+      # Selects the compiler to use, this choice will be used in the COMPILERS_MAP as the key to
+      # retrieve the corresponding cmake compiler options to pass to the action
       compiler:
         description: 'Compiler type'
         type: choice
@@ -54,6 +54,9 @@ on:
         required: true
         default: 'main'
 
+# cmake_args_map_openfhe_lib holds job specific additional cmake options. As we are testing openfhe-python here
+# and not openfhe-development, we do not link unittest, benchmarks, etc. for openfhe-development.
+# compiler flags, native_backend flag and OpenMP flag are set in generic_workflow.yml
 jobs:
   call:
     uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@github-ci
@@ -62,10 +65,8 @@ jobs:
       compiler: "${{ inputs.compiler }}"
       native_backend: "${{ inputs.native_backend }}"
       openfhe_development_branch: "${{ inputs.openfhe_development_branch }}"
-      # cmake_args_map holds job specific additional cmake options. compiler flags, native_backend flag and
-      # OpenMP flag are set in generic_workflow.yml
-      cmake_args_map: '{
-                  "default"           : "-DBUILD_EXTRAS=ON",
+      cmake_args_map_openfhe_lib: '{
+                  "default"           : "-DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF -DBUILD_EXAMPLES=OFF",
                 }'
       
 
