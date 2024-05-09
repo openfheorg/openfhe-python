@@ -137,7 +137,7 @@ const char* ptx_GetRealPackedValue_docs = R"pbdoc(
     Get the real component of the packed value of the plaintext for CKKS-based plaintexts.
 
     :return: The real-component of the packed value of the plaintext.
-    :rtype: List[float]
+    :rtype: List[double]
 )pbdoc";
 
 

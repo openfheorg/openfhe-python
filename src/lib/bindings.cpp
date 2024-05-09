@@ -584,7 +584,8 @@ void bind_crypto_context(py::module &m)
              py::arg("levelBudget") = std::vector<uint32_t>({5, 4}),
              py::arg("dim1") = std::vector<uint32_t>({0, 0}),
              py::arg("slots") = 0,
-             py::arg("correctionFactor") = 0)
+             py::arg("correctionFactor") = 0,
+             py::arg("precompute")= true)
         .def("EvalBootstrapKeyGen", &CryptoContextImpl<DCRTPoly>::EvalBootstrapKeyGen,
              cc_EvalBootstrapKeyGen_docs,
              py::arg("privateKey"),
@@ -596,19 +597,11 @@ void bind_crypto_context(py::module &m)
              py::arg("precision") = 0)
         .def("EvalCKKStoFHEWSetup", &CryptoContextImpl<DCRTPoly>::EvalCKKStoFHEWSetup,
             cc_EvalCKKStoFHEWSetup_docs,
-            py::arg("sl") = HEStd_128_classic,
-            py::arg("slBin") = BINFHE_PARAMSET::STD128,
-            py::arg("arbFunc") = false,
-            py::arg("logQ") = 25,
-            py::arg("dynamic") = false,
-            py::arg("numSlotsCKKS") = 0,
-            py::arg("logQswitch") = 27)
+            py::arg("schswchparams"))
         .def("EvalCKKStoFHEWKeyGen", &CryptoContextImpl<DCRTPoly>::EvalCKKStoFHEWKeyGen,
              cc_EvalCKKStoFHEWKeyGen_docs,
              py::arg("keyPair"),
-             py::arg("lwesk"),
-             py::arg("dim1") = 0,
-             py::arg("L") = 1)
+             py::arg("lwesk"))
         .def("EvalCKKStoFHEWPrecompute", &CryptoContextImpl<DCRTPoly>::EvalCKKStoFHEWPrecompute,
              cc_EvalCKKStoFHEWPrecompute_docs,
              py::arg("scale") = 1.0)
@@ -626,6 +619,7 @@ void bind_crypto_context(py::module &m)
              py::arg("keyPair"),
              py::arg("lwesk"),
              py::arg("numSlots") = 0,
+             py::arg("numCtxts") = 0,
              py::arg("dim1") = 0,
              py::arg("L") = 0)
         .def("EvalFHEWtoCKKS", &CryptoContextImpl<DCRTPoly>::EvalFHEWtoCKKS,
@@ -635,32 +629,19 @@ void bind_crypto_context(py::module &m)
              py::arg("numSlots") = 0,
              py::arg("p") = 4,
              py::arg("pmin") = 0.0,
-             py::arg("pmax") = 2.0)
+             py::arg("pmax") = 2.0,
+             py::arg("dim1") = 0)
         .def("EvalSchemeSwitchingSetup", &CryptoContextImpl<DCRTPoly>::EvalSchemeSwitchingSetup,
              cc_EvalSchemeSwitchingSetup_docs,
-             py::arg("sl") = HEStd_128_classic,
-             py::arg("slBin") = BINFHE_PARAMSET::STD128,
-             py::arg("arbFunc") = false,
-             py::arg("logQ") = 25,
-             py::arg("dynamic") = false,
-             py::arg("numSlotsCKKS") = 0,
-             py::arg("logQswitch") = 27)
+             py::arg("schswchparams"))
         //void EvalSchemeSwitchingKeyGen(const KeyPair<Element> &keyPair, ConstLWEPrivateKey &lwesk, uint32_t numValues = 0, bool oneHot = true, bool alt = false, uint32_t dim1CF = 0, uint32_t dim1FC = 0, uint32_t LCF = 1, uint32_t LFC = 0)
         .def("EvalSchemeSwitchingKeyGen", &CryptoContextImpl<DCRTPoly>::EvalSchemeSwitchingKeyGen,
              cc_EvalSchemeSwitchingKeyGen_docs,
              py::arg("keyPair"),
-             py::arg("lwesk"),
-             py::arg("numValues") = 0,
-             py::arg("oneHot") = true,
-             py::arg("alt") = false,
-             py::arg("dim1CF") = 0,
-             py::arg("dim1FC") = 0,
-             py::arg("LCF") = 1,
-             py::arg("LFC") = 0)
+             py::arg("lwesk"))
         .def("EvalCompareSwitchPrecompute", &CryptoContextImpl<DCRTPoly>::EvalCompareSwitchPrecompute,
              cc_EvalCompareSwitchPrecompute_docs,
              py::arg("pLWE") = 0,
-             py::arg("initLevel") = 0,
              py::arg("scaleSign") = 1.0,
              py::arg("unit") = false)
         .def("EvalCompareSchemeSwitching", &CryptoContextImpl<DCRTPoly>::EvalCompareSchemeSwitching,
@@ -678,7 +659,6 @@ void bind_crypto_context(py::module &m)
              py::arg("publicKey"),
              py::arg("numValues") = 0,
              py::arg("numSlots") = 0,
-             py::arg("oneHot") = true,
              py::arg("pLWE") = 0,
              py::arg("scaleSign") = 1.0)
         .def("EvalMinSchemeSwitchingAlt", &CryptoContextImpl<DCRTPoly>::EvalMinSchemeSwitchingAlt,
@@ -687,7 +667,6 @@ void bind_crypto_context(py::module &m)
              py::arg("publicKey"),
              py::arg("numValues") = 0,
              py::arg("numSlots") = 0,
-             py::arg("oneHot") = true,
              py::arg("pLWE") = 0,
              py::arg("scaleSign") = 1.0)
         .def("EvalMaxSchemeSwitching", &CryptoContextImpl<DCRTPoly>::EvalMaxSchemeSwitching,
@@ -696,7 +675,6 @@ void bind_crypto_context(py::module &m)
              py::arg("publicKey"),
              py::arg("numValues") = 0,
              py::arg("numSlots") = 0,
-             py::arg("oneHot") = true,
              py::arg("pLWE") = 0,
              py::arg("scaleSign") = 1.0)
         .def("EvalMaxSchemeSwitchingAlt", &CryptoContextImpl<DCRTPoly>::EvalMaxSchemeSwitchingAlt,
@@ -705,18 +683,11 @@ void bind_crypto_context(py::module &m)
              py::arg("publicKey"),
              py::arg("numValues") = 0,
              py::arg("numSlots") = 0,
-             py::arg("oneHot") = true,
              py::arg("pLWE") = 0,
              py::arg("scaleSign") = 1.0)
         //TODO (Oliveira, R.): Solve pointer handling bug when returning EvalKeyMap objects for the next functions
         .def("EvalAutomorphismKeyGen", &EvalAutomorphismKeyGenWrapper, 
             cc_EvalAutomorphismKeyGen_docs,
-            py::arg("privateKey"),
-            py::arg("indexList"),
-            py::return_value_policy::reference_internal)
-        .def("EvalAutomorphismKeyGen", &EvalAutomorphismKeyGenWrapper_PublicKey, 
-            cc_EvalAutomorphismKeyGenPublic_docs,
-            py::arg("publicKey"),
             py::arg("privateKey"),
             py::arg("indexList"),
             py::return_value_policy::reference_internal)
@@ -733,7 +704,8 @@ void bind_crypto_context(py::module &m)
         .def_static(
             "InsertEvalSumKey", &CryptoContextImpl<DCRTPoly>::InsertEvalSumKey,
             cc_InsertEvalSumKey_docs,
-            py::arg("evalKeyMap"))
+            py::arg("evalKeyMap"),
+            py::arg("keyTag") = "")
         .def_static(
             "InsertEvalMultKey", &CryptoContextImpl<DCRTPoly>::InsertEvalMultKey,
             cc_InsertEvalMultKey_docs,
@@ -745,6 +717,8 @@ void bind_crypto_context(py::module &m)
         .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
             cc_GetEvalSumKeyMap_docs,
             py::return_value_policy::reference)
+        .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch,
+        		py::return_value_policy::reference_internal)
         .def_static(
             "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
             {
@@ -1116,13 +1090,13 @@ void bind_ciphertext(py::module &m)
         ctx_SetLevel_docs,
         py::arg("level"))
      .def("Clone", &CiphertextImpl<DCRTPoly>::Clone)
-     .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs);
+     .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs)
     // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
     // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
     // .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
-    // .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
-    // .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots);
+     .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
+     .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots);
 }
 
 void bind_schemes(py::module &m){
@@ -1134,6 +1108,56 @@ void bind_schemes(py::module &m){
         .def_static("GetBootstrapDepth", static_cast<uint32_t (*)(const std::vector<uint32_t>&, SecretKeyDist)>(&FHECKKSRNS::GetBootstrapDepth));                               
     
 }
+
+void bind_sch_swch_params(py::module &m)
+{
+    py::class_<SchSwchParams>(m, "SchSwchParams")
+        .def(py::init<>())
+        .def("GetSecurityLevelCKKS", &SchSwchParams::GetSecurityLevelCKKS)
+        .def("GetSecurityLevelFHEW", &SchSwchParams::GetSecurityLevelFHEW)
+        .def("GetArbitraryFunctionEvaluation", &SchSwchParams::GetArbitraryFunctionEvaluation)
+        .def("GetUseDynamicModeFHEW", &SchSwchParams::GetUseDynamicModeFHEW)
+        .def("GetComputeArgmin", &SchSwchParams::GetComputeArgmin)
+        .def("GetOneHotEncoding", &SchSwchParams::GetOneHotEncoding)
+        .def("GetUseAltArgmin", &SchSwchParams::GetUseAltArgmin)
+        .def("GetNumSlotsCKKS", &SchSwchParams::GetNumSlotsCKKS)
+        .def("GetNumValues", &SchSwchParams::GetNumValues)
+        .def("GetCtxtModSizeFHEWLargePrec", &SchSwchParams::GetCtxtModSizeFHEWLargePrec)
+        .def("GetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::GetCtxtModSizeFHEWIntermedSwch)
+        .def("GetBStepLTrCKKStoFHEW", &SchSwchParams::GetBStepLTrCKKStoFHEW)
+        .def("GetBStepLTrFHEWtoCKKS", &SchSwchParams::GetBStepLTrFHEWtoCKKS)
+        .def("GetLevelLTrCKKStoFHEW", &SchSwchParams::GetLevelLTrCKKStoFHEW)
+        .def("GetLevelLTrFHEWtoCKKS", &SchSwchParams::GetLevelLTrFHEWtoCKKS)
+        .def("GetInitialCKKSModulus", &SchSwchParams::GetInitialCKKSModulus)
+        .def("GetRingDimension", &SchSwchParams::GetRingDimension)
+        .def("GetScalingModSize", &SchSwchParams::GetScalingModSize)
+        .def("GetBatchSize", &SchSwchParams::GetBatchSize)
+        .def("SetSecurityLevelCKKS", &SchSwchParams::SetSecurityLevelCKKS)
+        .def("SetSecurityLevelFHEW", &SchSwchParams::SetSecurityLevelFHEW)
+        .def("SetArbitraryFunctionEvaluation", &SchSwchParams::SetArbitraryFunctionEvaluation)
+        .def("SetUseDynamicModeFHEW", &SchSwchParams::SetUseDynamicModeFHEW)
+        .def("SetComputeArgmin", &SchSwchParams::SetComputeArgmin)
+        .def("SetOneHotEncoding", &SchSwchParams::SetOneHotEncoding)
+        .def("SetUseAltArgmin", &SchSwchParams::SetUseAltArgmin)
+        .def("SetNumSlotsCKKS", &SchSwchParams::SetNumSlotsCKKS)
+        .def("SetNumValues", &SchSwchParams::SetNumValues)
+        .def("SetCtxtModSizeFHEWLargePrec", &SchSwchParams::SetCtxtModSizeFHEWLargePrec)
+        .def("SetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::SetCtxtModSizeFHEWIntermedSwch)
+        .def("SetBStepLTrCKKStoFHEW", &SchSwchParams::SetBStepLTrCKKStoFHEW)
+        .def("SetBStepLTrFHEWtoCKKS", &SchSwchParams::SetBStepLTrFHEWtoCKKS)
+        .def("SetLevelLTrCKKStoFHEW", &SchSwchParams::SetLevelLTrCKKStoFHEW)
+        .def("SetLevelLTrFHEWtoCKKS", &SchSwchParams::SetLevelLTrFHEWtoCKKS)
+        .def("SetInitialCKKSModulus", &SchSwchParams::SetInitialCKKSModulus)
+        .def("SetRingDimension", &SchSwchParams::SetRingDimension)
+        .def("SetScalingModSize", &SchSwchParams::SetScalingModSize)
+        .def("SetBatchSize", &SchSwchParams::SetBatchSize)
+        .def("__str__",[](const SchSwchParams &params) {
+            std::stringstream stream;
+            stream << params;
+            return stream.str();
+        });
+}
+
 
 PYBIND11_MODULE(openfhe, m)
 {
@@ -1154,5 +1178,5 @@ PYBIND11_MODULE(openfhe, m)
     bind_crypto_context(m);
     bind_serialization(m);
     bind_schemes(m);
-    
+    bind_sch_swch_params(m);
 }

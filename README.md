@@ -2,7 +2,8 @@
 
 ## Table of Contents
 
-- [Building](#building)
+- [Running from Docker](#running-from-docker)
+- [Building from Source](#building-from-source)
   - [Prerequisites](#requirements)
   - [Linux Install](#linux)
     - [Installing directly on your system](#system-level-installation)
@@ -11,17 +12,21 @@
 - [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
 - [Contributing Guide](#contributing-guide)
 
-## Building
+## Running from Docker
+
+Please see [Instructions for the Docker setup](docker/README.md)
+
+## Building from Source
 
 ### Requirements
 
 Before building, make sure you have the following dependencies installed:
 
-- [OpenFHE](https://github.com/openfheorg/openfhe-development) by following the instructions on [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
+- [OpenFHE 1.1.3+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.6+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
 
-We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then get back to this repo. See notes on installing `pybind11` below
+We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then getting back to this repo. See notes on installing `pybind11` below
 
 ### Linux
 
@@ -105,15 +110,19 @@ To get familiar with the OpenFHE Python API, check out the examples:
   - [Advanced CKKS Bootstrapping Example](examples/pke/advanced-ckks-bootstrapping.cpp)
   - [Double-Precision (Iterative) Bootstrapping Example](examples/pke/iterative-ckks-bootstrapping.py)
 - FHE for Boolean circuits and larger plaintext spaces (FHEW/TFHE):
-  - [Simple Code Example](examples/binfhe/boolean.py)
+  - [Simple Code Example with Symmetric Encryption](examples/binfhe/boolean.py)
   - [Truth Table Example](examples/binfhe/boolean-truth-table.py)
+- Scheme Switching:
+  - [Examples with Scheme Switching between CKKS and FHEW/TFHE](examples/pke/scheme-switching.py)
   <!-- - [Code with JSON serialization](examples/binfhe/boolean-serial-json.py) -->
   <!-- - [Code with Binary Serialization](examples/binfhe/boolean-serial-binary.py) -->
   <!-- - [Large-Precision Comparison](examples/binfhe/eval-sign.py) -->
   <!-- - [Small-Precison Arbitrary Function Evaluation](examples/binfhe/eval-function.py) -->
-  <!-- - Threshold FHE:  -->
-  <!-- - [Code Example for BGV, BFV, and CKKS](examples/pke/threshold-fhe.py) -->
-  <!-- - [Code Example for BFV with 5 parties](examples/pke/threshold-fhe-5p.py) -->
+- Threshold FHE: 
+  - [Code Example for BGV, BFV, and CKKS](examples/pke/threshold-fhe.py)
+  - [Simple Interactive Bootstrapping Example](examples/pke/tckks-interactive-mp-bootstrapping.py)
+  - [Interactive Bootstrapping after Chebyshev Approximation](examples/pke/tckks-interactive-mp-bootstrapping-Chebyschev.py)
+  - [Code Example for BFV with 5 parties](examples/pke/threshold-fhe-5p.py)
 
 ## OpenFHE Python Wrapper Documentation
 
