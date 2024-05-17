@@ -35,7 +35,7 @@ Test all functions matching a name. For instance, this would pick up
 pytest -k add
 ```
 
-As a reminder, pytest can be helpful for debugging. This command-lin option
+As a reminder, pytest can be helpful for debugging. This command-line option
 shows debug output from logging statements.
 
 ```bash
