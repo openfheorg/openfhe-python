@@ -91,6 +91,14 @@ which creates a lib folder, moves the built `.so` file into that lib folder, and
 
 **Note** You may wish to copy the `.so` file to any projects of your own, or add it to your system path to source from.
 
+## Running Tests
+
+Run tests with [pytest](https://docs.pytest.org), which may be called `pytest-3` on your system. See the [testing readme](tests/README.md) for more information.
+
+```bash
+pytest [--run-long]
+```
+
 ## Code Examples
 
 To get familiar with the OpenFHE Python API, check out the examples:

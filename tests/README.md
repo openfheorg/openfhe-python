@@ -1,10 +1,10 @@
 # Working with Tests
 
-These tests use Pytest (https://docs.pytest.org/).
+These tests use [Pytest](https://docs.pytest.org/).
 
 ## Running and Using Tests
 
-These tests assume that openfhe-python is installed in the current python environment, which you can check by running
+These tests assume that openfhe-python is installed in the current python environment, which you can check by importing openfhe.
 ```bash
 python -c "__import__('openfhe')"
 ```
@@ -22,7 +22,7 @@ pytest --run-all
 
 ### General Pytest usage
 
-Test a particular file:
+This is a quick reminder of pytest's features. To test a particular file:
 
 ```bash
 pytest test_particular_file.py
@@ -35,7 +35,8 @@ Test all functions matching a name. For instance, this would pick up
 pytest -k add
 ```
 
-As a reminder, pytest can be helpful for debugging.
+As a reminder, pytest can be helpful for debugging. This command-line option
+shows debug output from logging statements.
 
 ```bash
 pytest --log-cli-level=debug
@@ -64,7 +65,7 @@ The goal is for the Github Actions tests to reassure a committer that they have
 not broken the Python wrapper.
 
 **Import OpenFHE as fhe** -- Unit tests tend to use more imports than most
-code, for instance JSON, which conflicts with an OpenFHE name, so quality
+code, for instance JSON, which conflicts with an OpenFHE name, so qualify
 imports in the tests.
 
 ```python
