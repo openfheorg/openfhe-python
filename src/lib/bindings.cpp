@@ -691,6 +691,24 @@ void bind_crypto_context(py::module &m)
             py::arg("privateKey"),
             py::arg("indexList"),
             py::return_value_policy::reference_internal)
+        .def("EvalLinearWSumMutable",
+            static_cast<lbcrypto::Ciphertext<DCRTPoly> (lbcrypto::CryptoContextImpl<DCRTPoly>::*)(
+                const std::vector<double>&,
+                std::vector<std::shared_ptr<lbcrypto::CiphertextImpl<DCRTPoly> > >&
+            ) const>(
+            &CryptoContextImpl<DCRTPoly>::EvalLinearWSumMutable),
+             py::arg("ciphertext"),
+             py::arg("coefficients"))
+        .def("EvalLinearWSum",
+            static_cast<lbcrypto::Ciphertext<DCRTPoly> (lbcrypto::CryptoContextImpl<DCRTPoly>::*)(
+            std::vector<std::shared_ptr<const lbcrypto::CiphertextImpl<DCRTPoly> > >&,const std::vector<double>&) const>(
+            &CryptoContextImpl<DCRTPoly>::EvalLinearWSum),
+             py::arg("ciphertext"),
+             py::arg("coefficients"))
+        .def("EvalMultMany", &CryptoContextImpl<DCRTPoly>::EvalMultMany,
+            py::arg("ciphertextVec"))
+        .def("EvalAddManyInPlace", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
+            py::arg("ciphertextVec"))
         .def("FindAutomorphismIndex", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndex,
             cc_FindAutomorphismIndex_docs,
             py::arg("idx"))
