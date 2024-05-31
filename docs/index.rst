@@ -14,10 +14,11 @@ Fully Homomorphic Encryption (FHE) is a powerful cryptographic primitive that en
 while keeping the efficiency of C++ FHE operations.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
    :caption: API Reference:
    
    cryptocontext
+   cryptoparams
    ciphertext
    plaintext
    keys
