@@ -1,1 +1,1 @@
-from .openfhe import *
+from openfhe.openfhe import *
