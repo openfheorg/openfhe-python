@@ -1063,6 +1063,7 @@ void bind_encodings(py::module &m)
         .def("SetFormat", &PlaintextImpl::SetFormat,
             ptx_SetFormat_docs,
             py::arg("fmt"))
+        .def("GetCoefPackedValue", &PlaintextImpl::GetCoefPackedValue)
         .def("GetPackedValue", &PlaintextImpl::GetPackedValue)
         .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue,
             ptx_GetCKKSPackedValue_docs)
