@@ -44,6 +44,7 @@
               <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cryptocontext.html">CryptoContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptoparams.html">CryptoParams</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a></li>
@@ -153,10 +154,16 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ciphertext.html#openfhe.Ciphertext">Ciphertext (class in openfhe)</a>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS">CCParamsBFVRNS (class in openfhe)</a>
+</li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS">CCParamsBGVRNS (class in openfhe)</a>
+</li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS">CCParamsCKKSRNS (class in openfhe)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ciphertext.html#openfhe.Ciphertext">Ciphertext (class in openfhe)</a>
+</li>
       <li><a href="pke_enums.html#openfhe.SCHEME.CKKSRNS_SCHEME">CKKSRNS_SCHEME (openfhe.SCHEME attribute)</a>
 </li>
       <li><a href="ciphertext.html#openfhe.Ciphertext.Clone">Clone() (openfhe.Ciphertext method)</a>
@@ -249,10 +256,98 @@
 </li>
       <li><a href="binfhe.html#openfhe.BinFHEContext.GenerateLUTviaFunction">GenerateLUTviaFunction() (openfhe.BinFHEContext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetBatchSize">GetBatchSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetBatchSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetBatchSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="binfhe.html#openfhe.BinFHEContext.GetBeta">GetBeta() (openfhe.BinFHEContext method)</a>
 </li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetCKKSPackedValue">GetCKKSPackedValue() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetDecryptionNoiseMode">GetDecryptionNoiseMode() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetDecryptionNoiseMode">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetDecryptionNoiseMode">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetDesiredPrecision">GetDesiredPrecision() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetDesiredPrecision">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetDesiredPrecision">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetDigitSize">GetDigitSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetDigitSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetDigitSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetEncryptionTechnique">GetEncryptionTechnique() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetEncryptionTechnique">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetEncryptionTechnique">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetEvalAddCount">GetEvalAddCount() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetEvalAddCount">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetEvalAddCount">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetExecutionMode">GetExecutionMode() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetExecutionMode">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetExecutionMode">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetFirstModSize">GetFirstModSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetFirstModSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetFirstModSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetInteractiveBootCompressionLevel">GetInteractiveBootCompressionLevel() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetInteractiveBootCompressionLevel">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetInteractiveBootCompressionLevel">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetKeySwitchCount">GetKeySwitchCount() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetKeySwitchCount">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetKeySwitchCount">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetKeySwitchTechnique">GetKeySwitchTechnique() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetKeySwitchTechnique">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetKeySwitchTechnique">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="keys.html#openfhe.PrivateKey.GetKeyTag">GetKeyTag() (openfhe.PrivateKey method)</a>
 
       <ul>
@@ -277,30 +372,174 @@
 </li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetLogPrecision">GetLogPrecision() (openfhe.Plaintext method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="binfhe.html#openfhe.BinFHEContext.GetMaxPlaintextSpace">GetMaxPlaintextSpace() (openfhe.BinFHEContext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetMaxRelinSkDeg">GetMaxRelinSkDeg() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetMaxRelinSkDeg">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetMaxRelinSkDeg">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="binfhe.html#openfhe.LWECiphertext.GetModulus">GetModulus() (openfhe.LWECiphertext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetMultiHopModSize">GetMultiHopModSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetMultiHopModSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetMultiHopModSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetMultipartyMode">GetMultipartyMode() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetMultipartyMode">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetMultipartyMode">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetMultiplicationTechnique">GetMultiplicationTechnique() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetMultiplicationTechnique">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetMultiplicationTechnique">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetMultiplicativeDepth">GetMultiplicativeDepth() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetMultiplicativeDepth">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetMultiplicativeDepth">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="binfhe.html#openfhe.BinFHEContext.Getn">Getn() (openfhe.BinFHEContext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetNoiseEstimate">GetNoiseEstimate() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetNoiseEstimate">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetNoiseEstimate">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetNoiseScaleDeg">GetNoiseScaleDeg() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetNumAdversarialQueries">GetNumAdversarialQueries() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetNumAdversarialQueries">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetNumAdversarialQueries">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetNumLargeDigits">GetNumLargeDigits() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetNumLargeDigits">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetNumLargeDigits">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetPackedValue">GetPackedValue() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetPlaintextModulus">GetPlaintextModulus() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetPlaintextModulus">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetPlaintextModulus">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetPREMode">GetPREMode() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetPREMode">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetPREMode">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="binfhe.html#openfhe.BinFHEContext.Getq">Getq() (openfhe.BinFHEContext method)</a>
 </li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetRealPackedValue">GetRealPackedValue() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetRingDim">GetRingDim() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetRingDim">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetRingDim">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetScalingFactor">GetScalingFactor() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetScalingModSize">GetScalingModSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetScalingModSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetScalingModSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetScalingTechnique">GetScalingTechnique() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetScalingTechnique">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetScalingTechnique">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetScheme">GetScheme() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetScheme">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetScheme">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetSchemeID">GetSchemeID() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetSecretKeyDist">GetSecretKeyDist() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetSecretKeyDist">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetSecretKeyDist">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetSecurityLevel">GetSecurityLevel() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetSecurityLevel">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetSecurityLevel">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="ciphertext.html#openfhe.Ciphertext.GetSlots">GetSlots() (openfhe.Ciphertext method)</a>
 
       <ul>
         <li><a href="plaintext.html#openfhe.Plaintext.GetSlots">(openfhe.Plaintext method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetStandardDeviation">GetStandardDeviation() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetStandardDeviation">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetStandardDeviation">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.GetStatisticalSecurity">GetStatisticalSecurity() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.GetStatisticalSecurity">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.GetStatisticalSecurity">(openfhe.CCParamsCKKSRNS method)</a>
 </li>
       </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.GetStringValue">GetStringValue() (openfhe.Plaintext method)</a>
@@ -523,10 +762,98 @@
 </li>
       <li><a href="pke_enums.html#openfhe.SecurityLevel">SecurityLevel (class in openfhe)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetBatchSize">SetBatchSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetBatchSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetBatchSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetDecryptionNoiseMode">SetDecryptionNoiseMode() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetDecryptionNoiseMode">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetDecryptionNoiseMode">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetDesiredPrecision">SetDesiredPrecision() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetDesiredPrecision">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetDesiredPrecision">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetDigitSize">SetDigitSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetDigitSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetDigitSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetEncryptionTechnique">SetEncryptionTechnique() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetEncryptionTechnique">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetEncryptionTechnique">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetEvalAddCount">SetEvalAddCount() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetEvalAddCount">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetEvalAddCount">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetExecutionMode">SetExecutionMode() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetExecutionMode">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetExecutionMode">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetFirstModSize">SetFirstModSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetFirstModSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetFirstModSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.SetFormat">SetFormat() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetInteractiveBootCompressionLevel">SetInteractiveBootCompressionLevel() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetInteractiveBootCompressionLevel">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetInteractiveBootCompressionLevel">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.SetIntVectorValue">SetIntVectorValue() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetKeySwitchCount">SetKeySwitchCount() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetKeySwitchCount">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetKeySwitchCount">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetKeySwitchTechnique">SetKeySwitchTechnique() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetKeySwitchTechnique">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetKeySwitchTechnique">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="keys.html#openfhe.PrivateKey.SetKeyTag">SetKeyTag() (openfhe.PrivateKey method)</a>
 
       <ul>
@@ -541,26 +868,170 @@
         <li><a href="plaintext.html#openfhe.Plaintext.SetLevel">(openfhe.Plaintext method)</a>
 </li>
       </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetMaxRelinSkDeg">SetMaxRelinSkDeg() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetMaxRelinSkDeg">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetMaxRelinSkDeg">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetMultiHopModSize">SetMultiHopModSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetMultiHopModSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetMultiHopModSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetMultipartyMode">SetMultipartyMode() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetMultipartyMode">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetMultipartyMode">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetMultiplicationTechnique">SetMultiplicationTechnique() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetMultiplicationTechnique">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetMultiplicationTechnique">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetMultiplicativeDepth">SetMultiplicativeDepth() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetMultiplicativeDepth">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetMultiplicativeDepth">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetNoiseEstimate">SetNoiseEstimate() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetNoiseEstimate">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetNoiseEstimate">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="plaintext.html#openfhe.Plaintext.SetNoiseScaleDeg">SetNoiseScaleDeg() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetNumAdversarialQueries">SetNumAdversarialQueries() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetNumAdversarialQueries">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetNumAdversarialQueries">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetNumLargeDigits">SetNumLargeDigits() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetNumLargeDigits">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetNumLargeDigits">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetPlaintextModulus">SetPlaintextModulus() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetPlaintextModulus">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetPlaintextModulus">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetPREMode">SetPREMode() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetPREMode">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetPREMode">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetRingDim">SetRingDim() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetRingDim">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetRingDim">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.SetScalingFactor">SetScalingFactor() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetScalingModSize">SetScalingModSize() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetScalingModSize">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetScalingModSize">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetScalingTechnique">SetScalingTechnique() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetScalingTechnique">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetScalingTechnique">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetSecretKeyDist">SetSecretKeyDist() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetSecretKeyDist">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetSecretKeyDist">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetSecurityLevel">SetSecurityLevel() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetSecurityLevel">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetSecurityLevel">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="ciphertext.html#openfhe.Ciphertext.SetSlots">SetSlots() (openfhe.Ciphertext method)</a>
 
       <ul>
         <li><a href="plaintext.html#openfhe.Plaintext.SetSlots">(openfhe.Plaintext method)</a>
 </li>
       </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetStandardDeviation">SetStandardDeviation() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetStandardDeviation">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetStandardDeviation">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetStatisticalSecurity">SetStatisticalSecurity() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetStatisticalSecurity">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetStatisticalSecurity">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="plaintext.html#openfhe.Plaintext.SetStringValue">SetStringValue() (openfhe.Plaintext method)</a>
 </li>
+      <li><a href="cryptoparams.html#openfhe.CCParamsBFVRNS.SetThresholdNumOfParties">SetThresholdNumOfParties() (openfhe.CCParamsBFVRNS method)</a>
+
+      <ul>
+        <li><a href="cryptoparams.html#openfhe.CCParamsBGVRNS.SetThresholdNumOfParties">(openfhe.CCParamsBGVRNS method)</a>
+</li>
+        <li><a href="cryptoparams.html#openfhe.CCParamsCKKSRNS.SetThresholdNumOfParties">(openfhe.CCParamsCKKSRNS method)</a>
+</li>
+      </ul></li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.SIGNED_MOD_TEST">SIGNED_MOD_TEST (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
       <li><a href="pke_enums.html#openfhe.SecretKeyDist.SPARSE_TERNARY">SPARSE_TERNARY (openfhe.SecretKeyDist attribute)</a>
 </li>
       <li><a href="pke_enums.html#openfhe.EncryptionTechnique.STANDARD">STANDARD (openfhe.EncryptionTechnique attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128">STD128 (openfhe.BINFHE_PARAMSET attribute)</a>
 </li>
       <li><a href="binfhe_enums.html#openfhe.BINFHE_PARAMSET.STD128_3">STD128_3 (openfhe.BINFHE_PARAMSET attribute)</a>

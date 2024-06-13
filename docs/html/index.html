@@ -46,6 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cryptocontext.html">CryptoContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptoparams.html">CryptoParams</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a></li>
@@ -93,16 +94,196 @@ while keeping the efficiency of C++ FHE operations.</p>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cryptocontext.html">CryptoContext</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
-<li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a></li>
-<li class="toctree-l1"><a class="reference internal" href="keys.html#private-key">Private Key</a></li>
-<li class="toctree-l1"><a class="reference internal" href="keys.html#keypair">KeyPair</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pke_enums.html">PKE enums</a></li>
-<li class="toctree-l1"><a class="reference internal" href="binfhe.html">BinFHEContext</a></li>
-<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweciphertext">LWECiphertext</a></li>
-<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweprivatekey">LWEPrivateKey</a></li>
-<li class="toctree-l1"><a class="reference internal" href="binfhe_enums.html">BinFHE enums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptoparams.html">CryptoParams</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cryptoparams.html#cyrptoparamsbfvrns">CyrptoParamsBFVRNS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptoparams.html#openfhe.CCParamsBFVRNS"><code class="docutils literal notranslate"><span class="pre">CCParamsBFVRNS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptoparams.html#cryptoparamsbgvrns">CryptoParamsBGVRNS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptoparams.html#openfhe.CCParamsBGVRNS"><code class="docutils literal notranslate"><span class="pre">CCParamsBGVRNS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptoparams.html#cryptoparamsckksrns">CryptoParamsCKKSRNS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptoparams.html#openfhe.CCParamsCKKSRNS"><code class="docutils literal notranslate"><span class="pre">CCParamsCKKSRNS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext"><code class="docutils literal notranslate"><span class="pre">Ciphertext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.Clone"><code class="docutils literal notranslate"><span class="pre">Ciphertext.Clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.GetLevel"><code class="docutils literal notranslate"><span class="pre">Ciphertext.GetLevel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.GetSlots"><code class="docutils literal notranslate"><span class="pre">Ciphertext.GetSlots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.RemoveElement"><code class="docutils literal notranslate"><span class="pre">Ciphertext.RemoveElement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.SetLevel"><code class="docutils literal notranslate"><span class="pre">Ciphertext.SetLevel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.SetSlots"><code class="docutils literal notranslate"><span class="pre">Ciphertext.SetSlots()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plaintext.html#openfhe.Plaintext"><code class="docutils literal notranslate"><span class="pre">Plaintext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.Decode"><code class="docutils literal notranslate"><span class="pre">Plaintext.Decode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.Encode"><code class="docutils literal notranslate"><span class="pre">Plaintext.Encode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetCKKSPackedValue"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetCKKSPackedValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetLength"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetLevel"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetLevel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetLogError"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetLogError()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetLogPrecision"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetLogPrecision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetNoiseScaleDeg"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetNoiseScaleDeg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetPackedValue"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetPackedValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetRealPackedValue"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetRealPackedValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetScalingFactor"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetScalingFactor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetSchemeID"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetSchemeID()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetSlots"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetSlots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetStringValue"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetStringValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.HighBound"><code class="docutils literal notranslate"><span class="pre">Plaintext.HighBound()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.IsEncoded"><code class="docutils literal notranslate"><span class="pre">Plaintext.IsEncoded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.LowBound"><code class="docutils literal notranslate"><span class="pre">Plaintext.LowBound()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.SetFormat"><code class="docutils literal notranslate"><span class="pre">Plaintext.SetFormat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.SetIntVectorValue"><code class="docutils literal notranslate"><span class="pre">Plaintext.SetIntVectorValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.SetLength"><code class="docutils literal notranslate"><span class="pre">Plaintext.SetLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.SetLevel"><code class="docutils literal notranslate"><span class="pre">Plaintext.SetLevel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.SetNoiseScaleDeg"><code class="docutils literal notranslate"><span class="pre">Plaintext.SetNoiseScaleDeg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.SetScalingFactor"><code class="docutils literal notranslate"><span class="pre">Plaintext.SetScalingFactor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.SetSlots"><code class="docutils literal notranslate"><span class="pre">Plaintext.SetSlots()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.SetStringValue"><code class="docutils literal notranslate"><span class="pre">Plaintext.SetStringValue()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="keys.html#openfhe.PublicKey"><code class="docutils literal notranslate"><span class="pre">PublicKey</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="keys.html#openfhe.PublicKey.GetKeyTag"><code class="docutils literal notranslate"><span class="pre">PublicKey.GetKeyTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="keys.html#openfhe.PublicKey.SetKeyTag"><code class="docutils literal notranslate"><span class="pre">PublicKey.SetKeyTag()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#private-key">Private Key</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="keys.html#openfhe.PrivateKey"><code class="docutils literal notranslate"><span class="pre">PrivateKey</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="keys.html#openfhe.PrivateKey.GetKeyTag"><code class="docutils literal notranslate"><span class="pre">PrivateKey.GetKeyTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="keys.html#openfhe.PrivateKey.SetKeyTag"><code class="docutils literal notranslate"><span class="pre">PrivateKey.SetKeyTag()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="keys.html#keypair">KeyPair</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="keys.html#openfhe.KeyPair"><code class="docutils literal notranslate"><span class="pre">KeyPair</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="keys.html#openfhe.KeyPair.good"><code class="docutils literal notranslate"><span class="pre">KeyPair.good()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="keys.html#openfhe.KeyPair.publicKey"><code class="docutils literal notranslate"><span class="pre">KeyPair.publicKey</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="keys.html#openfhe.KeyPair.secretKey"><code class="docutils literal notranslate"><span class="pre">KeyPair.secretKey</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pke_enums.html">PKE enums</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#scheme-types">Scheme Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.SCHEME"><code class="docutils literal notranslate"><span class="pre">SCHEME</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#pke-scheme-features">PKE Scheme Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.PKESchemeFeature"><code class="docutils literal notranslate"><span class="pre">PKESchemeFeature</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#scaling-techniques">Scaling Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.ScalingTechnique"><code class="docutils literal notranslate"><span class="pre">ScalingTechnique</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#key-switching-techniques">Key Switching Techniques</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.KeySwitchTechnique"><code class="docutils literal notranslate"><span class="pre">KeySwitchTechnique</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#secret-key-dist">Secret Key Dist</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.SecretKeyDist"><code class="docutils literal notranslate"><span class="pre">SecretKeyDist</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#proxy-reencryption-mode">Proxy Reencryption Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.ProxyReEncryptionMode"><code class="docutils literal notranslate"><span class="pre">ProxyReEncryptionMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#multiparty-mode">Multiparty Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.MultipartyMode"><code class="docutils literal notranslate"><span class="pre">MultipartyMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#execution-mode">Execution Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.ExecutionMode"><code class="docutils literal notranslate"><span class="pre">ExecutionMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#decryption-noise-mode">Decryption Noise Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.DecryptionNoiseMode"><code class="docutils literal notranslate"><span class="pre">DecryptionNoiseMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#encryption-technique">Encryption Technique</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.EncryptionTechnique"><code class="docutils literal notranslate"><span class="pre">EncryptionTechnique</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#multiplication-technique">Multiplication Technique</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.MultiplicationTechnique"><code class="docutils literal notranslate"><span class="pre">MultiplicationTechnique</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pke_enums.html#security-level">Security Level</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pke_enums.html#openfhe.SecurityLevel"><code class="docutils literal notranslate"><span class="pre">SecurityLevel</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html">BinFHEContext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext"><code class="docutils literal notranslate"><span class="pre">BinFHEContext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.BTKeyGen"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.BTKeyGen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Decrypt"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Decrypt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Encrypt"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Encrypt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalBinGate"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalBinGate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalDecomp"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalDecomp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalFloor"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalFloor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalFunc"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalFunc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalNOT"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalNOT()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalSign"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalSign()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GenerateBinFHEContext"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GenerateBinFHEContext()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GenerateLUTviaFunction"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GenerateLUTviaFunction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetBeta"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetBeta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetMaxPlaintextSpace"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetMaxPlaintextSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Getn"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Getn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Getq"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Getq()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.KeyGen"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.KeyGen()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweciphertext">LWECiphertext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binfhe.html#openfhe.LWECiphertext"><code class="docutils literal notranslate"><span class="pre">LWECiphertext</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.LWECiphertext.GetLength"><code class="docutils literal notranslate"><span class="pre">LWECiphertext.GetLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.LWECiphertext.GetModulus"><code class="docutils literal notranslate"><span class="pre">LWECiphertext.GetModulus()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe.html#lweprivatekey">LWEPrivateKey</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey"><code class="docutils literal notranslate"><span class="pre">LWEPrivateKey</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey.GetLength"><code class="docutils literal notranslate"><span class="pre">LWEPrivateKey.GetLength()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="binfhe_enums.html">BinFHE enums</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binfhe_enums.html#parameter-set">Parameter Set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binfhe_enums.html#openfhe.BINFHE_PARAMSET"><code class="docutils literal notranslate"><span class="pre">BINFHE_PARAMSET</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="binfhe_enums.html#binfhe-method">BINFHE_METHOD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binfhe_enums.html#openfhe.BINFHE_METHOD"><code class="docutils literal notranslate"><span class="pre">BINFHE_METHOD</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="binfhe_enums.html#binfhe-output">BinFHE Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binfhe_enums.html#openfhe.BINFHE_OUTPUT"><code class="docutils literal notranslate"><span class="pre">BINFHE_OUTPUT</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="binfhe_enums.html#binary-gates">Binary Gates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="binfhe_enums.html#openfhe.BINGATE"><code class="docutils literal notranslate"><span class="pre">BINGATE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </section>

@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Ciphertext" href="ciphertext.html" />
+    <link rel="next" title="CryptoParams" href="cryptoparams.html" />
     <link rel="prev" title="Welcome to OpenFHE - Python’s documentation!" href="index.html" /> 
 </head>
 
@@ -47,6 +47,7 @@
               <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CryptoContext</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptoparams.html">CryptoParams</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ciphertext.html">Ciphertext</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plaintext.html">Plaintext</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keys.html">Public Key</a></li>
@@ -382,6 +383,11 @@ The list of available features is defined in the PKESchemeFeature enum.</p>
 <li><p>EvalAddInPlace(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; None</p></li>
 </ol>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAddManyInPlace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertextVec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -907,6 +913,16 @@ This routinely happens when we do permutations (EvalPermute).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalLinearWSum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalLinearWSumMutable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalLogistic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
 <dd><p>Evaluate approximate logistic function 1/(1 + exp(-x)) on a ciphertext using the Chebyshev approximation. Supported only in CKKS.</p>
 <dl class="field-list simple">
@@ -1073,6 +1089,11 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalMultMany</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertextVec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -2590,7 +2611,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to OpenFHE - Python’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ciphertext.html" class="btn btn-neutral float-right" title="Ciphertext" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cryptoparams.html" class="btn btn-neutral float-right" title="CryptoParams" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
