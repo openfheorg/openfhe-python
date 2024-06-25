@@ -56,7 +56,7 @@ void bind_parameters(py::module &m,const std::string name)
         .def("GetKeySwitchCount", &CCParams<T>::GetKeySwitchCount)
         .def("GetEncryptionTechnique", &CCParams<T>::GetEncryptionTechnique)
         .def("GetMultiplicationTechnique", &CCParams<T>::GetMultiplicationTechnique)
-        .def("GetMultiHopModSize", &CCParams<T>::GetMultiHopModSize)
+        .def("GetPRENumHops", &CCParams<T>::GetPRENumHops)
         .def("GetInteractiveBootCompressionLevel", &CCParams<T>::GetInteractiveBootCompressionLevel)
         // setters
         .def("SetPlaintextModulus", &CCParams<T>::SetPlaintextModulus)
@@ -86,7 +86,7 @@ void bind_parameters(py::module &m,const std::string name)
         .def("SetKeySwitchCount", &CCParams<T>::SetKeySwitchCount)
         .def("SetEncryptionTechnique", &CCParams<T>::SetEncryptionTechnique)
         .def("SetMultiplicationTechnique", &CCParams<T>::SetMultiplicationTechnique)
-        .def("SetMultiHopModSize", &CCParams<T>::SetMultiHopModSize)
+        .def("SetPRENumHops", &CCParams<T>::SetPRENumHops)
         .def("SetInteractiveBootCompressionLevel", &CCParams<T>::SetInteractiveBootCompressionLevel)
         .def("__str__",[](const CCParams<T> &params) {
             std::stringstream stream;
@@ -930,13 +930,11 @@ void bind_enums_and_constants(py::module &m)
         .value("NOT_SET", ProxyReEncryptionMode::NOT_SET)
         .value("INDCPA", ProxyReEncryptionMode::INDCPA)
         .value("FIXED_NOISE_HRA", ProxyReEncryptionMode::FIXED_NOISE_HRA)
-        .value("NOISE_FLOODING_HRA", ProxyReEncryptionMode::NOISE_FLOODING_HRA)
-        .value("DIVIDE_AND_ROUND_HRA", ProxyReEncryptionMode::DIVIDE_AND_ROUND_HRA);
+        .value("NOISE_FLOODING_HRA", ProxyReEncryptionMode::NOISE_FLOODING_HRA);
     m.attr("NOT_SET") = py::cast(ProxyReEncryptionMode::NOT_SET);
     m.attr("INDCPA") = py::cast(ProxyReEncryptionMode::INDCPA);
     m.attr("FIXED_NOISE_HRA") = py::cast(ProxyReEncryptionMode::FIXED_NOISE_HRA);
     m.attr("NOISE_FLOODING_HRA") = py::cast(ProxyReEncryptionMode::NOISE_FLOODING_HRA);
-    m.attr("DIVIDE_AND_ROUND_HRA") = py::cast(ProxyReEncryptionMode::DIVIDE_AND_ROUND_HRA);
     
     // MultipartyMode
     py::enum_<MultipartyMode>(m, "MultipartyMode")
@@ -1063,6 +1061,7 @@ void bind_encodings(py::module &m)
         .def("SetFormat", &PlaintextImpl::SetFormat,
             ptx_SetFormat_docs,
             py::arg("fmt"))
+        .def("GetCoefPackedValue", &PlaintextImpl::GetCoefPackedValue)
         .def("GetPackedValue", &PlaintextImpl::GetPackedValue)
         .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue,
             ptx_GetCKKSPackedValue_docs)
