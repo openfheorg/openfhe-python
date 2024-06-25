@@ -52,15 +52,15 @@ void bind_binfhe_enums(py::module &m)
         .value("STD192Q", BINFHE_PARAMSET::STD192Q)
         .value("STD256Q", BINFHE_PARAMSET::STD256Q)
         .value("STD128_3", BINFHE_PARAMSET::STD128_3)
-        .value("STD128_3_LMKCDEY", BINFHE_PARAMSET::STD128_3_LMKCDEY)
+        // .value("STD128_3_LMKCDEY", BINFHE_PARAMSET::STD128_3_LMKCDEY)
         .value("STD128Q_3", BINFHE_PARAMSET::STD128Q_3)
-        .value("STD128Q_3_LMKCDEY", BINFHE_PARAMSET::STD128Q_3_LMKCDEY)
+        // .value("STD128Q_3_LMKCDEY", BINFHE_PARAMSET::STD128Q_3_LMKCDEY)
         .value("STD192Q_3", BINFHE_PARAMSET::STD192Q_3)
         .value("STD256Q_3", BINFHE_PARAMSET::STD256Q_3)
         .value("STD128_4", BINFHE_PARAMSET::STD128_4)
-        .value("STD128_4_LMKCDEY", BINFHE_PARAMSET::STD128_4_LMKCDEY)
+        // .value("STD128_4_LMKCDEY", BINFHE_PARAMSET::STD128_4_LMKCDEY)
         .value("STD128Q_4", BINFHE_PARAMSET::STD128Q_4)
-        .value("STD128Q_4_LMKCDEY", BINFHE_PARAMSET::STD128Q_4_LMKCDEY)
+        // .value("STD128Q_4_LMKCDEY", BINFHE_PARAMSET::STD128Q_4_LMKCDEY)
         .value("STD192Q_4", BINFHE_PARAMSET::STD192Q_4)
         .value("STD256Q_4", BINFHE_PARAMSET::STD256Q_4)
         .value("SIGNED_MOD_TEST", BINFHE_PARAMSET::SIGNED_MOD_TEST);
@@ -76,15 +76,15 @@ void bind_binfhe_enums(py::module &m)
     m.attr("STD192Q") = py::cast(BINFHE_PARAMSET::STD192Q);
     m.attr("STD256Q") = py::cast(BINFHE_PARAMSET::STD256Q);
     m.attr("STD128_3") = py::cast(BINFHE_PARAMSET::STD128_3);
-    m.attr("STD128_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_3_LMKCDEY);
+    // m.attr("STD128_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_3_LMKCDEY);
     m.attr("STD128Q_3") = py::cast(BINFHE_PARAMSET::STD128Q_3);
-    m.attr("STD128Q_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_3_LMKCDEY);
+    // m.attr("STD128Q_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_3_LMKCDEY);
     m.attr("STD192Q_3") = py::cast(BINFHE_PARAMSET::STD192Q_3);
     m.attr("STD256Q_3") = py::cast(BINFHE_PARAMSET::STD256Q_3);
     m.attr("STD128_4") = py::cast(BINFHE_PARAMSET::STD128_4);
-    m.attr("STD128_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_4_LMKCDEY);
+    // m.attr("STD128_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_4_LMKCDEY);
     m.attr("STD128Q_4") = py::cast(BINFHE_PARAMSET::STD128Q_4);
-    m.attr("STD128Q_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_4_LMKCDEY);
+    // m.attr("STD128Q_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_4_LMKCDEY);
     m.attr("STD192Q_4") = py::cast(BINFHE_PARAMSET::STD192Q_4);
     m.attr("STD256Q_4") = py::cast(BINFHE_PARAMSET::STD256Q_4);
     m.attr("SIGNED_MOD_TEST") = py::cast(BINFHE_PARAMSET::SIGNED_MOD_TEST);
@@ -160,7 +160,7 @@ void bind_binfhe_context(py::module &m)
              py::arg("set"),
              py::arg("method") = GINX)
         //void GenerateBinFHEContext(BINFHE_PARAMSET set, bool arbFunc, uint32_t logQ = 11, int64_t N = 0, BINFHE_METHOD method = GINX, bool timeOptimization = false)
-        .def("GenerateBinFHEContext", static_cast<void (BinFHEContext::*)(BINFHE_PARAMSET, bool, uint32_t, int64_t, BINFHE_METHOD, bool)>(&BinFHEContext::GenerateBinFHEContext),
+        .def("GenerateBinFHEContext", static_cast<void (BinFHEContext::*)(BINFHE_PARAMSET, bool, uint32_t, uint32_t, BINFHE_METHOD, bool)>(&BinFHEContext::GenerateBinFHEContext),
              binfhe_GenerateBinFHEContext_docs,
              py::arg("set"),
              py::arg("arbFunc"),
