@@ -160,7 +160,7 @@ void bind_binfhe_context(py::module &m)
              py::arg("set"),
              py::arg("method") = GINX)
         //void GenerateBinFHEContext(BINFHE_PARAMSET set, bool arbFunc, uint32_t logQ = 11, int64_t N = 0, BINFHE_METHOD method = GINX, bool timeOptimization = false)
-        .def("GenerateBinFHEContext", static_cast<void (BinFHEContext::*)(BINFHE_PARAMSET, bool, uint32_t, int64_t, BINFHE_METHOD, bool)>(&BinFHEContext::GenerateBinFHEContext),
+        .def("GenerateBinFHEContext", static_cast<void (BinFHEContext::*)(BINFHE_PARAMSET, bool, uint32_t, uint32_t, BINFHE_METHOD, bool)>(&BinFHEContext::GenerateBinFHEContext),
              binfhe_GenerateBinFHEContext_docs,
              py::arg("set"),
              py::arg("arbFunc"),
