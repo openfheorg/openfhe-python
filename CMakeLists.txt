@@ -14,7 +14,7 @@ if(APPLE)
     set(CMAKE_CXX_VISIBILITY_PRESET default)
 endif()
 
-find_package(OpenFHE 1.1.3 REQUIRED)
+find_package(OpenFHE 1.2.0 REQUIRED)
 find_package(pybind11 REQUIRED)
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
