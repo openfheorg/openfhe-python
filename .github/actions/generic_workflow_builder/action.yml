@@ -103,7 +103,7 @@ runs:
         echo "======> step ${{ inputs.module_name }}_tests"
 
         export LD_LIBRARY_PATH=${INSTALL_DIR}/lib
-        export PYTHONPATH=${LD_LIBRARY_PATH}:${PYTHONPATH}
+        export PYTHONPATH=${LD_LIBRARY_PATH}:${INSTALL_DIR}:${PYTHONPATH}
         echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
         echo "PYTHONPATH=${PYTHONPATH}"
 
