@@ -111,12 +111,29 @@ T DeserializeFromStringWrapper(const std::string& str, const ST& sertype) {
     return obj;
 }
 
+template <typename ST>
+CryptoContext<DCRTPoly> DeserializeCCFromStringWrapper(const std::string& str, const ST& sertype) {
+    CryptoContext<DCRTPoly> obj;
+    std::istringstream iss(str);
+    Serial::Deserialize<DCRTPoly>(obj, iss, sertype);
+    return obj;
+}
+
 template <typename T, typename ST>
 T DeserializeFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
     T obj;
     std::string str(bytes);
     std::istringstream iss(str, std::ios::binary);
     Serial::Deserialize<T>(obj, iss, sertype);
+    return obj;
+}
+
+template <typename ST>
+CryptoContext<DCRTPoly> DeserializeCCFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
+    CryptoContext<DCRTPoly> obj;
+    std::string str(bytes);
+    std::istringstream iss(str, std::ios::binary);
+    Serial::Deserialize<DCRTPoly>(obj, iss, sertype);
     return obj;
 }
 
@@ -147,7 +164,7 @@ void bind_serialization(pybind11::module &m) {
     // JSON Serialization to string
     m.def("Serialize", &SerializeToStringWrapper<CryptoContext<DCRTPoly>, SerType::SERJSON>,
           py::arg("obj"), py::arg("sertype"));
-    m.def("DeserializeCryptoContextString", &DeserializeFromStringWrapper<CryptoContext<DCRTPoly>, SerType::SERJSON>,
+    m.def("DeserializeCryptoContextString", &DeserializeCCFromStringWrapper<SerType::SERJSON>,
           py::arg("str"), py::arg("sertype"));
     m.def("Serialize", &SerializeToStringWrapper<PublicKey<DCRTPoly>, SerType::SERJSON>,
           py::arg("obj"), py::arg("sertype"));
@@ -191,7 +208,7 @@ void bind_serialization(pybind11::module &m) {
     // Binary Serialization to bytes
     m.def("Serialize", &SerializeToBytesWrapper<CryptoContext<DCRTPoly>, SerType::SERBINARY>,
           py::arg("obj"), py::arg("sertype"));
-    m.def("DeserializeCryptoContextString", &DeserializeFromBytesWrapper<CryptoContext<DCRTPoly>, SerType::SERBINARY>,
+    m.def("DeserializeCryptoContextString", &DeserializeCCFromBytesWrapper<SerType::SERBINARY>,
           py::arg("str"), py::arg("sertype"));
     m.def("Serialize", &SerializeToBytesWrapper<PublicKey<DCRTPoly>, SerType::SERBINARY>,
           py::arg("obj"), py::arg("sertype"));
@@ -210,4 +227,3 @@ void bind_serialization(pybind11::module &m) {
     m.def("DeserializeEvalKeyString", &DeserializeFromBytesWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>,
           py::arg("str"), py::arg("sertype"));
 }
-
