@@ -103,22 +103,27 @@ runs:
         echo "======> step ${{ inputs.module_name }}_tests"
 
         #################################################################################
-        # we can not install pytest on the AWS instance as the command
-        # "sudo pip3 install pytest" throws
-        # WARNING: Running pip as the 'root' user can result in broken permissions and
-        # conflicting behaviour with the system package manager. It is recommended to use
-        # a virtual environment instead: https://pip.pypa.io/warnings/venv
+        # we can not install "pybind11[global]" and pytest on an AWS instance directly.
+        # It is strongly recommended to use a virtual environment for that: https://pip.pypa.io/warnings/venv
         # so, we will have to use a virtual environment then...
         #################################################################################
         ### 1. create a virtual environment if it doesn't exist
         if [ ! -d "openfhe-python-env" ]; then
             python3 -m venv openfhe-python-env
         fi
+
         ### 2. activate the virtual environment
         source openfhe-python-env/bin/activate
+
         ### 3. install pytest if it is not installed
         if ! command -v pytest &> /dev/null; then
             pip install pytest
+        fi
+
+        ### 4. install "pybind11[global]" if it is not installed
+        python3 -m pip show pybind11 > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            pip install "pybind11[global]"
         fi
 
         export LD_LIBRARY_PATH=${INSTALL_DIR}/lib
@@ -129,7 +134,7 @@ runs:
         cd tests
         pytest *.py
 
-        ### 4. deactivate the virtual environment
+        ### 5. deactivate the virtual environment
         deactivate
     #####################################################################################
     # - name: '${{ inputs.module_name }}_final_cleanup'
