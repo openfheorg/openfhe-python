@@ -77,16 +77,43 @@ runs:
         make -j $[$(nproc) / 2]
         make install
     #####################################################################################
+    - name: '${{ inputs.module_name }}_set_environment'
+      shell: bash
+      run: |
+        # pwd
+        echo "======> step ${{ inputs.module_name }}_set_environment"
+
+        #################################################################################
+        # we can not install "pybind11[global]" and pytest on an AWS instance directly.
+        # It is strongly recommended to use a virtual environment for that: https://pip.pypa.io/warnings/venv
+        # so, we will have to use a virtual environment then...
+        #################################################################################
+        ### 1. create a virtual environment if it doesn't exist
+        if [ ! -d "openfhe-python-env" ]; then
+            python3 -m venv openfhe-python-env
+        fi
+
+        ### 2. activate the virtual environment
+        source openfhe-python-env/bin/activate
+
+        ### 3. install "pybind11[global]"
+        pip install "pybind11[global]"
+
+        ### 4. install pytest if it is not installed
+        if ! command -v pytest &> /dev/null; then
+            pip install pytest
+        fi
+
+    #####################################################################################
     - name: '${{ inputs.module_name }}_build_openfhe_python'
       shell: bash
       run: |
         # pwd
         echo "======> step ${{ inputs.module_name }}_build_openfhe_python"
 
-        # pip install "pybind11[global]" 
+        ### activate the virtual environment
+        source openfhe-python-env/bin/activate
 
-        # PYBIND11_PATH="/home/ubuntu/.local/share/cmake/pybind11"
-        # cmake_args="-DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_PREFIX_PATH=${INSTALL_DIR}:${PYBIND11_PATH}"
         cmake_args="${{inputs.cmake_args_openfhe_lib}} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_PREFIX_PATH=${INSTALL_DIR}"
         echo ${cmake_args}
 
@@ -102,30 +129,10 @@ runs:
         # pwd
         echo "======> step ${{ inputs.module_name }}_tests"
 
-        #################################################################################
-        # we can not install "pybind11[global]" and pytest on an AWS instance directly.
-        # It is strongly recommended to use a virtual environment for that: https://pip.pypa.io/warnings/venv
-        # so, we will have to use a virtual environment then...
-        #################################################################################
-        ### 1. create a virtual environment if it doesn't exist
-        if [ ! -d "openfhe-python-env" ]; then
-            python3 -m venv openfhe-python-env
-        fi
-
-        ### 2. activate the virtual environment
+        ### activate the virtual environment
         source openfhe-python-env/bin/activate
 
-        ### 3. install pytest if it is not installed
-        if ! command -v pytest &> /dev/null; then
-            pip install pytest
-        fi
-
-        ### 4. install "pybind11[global]" if it is not installed
-        python3 -m pip show pybind11 > /dev/null 2>&1
-        if [ $? -ne 0 ]; then
-            pip install "pybind11[global]"
-        fi
-
+        ### set LD_LIBRARY_PATH and PYTHONPATH
         export LD_LIBRARY_PATH=${INSTALL_DIR}/lib
         export PYTHONPATH=${LD_LIBRARY_PATH}:${INSTALL_DIR}:${PYTHONPATH}
         echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
@@ -134,7 +141,7 @@ runs:
         cd tests
         pytest *.py
 
-        ### 5. deactivate the virtual environment
+        ### deactivate the virtual environment
         deactivate
     #####################################################################################
     # - name: '${{ inputs.module_name }}_final_cleanup'
