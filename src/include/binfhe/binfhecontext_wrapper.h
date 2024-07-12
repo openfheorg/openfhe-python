@@ -63,7 +63,7 @@ std::vector<uint64_t> GenerateLUTviaFunctionWrapper(BinFHEContext &self, py::fun
 NativeInteger StaticFunction(NativeInteger m, NativeInteger p);
 
 // Define static variables to hold the state
-extern py::function static_f;
+// extern py::function static_f;
 
 LWECiphertext EvalFuncWrapper(BinFHEContext &self, ConstLWECiphertext &ct, const std::vector<uint64_t> &LUT);
 #endif // BINFHE_CRYPTOCONTEXT_BINDINGS_H
