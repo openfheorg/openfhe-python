@@ -56,4 +56,28 @@ T DeserializeFromStringWrapper(const std::string& str, const ST& sertype);
 template <typename T, typename ST>
 T DeserializeFromBytesWrapper(const py::bytes& bytes, const ST& sertype);
 
+template <typename ST>
+std::string SerializeEvalMultKeyToStringWrapper(const ST& sertype, const std::string& id);
+
+template <typename ST>
+py::bytes SerializeEvalMultKeyToBytesWrapper(const ST& sertype, const std::string& id);
+
+template <typename ST>
+std::string SerializeEvalAutomorphismKeyToStringWrapper(const ST& sertype, const std::string& id);
+
+template <typename ST>
+py::bytes SerializeEvalAutomorphismKeyToBytesWrapper(const ST& sertype, const std::string& id);
+
+template <typename ST>
+void DeserializeEvalMultKeyFromStringWrapper(const std::string& data, const ST& sertype);
+
+template <typename ST>
+void DeserializeEvalMultKeyFromBytesWrapper(const std::string& data, const ST& sertype);
+
+template <typename ST>
+void DeserializeEvalAutomorphismKeyFromStringWrapper(const std::string& data, const ST& sertype);
+
+template <typename ST>
+void DeserializeEvalAutomorphismKeyFromBytesWrapper(const std::string& data, const ST& sertype);
+
 #endif // OPENFHE_SERIALIZATION_BINDINGS_H
