@@ -150,3 +150,7 @@ const ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly> & self
     }
 
 }
+
+void ClearEvalMultKeysWrapper() {
+    CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys();
+}

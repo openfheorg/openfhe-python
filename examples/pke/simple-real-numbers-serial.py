@@ -142,9 +142,9 @@ def serverSetupAndWrite(multDepth, scaleModSize, batchSize):
 
 def clientProcess():
     # clientCC = CryptoContext()
-    # clientCC.ClearEvalMultKeys()
     # clientCC.ClearEvalAutomorphismKeys()
     ReleaseAllContexts()
+    ClearEvalMultKeys()
 
     clientCC, res = DeserializeCryptoContext(datafolder + ccLocation, BINARY)
     if not res:

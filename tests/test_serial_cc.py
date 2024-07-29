@@ -23,7 +23,7 @@ def test_serial_cryptocontext(tmp_path):
     LOGGER.debug("The cryptocontext has been serialized.")
     assert fhe.SerializeToFile(str(tmp_path / "ciphertext1.json"), ciphertext1, fhe.JSON)
 
-    cryptoContext.ClearEvalMultKeys()
+    fhe.ClearEvalMultKeys()
     cryptoContext.ClearEvalAutomorphismKeys()
     fhe.ReleaseAllContexts()
 
@@ -117,7 +117,7 @@ def test_serial_cryptocontext_str(mode):
     automorphismKey_ser = fhe.SerializeEvalAutomorphismKeyString(mode, "")
     LOGGER.debug("The rotation evaluation keys have been serialized.")
 
-    cryptoContext.ClearEvalMultKeys()
+    fhe.ClearEvalMultKeys()
     cryptoContext.ClearEvalAutomorphismKeys()
     fhe.ReleaseAllContexts()
 
