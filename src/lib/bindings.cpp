@@ -725,9 +725,17 @@ void bind_crypto_context(py::module &m)
             py::arg("evalKeyMap"),
             py::arg("keyTag") = "")
         .def_static(
-            "InsertEvalMultKey", &CryptoContextImpl<DCRTPoly>::InsertEvalMultKey,
+            "InsertEvalMultKey",
+            static_cast<void (*)(const std::vector<EvalKey<DCRTPoly>>&, const std::string&)>(&CryptoContextImpl<DCRTPoly>::InsertEvalMultKey),
             cc_InsertEvalMultKey_docs,
-            py::arg("evalKeyVec"))
+            py::arg("evalKeyVec"),
+            py::arg("keyTag") = "")
+        .def_static(
+            "InsertEvalMultKey",
+            static_cast<void (*)(std::vector<EvalKey<DCRTPoly>>&&, const std::string&)>(&CryptoContextImpl<DCRTPoly>::InsertEvalMultKey),
+            cc_InsertEvalMultKey_docs,
+            py::arg("evalKeyVec"),
+            py::arg("keyTag") = "")
         .def_static(
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
