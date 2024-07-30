@@ -1002,16 +1002,17 @@ def ArgminViaSchemeSwitchingUnit():
     slots = 32  # sparsely-packed
     batchSize = slots
     numValues = 32
-    scTech = FLEXIBLEAUTOEXT
     multDepth = 9 + 3 + 1 + int(log2(numValues))  # 1 for CKKS to FHEW, 13 for FHEW to CKKS, log2(numValues) for argmin
-    if scTech == FLEXIBLEAUTOEXT:
-        multDepth += 1
 
     parameters = CCParamsCKKSRNS()
+    if get_native_int()!=128:
+        scTech = FLEXIBLEAUTOEXT
+        multDepth += 1
+        parameters.SetScalingTechnique(scTech)
+
     parameters.SetMultiplicativeDepth(multDepth)
     parameters.SetScalingModSize(scaleModSize)
     parameters.SetFirstModSize(firstModSize)
-    parameters.SetScalingTechnique(scTech)
     parameters.SetSecurityLevel(sl)
     parameters.SetRingDim(ringDim)
     parameters.SetBatchSize(batchSize)
@@ -1119,16 +1120,17 @@ def ArgminViaSchemeSwitchingAltUnit():
     slots = 32  # sparsely-packed
     batchSize = slots
     numValues = 32
-    scTech = FLEXIBLEAUTOEXT
     multDepth = 9 + 3 + 1 + int(log2(numValues))  # 1 for CKKS to FHEW, 13 for FHEW to CKKS, log2(numValues) for argmin
-    if scTech == FLEXIBLEAUTOEXT:
-        multDepth += 1
 
     parameters = CCParamsCKKSRNS()
+    if get_native_int()!=128:
+        scTech = FLEXIBLEAUTOEXT
+        multDepth += 1
+        parameters.SetScalingTechnique(scTech)
+
     parameters.SetMultiplicativeDepth(multDepth)
     parameters.SetScalingModSize(scaleModSize)
     parameters.SetFirstModSize(firstModSize)
-    parameters.SetScalingTechnique(scTech)
     parameters.SetSecurityLevel(sl)
     parameters.SetRingDim(ringDim)
     parameters.SetBatchSize(batchSize)

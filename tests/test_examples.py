@@ -5,6 +5,9 @@ import importlib.util
 import pytest
 import tempfile
 import shutil
+import openfhe as fhe
+
+pytestmark = pytest.mark.skipif(fhe.get_native_int() == 32, reason="Doesn't work for NATIVE_INT=32")
 
 EXAMPLES_SCRIPTS_PATH = os.path.join(Path(__file__).parent.parent, "examples", "pke")
 

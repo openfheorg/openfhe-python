@@ -842,8 +842,10 @@ void bind_crypto_context(py::module &m)
 int get_native_int(){
     #if NATIVEINT == 128 && !defined(__EMSCRIPTEN__)
         return 128;
+    #elif NATIVEINT == 32
+        return 32;
     #else
-        return 64;    
+        return 64;
     #endif
 }
 
