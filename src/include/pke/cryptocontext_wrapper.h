@@ -65,4 +65,7 @@ const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t
 const uint64_t GetModulusCKKSWrapper(CryptoContext<DCRTPoly>& self);
 const ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly>& self);
 const usint GetDigitSizeWrapper(CryptoContext<DCRTPoly>& self);
+
+void ClearEvalMultKeysWrapper();
+
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H

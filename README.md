@@ -38,7 +38,7 @@ To install OpenFHE-python directly to your system, ensure the dependencies are s
 pip install "pybind11[global]" 
 mkdir build
 cd build
-cmake ..  # Alternatively, cmake .. -DOpenFHE_DIR=/path/to/installed/openfhe if you installed OpenFHE elsewhere
+cmake ..  # Alternatively, cmake .. -DCMAKE_PREFIX_PATH=/path/to/installed/openfhe if you installed OpenFHE elsewhere
 make
 make install  # You may have to run sudo make install
 ```
@@ -50,10 +50,12 @@ If you see an error saying that one of OpenFHE .so files cannot be found when ru
 add the path where the .so files reside to the `PYTHONPATH` environment variable:
 
 ```
-export PYTHONPATH=(path_to_OpenFHE_so_files):$PYTHONPATH
+export PYTHONPATH=(/path/to/installed/openfhe):$PYTHONPATH
 ```
 
 In some environments (this happens rarely), it may also be necessary to add the OpenFHE libraries path to `LD_LIBRARY_PATH`.
+
+If OpenFHE is not installed in the default location, then both `PYTHONPATH and LD_LIBRARY_PATH` must be set before running any Python example.
 
 #### Conda
 
@@ -73,7 +75,7 @@ Now, you would clone the repository, and run the following commands to install :
 ```bash
 mkdir build
 cd build
-cmake .. # Add in -DOpenFHE_DIR=/path/to/installed/openfhe if you installed OpenFHE elsewhere
+cmake .. # Add in -DCMAKE_PREFIX_PATH=/path/to/installed/openfhe if you installed OpenFHE elsewhere
 make
 make install  # You may have to run sudo make install
 ```

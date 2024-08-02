@@ -3,6 +3,8 @@ import pytest
 
 import openfhe as fhe
 
+pytestmark = pytest.mark.skipif(fhe.get_native_int() == 32, reason="Doesn't work for NATIVE_INT=32")
+
 LOGGER = logging.getLogger("test_serial_cc")
 
 
@@ -23,7 +25,7 @@ def test_serial_cryptocontext(tmp_path):
     LOGGER.debug("The cryptocontext has been serialized.")
     assert fhe.SerializeToFile(str(tmp_path / "ciphertext1.json"), ciphertext1, fhe.JSON)
 
-    cryptoContext.ClearEvalMultKeys()
+    fhe.ClearEvalMultKeys()
     cryptoContext.ClearEvalAutomorphismKeys()
     fhe.ReleaseAllContexts()
 
@@ -117,7 +119,7 @@ def test_serial_cryptocontext_str(mode):
     automorphismKey_ser = fhe.SerializeEvalAutomorphismKeyString(mode, "")
     LOGGER.debug("The rotation evaluation keys have been serialized.")
 
-    cryptoContext.ClearEvalMultKeys()
+    fhe.ClearEvalMultKeys()
     cryptoContext.ClearEvalAutomorphismKeys()
     fhe.ReleaseAllContexts()
 

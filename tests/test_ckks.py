@@ -3,6 +3,7 @@ import random
 import pytest
 import openfhe as fhe
 
+pytestmark = pytest.mark.skipif(fhe.get_native_int() == 32, reason="Doesn't work for NATIVE_INT=32")
 
 @pytest.fixture(scope="module")
 def ckks_context():
@@ -13,14 +14,14 @@ def ckks_context():
     batch_size = 8
     parameters = fhe.CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
-    if fhe.get_native_int() > 90:
+    if fhe.get_native_int() == 128:
         parameters.SetFirstModSize(89)
         parameters.SetScalingModSize(78)
         parameters.SetBatchSize(batch_size)
         parameters.SetScalingTechnique(fhe.ScalingTechnique.FIXEDAUTO)
         parameters.SetNumLargeDigits(2)
 
-    elif fhe.get_native_int() > 60:
+    elif fhe.get_native_int() == 64:
         parameters.SetFirstModSize(60)
         parameters.SetScalingModSize(56)
         parameters.SetBatchSize(batch_size)
@@ -28,7 +29,7 @@ def ckks_context():
         parameters.SetNumLargeDigits(2)
 
     else:
-        raise ValueError("Expected a native int size greater than 60.")
+        raise ValueError("Expected a native int size 64 or 128.")
 
     cc = fhe.GenCryptoContext(parameters)
     cc.Enable(fhe.PKESchemeFeature.PKE)
