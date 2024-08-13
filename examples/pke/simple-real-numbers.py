@@ -51,37 +51,38 @@ def main():
     # Step 5: Decryption and output
     # Decrypt the result of additions
     ptAdd = cc.Decrypt(c_add, keys.secretKey)
+    print("\nResults of homomorphic additions: ")
+    print(ptAdd)
 
     # We set the precision to 8 decimal digits for a nicer output.
     # If you want to see the error/noise introduced by CKKS, bump it up
     # to 15 and it should become visible.
 
     precision = 8
-    print("Results of homomorphic computations:")
+    print("\nResults of homomorphic computations:")
     result = cc.Decrypt(c1, keys.secretKey)
     result.SetLength(batch_size)
-    print("x1 = " + str(result))
-    print("Estimated precision in bits: " + str(result.GetLogPrecision()))
+    print("x1 = " + GetPlaintextValuesWithPrecision(result, precision))
 
     # Decrypt the result of scalar multiplication
     result = cc.Decrypt(c_scalar, keys.secretKey)
     result.SetLength(batch_size)
-    print("4 * x1 = " + str(result))
+    print("4 * x1 = " + GetPlaintextValuesWithPrecision(result, precision))
 
     # Decrypt the result of multiplication
     result = cc.Decrypt(c_mult, keys.secretKey)
     result.SetLength(batch_size)
-    print("x1 * x2 = " + str(result))
+    print("x1 * x2 = " + GetPlaintextValuesWithPrecision(result, precision))
 
     # Decrypt the result of rotations
     result = cc.Decrypt(c_rot1, keys.secretKey)
     result.SetLength(batch_size)
-    print("In rotations, very small outputs (~10^-10 here) correspond to 0's:")
-    print("x1 rotated by 1 = " + str(result))
+    print("\nIn rotations, very small outputs (~10^-10 here) correspond to 0's:")
+    print("x1 rotated by 1 = " + GetPlaintextValuesWithPrecision(result, precision))
 
     result = cc.Decrypt(c_rot2, keys.secretKey)
     result.SetLength(batch_size)
-    print("x1 rotated by -2 = " + str(result))
+    print("x1 rotated by -2 = " + GetPlaintextValuesWithPrecision(result, precision))
 
 
 if __name__ == "__main__":

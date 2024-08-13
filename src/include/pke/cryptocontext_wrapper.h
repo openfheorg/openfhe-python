@@ -28,32 +28,34 @@
 #ifndef OPENFHE_CRYPTOCONTEXT_BINDINGS_H
 #define OPENFHE_CRYPTOCONTEXT_BINDINGS_H
 
+#include "bindings.h"
+#include "openfhe.h"
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <vector>
 #include <algorithm>
 #include <complex>
-#include "openfhe.h"
-#include "bindings.h"
+
 
 namespace py = pybind11;
 using namespace lbcrypto;
 using ParmType = typename DCRTPoly::Params;
 
-Ciphertext<DCRTPoly> EvalFastRotationPrecomputeWrapper(CryptoContext<DCRTPoly>& self,
-                                                        ConstCiphertext<DCRTPoly> ciphertext);
+Ciphertext<DCRTPoly> EvalFastRotationPrecomputeWrapper(CryptoContext<DCRTPoly> &self,
+                                                       ConstCiphertext<DCRTPoly> ciphertext);
 
-Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,
-                                            ConstCiphertext<DCRTPoly> ciphertext,
-                                              const usint index,
-                                              const usint m,
-                                              ConstCiphertext<DCRTPoly> digits);
-Ciphertext<DCRTPoly> EvalFastRotationExtWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, const usint index, ConstCiphertext<DCRTPoly> digits, bool addFirst);
+Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly> &self,
+                                             ConstCiphertext<DCRTPoly> ciphertext,
+                                             const usint index,
+                                             const usint m,
+                                             ConstCiphertext<DCRTPoly> digits);
+Ciphertext<DCRTPoly> EvalFastRotationExtWrapper(CryptoContext<DCRTPoly> &self, ConstCiphertext<DCRTPoly> ciphertext, const usint index, ConstCiphertext<DCRTPoly> digits, bool addFirst);
 
-Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,
-ConstCiphertext<DCRTPoly> ciphertext,const PrivateKey<DCRTPoly> privateKey);
-Plaintext DecryptWrapper(CryptoContext<DCRTPoly>& self,
-const PrivateKey<DCRTPoly> privateKey,ConstCiphertext<DCRTPoly> ciphertext);
+Plaintext DecryptWrapper(CryptoContext<DCRTPoly> &self,
+                         ConstCiphertext<DCRTPoly> ciphertext, const PrivateKey<DCRTPoly> privateKey);
+Plaintext DecryptWrapper(CryptoContext<DCRTPoly> &self,
+                         const PrivateKey<DCRTPoly> privateKey, ConstCiphertext<DCRTPoly> ciphertext);
 Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std::vector<Ciphertext<DCRTPoly>>& partialCiphertextVec);
 
 const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly> privateKey,const std::vector<usint> &indexList);
@@ -66,6 +68,7 @@ const uint64_t GetModulusCKKSWrapper(CryptoContext<DCRTPoly>& self);
 const ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly>& self);
 const usint GetDigitSizeWrapper(CryptoContext<DCRTPoly>& self);
 
+std::string GetPlaintextValuesWithPrecision(PlaintextImpl& ptxt, int precision);
 void ClearEvalMultKeysWrapper();
 
 #endif // OPENFHE_CRYPTOCONTEXT_BINDINGS_H

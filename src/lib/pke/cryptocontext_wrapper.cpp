@@ -25,13 +25,15 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#include "cryptocontext_wrapper.h"
+#include <openfhe.h>
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <openfhe.h>
 #include <vector>
 #include <algorithm>
-#include <complex> 
-#include "cryptocontext_wrapper.h"
+#include <complex>
+#include <iomanip>
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -117,7 +119,7 @@ const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t
         return scFactor;
     }
     else{
-        OPENFHE_THROW(not_available_error, "GetScalingFactorRealWrapper: Invalid scheme");
+        OPENFHE_THROW("Invalid scheme");
         return 0;
     }
 }
@@ -146,9 +148,36 @@ const ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly> & self
         return cryptoParams->GetScalingTechnique();
     }
     else{
-        OPENFHE_THROW(not_available_error, "GetScalingTechniqueWrapper: Invalid scheme");
+        OPENFHE_THROW("Invalid scheme");
     }
 
+}
+
+std::string GetPlaintextValuesWithPrecision(PlaintextImpl& ptxt, int precision) {
+    if(!isCKKS(ptxt.GetSchemeID()))
+        OPENFHE_THROW("Implemented for CKKSPackedEncoding only");
+
+    std::stringstream ss;
+    ss << "(";
+
+    const std::vector<std::complex<double>>& values = ptxt.GetCKKSPackedValue();
+    // get rid of trailing zeroes
+    size_t i = values.size();
+    bool allZeroes = true;
+    while (i > 0) {
+        if (values[--i] != std::complex<double>(0, 0)) {
+            allZeroes = false;
+            break;
+        }
+    }
+    if(allZeroes == false) {
+        for (size_t j = 0; j <= i; ++j)
+            ss << std::setprecision(precision) << values[j].real() << ", ";
+    }
+    ss << " ... ); ";
+    ss << "Estimated precision: " << ptxt.GetLogPrecision() << " bits";
+
+    return ss.str();
 }
 
 void ClearEvalMultKeysWrapper() {

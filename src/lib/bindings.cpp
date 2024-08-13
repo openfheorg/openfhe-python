@@ -1083,15 +1083,15 @@ void bind_encodings(py::module &m)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
-        ss << "<Plaintext Object: ";
-        p.PrintValue(ss);
-        ss << ">";
+        ss << "<Plaintext Object: " << p << ">";
         return ss.str(); })
         .def("__str__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
-        p.PrintValue(ss);
+        ss << p;
         return ss.str(); });
+
+    m.def("GetPlaintextValuesWithPrecision", &GetPlaintextValuesWithPrecision);
 }
 
 void bind_ciphertext(py::module &m)
