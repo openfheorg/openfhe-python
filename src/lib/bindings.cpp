@@ -1080,17 +1080,16 @@ void bind_encodings(py::module &m)
         .def("GetStringValue", &PlaintextImpl::GetStringValue)
         .def("SetStringValue", &PlaintextImpl::SetStringValue)
         .def("SetIntVectorValue", &PlaintextImpl::SetIntVectorValue)
+        .def("GetFormattedValues", &PlaintextImpl::GetFormattedValues)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
-        ss << "<Plaintext Object: ";
-        p.PrintValue(ss);
-        ss << ">";
+        ss << "<Plaintext Object: " << p << ">";
         return ss.str(); })
         .def("__str__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
-        p.PrintValue(ss);
+        ss << p;
         return ss.str(); });
 }
 
