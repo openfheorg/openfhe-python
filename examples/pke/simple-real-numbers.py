@@ -62,27 +62,27 @@ def main():
     print("\nResults of homomorphic computations:")
     result = cc.Decrypt(c1, keys.secretKey)
     result.SetLength(batch_size)
-    print("x1 = " + GetPlaintextValuesWithPrecision(result, precision))
+    print("x1 = " + result.GetFormattedValues(precision))
 
     # Decrypt the result of scalar multiplication
     result = cc.Decrypt(c_scalar, keys.secretKey)
     result.SetLength(batch_size)
-    print("4 * x1 = " + GetPlaintextValuesWithPrecision(result, precision))
+    print("4 * x1 = " + result.GetFormattedValues(precision))
 
     # Decrypt the result of multiplication
     result = cc.Decrypt(c_mult, keys.secretKey)
     result.SetLength(batch_size)
-    print("x1 * x2 = " + GetPlaintextValuesWithPrecision(result, precision))
+    print("x1 * x2 = " + result.GetFormattedValues(precision))
 
     # Decrypt the result of rotations
     result = cc.Decrypt(c_rot1, keys.secretKey)
     result.SetLength(batch_size)
     print("\nIn rotations, very small outputs (~10^-10 here) correspond to 0's:")
-    print("x1 rotated by 1 = " + GetPlaintextValuesWithPrecision(result, precision))
+    print("x1 rotated by 1 = " + result.GetFormattedValues(precision))
 
     result = cc.Decrypt(c_rot2, keys.secretKey)
     result.SetLength(batch_size)
-    print("x1 rotated by -2 = " + GetPlaintextValuesWithPrecision(result, precision))
+    print("x1 rotated by -2 = " + result.GetFormattedValues(precision))
 
 
 if __name__ == "__main__":

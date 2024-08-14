@@ -153,33 +153,6 @@ const ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly> & self
 
 }
 
-std::string GetPlaintextValuesWithPrecision(PlaintextImpl& ptxt, int precision) {
-    if(!isCKKS(ptxt.GetSchemeID()))
-        OPENFHE_THROW("Implemented for CKKSPackedEncoding only");
-
-    std::stringstream ss;
-    ss << "(";
-
-    const std::vector<std::complex<double>>& values = ptxt.GetCKKSPackedValue();
-    // get rid of trailing zeroes
-    size_t i = values.size();
-    bool allZeroes = true;
-    while (i > 0) {
-        if (values[--i] != std::complex<double>(0, 0)) {
-            allZeroes = false;
-            break;
-        }
-    }
-    if(allZeroes == false) {
-        for (size_t j = 0; j <= i; ++j)
-            ss << std::setprecision(precision) << values[j].real() << ", ";
-    }
-    ss << " ... ); ";
-    ss << "Estimated precision: " << ptxt.GetLogPrecision() << " bits";
-
-    return ss.str();
-}
-
 void ClearEvalMultKeysWrapper() {
     CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys();
 }

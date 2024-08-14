@@ -1080,6 +1080,7 @@ void bind_encodings(py::module &m)
         .def("GetStringValue", &PlaintextImpl::GetStringValue)
         .def("SetStringValue", &PlaintextImpl::SetStringValue)
         .def("SetIntVectorValue", &PlaintextImpl::SetIntVectorValue)
+        .def("GetFormattedValues", &PlaintextImpl::GetFormattedValues)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
@@ -1090,8 +1091,6 @@ void bind_encodings(py::module &m)
         std::stringstream ss;
         ss << p;
         return ss.str(); });
-
-    m.def("GetPlaintextValuesWithPrecision", &GetPlaintextValuesWithPrecision);
 }
 
 void bind_ciphertext(py::module &m)
