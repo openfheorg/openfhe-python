@@ -52,15 +52,15 @@ def automatic_rescale_demo(scal_tech):
     c_res3 = cc.EvalMult(cc.EvalAdd(c18,c9), 0.5)  # Final result 3
 
     result1 = cc.Decrypt(c_res1,keys.secretKey)
-    result.SetLength(batch_size)
+    result1.SetLength(batch_size)
     print("x^18 + x^9 + 1 = ", result1)
     
     result2 = cc.Decrypt(c_res2,keys.secretKey)
-    result.SetLength(batch_size)
+    result2.SetLength(batch_size)
     print("x^18 + x^9 - 1 = ", result2)
 
     result3 = cc.Decrypt(c_res3,keys.secretKey)
-    result.SetLength(batch_size)
+    result3.SetLength(batch_size)
     print("0.5 * (x^18 + x^9) = ", result3)
 
 

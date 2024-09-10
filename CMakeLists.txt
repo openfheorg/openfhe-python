@@ -4,7 +4,7 @@ project (OpenFHE-Python)
 
 set(OPENFHE_PYTHON_VERSION_MAJOR 0)
 set(OPENFHE_PYTHON_VERSION_MINOR 8)
-set(OPENFHE_PYTHON_VERSION_PATCH 8)
+set(OPENFHE_PYTHON_VERSION_PATCH 9)
 set(OPENFHE_PYTHON_VERSION ${OPENFHE_PYTHON_VERSION_MAJOR}.${OPENFHE_PYTHON_VERSION_MINOR}.${OPENFHE_PYTHON_VERSION_PATCH})
 
 set(CMAKE_CXX_STANDARD 17)
@@ -14,7 +14,7 @@ if(APPLE)
     set(CMAKE_CXX_VISIBILITY_PRESET default)
 endif()
 
-find_package(OpenFHE 1.2.0 REQUIRED)
+find_package(OpenFHE 1.2.1 REQUIRED)
 find_package(pybind11 REQUIRED)
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
@@ -75,20 +75,24 @@ find_package(PythonInterp REQUIRED)
 
 # Check Python version
 if(${PYTHON_VERSION_MAJOR} EQUAL 3 AND ${PYTHON_VERSION_MINOR} GREATER_EQUAL 10)
-execute_process(
-    COMMAND "${Python_EXECUTABLE}" -c "from sys import exec_prefix; print(exec_prefix)"
-    OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
-    OUTPUT_STRIP_TRAILING_WHITESPACE
- )       
+    execute_process(
+        COMMAND "${Python_EXECUTABLE}" -c "from sys import exec_prefix; print(exec_prefix)"
+        OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 else()
-execute_process(
-    COMMAND "${Python_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-    OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
-    OUTPUT_STRIP_TRAILING_WHITESPACE
- )    
+    execute_process(
+        COMMAND "${Python_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+        OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 endif()
 
-
-
 message(STATUS "Python site packages directory: ${PYTHON_SITE_PACKAGES}")
-install(TARGETS openfhe LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES})
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(Python_Install_Location "${PYTHON_SITE_PACKAGES}")
+else()
+    set(Python_Install_Location "${CMAKE_INSTALL_PREFIX}")
+endif()
+message("***** INSTALL IS AT ${Python_Install_Location}; to change, run cmake with -DCMAKE_INSTALL_PREFIX=/your/path")
+install(TARGETS openfhe LIBRARY DESTINATION ${Python_Install_Location})

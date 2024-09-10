@@ -121,7 +121,7 @@ def main_action():
     # of the keys. When deserializing a context, OpenFHE checks for the tag and
     # if it finds it in the CryptoContext map, it will return the stored version.
     # Hence, we need to clear the context and clear the keys.
-    cryptoContext.ClearEvalMultKeys()
+    ClearEvalMultKeys()
     cryptoContext.ClearEvalAutomorphismKeys()
     ReleaseAllContexts()
 

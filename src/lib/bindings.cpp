@@ -716,10 +716,6 @@ void bind_crypto_context(py::module &m)
             cc_FindAutomorphismIndices_docs,
             py::arg("idxList"))
         .def_static(
-            "ClearEvalMultKeys", []()
-            { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
-            cc_ClearEvalMultKeys_docs)
-        .def_static(
             "InsertEvalSumKey", &CryptoContextImpl<DCRTPoly>::InsertEvalSumKey,
             cc_InsertEvalSumKey_docs,
             py::arg("evalKeyMap"),
@@ -727,7 +723,8 @@ void bind_crypto_context(py::module &m)
         .def_static(
             "InsertEvalMultKey", &CryptoContextImpl<DCRTPoly>::InsertEvalMultKey,
             cc_InsertEvalMultKey_docs,
-            py::arg("evalKeyVec"))
+            py::arg("evalKeyVec"),
+            py::arg("keyTag") = "")
         .def_static(
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
@@ -835,15 +832,20 @@ void bind_crypto_context(py::module &m)
         py::arg("params"));
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextCKKSRNS>,
         py::arg("params"));
-    m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
+
     m.def("GetAllContexts", &CryptoContextFactory<DCRTPoly>::GetAllContexts);
+
+    m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
+    m.def("ClearEvalMultKeys", &ClearEvalMultKeysWrapper);
 }
 
 int get_native_int(){
     #if NATIVEINT == 128 && !defined(__EMSCRIPTEN__)
         return 128;
+    #elif NATIVEINT == 32
+        return 32;
     #else
-        return 64;    
+        return 64;
     #endif
 }
 
@@ -1078,17 +1080,16 @@ void bind_encodings(py::module &m)
         .def("GetStringValue", &PlaintextImpl::GetStringValue)
         .def("SetStringValue", &PlaintextImpl::SetStringValue)
         .def("SetIntVectorValue", &PlaintextImpl::SetIntVectorValue)
+        .def("GetFormattedValues", &PlaintextImpl::GetFormattedValues)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
-        ss << "<Plaintext Object: ";
-        p.PrintValue(ss);
-        ss << ">";
+        ss << "<Plaintext Object: " << p << ">";
         return ss.str(); })
         .def("__str__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
-        p.PrintValue(ss);
+        ss << p;
         return ss.str(); });
 }
 
