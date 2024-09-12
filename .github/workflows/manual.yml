@@ -14,7 +14,7 @@ on:
         description: 'Compiler type'
         type: string
         required: true
-        default: 'GLANG-14'
+        default: 'CLANG-18'
       native_backend:
         description: 'Size of NativeInteger'
         type: string
@@ -34,10 +34,10 @@ on:
         description: 'Compiler type'
         type: choice
         options:
-        - 'GCC-12'
-        - 'CLANG-14'
+        - 'GCC-14'
+        - 'CLANG-18'
         required: true
-        default: 'GLANG-14'
+        default: 'CLANG-18'
       native_backend:
         description: 'Size of NativeInteger'
         type: choice
@@ -59,7 +59,7 @@ on:
 # compiler flags, native_backend flag and OpenMP flag are set in generic_workflow.yml
 jobs:
   call:
-    uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@github-ci
+    uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@new-compiler-versions
     with:
       runner: ${{ vars.RUNNER }}
       compiler: "${{ inputs.compiler }}"
