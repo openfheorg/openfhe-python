@@ -74,20 +74,25 @@ jobs:
             {
               "GCC-11"    : "-DCMAKE_CXX_COMPILER=/usr/bin/g++-11 -DCMAKE_C_COMPILER=/usr/bin/gcc-11",
               "GCC-12"    : "-DCMAKE_CXX_COMPILER=/usr/bin/g++-12 -DCMAKE_C_COMPILER=/usr/bin/gcc-12",
+              "GCC-13"    : "-DCMAKE_CXX_COMPILER=/usr/bin/g++-13 -DCMAKE_C_COMPILER=/usr/bin/gcc-13",
+              "GCC-14"    : "-DCMAKE_CXX_COMPILER=/usr/bin/g++-14 -DCMAKE_C_COMPILER=/usr/bin/gcc-14",
               "CLANG-14"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-14 -DCMAKE_C_COMPILER=/usr/bin/clang-14",
               "CLANG-15"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-15 -DCMAKE_C_COMPILER=/usr/bin/clang-15",
+              "CLANG-16"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-16 -DCMAKE_C_COMPILER=/usr/bin/clang-16",
+              "CLANG-17"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-17 -DCMAKE_C_COMPILER=/usr/bin/clang-17",
+              "CLANG-18"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-18 -DCMAKE_C_COMPILER=/usr/bin/clang-18",
             }
 
       # We can have multiple clang versions installed on Ubuntu, but each clang version works with its corresponding version of OpenMP only.
-      # For example: clang-14 requires libomp-14-dev.
+      # For example: clang-18 requires libomp-18-dev.
       # However, installation of a particular openmp version uninstalls all other openmp versions. Thus, OMP is disabled for all clang
-      # versions, but CLANG-14. If another version of clang requires openmp, then the corresponding version of libomp-xx-dev must be installed
+      # versions, but CLANG-18. If another version of clang requires openmp, then the corresponding version of libomp-xx-dev must be installed
       # on the runner (command: "sudo apt install libomp-xx-dev") and the code below should be updated accordingly. 
       - name: OpenMP ON/OFF
         id: openmp
         run: |
           if [[ "${{ inputs.compiler }}" == *"CLANG"* ]]; then
-            if [ "${{ inputs.compiler }}" != "CLANG-14" ]; then
+            if [ "${{ inputs.compiler }}" != "CLANG-18" ]; then
               echo "openmp_flag=-DWITH_OPENMP=OFF"
               echo "openmp_flag=-DWITH_OPENMP=OFF" >> $GITHUB_OUTPUT
             else
