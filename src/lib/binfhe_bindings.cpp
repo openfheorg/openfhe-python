@@ -33,6 +33,9 @@
 #include "binfhecontext.h"
 #include "binfhecontext_wrapper.h"
 #include "binfhecontext_docs.h"
+#include "openfhe/core/utils/serial.h"
+#include "openfhe/cereal/archives/binary.hpp"
+#include "openfhe/cereal/archives/portable_binary.hpp"
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -170,6 +173,8 @@ void bind_binfhe_context(py::module &m)
              py::arg("timeOptimization") = false)
         .def("KeyGen", &BinFHEContext::KeyGen,
              binfhe_KeyGen_docs)
+        .def("KeyGenN", &BinFHEContext::KeyGenN)
+        .def("KeyGenPair", &BinFHEContext::KeyGenPair)
         .def("BTKeyGen", &BinFHEContext::BTKeyGen,
              binfhe_BTKeyGen_docs,
              py::arg("sk"),
@@ -192,6 +197,11 @@ void bind_binfhe_context(py::module &m)
              py::arg("gate"),
              py::arg("ct1"),
              py::arg("ct2"))
+        .def("EvalBinGate",
+	     static_cast<LWECiphertext (BinFHEContext::*)(BINGATE,const std::vector<LWECiphertext> &) const>(&BinFHEContext::EvalBinGate),
+	     py::arg("gate"),
+	     py::arg("ctvector")
+	     )
         .def("EvalNOT", &BinFHEContext::EvalNOT,
              binfhe_EvalNOT_docs,
              py::arg("ct"))
@@ -217,5 +227,25 @@ void bind_binfhe_context(py::module &m)
           .def("EvalSign",&BinFHEContext::EvalSign,
                binfhe_EvalSign_docs,
              py::arg("ct"),
-             py::arg("schemeSwitch") = false);
+             py::arg("schemeSwitch") = false)
+      .def("EvalNOT",&BinFHEContext::EvalNOT)
+      .def("EvalConstant",&BinFHEContext::EvalConstant)
+      .def("ClearBTKeys",&BinFHEContext::ClearBTKeys)
+      .def("Bootstrap",&BinFHEContext::Bootstrap,py::arg("ct"))      
+      .def("SerializedVersion",&BinFHEContext::SerializedVersion,
+	   binfhe_SerializedVersion_docs)
+      .def("SerializedObjectName",&BinFHEContext::SerializedObjectName,
+	   binfhe_SerializedObjectName_docs)
+      .def("SaveJSON",&BinFHEContext::save<cereal::JSONOutputArchive>)
+      .def("LoadJSON",&BinFHEContext::load<cereal::JSONInputArchive>)
+      .def("SaveBinary",&BinFHEContext::save<cereal::BinaryOutputArchive>)
+      .def("LoadBinary",&BinFHEContext::load<cereal::BinaryInputArchive>)
+      .def("SavePortableBinary",&BinFHEContext::save<cereal::PortableBinaryOutputArchive>)
+      .def("LoadPortableBinary",&BinFHEContext::load<cereal::PortableBinaryInputArchive>)
+      .def("GetPublicKey",&BinFHEContext::GetPublicKey)
+      .def("GetSwitchKey",&BinFHEContext::GetSwitchKey)
+      .def("GetRefreshKey",&BinFHEContext::GetRefreshKey)
+      .def("GetBinFHEScheme",&BinFHEContext::GetBinFHEScheme)
+      .def("GetLWEScheme",&BinFHEContext::GetLWEScheme)
+      .def("GetParams",&BinFHEContext::GetParams);
 }
