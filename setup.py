@@ -8,7 +8,9 @@ from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
 import glob
 import shutil
 
-__version__ = '0.8.4'
+__version__ = '0.9.0'
+OPENFHE_PATH = 'openfhe/'
+OPENFHE_LIB = 'openfhe.so'
 
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
@@ -22,7 +24,7 @@ class CMakeBuild(_build_ext):
             self.build_cmake(ext)
 
     def build_cmake(self, ext):
-        if os.path.exists('openfhe/openfhe.so'):
+        if os.path.exists(OPENFHE_PATH + OPENFHE_LIB):
             return
         extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
         print(extdir)
@@ -46,14 +48,14 @@ class CMakeBuild(_build_ext):
             raise RuntimeError("Cannot find any built .so file in " + extdir)
 
         src_file = so_files[0] 
-        dst_file = os.path.join('openfhe', 'openfhe.so')
+        dst_file = os.path.join('openfhe', OPENFHE_LIB)
         shutil.move(src_file, dst_file)
 
 # Run build_ext before sdist
 class SDist(_sdist):
     def run(self):
-        if os.path.exists('openfhe/openfhe.so'):
-            os.remove('openfhe/openfhe.so')
+        if os.path.exists(OPENFHE_PATH + OPENFHE_LIB):
+            os.remove(OPENFHE_PATH + OPENFHE_LIB)
         self.run_command('build_ext')
         super().run()
 
