@@ -33,6 +33,7 @@ RUN git clone https://github.com/openfheorg/openfhe-development.git \
 
 # Assume that OpenFHE installs libraries into /usr/local/lib
 # Update LD_LIBRARY_PATH to include this directory
+ARG LD_LIBRARY_PATH=/usr/local/lib
 ENV LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
 
 # Clone and build OpenFHE-Python
