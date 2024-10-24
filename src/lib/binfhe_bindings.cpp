@@ -32,9 +32,9 @@
 #include "binfhecontext_docs.h"
 #include "binfhecontext_wrapper.h"
 #include "openfhe.h"
-#include "openfhe/cereal/archives/binary.hpp"
-#include "openfhe/cereal/archives/portable_binary.hpp"
-#include "openfhe/core/utils/serial.h"
+#include "cereal/archives/binary.hpp"
+#include "cereal/archives/portable_binary.hpp"
+#include "core/utils/serial.h"
 #include <iostream>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
@@ -184,15 +184,15 @@ void bind_binfhe_context(py::module &m) {
            py::arg("sk"), py::arg("ct"), py::arg("p") = 4)
       .def("EvalBinGate",
            static_cast<LWECiphertext (BinFHEContext::*)(
-               BINGATE, ConstLWECiphertext &, ConstLWECiphertext &) const>(
+               BINGATE, ConstLWECiphertext &, ConstLWECiphertext &, bool) const>(
                &BinFHEContext::EvalBinGate),
            binfhe_EvalBinGate_docs, py::arg("gate"), py::arg("ct1"),
-           py::arg("ct2"))
+           py::arg("ct2"), py::arg("extended") = false)
       .def("EvalBinGate",
            static_cast<LWECiphertext (BinFHEContext::*)(
-               BINGATE, const std::vector<LWECiphertext> &) const>(
+               BINGATE, const std::vector<LWECiphertext> &, bool) const>(
                &BinFHEContext::EvalBinGate),
-           py::arg("gate"), py::arg("ctvector"))
+           py::arg("gate"), py::arg("ctvector"), py::arg("extended") = false)
       .def("EvalNOT", &BinFHEContext::EvalNOT, binfhe_EvalNOT_docs,
            py::arg("ct"))
       .def("Getn", &GetnWrapper)
@@ -212,7 +212,7 @@ void bind_binfhe_context(py::module &m) {
       .def("EvalNOT", &BinFHEContext::EvalNOT)
       .def("EvalConstant", &BinFHEContext::EvalConstant)
       .def("ClearBTKeys", &BinFHEContext::ClearBTKeys)
-      .def("Bootstrap", &BinFHEContext::Bootstrap, py::arg("ct"))
+      .def("Bootstrap", &BinFHEContext::Bootstrap, py::arg("ct"), py::arg("extended") = false)
       .def("SerializedVersion", &BinFHEContext::SerializedVersion,
            binfhe_SerializedVersion_docs)
       .def("SerializedObjectName", &BinFHEContext::SerializedObjectName,
