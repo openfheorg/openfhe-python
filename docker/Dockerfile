@@ -44,6 +44,9 @@ RUN git clone https://github.com/openfheorg/openfhe-python.git \
     && make -j$(nproc) \
     && make install
 
+# Install OpenFHE-package in Python
+RUN pip install -e openfhe-python
+
 # Expose the port JupyterLab will listen on
 EXPOSE 8888
 
