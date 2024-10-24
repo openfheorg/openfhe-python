@@ -17,7 +17,10 @@ endif()
 find_package(OpenFHE 1.2.1 REQUIRED)
 find_package(pybind11 REQUIRED)
 
-set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
+# "CMAKE_INTERPROCEDURAL_OPTIMIZATION ON" (ON is the default value) causes link failure. see
+# https://github.com/openfheorg/openfhe-python/actions/runs/11492843373/job/31987579944
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
+
 set( OpenFHE_Py_SOURCES src/lib)
 set( OpenFHE_Py_INCLUDES src/include)
 
