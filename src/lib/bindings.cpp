@@ -1114,7 +1114,9 @@ void bind_ciphertext(py::module &m)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
     // .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
      .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
-     .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots);
+     .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots)
+     .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg)
+     .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg);
 }
 
 void bind_schemes(py::module &m){
