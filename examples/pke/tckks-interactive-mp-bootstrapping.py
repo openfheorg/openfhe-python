@@ -21,8 +21,9 @@ def main():
     # Same test with different rescaling techniques in CKKS
     TCKKSCollectiveBoot(FIXEDMANUAL)
     TCKKSCollectiveBoot(FIXEDAUTO)
-    TCKKSCollectiveBoot(FLEXIBLEAUTO)
-    TCKKSCollectiveBoot(FLEXIBLEAUTOEXT)
+    if get_native_int()!=128:
+        TCKKSCollectiveBoot(FLEXIBLEAUTO)
+        TCKKSCollectiveBoot(FLEXIBLEAUTOEXT)
 
     print("Interactive Multi-Party Bootstrapping Ciphertext (TCKKS) terminated gracefully!\n")
 

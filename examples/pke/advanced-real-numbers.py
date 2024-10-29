@@ -124,7 +124,8 @@ def hybrid_key_switching_demo1():
     parameters.SetMultiplicativeDepth(5)
     parameters.SetScalingModSize(50)
     parameters.SetBatchSize(batch_size)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    if get_native_int()!=128:
+        parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
     parameters.SetNumLargeDigits(dnum)
 
     cc = GenCryptoContext(parameters)
@@ -167,7 +168,8 @@ def hybrid_key_switching_demo2():
     parameters.SetMultiplicativeDepth(5)
     parameters.SetScalingModSize(50)
     parameters.SetBatchSize(batch_size)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    if get_native_int()!=128:
+        parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
     parameters.SetNumLargeDigits(dnum)
 
     cc = GenCryptoContext(parameters)
@@ -287,7 +289,8 @@ def fast_rotation_demo2():
     parameters.SetMultiplicativeDepth(1)
     parameters.SetScalingModSize(50)
     parameters.SetBatchSize(batch_size)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    if get_native_int()!=128:
+        parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
     parameters.SetKeySwitchTechnique(KeySwitchTechnique.BV)
     parameters.SetFirstModSize(60)
     parameters.SetDigitSize(digit_size)
@@ -361,7 +364,8 @@ def fast_rotation_demo2():
 
 
 def main():
-    automatic_rescale_demo(ScalingTechnique.FLEXIBLEAUTO)
+    if get_native_int()!=128:
+        automatic_rescale_demo(ScalingTechnique.FLEXIBLEAUTO)
     automatic_rescale_demo(ScalingTechnique.FIXEDAUTO)
     manual_rescale_demo(ScalingTechnique.FIXEDMANUAL)
     hybrid_key_switching_demo1()

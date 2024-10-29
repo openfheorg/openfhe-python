@@ -56,7 +56,7 @@ void bind_parameters(py::module &m,const std::string name)
         .def("GetKeySwitchCount", &CCParams<T>::GetKeySwitchCount)
         .def("GetEncryptionTechnique", &CCParams<T>::GetEncryptionTechnique)
         .def("GetMultiplicationTechnique", &CCParams<T>::GetMultiplicationTechnique)
-        .def("GetMultiHopModSize", &CCParams<T>::GetMultiHopModSize)
+        .def("GetPRENumHops", &CCParams<T>::GetPRENumHops)
         .def("GetInteractiveBootCompressionLevel", &CCParams<T>::GetInteractiveBootCompressionLevel)
         // setters
         .def("SetPlaintextModulus", &CCParams<T>::SetPlaintextModulus)
@@ -86,7 +86,7 @@ void bind_parameters(py::module &m,const std::string name)
         .def("SetKeySwitchCount", &CCParams<T>::SetKeySwitchCount)
         .def("SetEncryptionTechnique", &CCParams<T>::SetEncryptionTechnique)
         .def("SetMultiplicationTechnique", &CCParams<T>::SetMultiplicationTechnique)
-        .def("SetMultiHopModSize", &CCParams<T>::SetMultiHopModSize)
+        .def("SetPRENumHops", &CCParams<T>::SetPRENumHops)
         .def("SetInteractiveBootCompressionLevel", &CCParams<T>::SetInteractiveBootCompressionLevel)
         .def("__str__",[](const CCParams<T> &params) {
             std::stringstream stream;
@@ -716,10 +716,6 @@ void bind_crypto_context(py::module &m)
             cc_FindAutomorphismIndices_docs,
             py::arg("idxList"))
         .def_static(
-            "ClearEvalMultKeys", []()
-            { CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys(); },
-            cc_ClearEvalMultKeys_docs)
-        .def_static(
             "InsertEvalSumKey", &CryptoContextImpl<DCRTPoly>::InsertEvalSumKey,
             cc_InsertEvalSumKey_docs,
             py::arg("evalKeyMap"),
@@ -727,7 +723,8 @@ void bind_crypto_context(py::module &m)
         .def_static(
             "InsertEvalMultKey", &CryptoContextImpl<DCRTPoly>::InsertEvalMultKey,
             cc_InsertEvalMultKey_docs,
-            py::arg("evalKeyVec"))
+            py::arg("evalKeyVec"),
+            py::arg("keyTag") = "")
         .def_static(
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
@@ -835,15 +832,20 @@ void bind_crypto_context(py::module &m)
         py::arg("params"));
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextCKKSRNS>,
         py::arg("params"));
-    m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
+
     m.def("GetAllContexts", &CryptoContextFactory<DCRTPoly>::GetAllContexts);
+
+    m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
+    m.def("ClearEvalMultKeys", &ClearEvalMultKeysWrapper);
 }
 
 int get_native_int(){
     #if NATIVEINT == 128 && !defined(__EMSCRIPTEN__)
         return 128;
+    #elif NATIVEINT == 32
+        return 32;
     #else
-        return 64;    
+        return 64;
     #endif
 }
 
@@ -930,13 +932,11 @@ void bind_enums_and_constants(py::module &m)
         .value("NOT_SET", ProxyReEncryptionMode::NOT_SET)
         .value("INDCPA", ProxyReEncryptionMode::INDCPA)
         .value("FIXED_NOISE_HRA", ProxyReEncryptionMode::FIXED_NOISE_HRA)
-        .value("NOISE_FLOODING_HRA", ProxyReEncryptionMode::NOISE_FLOODING_HRA)
-        .value("DIVIDE_AND_ROUND_HRA", ProxyReEncryptionMode::DIVIDE_AND_ROUND_HRA);
+        .value("NOISE_FLOODING_HRA", ProxyReEncryptionMode::NOISE_FLOODING_HRA);
     m.attr("NOT_SET") = py::cast(ProxyReEncryptionMode::NOT_SET);
     m.attr("INDCPA") = py::cast(ProxyReEncryptionMode::INDCPA);
     m.attr("FIXED_NOISE_HRA") = py::cast(ProxyReEncryptionMode::FIXED_NOISE_HRA);
     m.attr("NOISE_FLOODING_HRA") = py::cast(ProxyReEncryptionMode::NOISE_FLOODING_HRA);
-    m.attr("DIVIDE_AND_ROUND_HRA") = py::cast(ProxyReEncryptionMode::DIVIDE_AND_ROUND_HRA);
     
     // MultipartyMode
     py::enum_<MultipartyMode>(m, "MultipartyMode")
@@ -1063,6 +1063,7 @@ void bind_encodings(py::module &m)
         .def("SetFormat", &PlaintextImpl::SetFormat,
             ptx_SetFormat_docs,
             py::arg("fmt"))
+        .def("GetCoefPackedValue", &PlaintextImpl::GetCoefPackedValue)
         .def("GetPackedValue", &PlaintextImpl::GetPackedValue)
         .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue,
             ptx_GetCKKSPackedValue_docs)
@@ -1079,17 +1080,16 @@ void bind_encodings(py::module &m)
         .def("GetStringValue", &PlaintextImpl::GetStringValue)
         .def("SetStringValue", &PlaintextImpl::SetStringValue)
         .def("SetIntVectorValue", &PlaintextImpl::SetIntVectorValue)
+        .def("GetFormattedValues", &PlaintextImpl::GetFormattedValues)
         .def("__repr__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
-        ss << "<Plaintext Object: ";
-        p.PrintValue(ss);
-        ss << ">";
+        ss << "<Plaintext Object: " << p << ">";
         return ss.str(); })
         .def("__str__", [](const PlaintextImpl &p)
              {
         std::stringstream ss;
-        p.PrintValue(ss);
+        ss << p;
         return ss.str(); });
 }
 
@@ -1114,7 +1114,9 @@ void bind_ciphertext(py::module &m)
     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
     // .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
      .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
-     .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots);
+     .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots)
+     .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg)
+     .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg);
 }
 
 void bind_schemes(py::module &m){
