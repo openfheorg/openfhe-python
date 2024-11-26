@@ -1050,7 +1050,7 @@ void bind_keys(py::module &m)
         .def_readwrite("secretKey", &KeyPair<DCRTPoly>::secretKey)
         .def("good", &KeyPair<DCRTPoly>::good,kp_good_docs);
     py::class_<EvalKeyImpl<DCRTPoly>, std::shared_ptr<EvalKeyImpl<DCRTPoly>>>(m, "EvalKey")
-    .def(py::init<>())
+        .def(py::init<>())
         .def("GetKeyTag", &EvalKeyImpl<DCRTPoly>::GetKeyTag)
         .def("SetKeyTag", &EvalKeyImpl<DCRTPoly>::SetKeyTag);
     py::class_<std::map<usint, EvalKey<DCRTPoly>>, std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>>>(m, "EvalKeyMap")
@@ -1069,8 +1069,6 @@ void bind_encodings(py::module &m)
             ptx_GetSchemeID_docs)
         .def("GetLength", &PlaintextImpl::GetLength,
             ptx_GetLength_docs)
-        .def("GetSchemeID", &PlaintextImpl::GetSchemeID,
-            ptx_GetSchemeID_docs)
         .def("SetLength", &PlaintextImpl::SetLength,
             ptx_SetLength_docs,
             py::arg("newSize"))
@@ -1080,7 +1078,9 @@ void bind_encodings(py::module &m)
             ptx_GetLogPrecision_docs)
         .def("Encode", &PlaintextImpl::Encode,
             ptx_Encode_docs)
-        .def("Decode", &PlaintextImpl::Decode,
+        .def("Decode", py::overload_cast<>(&PlaintextImpl::Decode),
+            ptx_Decode_docs)
+        .def("Decode", py::overload_cast<size_t, double, ScalingTechnique, ExecutionMode>(&PlaintextImpl::Decode),
             ptx_Decode_docs)
         .def("LowBound", &PlaintextImpl::LowBound,
             ptx_LowBound_docs)
