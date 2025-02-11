@@ -3,9 +3,10 @@ import pytest
 
 
 ## Sample Program: Step 1: Set CryptoContext
+@pytest.mark.parametrize("context",[TOY,MEDIUM,STD128])
 @pytest.mark.parametrize("a", [0, 1])
 @pytest.mark.parametrize("b", [0, 1])
-def test_boolean_AND(a, b):
+def test_boolean_AND(context,a, b):
     cc = BinFHEContext()
 
     """
@@ -14,13 +15,13 @@ def test_boolean_AND(a, b):
     MEDIUM corresponds to the level of more than 100 bits for both quantum and
     classical computer attacks
     """
-    cc.GenerateBinFHEContext(STD128, GINX)
+    cc.GenerateBinFHEContext(context, GINX)
 
     ## Sample Program: Step 2: Key Generation
 
     # Generate the secret key
     sk = cc.KeyGen()
-
+    assert sk.GetLength() == len(sk)
     print("Generating the bootstrapping keys...\n")
 
     # Generate the bootstrapping keys (refresh and switching keys)
@@ -37,6 +38,8 @@ def test_boolean_AND(a, b):
     ct1 = cc.Encrypt(sk, a)
     ct2 = cc.Encrypt(sk, b)
 
+    assert ct1.GetLength() == len(ct1)
+    
     # Sample Program: Step 4: Evaluation
 
     # Compute (1 AND 1) = 1; Other binary gate options are OR, NAND, and NOR

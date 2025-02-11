@@ -1041,6 +1041,8 @@ void bind_encodings(py::module &m)
             py::arg("sf"))
         .def("GetSchemeID", &PlaintextImpl::GetSchemeID,
             ptx_GetSchemeID_docs)
+        .def("__len__", &PlaintextImpl::GetLength,
+            ptx_GetLength_docs)
         .def("GetLength", &PlaintextImpl::GetLength,
             ptx_GetLength_docs)
         .def("GetSchemeID", &PlaintextImpl::GetSchemeID,
