@@ -66,7 +66,7 @@ def simple_bootstrap_example():
 
     ciphertext_after = cryptocontext.EvalBootstrap(ciph)
 
-    print(f"Number of levels remaining after bootstrapping: {depth - ciphertext_after.GetLevel()}")
+    print(f"Number of levels remaining after bootstrapping: {depth - ciphertext_after.GetLevel() - (ciphertext_after.GetNoiseScaleDeg() - 1)}")
 
     result = cryptocontext.Decrypt(ciphertext_after,key_pair.secretKey)
     result.SetLength(encoded_length)

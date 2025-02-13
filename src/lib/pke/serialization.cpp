@@ -47,8 +47,7 @@ template <typename ST>
 bool SerializeEvalMultKeyWrapper(const std::string &filename, const ST &sertype, std::string id)
 {
     std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-    bool res;
-    res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<ST>(outfile, sertype, id);
+    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<ST>(outfile, sertype, id);
     outfile.close();
     return res;
 }
@@ -57,8 +56,7 @@ template <typename ST>
 bool SerializeEvalAutomorphismKeyWrapper(const std::string& filename, const ST& sertype, std::string id)
 {
     std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-    bool res;
-    res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<ST>(outfile, sertype, id);
+    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<ST>(outfile, sertype, id);
     outfile.close();
     return res;
 }
@@ -71,8 +69,7 @@ bool DeserializeEvalMultKeyWrapper(const std::string &filename, const ST &sertyp
     {
         std::cerr << "I cannot read serialization from " << filename << std::endl;
     }
-    bool res;
-    res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<ST>(emkeys, sertype);
+    bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<ST>(emkeys, sertype);
     return res; }
 
 template <typename T, typename ST>

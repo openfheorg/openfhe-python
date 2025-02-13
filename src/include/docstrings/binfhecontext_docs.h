@@ -185,4 +185,18 @@ const char* binfhe_EvalSign_docs = R"pbdoc(
     :return: the resulting ciphertext
     :rtype: LWECiphertext
 )pbdoc";
+
+const char* binfhe_SerializedVersion_docs = R"pbdoc(
+   Return the serialized version number in use.
+
+   :return: the version number
+   :rtype: uint32_t   
+)pbdoc";
+
+const char* binfhe_SerializedObjectName_docs = R"pbdoc(
+   Return the serialized object name
+
+   :return: object name
+   :rtype: std::string
+)pbdoc";
 #endif // BINFHECONTEXT_DOCSTRINGS_H
