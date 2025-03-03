@@ -383,7 +383,7 @@ def main():
         fast_rotation_demo1()
         fast_rotation_demo2()
     else:
-        print("This demo only runs for 128-bit CKKS.\nIf you want to test it please reinstall the OpenFHE C++ with the flag -DNATIVE_INT=128, then reinstall OpenFHE-Python.")
+        print("This demo only runs for 128-bit CKKS.\nIf you want to test it please reinstall the OpenFHE C++ with the flag -DNATIVE_SIZE=128, then reinstall OpenFHE-Python.")
 
 if __name__ == "__main__":
     main()
