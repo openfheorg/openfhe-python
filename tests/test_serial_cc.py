@@ -64,9 +64,7 @@ def test_serial_cryptocontext_str(mode):
     # First plaintext vector is encoded
     vectorOfInts1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     plaintext1 = cryptoContext.MakePackedPlaintext(vectorOfInts1)
-    assert len(plaintext1) == plaintext1.GetLength()
-    assert len(plaintext1) == 12
-    
+
     # Second plaintext vector is encoded
     vectorOfInts2 = [3, 2, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     plaintext2 = cryptoContext.MakePackedPlaintext(vectorOfInts2)

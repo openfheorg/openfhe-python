@@ -140,7 +140,6 @@ void bind_binfhe_keys(py::module &m) {
   py::class_<LWEPrivateKeyImpl, std::shared_ptr<LWEPrivateKeyImpl>>(
       m, "LWEPrivateKey")
       .def(py::init<>())
-      .def("__len__", &LWEPrivateKeyImpl::GetLength)    
       .def("GetLength", &LWEPrivateKeyImpl::GetLength)
       .def(py::self == py::self)
       .def(py::self != py::self);
@@ -149,7 +148,6 @@ void bind_binfhe_ciphertext(py::module &m) {
   py::class_<LWECiphertextImpl, std::shared_ptr<LWECiphertextImpl>>(
       m, "LWECiphertext")
       .def(py::init<>())
-      .def("__len__", &LWECiphertextImpl::GetLength)
       .def("GetLength", &LWECiphertextImpl::GetLength)
       .def("GetModulus", &GetLWECiphertextModulusWrapper)
       .def(py::self == py::self)
