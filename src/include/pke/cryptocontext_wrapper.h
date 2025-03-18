@@ -58,7 +58,6 @@ Plaintext DecryptWrapper(CryptoContext<DCRTPoly> &self,
                          const PrivateKey<DCRTPoly> privateKey, ConstCiphertext<DCRTPoly> ciphertext);
 Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std::vector<Ciphertext<DCRTPoly>>& partialCiphertextVec);
 
-const std::map<usint, EvalKey<DCRTPoly>> EvalAutomorphismKeyGenWrapper(CryptoContext<DCRTPoly>& self,const PrivateKey<DCRTPoly> privateKey,const std::vector<usint> &indexList);
 const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrapper(CryptoContext<DCRTPoly>& self, const std::string &id);
 const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self);
 const double GetModulusWrapper(CryptoContext<DCRTPoly>& self);

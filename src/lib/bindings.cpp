@@ -497,11 +497,34 @@ void bind_crypto_context(py::module &m)
              py::arg("originalPrivateKey"),
              py::arg("newPrivateKey"),
              py::arg("evalKey"))
+        .def("MultiEvalAtIndexKeyGen",
+            [](CryptoContextImpl<DCRTPoly>* self,
+                const PrivateKey<DCRTPoly>& privateKey,
+                std::shared_ptr<std::map<unsigned int, EvalKey<DCRTPoly>>> evalKeyMap,
+                const std::vector<int32_t>& indexList,
+                const std::string& keyId) {
+                 return self->MultiEvalAtIndexKeyGen(privateKey, evalKeyMap, indexList, keyId);
+             },
+             cc_MultiEvalAtIndexKeyGen_docs,
+             py::arg("privateKey"),
+             py::arg("evalKeyMap"),
+             py::arg("indexList"),
+             py::arg("keyId") = "")
         .def("MultiEvalSumKeyGen", &CryptoContextImpl<DCRTPoly>::MultiEvalSumKeyGen,
              cc_MultiEvalSumKeyGen_docs,
              py::arg("privateKey"),
              py::arg("evalKeyMap"),
              py::arg("keyId") = "")
+        .def("MultiAddEvalAutomorphismKeys", &CryptoContextImpl<DCRTPoly>::MultiAddEvalAutomorphismKeys,
+            cc_MultiAddEvalAutomorphismKeys_docs,
+            py::arg("evalKeyMap1"),
+            py::arg("evalKeyMap1"),
+            py::arg("keyId") = "")
+        .def("MultiAddPubKeys", &CryptoContextImpl<DCRTPoly>::MultiAddPubKeys,
+            cc_MultiAddPubKeys_docs,
+            py::arg("publicKey1"),
+            py::arg("publicKey2"),
+            py::arg("keyId") = "")
         .def("MultiAddEvalKeys", &CryptoContextImpl<DCRTPoly>::MultiAddEvalKeys,
              cc_MultiAddEvalKeys_docs,
              py::arg("evalKey1"),
@@ -686,11 +709,12 @@ void bind_crypto_context(py::module &m)
              py::arg("pLWE") = 0,
              py::arg("scaleSign") = 1.0)
         //TODO (Oliveira, R.): Solve pointer handling bug when returning EvalKeyMap objects for the next functions
-        .def("EvalAutomorphismKeyGen", &EvalAutomorphismKeyGenWrapper, 
+        .def("EvalAutomorphismKeyGen",
+            static_cast<std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> (CryptoContextImpl<DCRTPoly>::*)(const PrivateKey<DCRTPoly>, const std::vector<usint>&) const>
+            (&CryptoContextImpl<DCRTPoly>::EvalAutomorphismKeyGen), 
             cc_EvalAutomorphismKeyGen_docs,
             py::arg("privateKey"),
-            py::arg("indexList"),
-            py::return_value_policy::reference_internal)
+            py::arg("indexList"))
         .def("EvalLinearWSumMutable",
             static_cast<lbcrypto::Ciphertext<DCRTPoly> (lbcrypto::CryptoContextImpl<DCRTPoly>::*)(
                 const std::vector<double>&,
@@ -729,11 +753,13 @@ void bind_crypto_context(py::module &m)
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
             cc_ClearEvalAutomorphismKeys_docs)
-        .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
-            cc_GetEvalSumKeyMap_docs,
+        .def_static("GetEvalAutomorphismKeyMap", &CryptoContextImpl<DCRTPoly>::GetEvalAutomorphismKeyMap,
+            cc_GetEvalAutomorphismKeyMap_docs,
+            py::arg("keyId") = "",
             py::return_value_policy::reference)
-        .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch,
-        		py::return_value_policy::reference_internal)
+        .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
+            cc_GetEvalSumKeyMap_docs)
+        .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch)
         .def_static(
             "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")
             {

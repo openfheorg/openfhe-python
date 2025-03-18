@@ -932,6 +932,15 @@ const char* cc_MultiKeySwitchGen_docs = R"pbdoc(
     :rtype: EvalKey
 )pbdoc";
 
+const char* cc_GetEvalAutomorphismKeyMap_docs = R"pbdoc(
+    Get automorphism keys for a specific secret key tag
+
+    :param keyId: key identifier used for private key
+    :type keyId: str
+    :return: EvalKeyMap: map with all automorphism keys.
+    :rtype: EvalKeyMap
+)pbdoc";
+
 // TODO (Oliveira, R.) - Complete the following documentation
 const char* cc_GetEvalSumKeyMap_docs = R"pbdoc(
     Get a map of summation keys (each is composed of several automorphism keys) for a specific secret key tag
@@ -944,6 +953,22 @@ const char* cc_InsertEvalSumKey_docs = R"pbdoc(
     :param evalKeyMap: key map
     :type evalKeyMap: EvalKeyMap
 )pbdoc";
+
+const char* cc_MultiEvalAtIndexKeyGen_docs = R"pbdoc(
+    Threshold FHE: Generates joined rotation keys from the current secret key and prior joined rotation keys
+
+    :param privateKey: secret key share
+    :type privateKey: PrivateKey
+    :param evalKeyMap: a map with prior joined rotation keys
+    :type evalKeyMap: EvalKeyMap
+    :param indexList: a vector of rotation indices
+    :type indexList: List[int32]
+    :param keyId: new key identifier used for resulting evaluation key
+    :type keyId: str
+    :return: EvalKeyMap: new joined rotation keys
+    :rtype: EvalKeyMap
+)pbdoc";
+
 const char* cc_MultiEvalSumKeyGen_docs = R"pbdoc(
     Threshold FHE: Generates joined summation evaluation keys from the current secret share and prior joined summation keys
 
@@ -955,6 +980,32 @@ const char* cc_MultiEvalSumKeyGen_docs = R"pbdoc(
     :type keyId: str
     :return: EvalKeyMap: new joined summation keys
     :rtype: EvalKeyMap
+)pbdoc";
+
+const char* cc_MultiAddEvalAutomorphismKeys_docs = R"pbdoc(
+    Threshold FHE: Adds two prior evaluation key sets for automorphisms
+
+    :param evalKeyMap1: first automorphism key set
+    :type evalKeyMap1: EvalKeyMap
+    :param evalKeyMap2: second automorphism key set
+    :type evalKeyMap2: EvalKeyMap
+    :param keyId: new key identifier used for resulting evaluation key
+    :type keyId: str
+    :return: the new joined key set for summation
+    :rtype: evalKeyMap
+)pbdoc";
+
+const char* cc_MultiAddPubKeys_docs = R"pbdoc(
+    Threshold FHE: Adds two prior public keys
+
+    :param publicKey1: first public key
+    :type publicKey1: PublicKey
+    :param publicKey2: second public key
+    :type publicKey2: PublicKey
+    :param keyId: new key identifier used for the resulting key
+    :type keyId: str
+    :return: the new combined key
+    :rtype: PublicKey
 )pbdoc";
 
 const char* cc_MultiAddEvalKeys_docs = R"pbdoc(
@@ -1279,7 +1330,7 @@ const char* cc_ClearEvalMultKeys_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_ClearEvalAutomorphismKeys_docs = R"pbdoc(
-    ClearEvalAutomorphismKeys - flush EvalAutomorphismKey cache
+    Flush EvalAutomorphismKey cache
 )pbdoc";
 
 const char* cc_SerializeEvalAutomorphismKey_docs = R"pbdoc(
