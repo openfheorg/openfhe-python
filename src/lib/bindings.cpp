@@ -750,6 +750,11 @@ void bind_crypto_context(py::module &m)
             py::arg("evalKeyVec"),
             py::arg("keyTag") = "")
         .def_static(
+            "InsertEvalAutomorphismKey", &CryptoContextImpl<DCRTPoly>::InsertEvalAutomorphismKey,
+            cc_InsertEvalAutomorphismKey_docs,
+            py::arg("evalKeyMap"),
+            py::arg("keyTag") = "")
+        .def_static(
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
             cc_ClearEvalAutomorphismKeys_docs)

@@ -1117,10 +1117,17 @@ const char* cc_IntMPBootEncrypt_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_InsertEvalMultKey_docs = R"pbdoc(
-    InsertEvalMultKey - add the given vector of keys to the map, replacing the existing vector if there
+    Adds the given vector of keys to the map, replacing the existing vector if there
 
     :param evalKeyVec: vector of keys
     :type evalKeyVec: List[EvalKey]
+)pbdoc";
+
+const char* cc_InsertEvalAutomorphismKey_docs = R"pbdoc(
+    Add the given map of keys to the map, replacing the existing map if there is
+
+    :param evalKeyMap: map of keys
+    :type EvalKeyMap
 )pbdoc";
 
 const char* cc_EvalSum_docs = R"pbdoc(
