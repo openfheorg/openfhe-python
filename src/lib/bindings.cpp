@@ -502,7 +502,7 @@ void bind_crypto_context(py::module &m)
                 const PrivateKey<DCRTPoly>& privateKey,
                 std::shared_ptr<std::map<unsigned int, EvalKey<DCRTPoly>>> evalKeyMap,
                 const std::vector<int32_t>& indexList,
-                const std::string& keyId) {
+                const std::string& keyId = "") {
                  return self->MultiEvalAtIndexKeyGen(privateKey, evalKeyMap, indexList, keyId);
              },
              cc_MultiEvalAtIndexKeyGen_docs,
@@ -758,10 +758,9 @@ void bind_crypto_context(py::module &m)
             "ClearEvalAutomorphismKeys", []()
             { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
             cc_ClearEvalAutomorphismKeys_docs)
-        .def_static("GetEvalAutomorphismKeyMap", &CryptoContextImpl<DCRTPoly>::GetEvalAutomorphismKeyMap,
+        .def_static("GetEvalAutomorphismKeyMap", &CryptoContextImpl<DCRTPoly>::GetEvalAutomorphismKeyMapPtr,
             cc_GetEvalAutomorphismKeyMap_docs,
-            py::arg("keyId") = "",
-            py::return_value_policy::reference)
+            py::arg("keyId") = "")
         .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
             cc_GetEvalSumKeyMap_docs)
         .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch)
