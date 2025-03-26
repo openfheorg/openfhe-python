@@ -263,11 +263,11 @@ void bind_serialization(pybind11::module &m) {
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToStringWrapper<SerType::SERJSON>,
           py::arg("sertype"), py::arg("id") = "");
     m.def("DeserializeEvalMultKeyString", &DeserializeEvalMultKeyFromStringWrapper<SerType::SERJSON>,
-          py::arg("sertype"), py::arg("id") = "");
+          py::arg("data"), py::arg("sertype"));
     m.def("SerializeEvalAutomorphismKeyString", &SerializeEvalAutomorphismKeyToStringWrapper<SerType::SERJSON>,
           py::arg("sertype"), py::arg("id") = "");
     m.def("DeserializeEvalAutomorphismKeyString", &DeserializeEvalAutomorphismKeyFromStringWrapper<SerType::SERJSON>,
-          py::arg("sertype"), py::arg("id") = "");
+          py::arg("data"), py::arg("sertype"));
 
     // Binary Serialization
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&,const CryptoContext<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<DCRTPoly>),
@@ -315,9 +315,9 @@ void bind_serialization(pybind11::module &m) {
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToBytesWrapper<SerType::SERBINARY>,
           py::arg("sertype"), py::arg("id") = "");
     m.def("DeserializeEvalMultKeyString", &DeserializeEvalMultKeyFromBytesWrapper<SerType::SERBINARY>,
-          py::arg("sertype"), py::arg("id") = "");
+          py::arg("data"), py::arg("sertype"));
     m.def("SerializeEvalAutomorphismKeyString", &SerializeEvalAutomorphismKeyToBytesWrapper<SerType::SERBINARY>,
           py::arg("sertype"), py::arg("id") = "");
     m.def("DeserializeEvalAutomorphismKeyString", &DeserializeEvalAutomorphismKeyFromBytesWrapper<SerType::SERBINARY>,
-          py::arg("sertype"), py::arg("id") = "");
+          py::arg("data"), py::arg("sertype"));
 }
