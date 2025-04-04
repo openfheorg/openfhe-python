@@ -310,6 +310,10 @@ void bind_serialization(pybind11::module &m) {
           py::arg("str"), py::arg("sertype"));
     m.def("Serialize", &SerializeToBytesWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>,
           py::arg("obj"), py::arg("sertype"));
+    m.def("Serialize", &SerializeToBytesWrapper<const std::map<uint32_t, EvalKey<DCRTPoly>>, SerType::SERBINARY>,
+          py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeEvalKeyMapString", &DeserializeFromBytesWrapper<std::map<uint32_t, EvalKey<DCRTPoly>>, SerType::SERBINARY>,
+          py::arg("str"), py::arg("sertype"));
     m.def("DeserializeEvalKeyString", &DeserializeFromBytesWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>,
           py::arg("str"), py::arg("sertype"));
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToBytesWrapper<SerType::SERBINARY>,
