@@ -762,7 +762,10 @@ void bind_crypto_context(py::module &m)
             cc_GetEvalAutomorphismKeyMap_docs,
             py::arg("keyId") = "")
         .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper,
-            cc_GetEvalSumKeyMap_docs)
+            cc_GetEvalSumKeyMap_docs,
+            py::arg("keyId") = "")
+        // .def_static("GetEvalSumKeyMap", &CryptoContextImpl<DCRTPoly>::GetEvalSumKeyMap,
+        //     cc_GetEvalSumKeyMap_docs)
         .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch)
         .def_static(
             "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string id = "")

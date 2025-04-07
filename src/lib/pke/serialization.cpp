@@ -109,12 +109,6 @@ T DeserializeFromStringWrapper(const std::string& str, const ST& sertype) {
 }
 
 template <typename ST>
-py::bytes SerializeEvalKeyMapSharedPtr(
-    const std::shared_ptr<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>> &obj, const ST& sertype) {
-    return SerializeToBytesWrapper(*obj, sertype);
-}
-
-template <typename ST>
 CryptoContext<DCRTPoly> DeserializeCCFromStringWrapper(const std::string& str, const ST& sertype) {
     CryptoContext<DCRTPoly> obj;
     std::istringstream iss(str);
@@ -123,34 +117,12 @@ CryptoContext<DCRTPoly> DeserializeCCFromStringWrapper(const std::string& str, c
 }
 
 template <typename T, typename ST>
-T DeserializeFromBytesWrapper(const py::bytes &bytes, const ST &sertype) {
-      static_assert(!std::is_same<T, std::shared_ptr<std::shared_ptr<void>>>::value,
-                    "Avoid nested shared_ptr!");
-      T obj;
-      std::string str(bytes);
-      std::istringstream iss(str, std::ios::binary);
-      Serial::Deserialize<T>(obj, iss, sertype);
-      return obj;
-}
-
-// template <typename ST>
-// std::shared_ptr<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>> DeserializeEvalKeyMapSharedPtr(const py::bytes& bytes, const ST& sertype) {
-//     return std::make_shared<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>>(
-//            DeserializeFromBytesWrapper<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>>(bytes, sertype));
-// }
-
-template <typename ST>
-std::shared_ptr<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>>
-DeserializeEvalKeyMapSharedPtr(const py::bytes& bytes, const ST& sertype) {
-    auto map = DeserializeFromBytesWrapper<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>>(bytes, sertype);
-
-    // ✅ Check for nested shared_ptr values
-    for (const auto& [k, v] : map) {
-        static_assert(!std::is_same<decltype(v), std::shared_ptr<std::shared_ptr<EvalKey<DCRTPoly>>>>::value,
-                      "Detected nested shared_ptr in map values!");
-    }
-
-    return std::make_shared<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>>(std::move(map));
+T DeserializeFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
+    T obj;
+    std::string str(bytes);
+    std::istringstream iss(str, std::ios::binary);
+    Serial::Deserialize<T>(obj, iss, sertype);
+    return obj;
 }
 
 template <typename ST>
@@ -338,26 +310,10 @@ void bind_serialization(pybind11::module &m) {
           py::arg("str"), py::arg("sertype"));
     m.def("Serialize", &SerializeToBytesWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>,
           py::arg("obj"), py::arg("sertype"));
-    m.def("Serialize", &SerializeToBytesWrapper<const std::map<uint32_t, EvalKey<DCRTPoly>>, SerType::SERBINARY>,
+    m.def("Serialize", &SerializeToBytesWrapper<const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERBINARY>,
           py::arg("obj"), py::arg("sertype"));
-    m.def("DeserializeEvalKeyMapString", &DeserializeFromBytesWrapper<std::map<uint32_t, EvalKey<DCRTPoly>>, SerType::SERBINARY>,
+    m.def("DeserializeEvalKeyMapString", &DeserializeFromBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERBINARY>,
           py::arg("str"), py::arg("sertype"));
-    m.def("Serialize",
-          [](const std::shared_ptr<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>>& obj, const SerType::SERBINARY& sertype) {
-            return SerializeEvalKeyMapSharedPtr(obj, sertype);
-          },
-          py::arg("obj"), py::arg("sertype"));
-//     m.def("DeserializeEvalKeyMapString",
-//           [](const py::bytes& s, const SerType::SERBINARY& sertype) {
-//                  auto map = DeserializeFromBytesWrapper<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>>(s, sertype);
-//                  return std::make_shared<std::map<uint32_t, std::shared_ptr<EvalKey<DCRTPoly>>>>(std::move(map));
-//           },
-//           py::arg("str"), py::arg("sertype"));
-    m.def("DeserializeEvalKeyMapString",
-      [](const py::bytes &s) {
-            return DeserializeEvalKeyMapSharedPtr<SerType::SERBINARY>(s, SerType::SERBINARY);
-      },
-      py::arg("str"));
     m.def("DeserializeEvalKeyString", &DeserializeFromBytesWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>,
           py::arg("str"), py::arg("sertype"));
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToBytesWrapper<SerType::SERBINARY>,
