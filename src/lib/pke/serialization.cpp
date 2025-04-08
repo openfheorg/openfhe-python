@@ -1,19 +1,22 @@
+//==================================================================================
 // BSD 2-Clause License
-
-// Copyright (c) 2023, OpenFHE
-
+//
+// Copyright (c) 2014-2025, NJIT, Duality Technologies Inc. and other contributors
+//
 // All rights reserved.
-
+//
+// Author TPOC: contact@openfhe.org
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-
+//
 // 1. Redistributions of source code must retain the above copyright notice, this
 //    list of conditions and the following disclaimer.
-
+//
 // 2. Redistributions in binary form must reproduce the above copyright notice,
 //    this list of conditions and the following disclaimer in the documentation
 //    and/or other materials provided with the distribution.
-
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,14 +27,14 @@
 // CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include "openfhe.h"
-#include "bindings.h"
-#include "utils/exception.h"
-// header files needed for serialization
+//==================================================================================
 #include "serialization.h"
+
+#include <pybind11/stl.h>
+// #include <pybind11/stl_bind.h> - not needed for now
+
+#include "openfhe.h"
+// header files needed for serialization
 #include "metadata-ser.h"
 #include "ciphertext-ser.h"
 #include "cryptocontext-ser.h"
@@ -42,6 +45,10 @@
 
 using namespace lbcrypto;
 namespace py = pybind11;
+
+// disable the PYBIND11 template-based conversion for this type
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, EvalKey<DCRTPoly>>);
+
 
 template <typename ST>
 bool SerializeEvalMultKeyWrapper(const std::string &filename, const ST &sertype, std::string id)
@@ -216,8 +223,6 @@ void DeserializeEvalAutomorphismKeyFromBytesWrapper(const std::string& data, con
     }
 }
 
-PYBIND11_MAKE_OPAQUE(std::map<uint32_t, EvalKey<DCRTPoly>>);
-
 void bind_serialization(pybind11::module &m) {
     // Json Serialization
     m.def("SerializeToFile", static_cast<bool (*)(const std::string &, const CryptoContext<DCRTPoly> &, const SerType::SERJSON &)>(&Serial::SerializeToFile<DCRTPoly>),
@@ -239,6 +244,10 @@ void bind_serialization(pybind11::module &m) {
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const EvalKey<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<EvalKey<DCRTPoly>>),
           py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeEvalKey", static_cast<std::tuple<EvalKey<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper<EvalKey<DCRTPoly>, SerType::SERJSON>),
+          py::arg("filename"), py::arg("sertype"));
+    m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>>),
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeEvalKeyMap", static_cast<std::tuple<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, bool> (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERJSON>),
           py::arg("filename"), py::arg("sertype"));
 
     // JSON Serialization to string
@@ -265,7 +274,8 @@ void bind_serialization(pybind11::module &m) {
     m.def("Serialize", &SerializeToBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERJSON>,
             py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeEvalKeyMapString", &DeserializeFromBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERJSON>,
-            py::arg("str"), py::arg("sertype"));            
+            py::arg("str"), py::arg("sertype"));
+
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToStringWrapper<SerType::SERJSON>,
           py::arg("sertype"), py::arg("id") = "");
     m.def("DeserializeEvalMultKeyString", &DeserializeEvalMultKeyFromStringWrapper<SerType::SERJSON>,
@@ -296,6 +306,10 @@ void bind_serialization(pybind11::module &m) {
           py::arg("filename"), py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeEvalKey", static_cast<std::tuple<EvalKey<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>),
           py::arg("filename"), py::arg("sertype"));
+    m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>>),
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeEvalKeyMap", static_cast<std::tuple<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERBINARY>),
+          py::arg("filename"), py::arg("sertype"));
 
     // Binary Serialization to bytes
     m.def("Serialize", &SerializeToBytesWrapper<CryptoContext<DCRTPoly>, SerType::SERBINARY>,
@@ -321,7 +335,8 @@ void bind_serialization(pybind11::module &m) {
     m.def("Serialize", &SerializeToBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERBINARY>,
             py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeEvalKeyMapString", &DeserializeFromBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERBINARY>,
-            py::arg("str"), py::arg("sertype"));          
+            py::arg("str"), py::arg("sertype"));
+
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToBytesWrapper<SerType::SERBINARY>,
           py::arg("sertype"), py::arg("id") = "");
     m.def("DeserializeEvalMultKeyString", &DeserializeEvalMultKeyFromBytesWrapper<SerType::SERBINARY>,

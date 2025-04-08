@@ -1,25 +1,57 @@
-#include <pybind11/pybind11.h>
+//==================================================================================
+// BSD 2-Clause License
+//
+// Copyright (c) 2014-2025, NJIT, Duality Technologies Inc. and other contributors
+//
+// All rights reserved.
+//
+// Author TPOC: contact@openfhe.org
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this
+//    list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright notice,
+//    this list of conditions and the following disclaimer in the documentation
+//    and/or other materials provided with the distribution.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//==================================================================================
+#include "bindings.h"
+
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
 #include <pybind11/complex.h>
 #include <pybind11/functional.h>
 #include <pybind11/operators.h>
 #include <pybind11/iostream.h>
-#include <iostream>
-#include <map>
+
 #include "openfhe.h"
+
 #include "key/key-ser.h"
-#include "bindings.h"
-#include "cryptocontext_wrapper.h"
 #include "binfhe_bindings.h"
+
+#include "cryptocontext_wrapper.h"
 #include "cryptocontext_docs.h"
 #include "cryptoparameters_docs.h"
 #include "plaintext_docs.h"
 #include "ciphertext_docs.h"
-#include "serialization.h"
 
 using namespace lbcrypto;
 namespace py = pybind11;
+
+// disable the PYBIND11 template-based conversion for this type
 PYBIND11_MAKE_OPAQUE(std::map<usint, EvalKey<DCRTPoly>>);
 
 template <typename T>
@@ -100,6 +132,12 @@ void bind_parameters(py::module &m,const std::string name)
 
 void bind_crypto_context(py::module &m)
 {
+    //Parameters Type
+    /*TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else */
+    using ParmType = typename DCRTPoly::Params;
+    using ParmTypePtr = std::shared_ptr<ParmType>;
+    py::class_<ParmType, ParmTypePtr>(m, "ParmType");
+
     py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext")
         .def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel, cc_GetKeyGenLevel_docs)
@@ -1028,15 +1066,8 @@ void bind_enums_and_constants(py::module &m)
     m.attr("HEStd_256_classic") = py::cast(SecurityLevel::HEStd_256_classic);
     m.attr("HEStd_NotSet") = py::cast(SecurityLevel::HEStd_NotSet);
     
-    //Parameters Type
-    /*TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else */
-    using ParmType = typename DCRTPoly::Params;
-    py::class_<ParmType, std::shared_ptr<ParmType>>(m, "ParmType");
-
     //NATIVEINT function
     m.def("get_native_int", &get_native_int);
-  
-    
 }
 
 void bind_keys(py::module &m)
