@@ -759,14 +759,17 @@ void bind_crypto_context(py::module &m)
                 std::vector<std::shared_ptr<lbcrypto::CiphertextImpl<DCRTPoly> > >&
             ) const>(
             &CryptoContextImpl<DCRTPoly>::EvalLinearWSumMutable),
-             py::arg("ciphertext"),
-             py::arg("coefficients"))
+            py::arg("ciphertext"),
+            py::arg("coefficients"))
         .def("EvalLinearWSum",
             static_cast<lbcrypto::Ciphertext<DCRTPoly> (lbcrypto::CryptoContextImpl<DCRTPoly>::*)(
             std::vector<std::shared_ptr<const lbcrypto::CiphertextImpl<DCRTPoly> > >&,const std::vector<double>&) const>(
             &CryptoContextImpl<DCRTPoly>::EvalLinearWSum),
-             py::arg("ciphertext"),
-             py::arg("coefficients"))
+            py::arg("ciphertext"),
+            py::arg("coefficients"))
+       .def("Compress", &CryptoContextImpl<DCRTPoly>::Compress,
+            py::arg("ciphertext"),
+            py::arg("towersLeft"))
         .def("EvalMultMany", &CryptoContextImpl<DCRTPoly>::EvalMultMany,
             py::arg("ciphertextVec"))
         .def("EvalAddManyInPlace", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
