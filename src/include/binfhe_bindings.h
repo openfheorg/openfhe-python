@@ -25,8 +25,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef BINFHE_BINDINGS_H
-#define BINFHE_BINDINGS_H
+#ifndef __BINFHE_BINDINGS_H__
+#define __BINFHE_BINDINGS_H__
 
 #include <pybind11/pybind11.h>
 
@@ -34,4 +34,4 @@ void bind_binfhe_enums(pybind11::module &m);
 void bind_binfhe_context(pybind11::module &m);
 void bind_binfhe_keys(pybind11::module &m);
 void bind_binfhe_ciphertext(pybind11::module &m);
-#endif // BINFHE_BINDINGS_H
+#endif // __BINFHE_BINDINGS_H__

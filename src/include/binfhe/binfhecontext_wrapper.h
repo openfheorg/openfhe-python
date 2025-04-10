@@ -25,8 +25,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef BINFHE_CRYPTOCONTEXT_BINDINGS_H
-#define BINFHE_CRYPTOCONTEXT_BINDINGS_H
+#ifndef __BINFHECONTEXT_WRAPPER_H__
+#define __BINFHECONTEXT_WRAPPER_H__
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -66,4 +66,5 @@ NativeInteger StaticFunction(NativeInteger m, NativeInteger p);
 // extern py::function static_f;
 
 LWECiphertext EvalFuncWrapper(BinFHEContext &self, ConstLWECiphertext &ct, const std::vector<uint64_t> &LUT);
-#endif // BINFHE_CRYPTOCONTEXT_BINDINGS_H
+
+#endif // __BINFHECONTEXT_WRAPPER_H__

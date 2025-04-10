@@ -25,8 +25,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef CIPHERTEXT_DOCSTRINGS_H
-#define CIPHERTEXT_DOCSTRINGS_H
+#ifndef __CIPHERTEXT_DOCS_H__
+#define __CIPHERTEXT_DOCS_H__
 
 // GetLevel
 const char* ctx_GetLevel_docs = R"pbdoc(
@@ -58,4 +58,4 @@ const char* cc_RemoveElement_docs = R"pbdoc(
     :param index: The index of the element to remove.
     :type index: int
 )pbdoc";
-#endif // CIPHERTEXT_DOCSTRINGS_H
+#endif // __CIPHERTEXT_DOCS_H__

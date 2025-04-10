@@ -25,8 +25,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef PLAINTEXT_DOCSTRINGS_H
-#define PLAINTEXT_DOCSTRINGS_H
+#ifndef __PLAINTEXT_DOCS_H__
+#define __PLAINTEXT_DOCS_H__
 
 // GetScalingFactor
 const char* ptx_GetScalingFactor_docs = R"doc(
@@ -133,4 +133,4 @@ const char* ptx_GetRealPackedValue_docs = R"pbdoc(
 )pbdoc";
 
 
-#endif // PLAINTEXT_DOCSTRINGS_H
+#endif // __PLAINTEXT_DOCS_H__
