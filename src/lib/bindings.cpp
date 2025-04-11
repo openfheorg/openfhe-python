@@ -1,7 +1,7 @@
 //==================================================================================
 // BSD 2-Clause License
 //
-// Copyright (c) 2014-2025, NJIT, Duality Technologies Inc. and other contributors
+// Copyright (c) 2023-2025, Duality Technologies Inc. and other contributors
 //
 // All rights reserved.
 //
@@ -771,6 +771,8 @@ void bind_crypto_context(py::module &m)
             py::arg("ciphertext"),
             py::arg("towersLeft"))
         .def("EvalMultMany", &CryptoContextImpl<DCRTPoly>::EvalMultMany,
+            py::arg("ciphertextVec"))
+        .def("EvalAddMany", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
             py::arg("ciphertextVec"))
         .def("EvalAddManyInPlace", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
             py::arg("ciphertextVec"))
