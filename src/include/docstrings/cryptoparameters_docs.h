@@ -25,8 +25,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef CRYPTOPARAMS_DOCSTRINGS_H
-#define CRYPTOPARAMS_DOCSTRINGS_H
+#ifndef __CRYPTOPARAMETERS_DOCS_H__
+#define __CRYPTOPARAMETERS_DOCS_H__
 
 const char* ccparams_doc = R"doc(
     Crypto parameters for the BFV, BGV and CKKS scheme.
@@ -72,4 +72,4 @@ const char* cc_GetScalingFactorReal_docs = R"pbdoc(
 )pbdoc";
 
 
-#endif // CRYPTOPARAMS_DOCSTRINGS_H
+#endif // __CRYPTOPARAMETERS_DOCS_H__

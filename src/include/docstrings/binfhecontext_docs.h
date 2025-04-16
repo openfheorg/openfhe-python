@@ -25,8 +25,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef BINFHECONTEXT_DOCSTRINGS_H
-#define BINFHECONTEXT_DOCSTRINGS_H
+#ifndef __BINFHECONTEXT_DOCS_H
+#define __BINFHECONTEXT_DOCS_H
 
 // GenerateBinFHEContext
 const char* binfhe_GenerateBinFHEContext_parset_docs = R"pbdoc(
@@ -199,4 +199,4 @@ const char* binfhe_SerializedObjectName_docs = R"pbdoc(
    :return: object name
    :rtype: std::string
 )pbdoc";
-#endif // BINFHECONTEXT_DOCSTRINGS_H
+#endif // __BINFHECONTEXT_DOCS_H
