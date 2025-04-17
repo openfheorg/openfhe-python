@@ -772,7 +772,7 @@ void bind_crypto_context(py::module &m)
             py::arg("towersLeft"))
         .def("EvalMultMany", &CryptoContextImpl<DCRTPoly>::EvalMultMany,
             py::arg("ciphertextVec"))
-        .def("EvalAddMany", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
+        .def("EvalAddMany", &CryptoContextImpl<DCRTPoly>::EvalAddMany,
             py::arg("ciphertextVec"))
         .def("EvalAddManyInPlace", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
             py::arg("ciphertextVec"))
