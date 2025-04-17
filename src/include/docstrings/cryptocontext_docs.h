@@ -935,6 +935,15 @@ const char* cc_MultiKeySwitchGen_docs = R"pbdoc(
     :rtype: EvalKey
 )pbdoc";
 
+const char* cc_GetEvalMultKeyVector_docs = R"pbdoc(
+    Get relinearization keys for a specific secret key tag
+
+    :param keyId: key identifier used for private key
+    :type keyId: str
+    :return: EvalKeyVector: vector with all relinearization keys.
+    :rtype: EvalKeyVector
+)pbdoc";
+
 const char* cc_GetEvalAutomorphismKeyMap_docs = R"pbdoc(
     Get automorphism keys for a specific secret key tag
 
