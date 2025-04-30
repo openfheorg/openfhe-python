@@ -39,14 +39,14 @@ Ciphertext<DCRTPoly> EvalFastRotationPrecomputeWrapper(CryptoContext<DCRTPoly> &
     cipherdigitsPtr->SetElements(elements);
     return cipherdigitsPtr;
 }
-Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, const usint index, const usint m,ConstCiphertext<DCRTPoly> digits) {
+Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, uint32_t index, uint32_t m,ConstCiphertext<DCRTPoly> digits) {
     
         std::vector<DCRTPoly> digitsElements = digits->GetElements();
         std::shared_ptr<std::vector<DCRTPoly>> digitsElementsPtr = std::make_shared<std::vector<DCRTPoly>>(digitsElements);
         return self->EvalFastRotation(ciphertext, index, m, digitsElementsPtr);
     }
 
-Ciphertext<DCRTPoly> EvalFastRotationExtWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, const usint index, ConstCiphertext<DCRTPoly> digits, bool addFirst) {
+Ciphertext<DCRTPoly> EvalFastRotationExtWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, uint32_t index, ConstCiphertext<DCRTPoly> digits, bool addFirst) {
     std::vector<DCRTPoly> digitsElements = digits->GetElements();
     std::shared_ptr<std::vector<DCRTPoly>> digitsElementsPtr = std::make_shared<std::vector<DCRTPoly>>(digitsElements);
     return self->EvalFastRotationExt(ciphertext, index, digitsElementsPtr, addFirst);
@@ -70,26 +70,26 @@ Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std
     return plaintextDecResult;
 }
 
-const std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrapper(CryptoContext<DCRTPoly>& self,const std::string &id){
-    return std::make_shared<std::map<usint, EvalKey<DCRTPoly>>>(CryptoContextImpl<DCRTPoly>::GetEvalSumKeyMap(id));;
+const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrapper(CryptoContext<DCRTPoly>& self,const std::string &keyTag){
+    return std::make_shared<std::map<uint32_t, EvalKey<DCRTPoly>>>(CryptoContextImpl<DCRTPoly>::GetEvalSumKeyMap(keyTag));;
 }
 
-const PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self){
+PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetPlaintextModulus();
 }
 
-const double GetModulusWrapper(CryptoContext<DCRTPoly>& self){
+double GetModulusWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetElementParams()->GetModulus().ConvertToDouble();
 }
 
-void RemoveElementWrapper(Ciphertext<DCRTPoly> &self, usint index){
+void RemoveElementWrapper(Ciphertext<DCRTPoly> &self, uint32_t index){
     self->GetElements().erase(self->GetElements().begin()+index);
 }
-const usint GetDigitSizeWrapper(CryptoContext<DCRTPoly>& self){
+uint32_t GetDigitSizeWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetDigitSize();
 }
 
-const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l){
+double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l){
     if(self->getSchemeId()==SCHEME::CKKSRNS_SCHEME){
         const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersCKKSRNS>(self->GetCryptoParameters());
         double scFactor = cryptoParams->GetScalingFactorReal(l);
@@ -111,7 +111,7 @@ const double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t
     }
 }
 
-const uint64_t GetModulusCKKSWrapper(CryptoContext<DCRTPoly> &self)
+uint64_t GetModulusCKKSWrapper(CryptoContext<DCRTPoly> &self)
 {
 
     const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersCKKSRNS>(self->GetCryptoParameters());
@@ -121,7 +121,7 @@ const uint64_t GetModulusCKKSWrapper(CryptoContext<DCRTPoly> &self)
     return modulus_CKKS_from;
 }
 
-const ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly> & self){
+ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly> & self){
     if(self->getSchemeId()==SCHEME::CKKSRNS_SCHEME){
         const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersCKKSRNS>(self->GetCryptoParameters());
         return cryptoParams->GetScalingTechnique();

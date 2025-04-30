@@ -977,7 +977,7 @@ const char* cc_MultiEvalAtIndexKeyGen_docs = R"pbdoc(
     :type indexList: List[int32]
     :param keyId: new key identifier used for resulting evaluation key
     :type keyId: str
-    :return: EvalKeyMap: new joined rotation keys
+    :return: EvalKeyMap: a map with new joined rotation keys
     :rtype: EvalKeyMap
 )pbdoc";
 
@@ -1136,10 +1136,12 @@ const char* cc_InsertEvalMultKey_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_InsertEvalAutomorphismKey_docs = R"pbdoc(
-    Add the given map of keys to the map, replacing the existing map if there is
+    Add the given map of keys to the map, replacing the existing map if there is one
 
-    :param evalKeyMap: map of keys
+    :param evalKeyMap: map of keys to be inserted
     :type EvalKeyMap
+    :param keyTag: key identifier for the given key map
+    :type keyTag: str
 )pbdoc";
 
 const char* cc_EvalSum_docs = R"pbdoc(

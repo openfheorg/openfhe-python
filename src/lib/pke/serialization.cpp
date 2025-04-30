@@ -47,17 +47,17 @@ PYBIND11_MAKE_OPAQUE(std::map<uint32_t, EvalKey<DCRTPoly>>);
 
 
 template <typename ST>
-bool SerializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype, std::string id) {
+bool SerializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype, std::string keyTag) {
     std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<ST>(outfile, sertype, id);
+    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<ST>(outfile, sertype, keyTag);
     outfile.close();
     return res;
 }
 
 template <typename ST>
-bool SerializeEvalAutomorphismKeyWrapper(const std::string& filename, const ST& sertype, std::string id) {
+bool SerializeEvalAutomorphismKeyWrapper(const std::string& filename, const ST& sertype, std::string keyTag) {
     std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<ST>(outfile, sertype, id);
+    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<ST>(outfile, sertype, keyTag);
     outfile.close();
     return res;
 }
@@ -141,9 +141,9 @@ CryptoContext<DCRTPoly> DeserializeCCFromBytesWrapper(const py::bytes& bytes, co
 }
 
 template <typename ST>
-std::string SerializeEvalMultKeyToStringWrapper(const ST& sertype, const std::string& id) {
+std::string SerializeEvalMultKeyToStringWrapper(const ST& sertype, const std::string& keyTag) {
     std::ostringstream oss;
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, sertype, id);
+    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, sertype, keyTag);
     if (!res) {
         throw std::runtime_error("Failed to serialize EvalMultKey");
     }
@@ -151,12 +151,12 @@ std::string SerializeEvalMultKeyToStringWrapper(const ST& sertype, const std::st
 }
 
 template <typename ST>
-py::bytes SerializeEvalMultKeyToBytesWrapper(const ST& sertype, const std::string& id) {
+py::bytes SerializeEvalMultKeyToBytesWrapper(const ST& sertype, const std::string& keyTag) {
     // let strbuf be dynamically allocated as we may be dealing with large keys
     auto strbuf = std::make_unique<std::stringbuf>(std::ios::out | std::ios::binary);
     std::ostream oss(strbuf.get());
 
-    if (!CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, sertype, id)) {
+    if (!CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, sertype, keyTag)) {
         throw std::runtime_error("Failed to serialize EvalMultKey");
     }
 
@@ -165,9 +165,9 @@ py::bytes SerializeEvalMultKeyToBytesWrapper(const ST& sertype, const std::strin
 }
 
 template <typename ST>
-std::string SerializeEvalAutomorphismKeyToStringWrapper(const ST& sertype, const std::string& id) {
+std::string SerializeEvalAutomorphismKeyToStringWrapper(const ST& sertype, const std::string& keyTag) {
     std::ostringstream oss;
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, sertype, id);
+    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, sertype, keyTag);
     if (!res) {
         throw std::runtime_error("Failed to serialize EvalAutomorphismKey");
     }
@@ -175,12 +175,12 @@ std::string SerializeEvalAutomorphismKeyToStringWrapper(const ST& sertype, const
 }
 
 template <typename ST>
-py::bytes SerializeEvalAutomorphismKeyToBytesWrapper(const ST& sertype, const std::string& id) {
+py::bytes SerializeEvalAutomorphismKeyToBytesWrapper(const ST& sertype, const std::string& keyTag) {
     // let strbuf be dynamically allocated as we may be dealing with large keys
     auto strbuf = std::make_unique<std::stringbuf>(std::ios::out | std::ios::binary);
     std::ostream oss(strbuf.get());
 
-    if (!CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, sertype, id)) {
+    if (!CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, sertype, keyTag)) {
         throw std::runtime_error("Failed to serialize EvalAutomorphismKey");
     }
 
@@ -210,7 +210,7 @@ void DeserializeEvalMultKeyFromBytesWrapper(const py::bytes& bytes, const ST& se
 template <typename ST>
 void DeserializeEvalAutomorphismKeyFromStringWrapper(const std::string& data, const ST& sertype) {
     std::istringstream iss(data);
-    std::map<std::string, std::shared_ptr<std::map<usint, EvalKey<DCRTPoly>>>> keyMap;
+    std::map<std::string, std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>> keyMap;
     bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<ST>(iss, sertype);
     if (!res) {
         throw std::runtime_error("Failed to deserialize EvalAutomorphismKey");
@@ -281,12 +281,12 @@ void bind_serialization(pybind11::module &m) {
           py::arg("str"), py::arg("sertype"));
 
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToStringWrapper<SerType::SERJSON>,
-          py::arg("sertype"), py::arg("id") = "");
+          py::arg("sertype"), py::arg("keyTag") = "");
     m.def("DeserializeEvalMultKeyString",
           static_cast<void (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeEvalMultKeyFromStringWrapper<SerType::SERJSON>),
           py::arg("data"), py::arg("sertype"));
     m.def("SerializeEvalAutomorphismKeyString", &SerializeEvalAutomorphismKeyToStringWrapper<SerType::SERJSON>,
-          py::arg("sertype"), py::arg("id") = "");
+          py::arg("sertype"), py::arg("keyTag") = "");
     m.def("DeserializeEvalAutomorphismKeyString",
           static_cast<void (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeEvalAutomorphismKeyFromStringWrapper<SerType::SERJSON>),
           py::arg("data"), py::arg("sertype"));
@@ -348,12 +348,12 @@ void bind_serialization(pybind11::module &m) {
           py::arg("str"), py::arg("sertype"));
 
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToBytesWrapper<SerType::SERBINARY>,
-          py::arg("sertype"), py::arg("id") = "");
+          py::arg("sertype"), py::arg("keyTag") = "");
     m.def("DeserializeEvalMultKeyString",
           static_cast<void (*)(const py::bytes&, const SerType::SERBINARY&)>(&DeserializeEvalMultKeyFromBytesWrapper<SerType::SERBINARY>),
           py::arg("bytes"), py::arg("sertype"));
     m.def("SerializeEvalAutomorphismKeyString", &SerializeEvalAutomorphismKeyToBytesWrapper<SerType::SERBINARY>,
-          py::arg("sertype"), py::arg("id") = "");
+          py::arg("sertype"), py::arg("keyTag") = "");
     m.def("DeserializeEvalAutomorphismKeyString",
           static_cast<void (*)(const py::bytes&, const SerType::SERBINARY&)>(&DeserializeEvalAutomorphismKeyFromBytesWrapper<SerType::SERBINARY>),
           py::arg("bytes"), py::arg("sertype"));
