@@ -492,13 +492,13 @@ void bind_crypto_context(py::module &m)
         .def("EvalSumRows", &CryptoContextImpl<DCRTPoly>::EvalSumRows,
              cc_EvalSumRows_docs,
              py::arg("ciphertext"),
-             py::arg("rowSize"),
+             py::arg("numRows"),
              py::arg("evalSumKeyMap"),
              py::arg("subringDim") = 0)
         .def("EvalSumCols", &CryptoContextImpl<DCRTPoly>::EvalSumCols,
              cc_EvalSumCols_docs,
              py::arg("ciphertext"),
-             py::arg("rowSize"),
+             py::arg("numCols"),
              py::arg("evalSumKeyMap"))
         .def("EvalInnerProduct", static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(const ConstCiphertext<DCRTPoly>&, const ConstCiphertext<DCRTPoly>&, uint32_t) const>(&CryptoContextImpl<DCRTPoly>::EvalInnerProduct),
              cc_EvalInnerProduct_docs,
