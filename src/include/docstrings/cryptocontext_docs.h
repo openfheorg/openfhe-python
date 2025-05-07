@@ -56,7 +56,7 @@ const char* cc_GetKeyGenLevel_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_GetRingDimension_docs = R"pbdoc(
-    Get the ring dimension used for this context
+    Getter for ring dimension
 
     :return: The ring dimension
     :rtype: int
@@ -70,16 +70,16 @@ const char* cc_GetPlaintextModulus_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_GetCyclotomicOrder_docs = R"pbdoc(
-    Get the cyclotomic order used for this context
+    Getter for cyclotomic order
 
-    :return: The cyclotomic order
+    :return: cyclotomic order
     :rtype: int
 )pbdoc";
 
 const char* cc_GetModulus_docs = R"pbdoc(
-    Get the cyclotomic order used for this context
+    Getter for ciphertext modulus
 
-    :return: The modulus
+    :return: modulus
     :rtype: int
 )pbdoc";
 
@@ -92,7 +92,7 @@ const char* cc_Enable_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_KeyGen_docs = R"pbdoc(
-    Generate a public and private key pair
+    Generates a standard public/secret key pair.
 
     :return: a public/secret key pair
     :rtype: KeyPair
@@ -332,13 +332,13 @@ Decrypt a single ciphertext into the appropriate plaintext
 )pbdoc";
 
 const char* cc_KeySwitchGen_docs = R"pbdoc(
-    KeySwitchGen creates a key that can be used with the OpenFHE KeySwitch operation
+    Generates a key switching key from one secret key to another.
 
-    :param oldPrivateKey: input secrey key
+    :param oldPrivateKey: Original secret key.
     :type oldPrivateKey: PrivateKey
-    :param newPrivateKey: output secret key
+    :param newPrivateKey: Target secret key.
     :type newPrivateKey: PrivateKey
-    :return: new evaluation key
+    :return: New evaluation key for key switching.
     :rtype: EvalKey
 )pbdoc";
 
@@ -953,7 +953,6 @@ const char* cc_GetEvalAutomorphismKeyMap_docs = R"pbdoc(
     :rtype: EvalKeyMap
 )pbdoc";
 
-// TODO (Oliveira, R.) - Complete the following documentation
 const char* cc_GetEvalSumKeyMap_docs = R"pbdoc(
     Get a map of summation keys (each is composed of several automorphism keys) for a specific secret key tag
     :return: EvalKeyMap: key map
@@ -1297,22 +1296,215 @@ const char* cc_EvalBootstrap_docs = R"pbdoc(
     :rtype: Ciphertext
 )pbdoc";
 
-// TODO (Oliveira, R.) - Complete the following documentation
-const char* cc_EvalCKKStoFHEWSetup_docs = "";
-const char* cc_EvalCKKStoFHEWKeyGen_docs = "";
-const char* cc_EvalCKKStoFHEWPrecompute_docs = "";
-const char* cc_EvalCKKStoFHEW_docs = "";
-const char* cc_EvalFHEWtoCKKSSetup_docs = "";
-const char* cc_EvalFHEWtoCKKSKeyGen_docs = "";
-const char* cc_EvalFHEWtoCKKS_docs = "";
-const char* cc_EvalSchemeSwitchingSetup_docs = "";
-const char* cc_EvalSchemeSwitchingKeyGen_docs = "";
-const char* cc_EvalCompareSwitchPrecompute_docs = "";
-const char* cc_EvalCompareSchemeSwitching_docs = "";
-const char* cc_EvalMinSchemeSwitching_docs = "";
-const char* cc_EvalMinSchemeSwitchingAlt_docs = "";
-const char* cc_EvalMaxSchemeSwitching_docs = "";
-const char* cc_EvalMaxSchemeSwitchingAlt_docs = "";
+const char* cc_EvalCKKStoFHEWSetup_docs = R"pbdoc(
+    Sets all parameters for switching from CKKS to FHEW.
+
+    :param schswchparams: Parameters for CKKS-to-FHEW scheme switching.
+    :type schswchparams: SchSwchParams
+    :return: FHEW secret key.
+    :rtype: LWEPrivateKey
+)pbdoc";
+
+const char* cc_EvalCKKStoFHEWKeyGen_docs = R"pbdoc(
+    Sets all parameters for switching from CKKS to FHEW.
+
+    :param keyPair: CKKS key pair.
+    :type keyPair: KeyPair
+    :param lwesk: FHEW secret key.
+    :type lwesk: LWEPrivateKey
+)pbdoc";
+
+const char* cc_EvalCKKStoFHEWPrecompute_docs = R"pbdoc(
+    Performs precomputations for CKKS homomorphic decoding. Allows setting a custom scale factor. Given as a separate method than EvalCKKStoFHEWSetup to allow the user to specify a scale that depends on the CKKS and FHEW cryptocontexts
+
+    :param scale: Scaling factor for the linear transform matrix.
+    :type scale: float
+)pbdoc";
+
+const char* cc_EvalCKKStoFHEW_docs = R"pbdoc(
+    Switches a CKKS ciphertext to a vector of FHEW ciphertexts.
+
+    :param ciphertext: Input CKKS ciphertext.
+    :type ciphertext: Ciphertext
+    :param numCtxts: Number of coefficients to extract (defaults to number of slots if 0).
+    :type numCtxts: int
+)pbdoc";
+
+const char* cc_EvalFHEWtoCKKSSetup_docs = R"pbdoc(
+    Sets parameters for switching from FHEW to CKKS. Requires existing CKKS context.
+
+    :param ccLWE: Source FHEW crypto context.
+    :type ccLWE: BinFHEContext
+    :param numSlotsCKKS  Number of slots in resulting CKKS ciphertext.
+    :type numSlotsCKKS: int
+    :param logQ:  Ciphertext modulus size in FHEW (for high precision).
+    :type logQ: int
+)pbdoc";
+
+const char* cc_EvalFHEWtoCKKSKeyGen_docs = R"pbdoc(
+    Generates keys for switching from FHEW to CKKS.
+
+    :param keyPair:   CKKS key pair.
+    :type keyPair:    KeyPair
+    :param lwesk:     FHEW secret key.
+    :type lwesk:      LWEPrivateKey
+    :param numSlots:  Number of slots for CKKS encryption.
+    :type numSlots:   int
+    :param numCtxts:  Number of LWE ciphertext values to encrypt.
+    :type numCtxts:   int
+    :param dim1:      Baby-step parameter for linear transform.
+    :type dim1:       int
+    :param L:         Target level for homomorphic decoding matrix.
+    :type L:          int
+)pbdoc";
+
+const char* cc_EvalFHEWtoCKKS_docs = R"pbdoc(
+    Switches a vector of FHEW ciphertexts to a single CKKS ciphertext.
+
+    :param LWECiphertexts:  Input vector of FHEW ciphertexts.
+    :type  LWECiphertexts:  list of LWECiphertext.
+    :param numCtxts:        Number of values to encode.
+    :type  numCtxts:        int
+    :param numSlots:        Number of CKKS slots to use.
+    :type  numSlots:        int
+    :param p:               Plaintext modulus (default = 4).
+    :type  p:               int.
+    :param pmin:            Minimum expected plaintext value (default = 0.0).
+    :type  pmin:            float.
+    :param pmax:            Maximum expected plaintext value (default = 2.0).
+    :type  pmax:            float.
+    :param dim1:            Baby-step parameter (used in argmin).
+    :type  dim1:            int.
+    :return:                CKKS ciphertext encoding the input LWE messages.
+    :rtype:                 Ciphertext
+)pbdoc";
+
+const char* cc_EvalSchemeSwitchingSetup_docs = R"pbdoc(
+    Sets parameters for switching between CKKS and FHEW.
+
+    :param schswchparams:  Scheme switching parameter object.
+    :type  schswchparams:  SchSwchParams.
+    :return:               FHEW secret key.
+    :rtype:                LWEPrivateKey.
+)pbdoc";
+
+const char* cc_EvalSchemeSwitchingKeyGen_docs = R"pbdoc(
+    Generates keys for switching between CKKS and FHEW.
+
+    :param keyPair:  CKKS key pair.
+    :type  keyPair:  KeyPair.
+    :param lwesk:    FHEW secret key.
+    :type  lwesk:    LWEPrivateKey.
+)pbdoc";
+
+const char* cc_EvalCompareSwitchPrecompute_docs = R"pbdoc(
+    Performs precomputations for scheme switching in CKKS-to-FHEW comparison. Given as a separate method than EvalSchemeSwitchingSetup to allow the user to specify a scale.
+
+    :param pLWE:       Target plaintext modulus for FHEW ciphertexts.
+    :type  pLWE:       int.
+    :param scaleSign:  Scaling factor for CKKS ciphertexts before switching.
+    :type  scaleSign:  float.
+    :param unit:       Indicates if input messages are normalized to unit circle.
+    :type  unit:       bool.
+)pbdoc";
+
+const char* cc_EvalCompareSchemeSwitching_docs = R"pbdoc(
+    Compares two CKKS ciphertexts using FHEW-based scheme switching and returns CKKS result.
+
+    :param ciphertext1:  First input CKKS ciphertext.
+    :type  ciphertext1:  Ciphertext.
+    :param ciphertext2:  Second input CKKS ciphertext.
+    :type  ciphertext2:  Ciphertext.
+    :param numCtxts:     Number of coefficients to extract.
+    :type  numCtxts:     int.
+    :param numSlots:     Number of slots to encode in the result.
+    :type  numSlots:     int.
+    :param pLWE:         Target plaintext modulus for FHEW ciphertexts.
+    :type  pLWE:         int.
+    :param scaleSign:    Scaling factor for CKKS ciphertexts before switching.
+    :type  scaleSign:    float.
+    :param unit:         Indicates if input messages are normalized to unit circle.
+    :type  unit:         bool.
+    :return:             CKKS ciphertext encoding sign comparison result.
+    :rtype:              Ciphertext
+)pbdoc";
+
+const char* cc_EvalMinSchemeSwitching_docs = R"pbdoc(
+    Computes minimum and index of the first packed values using scheme switching.
+
+    :param ciphertext:  Input CKKS ciphertext.
+    :type  ciphertext:  Ciphertext.
+    :param publicKey:   CKKS public key.
+    :type  publicKey:   PublicKey.
+    :param numValues:   Number of values to compare (we assume that numValues is a power of two).
+    :type  numValues:   int.
+    :param numSlots:    Number of output slots.
+    :type  numSlots:    int.
+    :param pLWE:        Target plaintext modulus for FHEW.
+    :type  pLWE:        int.
+    :param scaleSign:   Scaling factor before switching to FHEW. The resulting FHEW ciphertexts will encrypt values modulo pLWE, so scaleSign should account for this pLWE and is given here only if the homomorphic decoding matrix is not scaled with the desired values
+    :type  scaleSign:   float.
+    :return: A vector of two CKKS ciphertexts: [min, argmin]. The ciphertexts have junk after the first slot in the first ciphertext
+         and after numValues in the second ciphertext if oneHot=true and after the first slot if oneHot=false.
+    :rtype:             list of Ciphertext.
+)pbdoc";
+
+const char* cc_EvalMinSchemeSwitchingAlt_docs = R"pbdoc(
+    Computes minimum and index using more FHEW operations than CKKS with higher precision, but slower than EvalMinSchemeSwitching.
+
+    :param ciphertext:  Input CKKS ciphertext.
+    :type  ciphertext:  Ciphertext.
+    :param publicKey:   CKKS public key.
+    :type  publicKey:   PublicKey.
+    :param numValues:   Number of packed values to compare.
+    :type  numValues:   int.
+    :param numSlots:    Number of slots in the output ciphertexts.
+    :type  numSlots:    int.
+    :param pLWE:        Target plaintext modulus for FHEW ciphertexts.
+    :type  pLWE:        int.
+    :param scaleSign:   Scaling factor before switching to FHEW.
+    :type  scaleSign:   float.
+    :return:            A vector with two CKKS ciphertexts: [min, argmin].
+    :rtype:             list of Ciphertext.
+)pbdoc";
+
+const char* cc_EvalMaxSchemeSwitching_docs = R"pbdoc(
+    Computes maximum and index from the first packed values using scheme switching.
+
+    :param ciphertext:  Input CKKS ciphertext.
+    :type  ciphertext:  Ciphertext.
+    :param publicKey:   CKKS public key.
+    :type  publicKey:   PublicKey.
+    :param numValues:   Number of values to compare (we assume that numValues is a power of two).
+    :type  numValues:   int.
+    :param numSlots:    Number of output slots.
+    :type  numSlots:    int.
+    :param pLWE:        Target plaintext modulus for FHEW.
+    :type  pLWE:        int.
+    :param scaleSign:   Scaling factor before switching to FHEW.
+    :type  scaleSign:   float.
+    :return:            A vector of two CKKS ciphertexts: [max, argmax]. The ciphertexts have junk after the first slot in the first ciphertext and after numValues in the second ciphertext if oneHot=true and after the first slot if oneHot=false.
+    :rtype:             list of Ciphertext.
+)pbdoc";
+
+const char* cc_EvalMaxSchemeSwitchingAlt_docs = R"pbdoc(
+    Computes max and index via scheme switching, with more FHEW operations for better precision than EvalMaxSchemeSwitching.
+
+    :param ciphertext:  Input CKKS ciphertext.
+    :type  ciphertext:  Ciphertext.
+    :param publicKey:   CKKS public key.
+    :type  publicKey:   PublicKey.
+    :param numValues:   Number of values to compare.
+    :type  numValues:   int.
+    :param numSlots:    Number of output slots.
+    :type  numSlots:    int.
+    :param pLWE:        Target plaintext modulus for FHEW.
+    :type  pLWE:        int.
+    :param scaleSign:   Scaling factor before switching to FHEW.
+    :type  scaleSign:   float.
+    :return:            A vector of two CKKS ciphertexts: [max, argmax].
+    :rtype:             list of Ciphertext.
+)pbdoc";
 
 const char* cc_EvalAutomorphismKeyGen_docs = R"pbdoc(
     Generate automophism keys for a given private key; Uses the private key for encryption
