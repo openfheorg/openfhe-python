@@ -15,7 +15,7 @@
 
 ## Installing using pip (for Ubuntu)
 
-On Ubuntu, openfhe-python can be installed using pip.  All available releases are listed at [Python Package Index OpenFHE Releases](https://pypi.org/manage/project/openfhe/releases/). Find the release for your version of Ubuntu and run
+On Ubuntu, openfhe-python can be installed using pip.  All available releases are listed at [Python Package Index OpenFHE Release History](https://pypi.org/project/openfhe/#history). Find the release for your version of Ubuntu and run
 
 ```
 pip install openfhe==<openfhe_package_version>
