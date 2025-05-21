@@ -1071,6 +1071,47 @@ const char* cc_MultiAddEvalMultKeys_docs = R"pbdoc(
     :rtype: EvalKey
 )pbdoc";
 
+const char* cc_IntBootDecrypt_docs = R"pbdoc(
+    Performs masked decryption for interactive bootstrapping (2-party protocol).
+
+    :param privateKey: Secret key share
+    :type privateKey: PrivateKey
+    :param ciphertext: Input Ciphertext
+    :type ciphertext: Ciphertext
+    :return: Resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_IntBootEncrypt_docs = R"pbdoc(
+    Encrypts Client's masked decryption for interactive bootstrapping. Increases ciphertext modulus to allow further computation. Done by Client.
+
+    :param publicKey: Joined public key (Threshold FHE)
+    :type publicKey: PublicKey
+    :param ciphertext: Input Ciphertext
+    :type ciphertext: Ciphertext
+    :return: Resulting ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_IntBootAdd_docs = R"pbdoc(
+    Combines encrypted and unencrypted masked decryptions in 2-party interactive bootstrapping. It is the last step in the boostrapping.
+
+    :param ciphertext1: Encrypted masked decryption
+    :type ciphertext1: Ciphertext
+    :param ciphertext2: Unencrypted masked decryption
+    :type ciphertext2: Ciphertext
+    :return: Refreshed ciphertext
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_IntBootAdjustScale_docs = R"pbdoc(
+    Prepares a ciphertext for interactive bootstrapping.
+
+    :param ciphertext: Input ciphertext
+    :type ciphertext: Ciphertext
+    :return: Adjusted ciphertext
+    :rtype: Ciphertext
+)pbdoc";
 
 const char* cc_IntMPBootAdjustScale_docs = R"pbdoc(
     Threshold FHE: Prepare a ciphertext for Multi-Party Interactive Bootstrapping.
