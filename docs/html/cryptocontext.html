@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CryptoContext &mdash; openfhe-python 0.8.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=6a14807c"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=486e5634"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -85,7 +83,7 @@
            <div itemprop="articleBody">
              
   <section id="cryptocontext">
-<h1>CryptoContext<a class="headerlink" href="#cryptocontext" title="Permalink to this heading"></a></h1>
+<h1>CryptoContext<a class="headerlink" href="#cryptocontext" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">CryptoContext</span></span></dt>
@@ -93,19 +91,13 @@
 <dl class="py method">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ClearEvalAutomorphismKeys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd><p>ClearEvalAutomorphismKeys - flush EvalAutomorphismKey cache</p>
+<dd><p>Flush EvalAutomorphismKey cache</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ClearEvalMultKeys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd><p>ClearEvalMultKeys - flush EvalMultKey cache for a given id</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<em>str</em>) – the corresponding key id</p>
-</dd>
-</dl>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">Compress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">towersLeft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -308,7 +300,7 @@ The list of available features is defined in the PKESchemeFeature enum.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>EvalAdd(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, constant: float) -&gt; openfhe.Ciphertext</p></li>
+<li><p>EvalAdd(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, scalar: float) -&gt; openfhe.Ciphertext</p></li>
 </ol>
 <p>EvalAdd - OpenFHE EvalAdd method for a ciphertext and a real number. Supported only in CKKS.</p>
 <dl class="field-list simple">
@@ -383,6 +375,11 @@ The list of available features is defined in the PKESchemeFeature enum.</p>
 <li><p>EvalAddInPlace(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; None</p></li>
 </ol>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">EvalAddMany</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertextVec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -574,22 +571,58 @@ The list of available features is defined in the PKESchemeFeature enum.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalCKKStoFHEW</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numCtxts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="binfhe.html#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><span class="pre">openfhe.LWECiphertext</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Switches a CKKS ciphertext to a vector of FHEW ciphertexts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input CKKS ciphertext.</p></li>
+<li><p><strong>numCtxts</strong> (<em>int</em>) – Number of coefficients to extract (defaults to number of slots if 0).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalCKKStoFHEWKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyPair</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.KeyPair" title="openfhe.KeyPair"><span class="pre">openfhe.KeyPair</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lwesk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><span class="pre">openfhe.LWEPrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Sets all parameters for switching from CKKS to FHEW.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keyPair</strong> (<a class="reference internal" href="keys.html#openfhe.KeyPair" title="openfhe.KeyPair"><em>KeyPair</em></a>) – CKKS key pair.</p></li>
+<li><p><strong>lwesk</strong> (<a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><em>LWEPrivateKey</em></a>) – FHEW secret key.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalCKKStoFHEWPrecompute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Performs precomputations for CKKS homomorphic decoding. Allows setting a custom scale factor. Given as a separate method than EvalCKKStoFHEWSetup to allow the user to specify a scale that depends on the CKKS and FHEW cryptocontexts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scale</strong> (<em>float</em>) – Scaling factor for the linear transform matrix.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalCKKStoFHEWSetup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schswchparams:</span> <span class="pre">lbcrypto::SchSwchParams</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><span class="pre">openfhe.LWEPrivateKey</span></a></span></span></dt>
-<dd></dd></dl>
+<dd><p>Sets all parameters for switching from CKKS to FHEW.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>schswchparams</strong> (<em>SchSwchParams</em>) – Parameters for CKKS-to-FHEW scheme switching.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>FHEW secret key.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey">LWEPrivateKey</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -683,12 +716,42 @@ The list of available features is defined in the PKESchemeFeature enum.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalCompareSchemeSwitching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numCtxts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numSlots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pLWE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaleSign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
-<dd></dd></dl>
+<dd><p>Compares two CKKS ciphertexts using FHEW-based scheme switching and returns CKKS result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext1</strong> (<em>Ciphertext.</em>) – First input CKKS ciphertext.</p></li>
+<li><p><strong>ciphertext2</strong> (<em>Ciphertext.</em>) – Second input CKKS ciphertext.</p></li>
+<li><p><strong>numCtxts</strong> (<em>int.</em>) – Number of coefficients to extract.</p></li>
+<li><p><strong>numSlots</strong> (<em>int.</em>) – Number of slots to encode in the result.</p></li>
+<li><p><strong>pLWE</strong> (<em>int.</em>) – Target plaintext modulus for FHEW ciphertexts.</p></li>
+<li><p><strong>scaleSign</strong> (<em>float.</em>) – Scaling factor for CKKS ciphertexts before switching.</p></li>
+<li><p><strong>unit</strong> (<em>bool.</em>) – Indicates if input messages are normalized to unit circle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CKKS ciphertext encoding sign comparison result.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalCompareSwitchPrecompute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pLWE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaleSign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Performs precomputations for scheme switching in CKKS-to-FHEW comparison. Given as a separate method than EvalSchemeSwitchingSetup to allow the user to specify a scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pLWE</strong> (<em>int.</em>) – Target plaintext modulus for FHEW ciphertexts.</p></li>
+<li><p><strong>scaleSign</strong> (<em>float.</em>) – Scaling factor for CKKS ciphertexts before switching.</p></li>
+<li><p><strong>unit</strong> (<em>bool.</em>) – Indicates if input messages are normalized to unit circle.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -737,17 +800,60 @@ The list of available features is defined in the PKESchemeFeature enum.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalFHEWtoCKKS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LWECiphertexts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="binfhe.html#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><span class="pre">openfhe.LWECiphertext</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numCtxts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numSlots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
-<dd></dd></dl>
+<dd><p>Switches a vector of FHEW ciphertexts to a single CKKS ciphertext.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LWECiphertexts</strong> (<em>list</em><em> of </em><em>LWECiphertext.</em>) – Input vector of FHEW ciphertexts.</p></li>
+<li><p><strong>numCtxts</strong> (<em>int</em>) – Number of values to encode.</p></li>
+<li><p><strong>numSlots</strong> (<em>int</em>) – Number of CKKS slots to use.</p></li>
+<li><p><strong>p</strong> (<em>int.</em>) – Plaintext modulus (default = 4).</p></li>
+<li><p><strong>pmin</strong> (<em>float.</em>) – Minimum expected plaintext value (default = 0.0).</p></li>
+<li><p><strong>pmax</strong> (<em>float.</em>) – Maximum expected plaintext value (default = 2.0).</p></li>
+<li><p><strong>dim1</strong> (<em>int.</em>) – Baby-step parameter (used in argmin).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CKKS ciphertext encoding the input LWE messages.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalFHEWtoCKKSKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyPair</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.KeyPair" title="openfhe.KeyPair"><span class="pre">openfhe.KeyPair</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lwesk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><span class="pre">openfhe.LWEPrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numSlots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numCtxts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Generates keys for switching from FHEW to CKKS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keyPair</strong> (<a class="reference internal" href="keys.html#openfhe.KeyPair" title="openfhe.KeyPair"><em>KeyPair</em></a>) – CKKS key pair.</p></li>
+<li><p><strong>lwesk</strong> (<a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><em>LWEPrivateKey</em></a>) – FHEW secret key.</p></li>
+<li><p><strong>numSlots</strong> (<em>int</em>) – Number of slots for CKKS encryption.</p></li>
+<li><p><strong>numCtxts</strong> (<em>int</em>) – Number of LWE ciphertext values to encrypt.</p></li>
+<li><p><strong>dim1</strong> (<em>int</em>) – Baby-step parameter for linear transform.</p></li>
+<li><p><strong>L</strong> (<em>int</em>) – Target level for homomorphic decoding matrix.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalFHEWtoCKKSSetup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ccLWE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numSlotsCKKS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logQ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Sets parameters for switching from FHEW to CKKS. Requires existing CKKS context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ccLWE</strong> (<a class="reference internal" href="binfhe.html#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><em>BinFHEContext</em></a>) – Source FHEW crypto context.</p>
+</dd>
+</dl>
+<p>:param numSlotsCKKS  Number of slots in resulting CKKS ciphertext.
+:type numSlotsCKKS: int
+:param logQ:  Ciphertext modulus size in FHEW (for high precision).
+:type logQ: int</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -946,12 +1052,50 @@ This routinely happens when we do permutations (EvalPermute).</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalMaxSchemeSwitching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numValues</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numSlots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pLWE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaleSign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Computes maximum and index from the first packed values using scheme switching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<em>Ciphertext.</em>) – Input CKKS ciphertext.</p></li>
+<li><p><strong>publicKey</strong> (<em>PublicKey.</em>) – CKKS public key.</p></li>
+<li><p><strong>numValues</strong> (<em>int.</em>) – Number of values to compare (we assume that numValues is a power of two).</p></li>
+<li><p><strong>numSlots</strong> (<em>int.</em>) – Number of output slots.</p></li>
+<li><p><strong>pLWE</strong> (<em>int.</em>) – Target plaintext modulus for FHEW.</p></li>
+<li><p><strong>scaleSign</strong> (<em>float.</em>) – Scaling factor before switching to FHEW.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A vector of two CKKS ciphertexts: [max, argmax]. The ciphertexts have junk after the first slot in the first ciphertext and after numValues in the second ciphertext if oneHot=true and after the first slot if oneHot=false.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of Ciphertext.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalMaxSchemeSwitchingAlt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numValues</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numSlots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pLWE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaleSign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Computes max and index via scheme switching, with more FHEW operations for better precision than EvalMaxSchemeSwitching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<em>Ciphertext.</em>) – Input CKKS ciphertext.</p></li>
+<li><p><strong>publicKey</strong> (<em>PublicKey.</em>) – CKKS public key.</p></li>
+<li><p><strong>numValues</strong> (<em>int.</em>) – Number of values to compare.</p></li>
+<li><p><strong>numSlots</strong> (<em>int.</em>) – Number of output slots.</p></li>
+<li><p><strong>pLWE</strong> (<em>int.</em>) – Target plaintext modulus for FHEW.</p></li>
+<li><p><strong>scaleSign</strong> (<em>float.</em>) – Scaling factor before switching to FHEW.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A vector of two CKKS ciphertexts: [max, argmax].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of Ciphertext.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -973,12 +1117,51 @@ This routinely happens when we do permutations (EvalPermute).</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalMinSchemeSwitching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numValues</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numSlots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pLWE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaleSign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Computes minimum and index of the first packed values using scheme switching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<em>Ciphertext.</em>) – Input CKKS ciphertext.</p></li>
+<li><p><strong>publicKey</strong> (<em>PublicKey.</em>) – CKKS public key.</p></li>
+<li><p><strong>numValues</strong> (<em>int.</em>) – Number of values to compare (we assume that numValues is a power of two).</p></li>
+<li><p><strong>numSlots</strong> (<em>int.</em>) – Number of output slots.</p></li>
+<li><p><strong>pLWE</strong> (<em>int.</em>) – Target plaintext modulus for FHEW.</p></li>
+<li><p><strong>scaleSign</strong> (<em>float.</em>) – Scaling factor before switching to FHEW. The resulting FHEW ciphertexts will encrypt values modulo pLWE, so scaleSign should account for this pLWE and is given here only if the homomorphic decoding matrix is not scaled with the desired values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A vector of two CKKS ciphertexts: [min, argmin]. The ciphertexts have junk after the first slot in the first ciphertext
+and after numValues in the second ciphertext if oneHot=true and after the first slot if oneHot=false.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of Ciphertext.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalMinSchemeSwitchingAlt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numValues</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numSlots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pLWE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaleSign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Computes minimum and index using more FHEW operations than CKKS with higher precision, but slower than EvalMinSchemeSwitching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext</strong> (<em>Ciphertext.</em>) – Input CKKS ciphertext.</p></li>
+<li><p><strong>publicKey</strong> (<em>PublicKey.</em>) – CKKS public key.</p></li>
+<li><p><strong>numValues</strong> (<em>int.</em>) – Number of packed values to compare.</p></li>
+<li><p><strong>numSlots</strong> (<em>int.</em>) – Number of slots in the output ciphertexts.</p></li>
+<li><p><strong>pLWE</strong> (<em>int.</em>) – Target plaintext modulus for FHEW ciphertexts.</p></li>
+<li><p><strong>scaleSign</strong> (<em>float.</em>) – Scaling factor before switching to FHEW.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A vector with two CKKS ciphertexts: [min, argmin].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of Ciphertext.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -1003,7 +1186,7 @@ This routinely happens when we do permutations (EvalPermute).</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>EvalMult(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, constant: float) -&gt; openfhe.Ciphertext</p></li>
+<li><p>EvalMult(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, scalar: float) -&gt; openfhe.Ciphertext</p></li>
 </ol>
 <p>Multiplication of a ciphertext by a real number. Supported only in CKKS.</p>
 <dl class="field-list simple">
@@ -1040,7 +1223,7 @@ This routinely happens when we do permutations (EvalPermute).</p>
 </dl>
 <ol class="arabic simple" start="4">
 <li><p>EvalMult(self: openfhe.CryptoContext, plaintext: openfhe.Plaintext, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
-<li><p>EvalMult(self: openfhe.CryptoContext, constant: float, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+<li><p>EvalMult(self: openfhe.CryptoContext, scalar: float, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
 </ol>
 </dd></dl>
 
@@ -1197,16 +1380,16 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalPoly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
-<dd><p>Method for polynomial evaluation for polynomials represented as power series.</p>
+<dd><p>Evaluates a polynomial (given as a power series) on a ciphertext (CKKS only). Use EvalPolyLinear() for low polynomial degrees (degree &lt; 5), or EvalPolyPS() for higher degrees.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – input ciphertext</p></li>
-<li><p><strong>coefficients</strong> (<em>list</em>) – vector of coefficients in the polynomial; the size of the vector is the degree of the polynomial + 1</p></li>
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input ciphertext.</p></li>
+<li><p><strong>coefficients</strong> (<em>list</em>) – Polynomial coefficients (vector’s size = (degree + 1)).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Ciphertext: the result of polynomial evaluation.</p>
+<dd class="field-even"><p>Ciphertext: Resulting ciphertext.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
@@ -1292,12 +1475,33 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalSchemeSwitchingKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyPair</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.KeyPair" title="openfhe.KeyPair"><span class="pre">openfhe.KeyPair</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lwesk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><span class="pre">openfhe.LWEPrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd></dd></dl>
+<dd><p>Generates keys for switching between CKKS and FHEW.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keyPair</strong> (<em>KeyPair.</em>) – CKKS key pair.</p></li>
+<li><p><strong>lwesk</strong> (<em>LWEPrivateKey.</em>) – FHEW secret key.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalSchemeSwitchingSetup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schswchparams:</span> <span class="pre">lbcrypto::SchSwchParams</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="binfhe.html#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><span class="pre">openfhe.LWEPrivateKey</span></a></span></span></dt>
-<dd></dd></dl>
+<dd><p>Sets parameters for switching between CKKS and FHEW.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>schswchparams</strong> (<em>SchSwchParams.</em>) – Scheme switching parameter object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>FHEW secret key.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>LWEPrivateKey.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -1392,7 +1596,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>EvalSub(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, constant: float) -&gt; openfhe.Ciphertext</p></li>
+<li><p>EvalSub(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, scalar: float) -&gt; openfhe.Ciphertext</p></li>
 </ol>
 <p>Subtraction of a ciphertext and a real number. Supported only in CKKS.</p>
 <dl class="field-list simple">
@@ -1410,7 +1614,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="3">
-<li><p>EvalSub(self: openfhe.CryptoContext, constant: float, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
+<li><p>EvalSub(self: openfhe.CryptoContext, scalar: float, ciphertext: openfhe.Ciphertext) -&gt; openfhe.Ciphertext</p></li>
 <li><p>EvalSub(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, plaintext: openfhe.Plaintext) -&gt; openfhe.Ciphertext</p></li>
 </ol>
 <p>Subtraction of a ciphertext and a real number. Supported only in CKKS.</p>
@@ -1453,7 +1657,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>EvalSubInPlace(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, constant: float) -&gt; None</p></li>
+<li><p>EvalSubInPlace(self: openfhe.CryptoContext, ciphertext: openfhe.Ciphertext, scalar: float) -&gt; None</p></li>
 </ol>
 <p>In-place subtraction of a ciphertext and a real number. Supported only in CKKS.</p>
 <dl class="field-list simple">
@@ -1465,7 +1669,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="3">
-<li><p>EvalSubInPlace(self: openfhe.CryptoContext, constant: float, ciphertext: openfhe.Ciphertext) -&gt; None</p></li>
+<li><p>EvalSubInPlace(self: openfhe.CryptoContext, scalar: float, ciphertext: openfhe.Ciphertext) -&gt; None</p></li>
 </ol>
 </dd></dl>
 
@@ -1547,18 +1751,18 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">EvalSumCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rowSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalSumKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
-<dd><p>Sums all elements over column-vectors in a matrix - works only with packed encoding</p>
+<span class="sig-name descname"><span class="pre">EvalSumCols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numCols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalSumKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Sums all elements across each column in a packed-encoded matrix ciphertext.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the input ciphertext</p></li>
-<li><p><strong>rowSize</strong> (<em>int</em>) – size of rows in the matrix</p></li>
-<li><p><strong>evalSumKeyMap</strong> (<em>EvalKeyMap</em>) – reference to the map of evaluation keys generated by</p></li>
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input ciphertext.</p></li>
+<li><p><strong>numCols</strong> (<em>int</em>) – Number of columns in the matrix.</p></li>
+<li><p><strong>evalSumKeyMap</strong> (<em>EvalKeyMap</em>) – Map of evaluation keys generated for column summation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Ciphertext: resulting ciphertext</p>
+<dd class="field-even"><p>Ciphertext: Ciphertext containing column-wise sums.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
@@ -1569,16 +1773,16 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalSumColsKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
-<dd><p>Generates the automorphism keys for EvalSumCols; works only for packed encoding</p>
+<dd><p>Generates automorphism keys for EvalSumCols (only for packed encoding).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – private key</p></li>
-<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – public key</p></li>
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – Private key used for key generation.</p></li>
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – Public key (used in NTRU schemes; unused now).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>returns the evaluation keys</p>
+<dd class="field-even"><p>Map of generated evaluation keys.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>EvalKeyMap</p>
@@ -1605,19 +1809,19 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">EvalSumRows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rowSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalSumKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subringDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
-<dd><p>Sums all elements over row-vectors in a matrix - works only with packed encoding</p>
+<span class="sig-name descname"><span class="pre">EvalSumRows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numRows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalSumKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subringDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Sums all elements across each row in a packed-encoded matrix ciphertext.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – the input ciphertext</p></li>
-<li><p><strong>rowSize</strong> (<em>int</em>) – size of rows in the matrix</p></li>
-<li><p><strong>evalSumKeyMap</strong> (<em>EvalKeyMap</em>) – reference to the map of evaluation keys generated by</p></li>
-<li><p><strong>subringDim</strong> (<em>int</em>) – the current cyclotomic order/subring dimension. If set to 0, we use the full cyclotomic order.</p></li>
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input ciphertext.</p></li>
+<li><p><strong>numRows</strong> (<em>int</em>) – Number of rows in the matrix.</p></li>
+<li><p><strong>evalSumKeyMap</strong> (<em>EvalKeyMap</em>) – Map of evaluation keys generated for row summation.</p></li>
+<li><p><strong>subringDim</strong> (<em>int</em>) – Subring dimension (use full cyclotomic order if 0).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Ciphertext: resulting ciphertext</p>
+<dd class="field-even"><p>Ciphertext: Ciphertext containing row-wise sums.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
@@ -1628,18 +1832,18 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">EvalSumRowsKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rowSize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subringDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
-<dd><p>Generate the automorphism keys for EvalSumRows; works only for packed encoding</p>
+<dd><p>Generates automorphism keys for EvalSumRows (only for packed encoding).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – private key</p></li>
-<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – public key</p></li>
-<li><p><strong>rowSize</strong> (<em>int</em>) – size of rows in the matrix</p></li>
-<li><p><strong>subringDim</strong> (<em>int</em>) – subring dimension (set to cyclotomic order if set to 0)</p></li>
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – Private key used for key generation.</p></li>
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – Public key (used in NTRU schemes; unused now).</p></li>
+<li><p><strong>rowSize</strong> (<em>int</em>) – Number of slots per row in the packed matrix.</p></li>
+<li><p><strong>subringDim</strong> (<em>int</em>) – Subring dimension (use cyclotomic order if 0).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>returns the evaluation keys</p>
+<dd class="field-even"><p>Map of generated evaluation keys.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>EvalKeyMap</p>
@@ -1688,11 +1892,21 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetCKKSDataType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.CKKSDataType</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetCompositeDegree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">GetCyclotomicOrder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
-<dd><p>Get the cyclotomic order used for this context</p>
+<dd><p>Getter for cyclotomic order</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The cyclotomic order</p>
+<dd class="field-odd"><p>cyclotomic order</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
@@ -1704,6 +1918,45 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">GetDigitSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetEvalAddCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetEvalAutomorphismKeyMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
+<dd><p>Get automorphism keys for a specific secret key tag</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>keyId</strong> (<em>str</em>) – key identifier used for private key</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>EvalKeyMap: map with all automorphism keys.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>EvalKeyMap</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GetEvalMultKeyVector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">openfhe.EvalKey</span><span class="p"><span class="pre">]</span></span></span></span></dt>
+<dd><p>Get relinearization keys for a specific secret key tag</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>keyId</strong> (<em>str</em>) – key identifier used for private key</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>EvalKeyVector: vector with all relinearization keys.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>EvalKeyVector</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -1729,11 +1982,16 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetKeySwitchCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">GetModulus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
-<dd><p>Get the cyclotomic order used for this context</p>
+<dd><p>Getter for ciphertext modulus</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The modulus</p>
+<dd class="field-odd"><p>modulus</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
@@ -1744,6 +2002,21 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">GetModulusCKKS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetMultiplicativeDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetNoiseEstimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetPRENumHops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1762,8 +2035,13 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">GetRegisterWordSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">GetRingDimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span></dt>
-<dd><p>Get the ring dimension used for this context</p>
+<dd><p>Getter for ring dimension</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ring dimension</p>
@@ -1798,8 +2076,22 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InsertEvalMultKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evalKeyVec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">openfhe.EvalKey</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd><p>InsertEvalMultKey - add the given vector of keys to the map, replacing the existing vector if there</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InsertEvalAutomorphismKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evalKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Add the given map of keys to the map, replacing the existing map if there is one</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>evalKeyMap</strong> – map of keys to be inserted</p>
+</dd>
+</dl>
+<p>:type EvalKeyMap
+:param keyTag: key identifier for the given key map
+:type keyTag: str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InsertEvalMultKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evalKeyVec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">openfhe.EvalKey</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd><p>Adds the given vector of keys to the map, replacing the existing vector if there</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>evalKeyVec</strong> (<em>List</em><em>[</em><em>EvalKey</em><em>]</em>) – vector of keys</p>
@@ -1814,6 +2106,83 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>evalKeyMap</strong> (<em>EvalKeyMap</em>) – key map</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IntBootAdd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Combines encrypted and unencrypted masked decryptions in 2-party interactive bootstrapping. It is the last step in the boostrapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ciphertext1</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Encrypted masked decryption</p></li>
+<li><p><strong>ciphertext2</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Unencrypted masked decryption</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Refreshed ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IntBootAdjustScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Prepares a ciphertext for interactive bootstrapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input ciphertext</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Adjusted ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IntBootDecrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Performs masked decryption for interactive bootstrapping (2-party protocol).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – Secret key share</p></li>
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input Ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resulting ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">IntBootEncrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ciphertext</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><span class="pre">openfhe.Ciphertext</span></a></span></span></dt>
+<dd><p>Encrypts Client’s masked decryption for interactive bootstrapping. Increases ciphertext modulus to allow further computation. Done by Client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>publicKey</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – Joined public key (Threshold FHE)</p></li>
+<li><p><strong>ciphertext</strong> (<a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext"><em>Ciphertext</em></a>) – Input Ciphertext</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resulting ciphertext</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext" title="openfhe.Ciphertext">Ciphertext</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1915,7 +2284,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">KeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="keys.html#openfhe.KeyPair" title="openfhe.KeyPair"><span class="pre">openfhe.KeyPair</span></a></span></span></dt>
-<dd><p>Generate a public and private key pair</p>
+<dd><p>Generates a standard public/secret key pair.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a public/secret key pair</p>
@@ -1929,16 +2298,16 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">KeySwitchGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oldPrivateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">newPrivateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKey</span></span></span></dt>
-<dd><p>KeySwitchGen creates a key that can be used with the OpenFHE KeySwitch operation</p>
+<dd><p>Generates a key switching key from one secret key to another.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>oldPrivateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – input secrey key</p></li>
-<li><p><strong>newPrivateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – output secret key</p></li>
+<li><p><strong>oldPrivateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – Original secret key.</p></li>
+<li><p><strong>newPrivateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – Target secret key.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>new evaluation key</p>
+<dd class="field-even"><p>New evaluation key for key switching.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>EvalKey</p>
@@ -2122,7 +2491,28 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">MultiAddEvalKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKey</span></span></span></dt>
+<span class="sig-name descname"><span class="pre">MultiAddEvalAutomorphismKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap1:</span> <span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap1:</span> <span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
+<dd><p>Threshold FHE: Adds two prior evaluation key sets for automorphisms</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>evalKeyMap1</strong> (<em>EvalKeyMap</em>) – first automorphism key set</p></li>
+<li><p><strong>evalKeyMap2</strong> (<em>EvalKeyMap</em>) – second automorphism key set</p></li>
+<li><p><strong>keyId</strong> (<em>str</em>) – new key identifier used for resulting evaluation key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the new joined key set for summation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>evalKeyMap</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">MultiAddEvalKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKey</span></span></span></dt>
 <dd><p>Threshold FHE: Adds two prior evaluation keys</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2143,7 +2533,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">MultiAddEvalMultKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKey</span></span></span></dt>
+<span class="sig-name descname"><span class="pre">MultiAddEvalMultKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKey</span></span></span></dt>
 <dd><p>Threshold FHE: Adds two prior evaluation key sets for summation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2164,7 +2554,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">MultiAddEvalSumKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
+<span class="sig-name descname"><span class="pre">MultiAddEvalSumKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
 <dd><p>Threshold FHE: Adds two prior evaluation key sets for summation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2185,7 +2575,50 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">MultiEvalSumKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
+<span class="sig-name descname"><span class="pre">MultiAddPubKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">publicKey2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><span class="pre">openfhe.PublicKey</span></a></span></span></dt>
+<dd><p>Threshold FHE: Adds two prior public keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>publicKey1</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – first public key</p></li>
+<li><p><strong>publicKey2</strong> (<a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey"><em>PublicKey</em></a>) – second public key</p></li>
+<li><p><strong>keyId</strong> (<em>str</em>) – new key identifier used for the resulting key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the new combined key</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="keys.html#openfhe.PublicKey" title="openfhe.PublicKey">PublicKey</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">MultiEvalAtIndexKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexList</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
+<dd><p>Threshold FHE: Generates joined rotation keys from the current secret key and prior joined rotation keys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privateKey</strong> (<a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><em>PrivateKey</em></a>) – secret key share</p></li>
+<li><p><strong>evalKeyMap</strong> (<em>EvalKeyMap</em>) – a map with prior joined rotation keys</p></li>
+<li><p><strong>indexList</strong> (<em>List</em><em>[</em><em>int32</em><em>]</em>) – a vector of rotation indices</p></li>
+<li><p><strong>keyId</strong> (<em>str</em>) – new key identifier used for resulting evaluation key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>EvalKeyMap: a map with new joined rotation keys</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>EvalKeyMap</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">MultiEvalSumKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKeyMap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKeyMap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKeyMap</span></span></span></dt>
 <dd><p>Threshold FHE: Generates joined summation evaluation keys from the current secret share and prior joined summation keys</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2227,7 +2660,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">MultiMultEvalKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyId</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKey</span></span></span></dt>
+<span class="sig-name descname"><span class="pre">MultiMultEvalKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privateKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="keys.html#openfhe.PrivateKey" title="openfhe.PrivateKey"><span class="pre">openfhe.PrivateKey</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalKey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.EvalKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyTag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">openfhe.EvalKey</span></span></span></dt>
 <dd><p>Threshold FHE: Generates a partial evaluation key for homomorphic multiplication based on the current secret share and an existing partial evaluation key</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2463,7 +2896,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SerializeEvalAutomorphismKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic">
-<li><p>SerializeEvalAutomorphismKey(filename: str, sertype: openfhe.SERBINARY, id: str = ‘’) -&gt; bool</p>
+<li><p>SerializeEvalAutomorphismKey(filename: str, sertype: openfhe.SERBINARY, keyTag: str = ‘’) -&gt; bool</p>
 <blockquote>
 <div><p>SerializeEvalAutomorphismKey for a single EvalAuto key or all of the EvalAuto keys</p>
 <dl class="field-list simple">
@@ -2491,7 +2924,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 </dl>
 </div></blockquote>
 </li>
-<li><p>SerializeEvalAutomorphismKey(filename: str, sertype: openfhe.SERJSON, id: str = ‘’) -&gt; bool</p>
+<li><p>SerializeEvalAutomorphismKey(filename: str, sertype: openfhe.SERJSON, keyTag: str = ‘’) -&gt; bool</p>
 <blockquote>
 <div><p>SerializeEvalAutomorphismKey for a single EvalAuto key or all of the EvalAuto keys</p>
 <dl class="field-list simple">
@@ -2527,7 +2960,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SerializeEvalMultKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic">
-<li><p>SerializeEvalMultKey(filename: str, sertype: openfhe.SERBINARY, id: str = ‘’) -&gt; bool</p>
+<li><p>SerializeEvalMultKey(filename: str, sertype: openfhe.SERBINARY, keyTag: str = ‘’) -&gt; bool</p>
 <blockquote>
 <div><p>SerializeEvalMultKey for a single EvalMult key or all of the EvalMult keys</p>
 <dl class="field-list simple">
@@ -2555,7 +2988,7 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 </dl>
 </div></blockquote>
 </li>
-<li><p>SerializeEvalMultKey(filename: str, sertype: openfhe.SERJSON, id: str = ‘’) -&gt; bool</p>
+<li><p>SerializeEvalMultKey(filename: str, sertype: openfhe.SERJSON, keyTag: str = ‘’) -&gt; bool</p>
 <blockquote>
 <div><p>SerializeEvalMultKey for a single EvalMult key or all of the EvalMult keys</p>
 <dl class="field-list simple">
@@ -2588,6 +3021,11 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SetEvalAddCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evalAddCount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">SetKeyGenLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>For future use: setter for the level at which evaluation keys should be generated</p>
 <dl class="field-list simple">
@@ -2596,6 +3034,26 @@ A vector of new evaluation keys is stored in cryptocontext.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SetKeySwitchCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keySwitchCount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SetMultiplicativeDepth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicativeDepth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SetNoiseEstimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noiseEstimate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SetPRENumHops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">openfhe.CryptoContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PRENumHops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">

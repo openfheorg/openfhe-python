@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome to OpenFHE - Python’s documentation! &mdash; openfhe-python 0.8.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=6a14807c"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=486e5634"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -84,9 +82,9 @@
            <div itemprop="articleBody">
              
   <section id="welcome-to-openfhe-python-s-documentation">
-<h1>Welcome to OpenFHE - Python’s documentation!<a class="headerlink" href="#welcome-to-openfhe-python-s-documentation" title="Permalink to this heading"></a></h1>
+<h1>Welcome to OpenFHE - Python’s documentation!<a class="headerlink" href="#welcome-to-openfhe-python-s-documentation" title="Link to this heading"></a></h1>
 <section id="openfhe-python">
-<h2>OpenFHE - Python<a class="headerlink" href="#openfhe-python" title="Permalink to this heading"></a></h2>
+<h2>OpenFHE - Python<a class="headerlink" href="#openfhe-python" title="Link to this heading"></a></h2>
 <p>Fully Homomorphic Encryption (FHE) is a powerful cryptographic primitive that enables performing computations over encrypted data without having access to the secret key. <a class="reference external" href="https://openfhe.org/">OpenFHE</a> is an open-source FHE library that includes efficient implementations of all common FHE schemes: BFV, BGV, CKKS, DM and CGGI.</p>
 <p><code class="docutils literal notranslate"><span class="pre">openfhe-python</span></code> is a Python library built as a wrapper for the main capabilities of OpenFHE C++ library. It provides a more user-friendly interface for Python developers,
 while keeping the efficiency of C++ FHE operations.</p>
@@ -113,9 +111,11 @@ while keeping the efficiency of C++ FHE operations.</p>
 <li class="toctree-l2"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext"><code class="docutils literal notranslate"><span class="pre">Ciphertext</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.Clone"><code class="docutils literal notranslate"><span class="pre">Ciphertext.Clone()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.GetLevel"><code class="docutils literal notranslate"><span class="pre">Ciphertext.GetLevel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.GetNoiseScaleDeg"><code class="docutils literal notranslate"><span class="pre">Ciphertext.GetNoiseScaleDeg()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.GetSlots"><code class="docutils literal notranslate"><span class="pre">Ciphertext.GetSlots()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.RemoveElement"><code class="docutils literal notranslate"><span class="pre">Ciphertext.RemoveElement()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.SetLevel"><code class="docutils literal notranslate"><span class="pre">Ciphertext.SetLevel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.SetNoiseScaleDeg"><code class="docutils literal notranslate"><span class="pre">Ciphertext.SetNoiseScaleDeg()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="ciphertext.html#openfhe.Ciphertext.SetSlots"><code class="docutils literal notranslate"><span class="pre">Ciphertext.SetSlots()</span></code></a></li>
 </ul>
 </li>
@@ -126,6 +126,8 @@ while keeping the efficiency of C++ FHE operations.</p>
 <li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.Decode"><code class="docutils literal notranslate"><span class="pre">Plaintext.Decode()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.Encode"><code class="docutils literal notranslate"><span class="pre">Plaintext.Encode()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetCKKSPackedValue"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetCKKSPackedValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetCoefPackedValue"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetCoefPackedValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetFormattedValues"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetFormattedValues()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetLength"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetLength()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetLevel"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetLevel()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="plaintext.html#openfhe.Plaintext.GetLogError"><code class="docutils literal notranslate"><span class="pre">Plaintext.GetLogError()</span></code></a></li>
@@ -231,9 +233,12 @@ while keeping the efficiency of C++ FHE operations.</p>
 <li class="toctree-l1"><a class="reference internal" href="binfhe.html">BinFHEContext</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext"><code class="docutils literal notranslate"><span class="pre">BinFHEContext</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.BTKeyGen"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.BTKeyGen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Bootstrap"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Bootstrap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.ClearBTKeys"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.ClearBTKeys()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Decrypt"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Decrypt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Encrypt"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Encrypt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalBinGate"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalBinGate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalConstant"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalConstant()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalDecomp"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalDecomp()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalFloor"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalFloor()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.EvalFunc"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalFunc()</span></code></a></li>
@@ -242,10 +247,26 @@ while keeping the efficiency of C++ FHE operations.</p>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GenerateBinFHEContext"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GenerateBinFHEContext()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GenerateLUTviaFunction"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GenerateLUTviaFunction()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetBeta"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetBeta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetBinFHEScheme"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetBinFHEScheme()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetLWEScheme"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetLWEScheme()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetMaxPlaintextSpace"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetMaxPlaintextSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetParams"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetParams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetPublicKey"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetPublicKey()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetRefreshKey"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetRefreshKey()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.GetSwitchKey"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetSwitchKey()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Getn"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Getn()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.Getq"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Getq()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.KeyGen"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.KeyGen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.KeyGenN"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.KeyGenN()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.KeyGenPair"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.KeyGenPair()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.LoadBinary"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.LoadBinary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.LoadJSON"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.LoadJSON()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.LoadPortableBinary"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.LoadPortableBinary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.SaveBinary"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SaveBinary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.SaveJSON"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SaveJSON()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.SavePortableBinary"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SavePortableBinary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.SerializedObjectName"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SerializedObjectName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="binfhe.html#openfhe.BinFHEContext.SerializedVersion"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SerializedVersion()</span></code></a></li>
 </ul>
 </li>
 </ul>

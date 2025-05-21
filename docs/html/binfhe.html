@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BinFHEContext &mdash; openfhe-python 0.8.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=6a14807c"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=486e5634"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -57,9 +55,12 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">BinFHEContext</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#openfhe.BinFHEContext"><code class="docutils literal notranslate"><span class="pre">BinFHEContext</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.BTKeyGen"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.BTKeyGen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.Bootstrap"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Bootstrap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.ClearBTKeys"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.ClearBTKeys()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.Decrypt"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Decrypt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.Encrypt"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Encrypt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.EvalBinGate"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalBinGate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.EvalConstant"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalConstant()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.EvalDecomp"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalDecomp()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.EvalFloor"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalFloor()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.EvalFunc"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.EvalFunc()</span></code></a></li>
@@ -68,10 +69,26 @@
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GenerateBinFHEContext"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GenerateBinFHEContext()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GenerateLUTviaFunction"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GenerateLUTviaFunction()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GetBeta"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetBeta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GetBinFHEScheme"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetBinFHEScheme()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GetLWEScheme"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetLWEScheme()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GetMaxPlaintextSpace"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetMaxPlaintextSpace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GetParams"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetParams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GetPublicKey"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetPublicKey()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GetRefreshKey"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetRefreshKey()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.GetSwitchKey"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.GetSwitchKey()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.Getn"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Getn()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.Getq"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.Getq()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.KeyGen"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.KeyGen()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.KeyGenN"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.KeyGenN()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.KeyGenPair"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.KeyGenPair()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.LoadBinary"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.LoadBinary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.LoadJSON"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.LoadJSON()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.LoadPortableBinary"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.LoadPortableBinary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.SaveBinary"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SaveBinary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.SaveJSON"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SaveJSON()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.SavePortableBinary"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SavePortableBinary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.SerializedObjectName"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SerializedObjectName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openfhe.BinFHEContext.SerializedVersion"><code class="docutils literal notranslate"><span class="pre">BinFHEContext.SerializedVersion()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -119,14 +136,14 @@
            <div itemprop="articleBody">
              
   <section id="binfhecontext">
-<h1>BinFHEContext<a class="headerlink" href="#binfhecontext" title="Permalink to this heading"></a></h1>
+<h1>BinFHEContext<a class="headerlink" href="#binfhecontext" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">BinFHEContext</span></span><a class="headerlink" href="#openfhe.BinFHEContext" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">BinFHEContext</span></span><a class="headerlink" href="#openfhe.BinFHEContext" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.BTKeyGen">
-<span class="sig-name descname"><span class="pre">BTKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keygenMode:</span> <span class="pre">openfhe.KEYGEN_MODE</span> <span class="pre">=</span> <span class="pre">&lt;KEYGEN_MODE.SYM_ENCRYPT:</span> <span class="pre">0&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.BTKeyGen" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">BTKeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keygenMode:</span> <span class="pre">openfhe.KEYGEN_MODE</span> <span class="pre">=</span> <span class="pre">&lt;KEYGEN_MODE.SYM_ENCRYPT:</span> <span class="pre">0&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.BTKeyGen" title="Link to this definition"></a></dt>
 <dd><p>Generates bootstrapping keys.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -136,8 +153,18 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.Bootstrap">
+<span class="sig-name descname"><span class="pre">Bootstrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extended:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Bootstrap" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.ClearBTKeys">
+<span class="sig-name descname"><span class="pre">ClearBTKeys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.ClearBTKeys" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.Decrypt">
-<span class="sig-name descname"><span class="pre">Decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Decrypt" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">Decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Decrypt" title="Link to this definition"></a></dt>
 <dd><p>Decrypts a ciphertext using a secret key.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -158,7 +185,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.Encrypt">
-<span class="sig-name descname"><span class="pre">Encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output:</span> <span class="pre">openfhe.BINFHE_OUTPUT</span> <span class="pre">=</span> <span class="pre">&lt;BINFHE_OUTPUT.BOOTSTRAPPED:</span> <span class="pre">2&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Encrypt" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">Encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sk:</span> <span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output:</span> <span class="pre">openfhe.BINFHE_OUTPUT</span> <span class="pre">=</span> <span class="pre">&lt;BINFHE_OUTPUT.BOOTSTRAPPED:</span> <span class="pre">2&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Encrypt" title="Link to this definition"></a></dt>
 <dd><p>Encrypts a bit or integer using a secret key (symmetric key encryption).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -181,28 +208,52 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalBinGate">
-<span class="sig-name descname"><span class="pre">EvalBinGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate:</span> <span class="pre">openfhe.BINGATE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct1:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct2:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalBinGate" title="Permalink to this definition"></a></dt>
-<dd><p>Evaluates a binary gate (calls bootstrapping as a subroutine).</p>
+<span class="sig-name descname"><span class="pre">EvalBinGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openfhe.BinFHEContext.EvalBinGate" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic">
+<li><p>EvalBinGate(self: openfhe.BinFHEContext, gate: openfhe.BINGATE, ct1: lbcrypto::LWECiphertextImpl, ct2: lbcrypto::LWECiphertextImpl, extended: bool = False) -&gt; lbcrypto::LWECiphertextImpl</p>
+<blockquote>
+<div><p>Evaluates a binary gate (calls bootstrapping as a subroutine).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>gate</strong> (<a class="reference internal" href="binfhe_enums.html#openfhe.BINGATE" title="openfhe.BINGATE"><em>BINGATE</em></a>) – The gate; can be AND, OR, NAND, NOR, XOR, or XNOR.</p></li>
-<li><p><strong>ct1</strong> (<a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><em>LWECiphertext</em></a>) – First ciphertext.</p></li>
-<li><p><strong>ct2</strong> (<a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><em>LWECiphertext</em></a>) – Second ciphertext.</p></li>
-</ul>
+<dt class="field-odd">param gate<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The gate; can be AND, OR, NAND, NOR, XOR, or XNOR.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The resulting ciphertext.</p>
+<dt class="field-even">type gate<span class="colon">:</span></dt>
+<dd class="field-even"><p>BINGATE</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext">LWECiphertext</a></p>
+<dt class="field-odd">param ct1<span class="colon">:</span></dt>
+<dd class="field-odd"><p>First ciphertext.</p>
+</dd>
+<dt class="field-even">type ct1<span class="colon">:</span></dt>
+<dd class="field-even"><p>LWECiphertext</p>
+</dd>
+<dt class="field-odd">param ct2<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Second ciphertext.</p>
+</dd>
+<dt class="field-even">type ct2<span class="colon">:</span></dt>
+<dd class="field-even"><p>LWECiphertext</p>
+</dd>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The resulting ciphertext.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>LWECiphertext</p>
 </dd>
 </dl>
+</div></blockquote>
+</li>
+<li><p>EvalBinGate(self: openfhe.BinFHEContext, gate: openfhe.BINGATE, ctvector: List[lbcrypto::LWECiphertextImpl], extended: bool = False) -&gt; lbcrypto::LWECiphertextImpl</p></li>
+</ol>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalConstant">
+<span class="sig-name descname"><span class="pre">EvalConstant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalConstant" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalDecomp">
-<span class="sig-name descname"><span class="pre">EvalDecomp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List[lbcrypto::LWECiphertextImpl]</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalDecomp" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">EvalDecomp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List[lbcrypto::LWECiphertextImpl]</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalDecomp" title="Link to this definition"></a></dt>
 <dd><p>Evaluate ciphertext decomposition</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -219,7 +270,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalFloor">
-<span class="sig-name descname"><span class="pre">EvalFloor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roundbits:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalFloor" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">EvalFloor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roundbits:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalFloor" title="Link to this definition"></a></dt>
 <dd><p>Evaluate a round down function</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -239,7 +290,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalFunc">
-<span class="sig-name descname"><span class="pre">EvalFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext,</span> <span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl,</span> <span class="pre">LUT:</span> <span class="pre">List[int]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalFunc" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">EvalFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext,</span> <span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl,</span> <span class="pre">LUT:</span> <span class="pre">List[int]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalFunc" title="Link to this definition"></a></dt>
 <dd><p>Evaluate an arbitrary function</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -259,24 +310,35 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalNOT">
-<span class="sig-name descname"><span class="pre">EvalNOT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalNOT" title="Permalink to this definition"></a></dt>
-<dd><p>Evaluates the NOT gate.</p>
+<span class="sig-name descname"><span class="pre">EvalNOT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openfhe.BinFHEContext.EvalNOT" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic">
+<li><p>EvalNOT(self: openfhe.BinFHEContext, ct: lbcrypto::LWECiphertextImpl) -&gt; lbcrypto::LWECiphertextImpl</p>
+<blockquote>
+<div><p>Evaluates the NOT gate.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ct</strong> (<a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><em>LWECiphertext</em></a>) – The input ciphertext.</p>
+<dt class="field-odd">param ct<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The input ciphertext.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The resulting ciphertext.</p>
+<dt class="field-even">type ct<span class="colon">:</span></dt>
+<dd class="field-even"><p>LWECiphertext</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext">LWECiphertext</a></p>
+<dt class="field-odd">return<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The resulting ciphertext.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>LWECiphertext</p>
 </dd>
 </dl>
+</div></blockquote>
+</li>
+<li><p>EvalNOT(self: openfhe.BinFHEContext, arg0: lbcrypto::LWECiphertextImpl) -&gt; lbcrypto::LWECiphertextImpl</p></li>
+</ol>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.EvalSign">
-<span class="sig-name descname"><span class="pre">EvalSign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemeSwitch:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalSign" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">EvalSign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ct:</span> <span class="pre">lbcrypto::LWECiphertextImpl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schemeSwitch:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWECiphertextImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.EvalSign" title="Link to this definition"></a></dt>
 <dd><p>Evaluate a sign function over large precisions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -296,7 +358,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.GenerateBinFHEContext">
-<span class="sig-name descname"><span class="pre">GenerateBinFHEContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openfhe.BinFHEContext.GenerateBinFHEContext" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GenerateBinFHEContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#openfhe.BinFHEContext.GenerateBinFHEContext" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic">
 <li><p>GenerateBinFHEContext(self: openfhe.BinFHEContext, set: openfhe.BINFHE_PARAMSET, method: openfhe.BINFHE_METHOD = &lt;BINFHE_METHOD.GINX: 2&gt;) -&gt; None</p>
@@ -378,7 +440,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.GenerateLUTviaFunction">
-<span class="sig-name descname"><span class="pre">GenerateLUTviaFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GenerateLUTviaFunction" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GenerateLUTviaFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GenerateLUTviaFunction" title="Link to this definition"></a></dt>
 <dd><p>Generate the LUT for the to-be-evaluated function</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -398,27 +460,57 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.GetBeta">
-<span class="sig-name descname"><span class="pre">GetBeta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetBeta" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetBeta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetBeta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.GetBinFHEScheme">
+<span class="sig-name descname"><span class="pre">GetBinFHEScheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::BinFHEScheme</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetBinFHEScheme" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.GetLWEScheme">
+<span class="sig-name descname"><span class="pre">GetLWEScheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWEEncryptionScheme</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetLWEScheme" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.GetMaxPlaintextSpace">
-<span class="sig-name descname"><span class="pre">GetMaxPlaintextSpace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetMaxPlaintextSpace" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetMaxPlaintextSpace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetMaxPlaintextSpace" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.GetParams">
+<span class="sig-name descname"><span class="pre">GetParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::BinFHECryptoParams</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetParams" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.GetPublicKey">
+<span class="sig-name descname"><span class="pre">GetPublicKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWEPublicKeyImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetPublicKey" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.GetRefreshKey">
+<span class="sig-name descname"><span class="pre">GetRefreshKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::RingGSWACCKeyImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetRefreshKey" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.GetSwitchKey">
+<span class="sig-name descname"><span class="pre">GetSwitchKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWESwitchingKeyImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.GetSwitchKey" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.Getn">
-<span class="sig-name descname"><span class="pre">Getn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Getn" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">Getn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Getn" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.Getq">
-<span class="sig-name descname"><span class="pre">Getq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Getq" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">Getq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.Getq" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.BinFHEContext.KeyGen">
-<span class="sig-name descname"><span class="pre">KeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.KeyGen" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">KeyGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.KeyGen" title="Link to this definition"></a></dt>
 <dd><p>Generates a secret key for the main LWE scheme.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -430,37 +522,105 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.KeyGenN">
+<span class="sig-name descname"><span class="pre">KeyGenN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWEPrivateKeyImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.KeyGenN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.KeyGenPair">
+<span class="sig-name descname"><span class="pre">KeyGenPair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lbcrypto::LWEKeyPairImpl</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.KeyGenPair" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.LoadBinary">
+<span class="sig-name descname"><span class="pre">LoadBinary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0:</span> <span class="pre">cereal::BinaryInputArchive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1:</span> <span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.LoadBinary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.LoadJSON">
+<span class="sig-name descname"><span class="pre">LoadJSON</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0:</span> <span class="pre">cereal::JSONInputArchive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1:</span> <span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.LoadJSON" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.LoadPortableBinary">
+<span class="sig-name descname"><span class="pre">LoadPortableBinary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0:</span> <span class="pre">cereal::PortableBinaryInputArchive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1:</span> <span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.LoadPortableBinary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.SaveBinary">
+<span class="sig-name descname"><span class="pre">SaveBinary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0:</span> <span class="pre">cereal::BinaryOutputArchive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1:</span> <span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.SaveBinary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.SaveJSON">
+<span class="sig-name descname"><span class="pre">SaveJSON</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0:</span> <span class="pre">cereal::JSONOutputArchive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1:</span> <span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.SaveJSON" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.SavePortableBinary">
+<span class="sig-name descname"><span class="pre">SavePortableBinary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self:</span> <span class="pre">openfhe.BinFHEContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0:</span> <span class="pre">cereal::PortableBinaryOutputArchive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1:</span> <span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.SavePortableBinary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.SerializedObjectName">
+<span class="sig-name descname"><span class="pre">SerializedObjectName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.BinFHEContext" title="openfhe.BinFHEContext"><span class="pre">openfhe.BinFHEContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.SerializedObjectName" title="Link to this definition"></a></dt>
+<dd><p>Return the serialized object name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>std::string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="openfhe.BinFHEContext.SerializedVersion">
+<span class="sig-name descname"><span class="pre">SerializedVersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.BinFHEContext.SerializedVersion" title="Link to this definition"></a></dt>
+<dd><p>Return the serialized version number in use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the version number</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>uint32_t</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
 <section id="lweciphertext">
-<h1>LWECiphertext<a class="headerlink" href="#lweciphertext" title="Permalink to this heading"></a></h1>
+<h1>LWECiphertext<a class="headerlink" href="#lweciphertext" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="openfhe.LWECiphertext">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">LWECiphertext</span></span><a class="headerlink" href="#openfhe.LWECiphertext" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">LWECiphertext</span></span><a class="headerlink" href="#openfhe.LWECiphertext" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.LWECiphertext.GetLength">
-<span class="sig-name descname"><span class="pre">GetLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><span class="pre">openfhe.LWECiphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.LWECiphertext.GetLength" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><span class="pre">openfhe.LWECiphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.LWECiphertext.GetLength" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.LWECiphertext.GetModulus">
-<span class="sig-name descname"><span class="pre">GetModulus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><span class="pre">openfhe.LWECiphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.LWECiphertext.GetModulus" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetModulus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.LWECiphertext" title="openfhe.LWECiphertext"><span class="pre">openfhe.LWECiphertext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.LWECiphertext.GetModulus" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="lweprivatekey">
-<h1>LWEPrivateKey<a class="headerlink" href="#lweprivatekey" title="Permalink to this heading"></a></h1>
+<h1>LWEPrivateKey<a class="headerlink" href="#lweprivatekey" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="openfhe.LWEPrivateKey">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">LWEPrivateKey</span></span><a class="headerlink" href="#openfhe.LWEPrivateKey" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">openfhe.</span></span><span class="sig-name descname"><span class="pre">LWEPrivateKey</span></span><a class="headerlink" href="#openfhe.LWEPrivateKey" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="openfhe.LWEPrivateKey.GetLength">
-<span class="sig-name descname"><span class="pre">GetLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><span class="pre">openfhe.LWEPrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.LWEPrivateKey.GetLength" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">GetLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#openfhe.LWEPrivateKey" title="openfhe.LWEPrivateKey"><span class="pre">openfhe.LWEPrivateKey</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#openfhe.LWEPrivateKey.GetLength" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
