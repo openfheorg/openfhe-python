@@ -63,6 +63,9 @@ const char* ccparams_doc = R"doc(
     :ivar int multiHopModSize: size of moduli used for PRE in the provable HRA setting
     :ivar EncryptionTechnique encryptionTechnique: STANDARD or EXTENDED mode for BFV encryption
     :ivar MultiplicationTechnique multiplicationTechnique: multiplication method in BFV: BEHZ, HPS, etc.
+    :ivar CKKSDataType ckksDataType: CKKS data type: real or complex. Noise flooding is only enabled for real values.
+    :ivar uint32_t compositeDegree: parameter to support high-precision CKKS RNS with small word sizes
+    :ivar uint32_t registerWordSize: parameter to support high-precision CKKS RNS with small word sizes
 )doc";
 
 const char* cc_GetScalingFactorReal_docs = R"pbdoc(
