@@ -14,7 +14,7 @@ on:
         description: 'Compiler type'
         type: string
         required: true
-        default: 'GLANG-14'
+        default: 'GLANG-18'
       native_backend:
         description: 'Size of NativeInteger'
         type: string
@@ -34,10 +34,10 @@ on:
         description: 'Compiler type'
         type: choice
         options:
-        - 'GCC-12'
-        - 'CLANG-14'
+        - 'GCC-14'
+        - 'CLANG-18'
         required: true
-        default: 'GLANG-14'
+        default: 'GLANG-18'
       native_backend:
         description: 'Size of NativeInteger'
         type: choice
