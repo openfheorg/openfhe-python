@@ -61,6 +61,10 @@ inline std::shared_ptr<CryptoParametersRNS> GetParamsRNSChecked(const CryptoCont
     return ptr;
 }
 
+void bind_DCRTPoly(py::module &m) {
+  py::class_<DCRTPoly>(m, "DCRTPoly").def(py::init<>());
+}
+
 template <typename T>
 void bind_parameters(py::module &m,const std::string name)
 {
@@ -1312,28 +1316,45 @@ void bind_encodings(py::module &m)
 
 void bind_ciphertext(py::module &m)
 {
-    py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
-        .def(py::init<>())
-        .def("__add__", [](const Ciphertext<DCRTPoly> &a, const Ciphertext<DCRTPoly> &b)
-             {return a + b; },py::is_operator(),pybind11::keep_alive<0, 1>())
-       // .def(py::self + py::self);
-    // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
-    // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
-     .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel,
-        ctx_GetLevel_docs)
-     .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel,
-        ctx_SetLevel_docs,
-        py::arg("level"))
-     .def("Clone", &CiphertextImpl<DCRTPoly>::Clone)
-     .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs)
-    // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
-    // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
-    // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
-    // .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
-     .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
-     .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots)
-     .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg)
-     .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg);
+  py::class_<CiphertextImpl<DCRTPoly>,
+             std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
+      .def(py::init<>())
+      .def(
+          "__add__",
+          [](const Ciphertext<DCRTPoly> &a, const Ciphertext<DCRTPoly> &b) {
+            return a + b;
+          },
+          py::is_operator(), pybind11::keep_alive<0, 1>())
+      // .def(py::self + py::self);
+      // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
+      // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
+      .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel, ctx_GetLevel_docs)
+      .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel, ctx_SetLevel_docs,
+           py::arg("level"))
+      .def("Clone", &CiphertextImpl<DCRTPoly>::Clone)
+      .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs)
+      // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
+      // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
+      // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
+      // .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
+      .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
+      .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots)
+      .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg)
+      .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg)
+      .def("GetElements", [](const CiphertextImpl<DCRTPoly>& self) -> const std::vector<DCRTPoly> & {
+            return self.GetElements();
+          },
+          py::return_value_policy::reference_internal)
+      .def("GetElementsMutable", [](CiphertextImpl<DCRTPoly>& self) -> std::vector<DCRTPoly> & {
+            return self.GetElements();
+          },
+          py::return_value_policy::reference_internal)
+      .def("SetElements", [](CiphertextImpl<DCRTPoly>& self, const std::vector<DCRTPoly> &elems) {
+             self.SetElements(elems);
+           })
+      .def("SetElementsMove", [](CiphertextImpl<DCRTPoly>& self, std::vector<DCRTPoly> &&elems) {
+             self.SetElements(std::move(elems));
+           });
 }
 
 void bind_schemes(py::module &m){
@@ -1400,6 +1421,7 @@ PYBIND11_MODULE(openfhe, m)
 {
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
     // binfhe library
+    bind_DCRTPoly(m);
     bind_binfhe_enums(m);
     bind_binfhe_context(m);
     bind_binfhe_keys(m);

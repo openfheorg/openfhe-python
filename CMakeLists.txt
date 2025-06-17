@@ -16,6 +16,7 @@ if(APPLE)
 endif()
 
 find_package(OpenFHE 1.3.0 REQUIRED)
+set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 REQUIRED)
 
 # "CMAKE_INTERPROCEDURAL_OPTIMIZATION ON" (ON is the default value) causes link failure. see
