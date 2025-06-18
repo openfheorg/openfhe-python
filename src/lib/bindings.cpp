@@ -868,101 +868,91 @@ void bind_crypto_context(py::module &m)
             cc_InsertEvalAutomorphismKey_docs,
             py::arg("evalKeyMap"),
             py::arg("keyTag") = "")
-        .def_static(
-            "ClearEvalAutomorphismKeys", []()
-            { CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys(); },
+        .def_static("ClearEvalAutomorphismKeys", []() {
+                CryptoContextImpl<DCRTPoly>::ClearEvalAutomorphismKeys();
+            },
             cc_ClearEvalAutomorphismKeys_docs)
         // it is safer to return by value instead of by reference (GetEvalMultKeyVector returns a const reference to std::vector)
-        .def_static("GetEvalMultKeyVector",
-            [](const std::string& keyTag) {
-              return CryptoContextImpl<DCRTPoly>::GetEvalMultKeyVector(keyTag);
+        .def_static("GetEvalMultKeyVector", [](const std::string& keyTag) {
+                return CryptoContextImpl<DCRTPoly>::GetEvalMultKeyVector(keyTag);
             },
             cc_GetEvalMultKeyVector_docs,
             py::arg("keyTag") = "")
         .def_static("GetEvalAutomorphismKeyMap", &CryptoContextImpl<DCRTPoly>::GetEvalAutomorphismKeyMapPtr,
             cc_GetEvalAutomorphismKeyMap_docs,
             py::arg("keyTag") = "")
-        .def_static(
-            "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string keyTag = "")
-            {
-              std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-              bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERBINARY>(outfile, sertype, keyTag);
-              outfile.close();
-              return res; },
+        .def_static("SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string keyTag = "") {
+                std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+                bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERBINARY>(outfile, sertype, keyTag);
+                outfile.close();
+                return res;
+            },
             cc_SerializeEvalMultKey_docs,
             py::arg("filename"), py::arg("sertype"), py::arg("keyTag") = "")
-        .def_static( // SerializeEvalMultKey - JSON
-            "SerializeEvalMultKey", [](const std::string &filename, const SerType::SERJSON &sertype, std::string keyTag = "")
-            {
-              std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-              bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERJSON>(outfile, sertype, keyTag);
-              outfile.close();
-              return res; },
+        .def_static("SerializeEvalMultKey", [](const std::string &filename, const SerType::SERJSON &sertype, std::string keyTag = "") {
+                std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+                bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERJSON>(outfile, sertype, keyTag);
+                outfile.close();
+                return res;
+            },
             cc_SerializeEvalMultKey_docs,
             py::arg("filename"), py::arg("sertype"), py::arg("keyTag") = "")
-        .def_static( // SerializeEvalAutomorphismKey - Binary
-            "SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string keyTag = "")
-            {
-              std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-              bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<SerType::SERBINARY>(outfile, sertype, keyTag);
-              outfile.close();
-              return res; },
+        .def_static("SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string keyTag = "") {
+                std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+                bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<SerType::SERBINARY>(outfile, sertype, keyTag);
+                outfile.close();
+                return res;
+            },
             cc_SerializeEvalAutomorphismKey_docs,
             py::arg("filename"), py::arg("sertype"), py::arg("keyTag") = "")
-        .def_static( // SerializeEvalAutomorphismKey - JSON
-            "SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERJSON &sertype, std::string keyTag = "")
-            {
-              std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-              bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<SerType::SERJSON>(outfile, sertype, keyTag);
-              outfile.close();
-              return res; },
+        .def_static("SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERJSON &sertype, std::string keyTag = "") {
+                std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+                bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<SerType::SERJSON>(outfile, sertype, keyTag);
+                outfile.close();
+                return res;
+            },
             cc_SerializeEvalAutomorphismKey_docs,
             py::arg("filename"), py::arg("sertype"), py::arg("keyTag") = "")
-        .def_static("DeserializeEvalMultKey", // DeserializeEvalMultKey - Binary
-        [](const std::string &filename, const SerType::SERBINARY &sertype)
-                    {
-              std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
-              if (!emkeys.is_open()) {
-                std::cerr << "I cannot read serialization from " << filename << std::endl;
-              }
-              bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<SerType::SERBINARY>(emkeys, sertype);
-              return res; 
-                        },
-                        cc_DeserializeEvalMultKey_docs,
-                        py::arg("filename"), py::arg("sertype"))
-        .def_static("DeserializeEvalMultKey", // DeserializeEvalMultKey - JSON
-        [](const std::string &filename, const SerType::SERJSON &sertype)
-                    {
-              std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
-              if (!emkeys.is_open()) {
-                std::cerr << "I cannot read serialization from " << filename << std::endl;
-              }
-              bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<SerType::SERJSON>(emkeys, sertype);
-              return res; },
-                        cc_DeserializeEvalMultKey_docs,
-                        py::arg("filename"), py::arg("sertype"))
-        .def_static("DeserializeEvalAutomorphismKey", // DeserializeEvalAutomorphismKey - Binary
-        [](const std::string &filename, const SerType::SERBINARY &sertype)
-                    {
-              std::ifstream erkeys(filename, std::ios::in | std::ios::binary);
-              if (!erkeys.is_open()) {
-                std::cerr << "I cannot read serialization from " << filename << std::endl;
-              }
-              bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<SerType::SERBINARY>(erkeys, sertype);
-              return res; },
-                        cc_DeserializeEvalAutomorphismKey_docs,
-                        py::arg("filename"), py::arg("sertype"))
-        .def_static("DeserializeEvalAutomorphismKey", // DeserializeEvalAutomorphismKey - JSON
-        [](const std::string &filename, const SerType::SERJSON &sertype)
-                    {
-              std::ifstream erkeys(filename, std::ios::in | std::ios::binary);
-              if (!erkeys.is_open()) {
-                std::cerr << "I cannot read serialization from " << filename << std::endl;
-              }
-              bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<SerType::SERJSON>(erkeys, sertype);
-              return res; },
-                        cc_DeserializeEvalAutomorphismKey_docs,
-                        py::arg("filename"), py::arg("sertype"));
+        .def_static("DeserializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype) {
+                std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
+                if (!emkeys.is_open()) {
+                    std::cerr << "I cannot read serialization from " << filename << std::endl;
+                }
+                bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<SerType::SERBINARY>(emkeys, sertype);
+                return res; 
+            },
+            cc_DeserializeEvalMultKey_docs,
+            py::arg("filename"), py::arg("sertype"))
+        .def_static("DeserializeEvalMultKey", [](const std::string &filename, const SerType::SERJSON &sertype) {
+                std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
+                if (!emkeys.is_open()) {
+                    std::cerr << "I cannot read serialization from " << filename << std::endl;
+                }
+                bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<SerType::SERJSON>(emkeys, sertype);
+                return res;
+            },
+            cc_DeserializeEvalMultKey_docs,
+            py::arg("filename"), py::arg("sertype"))
+        .def_static("DeserializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype) {
+                std::ifstream erkeys(filename, std::ios::in | std::ios::binary);
+                if (!erkeys.is_open()) {
+                    std::cerr << "I cannot read serialization from " << filename << std::endl;
+                }
+                bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<SerType::SERBINARY>(erkeys, sertype);
+                return res;
+            },
+            cc_DeserializeEvalAutomorphismKey_docs,
+            py::arg("filename"), py::arg("sertype"))
+        .def_static("DeserializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERJSON &sertype) {
+                std::ifstream erkeys(filename, std::ios::in | std::ios::binary);
+                if (!erkeys.is_open()) {
+                    std::cerr << "I cannot read serialization from " << filename << std::endl;
+                }
+                bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<SerType::SERJSON>(erkeys, sertype);
+                return res;
+            },
+            cc_DeserializeEvalAutomorphismKey_docs,
+            py::arg("filename"), py::arg("sertype"));
 
     // Generator Functions
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>,
@@ -1303,16 +1293,16 @@ void bind_encodings(py::module &m)
         .def("SetStringValue", &PlaintextImpl::SetStringValue)
         .def("SetIntVectorValue", &PlaintextImpl::SetIntVectorValue)
         .def("GetFormattedValues", &PlaintextImpl::GetFormattedValues)
-        .def("__repr__", [](const PlaintextImpl &p)
-             {
-        std::stringstream ss;
-        ss << "<Plaintext Object: " << p << ">";
-        return ss.str(); })
-        .def("__str__", [](const PlaintextImpl &p)
-             {
-        std::stringstream ss;
-        ss << p;
-        return ss.str(); });
+        .def("__repr__", [](const PlaintextImpl &p) {
+                std::stringstream ss;
+                ss << "<Plaintext Object: " << p << ">";
+                return ss.str();
+            })
+        .def("__str__", [](const PlaintextImpl &p) {
+                std::stringstream ss;
+                ss << p;
+                return ss.str();
+            });
 }
 
 void bind_ciphertext(py::module &m) {
@@ -1339,7 +1329,7 @@ void bind_ciphertext(py::module &m) {
         .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg)
         .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg)
         .def("GetCryptoContext", &CiphertextImpl<DCRTPoly>::GetCryptoContext)
-        .def("GetEncodingType", &CiphertextImpl<DCRTPoly>::GetEncodingType);
+        .def("GetEncodingType", &CiphertextImpl<DCRTPoly>::GetEncodingType)
         .def("GetElements", [](const CiphertextImpl<DCRTPoly>& self) -> const std::vector<DCRTPoly>& {
                 return self.GetElements();
             },
@@ -1408,13 +1398,12 @@ void bind_sch_swch_params(py::module &m)
         .def("SetRingDimension", &SchSwchParams::SetRingDimension)
         .def("SetScalingModSize", &SchSwchParams::SetScalingModSize)
         .def("SetBatchSize", &SchSwchParams::SetBatchSize)
-        .def("__str__",[](const SchSwchParams &params) {
-            std::stringstream stream;
-            stream << params;
-            return stream.str();
-        });
+        .def("__str__", [](const SchSwchParams &params) {
+                std::stringstream stream;
+                stream << params;
+                return stream.str();
+            });
 }
-
 
 PYBIND11_MODULE(openfhe, m)
 {
