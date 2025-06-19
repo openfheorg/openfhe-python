@@ -78,6 +78,10 @@ PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetPlaintextModulus();
 }
 
+uint32_t GetBatchSizeWrapper(CryptoContext<DCRTPoly>& self){
+    return self->GetCryptoParameters()->GetBatchSize();
+}
+
 double GetModulusWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetElementParams()->GetModulus().ConvertToDouble();
 }
