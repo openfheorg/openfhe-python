@@ -1305,133 +1305,84 @@ void bind_encodings(py::module &m)
                 return ss.str();
             });
 }
-void bind_ciphertext(py::module &m) {
-    using CiphertextImplDCRT = CiphertextImpl<DCRTPoly>;
-    using CiphertextDCRT = Ciphertext<DCRTPoly>;  // shared_ptr<CiphertextImpl<DCRTPoly>>
 
-    // Bind CiphertextImpl<DCRTPoly> and expose it to Python as "Ciphertext"
-    py::class_<CiphertextImplDCRT, std::shared_ptr<CiphertextImplDCRT>>(m, "Ciphertext")
+void bind_ciphertext(py::module &m) {
+    py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
         .def(py::init<>())
-        .def("__add__", [](const CiphertextDCRT &a, const CiphertextDCRT &b) {
+        .def("__add__", [](const Ciphertext<DCRTPoly> &a, const Ciphertext<DCRTPoly> &b) {
                 return a + b;
             },
             py::is_operator(), pybind11::keep_alive<0, 1>())
-        .def("GetLevel", &CiphertextImplDCRT::GetLevel, ctx_GetLevel_docs)
-        .def("SetLevel", &CiphertextImplDCRT::SetLevel, ctx_SetLevel_docs, py::arg("level"))
-        .def("Clone", &CiphertextImplDCRT::Clone)
+        // .def(py::self + py::self);
+        // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
+        // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
+        .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel, ctx_GetLevel_docs)
+        .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel, ctx_SetLevel_docs,
+            py::arg("level"))
+        .def("Clone", &CiphertextImpl<DCRTPoly>::Clone)
         .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs)
-        .def("GetSlots", &CiphertextImplDCRT::GetSlots)
-        .def("SetSlots", &CiphertextImplDCRT::SetSlots)
-        .def("GetNoiseScaleDeg", &CiphertextImplDCRT::GetNoiseScaleDeg)
-        .def("SetNoiseScaleDeg", &CiphertextImplDCRT::SetNoiseScaleDeg)
-        .def("GetCryptoContext", &CiphertextImplDCRT::GetCryptoContext)
-        .def("GetEncodingType", &CiphertextImplDCRT::GetEncodingType)
-        .def("GetElements", [](const CiphertextImplDCRT& self) -> const std::vector<DCRTPoly>& {
+        // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
+        // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
+        // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
+        // .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
+        .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
+        .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots)
+        .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg)
+        .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg)
+        .def("GetCryptoContext", &CiphertextImpl<DCRTPoly>::GetCryptoContext)
+        .def("GetEncodingType", &CiphertextImpl<DCRTPoly>::GetEncodingType)
+        .def("GetElements", [](const CiphertextImpl<DCRTPoly>& self) -> const std::vector<DCRTPoly>& {
                 return self.GetElements();
-            }, py::return_value_policy::reference_internal)
-        .def("GetElementsMutable", [](CiphertextImplDCRT& self) -> std::vector<DCRTPoly>& {
+            },
+            py::return_value_policy::reference_internal)
+        .def("GetElementsMutable", [](CiphertextImpl<DCRTPoly>& self) -> std::vector<DCRTPoly>& {
                 return self.GetElements();
-            }, py::return_value_policy::reference_internal)
-        .def("SetElements", [](CiphertextImplDCRT& self, const std::vector<DCRTPoly>& elems) {
+            },
+            py::return_value_policy::reference_internal)
+        .def("SetElements", [](CiphertextImpl<DCRTPoly>& self, const std::vector<DCRTPoly>& elems) {
                 self.SetElements(elems);
             })
-        .def("SetElementsMove", [](CiphertextImplDCRT& self, std::vector<DCRTPoly>&& elems) {
+        .def("SetElementsMove", [](CiphertextImpl<DCRTPoly>& self, std::vector<DCRTPoly>&& elems) {
                 self.SetElements(std::move(elems));
             });
-
-    // Bind the shared_ptr alias (Ciphertext<DCRTPoly>) so it picks up the methods above
-    py::class_<CiphertextDCRT>(m, "_CiphertextAlias");  // hidden helper; not necessary for users
 }
 
 // void bind_ciphertext(py::module &m) {
-//     // using CiphertextDCRT = lbcrypto::Ciphertext<DCRTPoly>;
-//     // py::class_<CiphertextDCRT>(m, "Ciphertext")
-//     //     .def(py::init<>())
-//     //     .def("__add__", [](const CiphertextDCRT& a, const CiphertextDCRT& b) {
-//     //             return a + b;
-//     //         },
-//     //         py::is_operator(), pybind11::keep_alive<0, 1>())
-//     //     .def("GetLevel", [](const CiphertextDCRT& self) {
-//     //             return self->GetLevel();
-//     //         }, ctx_GetLevel_docs)
-//     //     .def("SetLevel", [](CiphertextDCRT& self, size_t level) {
-//     //             self->SetLevel(level);
-//     //         }, ctx_SetLevel_docs, py::arg("level"))
-//     //     .def("Clone", [](const CiphertextDCRT& self) {
-//     //             return self->Clone();
-//     //         })
-//     //     .def("RemoveElement", [](CiphertextDCRT& self, uint32_t idx) {
-//     //             return RemoveElementWrapper(self, idx);
-//     //         }, cc_RemoveElement_docs)
-//     //     .def("GetSlots", [](const CiphertextDCRT& self) {
-//     //             return self->GetSlots();
-//     //         })
-//     //     .def("SetSlots", [](CiphertextDCRT& self, uint32_t slots) {
-//     //             self->SetSlots(slots);
-//     //         })
-//     //     .def("GetNoiseScaleDeg", [](const CiphertextDCRT& self) {
-//     //             return self->GetNoiseScaleDeg();
-//     //         })
-//     //     .def("SetNoiseScaleDeg", [](CiphertextDCRT& self, size_t val) {
-//     //             self->SetNoiseScaleDeg(val);
-//     //         })
-//     //     .def("GetCryptoContext", [](const CiphertextDCRT& self) {
-//     //             return self->GetCryptoContext();
-//     //         })
-//     //     .def("GetEncodingType", [](const CiphertextDCRT& self) {
-//     //             return self->GetEncodingType();
-//     //         })
-//     //     .def("GetElements", [](const CiphertextDCRT& self) -> const std::vector<DCRTPoly>& {
-//     //             return self->GetElements();
-//     //         }, py::return_value_policy::reference_internal)
-//     //     .def("GetElementsMutable", [](CiphertextDCRT& self) -> std::vector<DCRTPoly>& {
-//     //             return self->GetElements();
-//     //         }, py::return_value_policy::reference_internal)
-//     //     .def("SetElements", [](CiphertextDCRT& self, const std::vector<DCRTPoly>& elems) {
-//     //             self->SetElements(elems);
-//     //         })
-//     //     .def("SetElementsMove", [](CiphertextDCRT& self, std::vector<DCRTPoly>&& elems) {
-//     //             self->SetElements(std::move(elems));
-//     //         });
+//     using CiphertextImplDCRT = CiphertextImpl<DCRTPoly>;
+//     using CiphertextDCRT = Ciphertext<DCRTPoly>;  // shared_ptr<CiphertextImpl<DCRTPoly>>
 
-//     // py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
-//     //     .def(py::init<>())
-//     //     .def("__add__", [](const Ciphertext<DCRTPoly> &a, const Ciphertext<DCRTPoly> &b) {
-//     //             return a + b;
-//     //         },
-//     //         py::is_operator(), pybind11::keep_alive<0, 1>())
-//     //     // .def(py::self + py::self);
-//     //     // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
-//     //     // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
-//     //     .def("GetLevel", &CiphertextImpl<DCRTPoly>::GetLevel, ctx_GetLevel_docs)
-//     //     .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel, ctx_SetLevel_docs,
-//     //         py::arg("level"))
-//     //     .def("Clone", &CiphertextImpl<DCRTPoly>::Clone)
-//     //     .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs)
-//     //     // .def("GetHopLevel", &CiphertextImpl<DCRTPoly>::GetHopLevel)
-//     //     // .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel)
-//     //     // .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
-//     //     // .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
-//     //     .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
-//     //     .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots)
-//     //     .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg)
-//     //     .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg)
-//     //     .def("GetCryptoContext", &CiphertextImpl<DCRTPoly>::GetCryptoContext)
-//     //     .def("GetEncodingType", &CiphertextImpl<DCRTPoly>::GetEncodingType)
-//     //     .def("GetElements", [](const CiphertextImpl<DCRTPoly>& self) -> const std::vector<DCRTPoly>& {
-//     //             return self.GetElements();
-//     //         },
-//     //         py::return_value_policy::reference_internal)
-//     //     .def("GetElementsMutable", [](CiphertextImpl<DCRTPoly>& self) -> std::vector<DCRTPoly>& {
-//     //             return self.GetElements();
-//     //         },
-//     //         py::return_value_policy::reference_internal)
-//     //     .def("SetElements", [](CiphertextImpl<DCRTPoly>& self, const std::vector<DCRTPoly>& elems) {
-//     //             self.SetElements(elems);
-//     //         })
-//     //     .def("SetElementsMove", [](CiphertextImpl<DCRTPoly>& self, std::vector<DCRTPoly>&& elems) {
-//     //             self.SetElements(std::move(elems));
-//     //         });
+//     // Bind CiphertextImpl<DCRTPoly> and expose it to Python as "Ciphertext"
+//     py::class_<CiphertextImplDCRT, std::shared_ptr<CiphertextImplDCRT>>(m, "Ciphertext")
+//         .def(py::init<>())
+//         .def("__add__", [](const CiphertextDCRT &a, const CiphertextDCRT &b) {
+//                 return a + b;
+//             },
+//             py::is_operator(), pybind11::keep_alive<0, 1>())
+//         .def("GetLevel", &CiphertextImplDCRT::GetLevel, ctx_GetLevel_docs)
+//         .def("SetLevel", &CiphertextImplDCRT::SetLevel, ctx_SetLevel_docs, py::arg("level"))
+//         .def("Clone", &CiphertextImplDCRT::Clone)
+//         .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs)
+//         .def("GetSlots", &CiphertextImplDCRT::GetSlots)
+//         .def("SetSlots", &CiphertextImplDCRT::SetSlots)
+//         .def("GetNoiseScaleDeg", &CiphertextImplDCRT::GetNoiseScaleDeg)
+//         .def("SetNoiseScaleDeg", &CiphertextImplDCRT::SetNoiseScaleDeg)
+//         .def("GetCryptoContext", &CiphertextImplDCRT::GetCryptoContext)
+//         .def("GetEncodingType", &CiphertextImplDCRT::GetEncodingType)
+//         .def("GetElements", [](const CiphertextImplDCRT& self) -> const std::vector<DCRTPoly>& {
+//                 return self.GetElements();
+//             }, py::return_value_policy::reference_internal)
+//         .def("GetElementsMutable", [](CiphertextImplDCRT& self) -> std::vector<DCRTPoly>& {
+//                 return self.GetElements();
+//             }, py::return_value_policy::reference_internal)
+//         .def("SetElements", [](CiphertextImplDCRT& self, const std::vector<DCRTPoly>& elems) {
+//                 self.SetElements(elems);
+//             })
+//         .def("SetElementsMove", [](CiphertextImplDCRT& self, std::vector<DCRTPoly>&& elems) {
+//                 self.SetElements(std::move(elems));
+//             });
+
+//     // Bind the shared_ptr alias (Ciphertext<DCRTPoly>) so it picks up the methods above
+//     py::class_<CiphertextDCRT>(m, "_CiphertextAlias");  // hidden helper; not necessary for users
 // }
 
 void bind_schemes(py::module &m){
