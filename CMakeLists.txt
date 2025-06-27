@@ -8,6 +8,14 @@ set(OPENFHE_PYTHON_VERSION_PATCH 0)
 set(OPENFHE_PYTHON_VERSION_TWEAK 0)
 set(OPENFHE_PYTHON_VERSION ${OPENFHE_PYTHON_VERSION_MAJOR}.${OPENFHE_PYTHON_VERSION_MINOR}.${OPENFHE_PYTHON_VERSION_PATCH}.${OPENFHE_PYTHON_VERSION_TWEAK})
 
+# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.3.0)
+if(NOT DEFINED OPENFHE_REQUIRED_VERSION)
+    set(OPENFHE_REQUIRED_VERSION "1.3.0" CACHE STRING "Required OpenFHE version")
+else()
+    # User provided OPENFHE_REQUIRED_VERSION via -D
+    message(STATUS "Using user-specified OpenFHE version: ${OPENFHE_REQUIRED_VERSION}")
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 option( BUILD_STATIC "Set to ON to include static versions of the library" OFF)
 
@@ -15,7 +23,9 @@ if(APPLE)
     set(CMAKE_CXX_VISIBILITY_PRESET default)
 endif()
 
-find_package(OpenFHE 1.3.0 REQUIRED)
+find_package(OpenFHE ${OPENFHE_REQUIRED_VERSION} REQUIRED)
+message(STATUS "Building with OpenFHE version: ${OPENFHE_REQUIRED_VERSION}")
+
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 REQUIRED)
 
@@ -66,20 +76,13 @@ pybind11_add_module(openfhe
 ### Python installation 
 # Allow the user to specify the path to Python executable (if not provided, find it)
 option(PYTHON_EXECUTABLE_PATH "Path to Python executable" "")
-
-if(NOT PYTHON_EXECUTABLE_PATH)
-    # Find Python and its development components
-    find_package(Python REQUIRED COMPONENTS Interpreter Development)
-else()
-    # Set Python_EXECUTABLE to the specified path
+if(PYTHON_EXECUTABLE_PATH)
     set(Python_EXECUTABLE "${PYTHON_EXECUTABLE_PATH}")
 endif()
-
-# Find Python interpreter
-find_package(PythonInterp REQUIRED)
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
 # Check Python version
-if(${PYTHON_VERSION_MAJOR} EQUAL 3 AND ${PYTHON_VERSION_MINOR} GREATER_EQUAL 10)
+if(${Python_VERSION_MAJOR} EQUAL 3 AND ${Python_VERSION_MINOR} GREATER_EQUAL 10)
     execute_process(
         COMMAND "${Python_EXECUTABLE}" -c "from sys import exec_prefix; print(exec_prefix)"
         OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
@@ -101,3 +104,5 @@ else()
 endif()
 message("***** INSTALL IS AT ${Python_Install_Location}; to change, run cmake with -DCMAKE_INSTALL_PREFIX=/your/path")
 install(TARGETS openfhe LIBRARY DESTINATION ${Python_Install_Location})
+install(FILES ${CMAKE_SOURCE_DIR}/__init__.py DESTINATION ${Python_Install_Location})
+
