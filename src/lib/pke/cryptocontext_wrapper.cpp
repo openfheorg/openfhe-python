@@ -34,10 +34,9 @@
 Ciphertext<DCRTPoly> EvalFastRotationPrecomputeWrapper(CryptoContext<DCRTPoly> &self,ConstCiphertext<DCRTPoly> ciphertext) {
     std::shared_ptr<std::vector<DCRTPoly>> precomp = self->EvalFastRotationPrecompute(ciphertext);
     std::vector<DCRTPoly> elements = *(precomp.get());
-    CiphertextImpl<DCRTPoly> cipherdigits = CiphertextImpl<DCRTPoly>(self);
-    std::shared_ptr<CiphertextImpl<DCRTPoly>> cipherdigitsPtr = std::make_shared<CiphertextImpl<DCRTPoly>>(cipherdigits);
-    cipherdigitsPtr->SetElements(elements);
-    return cipherdigitsPtr;
+    std::shared_ptr<CiphertextImpl<DCRTPoly>> cipherdigits = std::make_shared<CiphertextImpl<DCRTPoly>>(self);
+    cipherdigits->SetElements(std::move(elements));
+    return cipherdigits;
 }
 Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly>& self,ConstCiphertext<DCRTPoly> ciphertext, uint32_t index, uint32_t m,ConstCiphertext<DCRTPoly> digits) {
     
@@ -76,6 +75,10 @@ const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWra
 
 PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self){
     return self->GetCryptoParameters()->GetPlaintextModulus();
+}
+
+uint32_t GetBatchSizeWrapper(CryptoContext<DCRTPoly>& self){
+    return self->GetCryptoParameters()->GetBatchSize();
 }
 
 double GetModulusWrapper(CryptoContext<DCRTPoly>& self){

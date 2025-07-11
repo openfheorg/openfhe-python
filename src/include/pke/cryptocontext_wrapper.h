@@ -54,6 +54,7 @@ Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std
 
 const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrapper(CryptoContext<DCRTPoly>& self, const std::string &id);
 PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self);
+uint32_t GetBatchSizeWrapper(CryptoContext<DCRTPoly>& self);
 double GetModulusWrapper(CryptoContext<DCRTPoly>& self);
 void RemoveElementWrapper(Ciphertext<DCRTPoly>& self, uint32_t index);
 double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l);
