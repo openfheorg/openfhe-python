@@ -143,8 +143,9 @@ To get familiar with the OpenFHE Python API, check out the examples:
   <!-- - [Small-Precison Arbitrary Function Evaluation](examples/binfhe/eval-function.py) -->
 - Threshold FHE: 
   - [Code Example for BGV, BFV, and CKKS](examples/pke/threshold-fhe.py)
-  - [Simple Interactive Bootstrapping Example](examples/pke/tckks-interactive-mp-bootstrapping.py)
-  - [Interactive Bootstrapping after Chebyshev Approximation](examples/pke/tckks-interactive-mp-bootstrapping-Chebyschev.py)
+  - [2-party Interactive Bootstrapping Examples](examples/pke/interactive-bootstrapping.py)
+  - [Simple n-party Interactive Bootstrapping Example](examples/pke/tckks-interactive-mp-bootstrapping.py)
+  - [n-party Interactive Bootstrapping after Chebyshev Approximation](examples/pke/tckks-interactive-mp-bootstrapping-Chebyschev.py)
   - [Code Example for BFV with 5 parties](examples/pke/threshold-fhe-5p.py)
 
 ## OpenFHE Python Wrapper Documentation
