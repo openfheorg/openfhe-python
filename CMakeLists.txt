@@ -73,6 +73,10 @@ pybind11_add_module(openfhe
                     src/lib/pke/serialization.cpp 
                     src/lib/pke/cryptocontext_wrapper.cpp
                     )
+# The next line ensures that the installed openfhe module can find its shared library dependencies
+# in the 'lib/' subdirectory relative to itself without requiring LD_LIBRARY_PATH.
+target_link_options(openfhe PRIVATE -Wl,-rpath,$ORIGIN/lib  -Wl,--disable-new-dtags)
+
 ### Python installation 
 # Allow the user to specify the path to Python executable (if not provided, find it)
 option(PYTHON_EXECUTABLE_PATH "Path to Python executable" "")
