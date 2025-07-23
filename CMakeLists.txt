@@ -75,7 +75,7 @@ pybind11_add_module(openfhe
                     )
 # The next line ensures that the installed openfhe module can find its shared library dependencies
 # in the 'lib/' subdirectory relative to itself without requiring LD_LIBRARY_PATH.
-target_link_options(openfhe PRIVATE -Wl,-rpath,$ORIGIN/lib  -Wl,--disable-new-dtags)
+target_link_options(openfhe PRIVATE "-Wl,-rpath=$ORIGIN/lib" "-Wl,--disable-new-dtags")
 
 ### Python installation 
 # Allow the user to specify the path to Python executable (if not provided, find it)
@@ -108,5 +108,5 @@ else()
 endif()
 message("***** INSTALL IS AT ${Python_Install_Location}; to change, run cmake with -DCMAKE_INSTALL_PREFIX=/your/path")
 install(TARGETS openfhe LIBRARY DESTINATION ${Python_Install_Location})
-install(FILES ${CMAKE_SOURCE_DIR}/__init__.py DESTINATION ${Python_Install_Location})
+install(FILES ${CMAKE_SOURCE_DIR}/src/__init__.py DESTINATION ${Python_Install_Location})
 
