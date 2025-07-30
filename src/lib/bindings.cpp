@@ -42,7 +42,6 @@
 #include "key/key-ser.h"
 #include "binfhe_bindings.h"
 
-#include "cryptocontext_wrapper.h"
 #include "cryptocontext_docs.h"
 #include "cryptoparameters_docs.h"
 #include "plaintext_docs.h"
@@ -142,9 +141,6 @@ void bind_parameters(py::module &m, const std::string name)
             stream << params;
             return stream.str();
         });
-
-        //
-
 }
 
 template <typename T>
@@ -263,9 +259,29 @@ void bind_crypto_context(py::module &m)
                             .ConvertToDouble();
             },
             py::doc(cc_GetModulus_docs))
-        .def("GetModulusCKKS", &GetModulusCKKSWrapper)
-        .def("GetScalingFactorReal", &GetScalingFactorRealWrapper, cc_GetScalingFactorReal_docs)
-        .def("GetScalingTechnique",&GetScalingTechniqueWrapper)
+        .def("GetModulusCKKS",
+            [](CryptoContext<DCRTPoly>& self) {
+                auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersCKKSRNS>(self->GetCryptoParameters());
+                if (!cryptoParams)
+                    OPENFHE_THROW("std::dynamic_pointer_cast<CryptoParametersCKKSRNS>() failed");
+                return cryptoParams->GetElementParams()->GetParams()[0]->GetModulus().ConvertToInt<uint64_t>();
+            })
+        .def("GetScalingFactorReal",
+            [](CryptoContext<DCRTPoly>& self, uint32_t level) {
+                auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersRNS>(self->GetCryptoParameters());
+                if (!cryptoParams)
+                    OPENFHE_THROW("std::dynamic_pointer_cast<CryptoParametersRNS>() failed");
+                return cryptoParams->GetScalingFactorReal(level);
+            },
+            py::arg("level"),
+            py::doc(cc_GetScalingFactorReal_docs))
+        .def("GetScalingTechnique",
+            [](CryptoContext<DCRTPoly>& self) {
+                const auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersRNS>(self->GetCryptoParameters());
+                if (!cryptoParams)
+                    OPENFHE_THROW("std::dynamic_pointer_cast<CryptoParametersRNS>() failed");
+                return cryptoParams->GetScalingTechnique();
+            })
         .def("GetDigitSize",
             [](CryptoContext<DCRTPoly>& self) {
                 return self->GetCryptoParameters()->GetDigitSize();
@@ -368,7 +384,13 @@ void bind_crypto_context(py::module &m)
             py::arg("ciphertext"),
             py::arg("index"),
             py::doc(cc_EvalRotate_docs))
-        .def("EvalFastRotationPrecompute", &EvalFastRotationPrecomputeWrapper,
+        .def("EvalFastRotationPrecompute",
+            [](CryptoContext<DCRTPoly>& self, ConstCiphertext<DCRTPoly> ciphertext) {
+                auto precomp = self->EvalFastRotationPrecompute(ciphertext);
+                auto cipherdigits = std::make_shared<CiphertextImpl<DCRTPoly>>(self);
+                cipherdigits->SetElements(*precomp);
+                return cipherdigits;
+            },
             py::arg("ciphertext"),
             py::doc(cc_EvalFastRotationPreCompute_docs))
         .def("EvalFastRotation",
@@ -704,8 +726,13 @@ void bind_crypto_context(py::module &m)
             py::arg("ciphertextVec"),
             py::arg("privateKey"),
             py::doc(cc_MultipartyDecryptMain_docs))
-        .def("MultipartyDecryptFusion", &MultipartyDecryptFusionWrapper,
-            py::arg("ciphertextVec"),
+        .def("MultipartyDecryptFusion",
+            [](CryptoContext<DCRTPoly>& self, const std::vector<Ciphertext<DCRTPoly>>& partialCiphertextVec) {
+                Plaintext result;
+                self->MultipartyDecryptFusion(partialCiphertextVec, &result);
+                return result;
+            },
+            py::arg("partialCiphertextVec"),
             py::doc(cc_MultipartyDecryptFusion_docs))
         .def("MultiKeySwitchGen", &CryptoContextImpl<DCRTPoly>::MultiKeySwitchGen,
             py::arg("originalPrivateKey"),
@@ -962,7 +989,12 @@ void bind_crypto_context(py::module &m)
         .def("FindAutomorphismIndices", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndices,
             py::arg("idxList"),
             py::doc(cc_FindAutomorphismIndices_docs))
-        .def("GetEvalSumKeyMap", &GetEvalSumKeyMapWrapper, cc_GetEvalSumKeyMap_docs)
+        .def("GetEvalSumKeyMap",
+            [](CryptoContext<DCRTPoly>& self, const std::string& keyTag) {
+                return std::make_shared<std::map<uint32_t, EvalKey<DCRTPoly>>>(CryptoContextImpl<DCRTPoly>::GetEvalSumKeyMap(keyTag));
+            },
+            py::arg("keyTag"),
+            py::doc(cc_GetEvalSumKeyMap_docs))
         .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch)
         .def_static("InsertEvalSumKey", &CryptoContextImpl<DCRTPoly>::InsertEvalSumKey,
             py::arg("evalKeyMap"),
@@ -1465,46 +1497,8 @@ void bind_ciphertext(py::module &m) {
             });
 }
 
-// void bind_ciphertext(py::module &m) {
-//     using CiphertextImplDCRT = CiphertextImpl<DCRTPoly>;
-//     using CiphertextDCRT = Ciphertext<DCRTPoly>;  // shared_ptr<CiphertextImpl<DCRTPoly>>
-
-//     // Bind CiphertextImpl<DCRTPoly> and expose it to Python as "Ciphertext"
-//     py::class_<CiphertextImplDCRT, std::shared_ptr<CiphertextImplDCRT>>(m, "Ciphertext")
-//         .def(py::init<>())
-//         .def("__add__", [](const CiphertextDCRT &a, const CiphertextDCRT &b) {
-//                 return a + b;
-//             },
-//             py::is_operator(), pybind11::keep_alive<0, 1>())
-//         .def("GetLevel", &CiphertextImplDCRT::GetLevel, ctx_GetLevel_docs)
-//         .def("SetLevel", &CiphertextImplDCRT::SetLevel, py::doc(ctx_SetLevel_docs)) py::arg("level"))
-//         .def("Clone", &CiphertextImplDCRT::Clone)
-//         .def("RemoveElement", &RemoveElementWrapper, cc_RemoveElement_docs)
-//         .def("GetSlots", &CiphertextImplDCRT::GetSlots)
-//         .def("SetSlots", &CiphertextImplDCRT::SetSlots)
-//         .def("GetNoiseScaleDeg", &CiphertextImplDCRT::GetNoiseScaleDeg)
-//         .def("SetNoiseScaleDeg", &CiphertextImplDCRT::SetNoiseScaleDeg)
-//         .def("GetCryptoContext", &CiphertextImplDCRT::GetCryptoContext)
-//         .def("GetEncodingType", &CiphertextImplDCRT::GetEncodingType)
-//         .def("GetElements", [](const CiphertextImplDCRT& self) -> const std::vector<DCRTPoly>& {
-//                 return self.GetElements();
-//             }, py::return_value_policy::reference_internal)
-//         .def("GetElementsMutable", [](CiphertextImplDCRT& self) -> std::vector<DCRTPoly>& {
-//                 return self.GetElements();
-//             }, py::return_value_policy::reference_internal)
-//         .def("SetElements", [](CiphertextImplDCRT& self, const std::vector<DCRTPoly>& elems) {
-//                 self.SetElements(elems);
-//             })
-//         .def("SetElementsMove", [](CiphertextImplDCRT& self, std::vector<DCRTPoly>&& elems) {
-//                 self.SetElements(std::move(elems));
-//             });
-
-//     // Bind the shared_ptr alias (Ciphertext<DCRTPoly>) so it picks up the methods above
-//     py::class_<CiphertextDCRT>(m, "_CiphertextAlias");  // hidden helper; not necessary for users
-// }
-
 void bind_schemes(py::module &m){
-    /*Bind schemes specific functionalities like bootstrapping functions and multiparty*/
+    // Bind schemes specific functionalities like bootstrapping functions and multiparty
     py::class_<FHECKKSRNS>(m, "FHECKKSRNS")
         .def(py::init<>())
         .def_static("GetBootstrapDepth",
@@ -1568,15 +1562,15 @@ void bind_sch_swch_params(py::module &m)
             });
 }
 
-PYBIND11_MODULE(openfhe, m)
-{
+PYBIND11_MODULE(openfhe, m) {
+    // sequence of function calls matters
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
-    // binfhe library
     bind_DCRTPoly(m);
+    // binfhe library
     bind_binfhe_enums(m);
-    bind_binfhe_context(m);
-    bind_binfhe_keys(m);
     bind_binfhe_ciphertext(m);
+    bind_binfhe_keys(m);
+    bind_binfhe_context(m);
     // pke library
     bind_enums_and_constants(m);
     bind_parameters<CryptoContextBFVRNS>(m,"CCParamsBFVRNS");
