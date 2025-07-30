@@ -36,89 +36,28 @@
 using namespace lbcrypto;
 namespace py = pybind11;
 
-LWECiphertext binfhe_EncryptWrapper(BinFHEContext &self, ConstLWEPrivateKey sk, const LWEPlaintext &m, BINFHE_OUTPUT output,
-                                    LWEPlaintextModulus p, uint64_t mod)
-{
-    NativeInteger mod_native_int = NativeInteger(mod);
-    return self.Encrypt(sk, m, output, p, mod_native_int);
-}
-
-LWEPlaintext binfhe_DecryptWrapper(BinFHEContext &self,
-                                   ConstLWEPrivateKey sk,
-                                   ConstLWECiphertext ct,
-                                   LWEPlaintextModulus p)
-{
-
-    LWEPlaintext result;
-    self.Decrypt(sk, ct, &result, p);
-    return result;
-}
-
-uint32_t GetnWrapper(BinFHEContext &self)
-{
-    return self.GetParams()->GetLWEParams()->Getn();
-}
-
-const uint64_t GetqWrapper(BinFHEContext &self)
-{
-    return self.GetParams()->GetLWEParams()->Getq().ConvertToInt<uint64_t>();
-}
-
-const uint64_t GetMaxPlaintextSpaceWrapper(BinFHEContext &self)
-{
-    return self.GetMaxPlaintextSpace().ConvertToInt<uint64_t>();
-}
-
-const uint64_t GetBetaWrapper(BinFHEContext &self)
-{
-    return self.GetBeta().ConvertToInt<uint64_t>();
-}
-
-const uint64_t GetLWECiphertextModulusWrapper(LWECiphertext &self)
-{
-    return self->GetModulus().ConvertToInt<uint64_t>();
-}
 
 // Define static variables to hold the state
 py::function* static_f = nullptr;
 
 // Define a static function that uses the static variables
 NativeInteger StaticFunction(NativeInteger m, NativeInteger p) {
-    // Convert the arguments to int
-    uint64_t m_int = m.ConvertToInt<uint64_t>();
-    uint64_t p_int = p.ConvertToInt<uint64_t>();
     // Call the Python function
-    py::object result_py = (*static_f)(m_int, p_int);
+    py::object result_py = (*static_f)(m.ConvertToInt<uint64_t>(), p.ConvertToInt<uint64_t>());
     // Convert the result to a NativeInteger
     return NativeInteger(py::cast<uint64_t>(result_py));
 }
 
-std::vector<uint64_t> GenerateLUTviaFunctionWrapper(BinFHEContext &self, py::function f, uint64_t p)
-{
-    NativeInteger p_native_int = NativeInteger(p);
+std::vector<uint64_t> GenerateLUTviaFunctionWrapper(BinFHEContext &self, py::function f, uint64_t p) {
     static_f = &f;
-    std::vector<NativeInteger> result = self.GenerateLUTviaFunction(StaticFunction, p_native_int);
+    std::vector<NativeInteger> result = self.GenerateLUTviaFunction(StaticFunction, NativeInteger(p));
     static_f = nullptr;
+
     std::vector<uint64_t> result_uint64_t;
-    // int size_int = static_cast<int>(result.size());
+    result.reserve(result.size());
     for (const auto& value : result)
-    {
-        result_uint64_t.push_back(value.ConvertToInt<uint64_t>());
-    }
+        result_uint64_t.emplace_back(value.ConvertToInt<uint64_t>());
+
     return result_uint64_t;
 }
-
-// LWECiphertext EvalFunc(ConstLWECiphertext &ct, const std::vector<NativeInteger> &LUT) const
-LWECiphertext EvalFuncWrapper(BinFHEContext &self, ConstLWECiphertext &ct, const std::vector<uint64_t> &LUT)
-{
-    std::vector<NativeInteger> LUT_native_int;
-    LUT_native_int.reserve(LUT.size());  // Reserve space for the elements
-    for (const auto& value : LUT)
-    {
-        LUT_native_int.push_back(NativeInteger(value));
-    }
-    return self.EvalFunc(ct, LUT_native_int);
-}
-
-
 

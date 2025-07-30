@@ -147,7 +147,10 @@ void bind_binfhe_ciphertext(py::module &m) {
      py::class_<LWECiphertextImpl, std::shared_ptr<LWECiphertextImpl>>(m, "LWECiphertext")
           .def(py::init<>())
           .def("GetLength", &LWECiphertextImpl::GetLength)
-          .def("GetModulus", &GetLWECiphertextModulusWrapper)
+          .def("GetModulus",
+               [](LWECiphertext& self) {
+                    return self->GetModulus().ConvertToInt<uint64_t>();
+               })
           .def(py::self == py::self)
           .def(py::self != py::self);
 }
@@ -179,18 +182,26 @@ void bind_binfhe_context(py::module &m) {
                binfhe_BTKeyGen_docs,
                py::arg("sk"),
                py::arg("keygenMode") = SYM_ENCRYPT)
-          .def("Encrypt", &binfhe_EncryptWrapper,
-               binfhe_Encrypt_docs,
+          .def("Encrypt",
+               [](BinFHEContext& self, ConstLWEPrivateKey sk, const LWEPlaintext& m, BINFHE_OUTPUT output, LWEPlaintextModulus p, uint64_t mod) {
+                    return self.Encrypt(sk, m, output, p, NativeInteger(mod));
+               },
                py::arg("sk"),
                py::arg("m"),
                py::arg("output") = BOOTSTRAPPED,
                py::arg("p") = 4,
-               py::arg("mod") = 0)
-          .def("Decrypt", &binfhe_DecryptWrapper,
-               binfhe_Decrypt_docs,
+               py::arg("mod") = 0,
+               py::doc(binfhe_Encrypt_docs))
+          .def("Decrypt",
+               [](BinFHEContext& self, ConstLWEPrivateKey sk, ConstLWECiphertext ct, LWEPlaintextModulus p) {
+                    LWEPlaintext result;
+                    self.Decrypt(sk, ct, &result, p);
+                    return result;
+               },
                py::arg("sk"),
                py::arg("ct"),
-               py::arg("p") = 4)
+               py::arg("p") = 4,
+               py::doc(binfhe_Decrypt_docs))
           .def("EvalBinGate",
                py::overload_cast<BINGATE, ConstLWECiphertext&, ConstLWECiphertext&, bool>(&BinFHEContext::EvalBinGate, py::const_),
                binfhe_EvalBinGate_docs,
@@ -206,10 +217,22 @@ void bind_binfhe_context(py::module &m) {
           .def("EvalNOT", &BinFHEContext::EvalNOT,
                binfhe_EvalNOT_docs,
                py::arg("ct"))
-          .def("Getn", &GetnWrapper)
-          .def("Getq", &GetqWrapper)
-          .def("GetMaxPlaintextSpace", &GetMaxPlaintextSpaceWrapper)
-          .def("GetBeta", &GetBetaWrapper)
+          .def("Getn",
+               [](BinFHEContext& self) {
+                    return self.GetParams()->GetLWEParams()->Getn();
+               })
+          .def("Getq",
+               [](BinFHEContext& self) {
+                    return self.GetParams()->GetLWEParams()->Getq().ConvertToInt<uint64_t>();
+               })
+          .def("GetMaxPlaintextSpace",
+               [](BinFHEContext& self) {
+                    return self.GetMaxPlaintextSpace().ConvertToInt<uint64_t>();
+               })
+          .def("GetBeta",
+               [](BinFHEContext& self) {
+                    return self.GetBeta().ConvertToInt<uint64_t>();
+               })
           .def("EvalDecomp", &BinFHEContext::EvalDecomp,
                binfhe_EvalDecomp_docs,
                py::arg("ct"))
@@ -221,15 +244,22 @@ void bind_binfhe_context(py::module &m) {
                binfhe_GenerateLUTviaFunction_docs,
                py::arg("f"),
                py::arg("p"))
-          .def("EvalFunc", &EvalFuncWrapper,
-               binfhe_EvalFunc_docs,
+          .def("EvalFunc",
+               [](BinFHEContext& self, ConstLWECiphertext& ct, const std::vector<uint64_t>& LUT) {
+                    std::vector<NativeInteger> nativeLUT;
+                    nativeLUT.reserve(LUT.size());
+                    for (auto value : LUT) {
+                         nativeLUT.emplace_back(value);
+                    }
+                    return self.EvalFunc(ct, nativeLUT);
+               },
                py::arg("ct"),
-               py::arg("LUT"))
+               py::arg("LUT"),
+               py::doc(binfhe_EvalFunc_docs))
           .def("EvalSign", &BinFHEContext::EvalSign,
                binfhe_EvalSign_docs,
                py::arg("ct"),
                py::arg("schemeSwitch") = false)
-          .def("EvalNOT", &BinFHEContext::EvalNOT)
           .def("EvalConstant", &BinFHEContext::EvalConstant)
           .def("ClearBTKeys", &BinFHEContext::ClearBTKeys)
           .def("Bootstrap", &BinFHEContext::Bootstrap, py::arg("ct"), py::arg("extended") = false)

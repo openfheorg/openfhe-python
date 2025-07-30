@@ -40,34 +40,7 @@
 
 namespace py = pybind11;
 using namespace lbcrypto;
-LWECiphertext binfhe_EncryptWrapper(BinFHEContext &self,
-                                    ConstLWEPrivateKey sk,
-                                    const LWEPlaintext &m,
-                                    BINFHE_OUTPUT output,
-                                    LWEPlaintextModulus p,
-                                    uint64_t mod);
-LWEPlaintext binfhe_DecryptWrapper(BinFHEContext &self,
-                                   ConstLWEPrivateKey sk,
-                                   ConstLWECiphertext ct,
-                                   LWEPlaintextModulus p);
-
-uint32_t GetnWrapper(BinFHEContext &self);
-
-const uint64_t GetqWrapper(BinFHEContext &self) ;
-
-const uint64_t GetMaxPlaintextSpaceWrapper(BinFHEContext &self);
-
-const uint64_t GetBetaWrapper(BinFHEContext &self);
-
-const uint64_t GetLWECiphertextModulusWrapper(LWECiphertext &self);
 
 std::vector<uint64_t> GenerateLUTviaFunctionWrapper(BinFHEContext &self, py::function f, uint64_t p);
-
-NativeInteger StaticFunction(NativeInteger m, NativeInteger p);
-
-// Define static variables to hold the state
-// extern py::function static_f;
-
-LWECiphertext EvalFuncWrapper(BinFHEContext &self, ConstLWECiphertext &ct, const std::vector<uint64_t> &LUT);
 
 #endif // __BINFHECONTEXT_WRAPPER_H__
