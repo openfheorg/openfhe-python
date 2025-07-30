@@ -39,29 +39,12 @@ using namespace lbcrypto;
 Ciphertext<DCRTPoly> EvalFastRotationPrecomputeWrapper(CryptoContext<DCRTPoly> &self,
                                                        ConstCiphertext<DCRTPoly> ciphertext);
 
-Ciphertext<DCRTPoly> EvalFastRotationWrapper(CryptoContext<DCRTPoly> &self,
-                                             ConstCiphertext<DCRTPoly> ciphertext,
-                                             uint32_t index,
-                                             uint32_t m,
-                                             ConstCiphertext<DCRTPoly> digits);
-Ciphertext<DCRTPoly> EvalFastRotationExtWrapper(CryptoContext<DCRTPoly> &self, ConstCiphertext<DCRTPoly> ciphertext, uint32_t index, ConstCiphertext<DCRTPoly> digits, bool addFirst);
-
-Plaintext DecryptWrapper(CryptoContext<DCRTPoly> &self,
-                         ConstCiphertext<DCRTPoly> ciphertext, const PrivateKey<DCRTPoly> privateKey);
-Plaintext DecryptWrapper(CryptoContext<DCRTPoly> &self,
-                         const PrivateKey<DCRTPoly> privateKey, ConstCiphertext<DCRTPoly> ciphertext);
 Plaintext MultipartyDecryptFusionWrapper(CryptoContext<DCRTPoly>& self,const std::vector<Ciphertext<DCRTPoly>>& partialCiphertextVec);
 
 const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>> GetEvalSumKeyMapWrapper(CryptoContext<DCRTPoly>& self, const std::string &id);
-PlaintextModulus GetPlaintextModulusWrapper(CryptoContext<DCRTPoly>& self);
-uint32_t GetBatchSizeWrapper(CryptoContext<DCRTPoly>& self);
-double GetModulusWrapper(CryptoContext<DCRTPoly>& self);
 void RemoveElementWrapper(Ciphertext<DCRTPoly>& self, uint32_t index);
 double GetScalingFactorRealWrapper(CryptoContext<DCRTPoly>& self, uint32_t l);
 uint64_t GetModulusCKKSWrapper(CryptoContext<DCRTPoly>& self);
 ScalingTechnique GetScalingTechniqueWrapper(CryptoContext<DCRTPoly>& self);
-uint32_t GetDigitSizeWrapper(CryptoContext<DCRTPoly>& self);
-
-void ClearEvalMultKeysWrapper();
 
 #endif // __CRYPTOCONTEXT_WRAPPER_H__
