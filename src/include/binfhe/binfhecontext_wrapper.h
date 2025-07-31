@@ -31,11 +31,9 @@
 #ifndef __BINFHECONTEXT_WRAPPER_H__
 #define __BINFHECONTEXT_WRAPPER_H__
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include "openfhe.h"
 #include "binfhecontext.h"
-#include <functional>
+
+#include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
 
 namespace py = pybind11;

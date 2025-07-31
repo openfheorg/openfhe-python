@@ -30,12 +30,13 @@
 //==================================================================================
 #include "binfhe_bindings.h"
 
-#include <pybind11/operators.h>
-
 #include "openfhe.h"
 #include "binfhecontext.h"
 #include "binfhecontext_docs.h"
 #include "binfhecontext_wrapper.h"
+
+#include <pybind11/stl.h>
+#include <pybind11/operators.h>
 
 #include "cereal/archives/binary.hpp"
 

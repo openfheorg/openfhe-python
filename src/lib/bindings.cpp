@@ -30,17 +30,17 @@
 //==================================================================================
 #include "bindings.h"
 
-#include <pybind11/stl.h>
-#include <pybind11/stl_bind.h>
-#include <pybind11/complex.h>
-#include <pybind11/functional.h>
-#include <pybind11/operators.h>
-#include <pybind11/iostream.h>
-
 #include "openfhe.h"
 
 #include "key/key-ser.h"
 #include "binfhe_bindings.h"
+
+#include <pybind11/stl.h>
+#include <pybind11/stl_bind.h>
+#include <pybind11/complex.h>
+#include <pybind11/functional.h>
+#include <pybind11/iostream.h>
+
 
 #include "cryptocontext_docs.h"
 #include "cryptoparameters_docs.h"

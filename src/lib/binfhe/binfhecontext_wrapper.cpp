@@ -28,10 +28,11 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //==================================================================================
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
 #include <openfhe.h>
 #include "binfhecontext_wrapper.h"
+
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 using namespace lbcrypto;
 namespace py = pybind11;
