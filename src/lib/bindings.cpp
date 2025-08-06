@@ -779,7 +779,7 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_MultiEvalSumKeyGen_docs))
         .def("MultiAddEvalAutomorphismKeys", &CryptoContextImpl<DCRTPoly>::MultiAddEvalAutomorphismKeys,
             py::arg("evalKeyMap1"),
-            py::arg("evalKeyMap1"),
+            py::arg("evalKeyMap2"),
             py::arg("keyTag") = "",
             py::doc(cc_MultiAddEvalAutomorphismKeys_docs))
         .def("MultiAddPubKeys", &CryptoContextImpl<DCRTPoly>::MultiAddPubKeys,

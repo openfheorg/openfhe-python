@@ -153,12 +153,13 @@ const char* cc_MakeCoefPackedPlaintext_docs = R"pbdoc(
 
     :param value: vector of signed integers mod t
     :type value: List[int]
-    :param noiseScaleDeg :  is degree of the scaling factor to encode the plaintext at
-    :type noiseScaleDeg : int
+    :param noiseScaleDeg: is degree of the scaling factor to encode the plaintext at
+    :type noiseScaleDeg: int
     :param level: is the level to encode the plaintext at
     :type level: int
     :return: plaintext
     :rtype: Plaintext
+
 )pbdoc";
 
 const char* cc_MakeCKKSPackedPlaintextComplex_docs = R"pbdoc(
@@ -1179,9 +1180,10 @@ const char* cc_InsertEvalAutomorphismKey_docs = R"pbdoc(
     Add the given map of keys to the map, replacing the existing map if there is one
 
     :param evalKeyMap: map of keys to be inserted
-    :type EvalKeyMap
+    :type evalKeyMap: EvalKeyMap
     :param keyTag: key identifier for the given key map
     :type keyTag: str
+
 )pbdoc";
 
 const char* cc_EvalSum_docs = R"pbdoc(
@@ -1376,10 +1378,11 @@ const char* cc_EvalFHEWtoCKKSSetup_docs = R"pbdoc(
 
     :param ccLWE: Source FHEW crypto context.
     :type ccLWE: BinFHEContext
-    :param numSlotsCKKS  Number of slots in resulting CKKS ciphertext.
+    :param numSlotsCKKS:  Number of slots in resulting CKKS ciphertext.
     :type numSlotsCKKS: int
-    :param logQ:  Ciphertext modulus size in FHEW (for high precision).
+    :param logQ: Ciphertext modulus size in FHEW (for high precision).
     :type logQ: int
+
 )pbdoc";
 
 const char* cc_EvalFHEWtoCKKSKeyGen_docs = R"pbdoc(
