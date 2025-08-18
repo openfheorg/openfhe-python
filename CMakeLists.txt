@@ -1,16 +1,16 @@
-cmake_minimum_required (VERSION 3.5.1)
+cmake_minimum_required (VERSION 3.16.3)
 
 project (OpenFHE-Python)
 
 set(OPENFHE_PYTHON_VERSION_MAJOR 1)
-set(OPENFHE_PYTHON_VERSION_MINOR 3)
-set(OPENFHE_PYTHON_VERSION_PATCH 1)
+set(OPENFHE_PYTHON_VERSION_MINOR 4)
+set(OPENFHE_PYTHON_VERSION_PATCH 0)
 set(OPENFHE_PYTHON_VERSION_TWEAK 0)
 set(OPENFHE_PYTHON_VERSION ${OPENFHE_PYTHON_VERSION_MAJOR}.${OPENFHE_PYTHON_VERSION_MINOR}.${OPENFHE_PYTHON_VERSION_PATCH}.${OPENFHE_PYTHON_VERSION_TWEAK})
 
-# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.3.1)
+# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.4.0)
 if(NOT DEFINED OPENFHE_REQUIRED_VERSION)
-    set(OPENFHE_REQUIRED_VERSION "1.3.1" CACHE STRING "Required OpenFHE version")
+    set(OPENFHE_REQUIRED_VERSION "1.4.0" CACHE STRING "Required OpenFHE version")
 else()
     # User provided OPENFHE_REQUIRED_VERSION via -D
     message(STATUS "Using user-specified OpenFHE version: ${OPENFHE_REQUIRED_VERSION}")
@@ -71,8 +71,11 @@ pybind11_add_module(openfhe
                     src/lib/binfhe_bindings.cpp
                     src/lib/binfhe/binfhecontext_wrapper.cpp
                     src/lib/pke/serialization.cpp 
-                    src/lib/pke/cryptocontext_wrapper.cpp
                     )
+# The next line ensures that the installed openfhe module can find its shared library dependencies
+# in the 'lib/' subdirectory relative to itself without requiring LD_LIBRARY_PATH.
+target_link_options(openfhe PRIVATE "-Wl,-rpath=$ORIGIN/lib" "-Wl,--disable-new-dtags")
+
 ### Python installation 
 # Allow the user to specify the path to Python executable (if not provided, find it)
 option(PYTHON_EXECUTABLE_PATH "Path to Python executable" "")
@@ -104,5 +107,5 @@ else()
 endif()
 message("***** INSTALL IS AT ${Python_Install_Location}; to change, run cmake with -DCMAKE_INSTALL_PREFIX=/your/path")
 install(TARGETS openfhe LIBRARY DESTINATION ${Python_Install_Location})
-install(FILES ${CMAKE_SOURCE_DIR}/__init__.py DESTINATION ${Python_Install_Location})
+install(FILES ${CMAKE_SOURCE_DIR}/src/__init__.py DESTINATION ${Python_Install_Location})
 
