@@ -75,13 +75,26 @@ pybind11_add_module(openfhe
 # The next line ensures that the installed openfhe module can find its shared library dependencies
 # in the 'lib/' subdirectory relative to itself without requiring LD_LIBRARY_PATH.
 ### target_link_options(openfhe PRIVATE "-Wl,-rpath=$ORIGIN/lib" "-Wl,--disable-new-dtags")
-target_link_options(openfhe PRIVATE "-Wl,--enable-new-dtags" "-Wl,-rpath,\$ORIGIN/lib")
+if(UNIX AND NOT APPLE)
+    target_link_options(openfhe PRIVATE "-Wl,--enable-new-dtags" "-Wl,-rpath,\$ORIGIN/lib")
+    # Also set target RPATH properties (survive install/copying)
+    set_target_properties(openfhe PROPERTIES
+        BUILD_RPATH   "\$ORIGIN/lib"
+        INSTALL_RPATH "\$ORIGIN/lib"
+    )
+elseif(APPLE)
+    # Enable RPATH use on macOS
+    set(CMAKE_MACOSX_RPATH ON)
+    # Set install-time rpath for all targets (unless overridden)
+    set(CMAKE_INSTALL_RPATH "@loader_path/lib")
 
-# Also set target RPATH properties (survive install/copying)
-set_target_properties(openfhe PROPERTIES
-  BUILD_RPATH   "\$ORIGIN/lib"
-  INSTALL_RPATH "\$ORIGIN/lib"
-)
+    target_link_options(openfhe PRIVATE "-Wl,-rpath,@loader_path/lib")
+    # Also set target RPATH properties (survive install/copying)
+    set_target_properties(openfhe PROPERTIES
+        BUILD_RPATH   "@loader_path/lib"
+        INSTALL_RPATH "@loader_path/lib"
+       )
+endif()
 
 
 ### Python installation 
