@@ -23,13 +23,14 @@ pip install openfhe==<openfhe_package_version>
 
 Once installed, any python example at https://github.com/openfheorg/openfhe-python/tree/main/examples can be executed.
 
-Note that Ubuntu LTS 20.04, 22.04, and 24.04 are currently supported. `pip uninstall` can be used to uninstall the openfhe package.
-
-## Running from Docker
-
-Please see [Instructions for the Docker setup](docker/README.md)
+Note that Ubuntu LTS 22.04 and 24.04 are currently supported. `pip uninstall` can be used to uninstall the openfhe package.
 
 ## Building from Source
+
+We recommend installing the wrapper from PyPI using `pip`, as this is the simplest method.
+If you prefer to build from source, you can use the [openfhe-python-packager](https://github.com/openfheorg/openfhe-python-packager) on Linux or follow the build instructions below. The packager generates a wheel that can be installed with `pip`.
+
+The legacy build instructions below are for other operating systems where [openfhe-python-packager](https://github.com/openfheorg/openfhe-python-packager) may not work.
 
 ### Requirements
 
