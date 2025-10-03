@@ -996,7 +996,8 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_EvalAutomorphismKeyGen_docs))
         .def("Compress", &CryptoContextImpl<DCRTPoly>::Compress,
             py::arg("ciphertext"),
-            py::arg("towersLeft"))
+            py::arg("towersLeft") = 1,
+            py::arg("noiseScaleDeg") = 1)
         .def("EvalMultMany", &CryptoContextImpl<DCRTPoly>::EvalMultMany,
             py::arg("ciphertextVec"))
         .def("EvalAddMany", &CryptoContextImpl<DCRTPoly>::EvalAddMany,
