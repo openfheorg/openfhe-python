@@ -327,6 +327,9 @@ void bind_crypto_context(py::module &m) {
         .def("GetCompositeDegree", [](CryptoContext<DCRTPoly>& self) {
                 return GetParamsRNSChecked(self, "GetCompositeDegree")->GetCompositeDegree();
             })
+        .def("GetKeySwitchTechnique", [](CryptoContext<DCRTPoly>& self) {
+                return GetParamsRNSChecked(self, "GetKeySwitchTechnique")->GetKeySwitchTechnique();
+            })
         .def("Enable", py::overload_cast<PKESchemeFeature>(&CryptoContextImpl<DCRTPoly>::Enable),
             py::arg("feature"),
             py::doc(cc_Enable_docs))
