@@ -327,6 +327,9 @@ void bind_crypto_context(py::module &m) {
         .def("GetCompositeDegree", [](CryptoContext<DCRTPoly>& self) {
                 return GetParamsRNSChecked(self, "GetCompositeDegree")->GetCompositeDegree();
             })
+        .def("GetKeySwitchTechnique", [](CryptoContext<DCRTPoly>& self) {
+                return GetParamsRNSChecked(self, "GetKeySwitchTechnique")->GetKeySwitchTechnique();
+            })
         .def("Enable", py::overload_cast<PKESchemeFeature>(&CryptoContextImpl<DCRTPoly>::Enable),
             py::arg("feature"),
             py::doc(cc_Enable_docs))
@@ -996,7 +999,8 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_EvalAutomorphismKeyGen_docs))
         .def("Compress", &CryptoContextImpl<DCRTPoly>::Compress,
             py::arg("ciphertext"),
-            py::arg("towersLeft"))
+            py::arg("towersLeft") = 1,
+            py::arg("noiseScaleDeg") = 1)
         .def("EvalMultMany", &CryptoContextImpl<DCRTPoly>::EvalMultMany,
             py::arg("ciphertextVec"))
         .def("EvalAddMany", &CryptoContextImpl<DCRTPoly>::EvalAddMany,
