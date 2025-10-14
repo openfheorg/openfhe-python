@@ -1,4 +1,10 @@
-# Official Python wrapper for OpenFHE
+# OpenFHE-Python
+
+[![License](https://img.shields.io/badge/License-BSD%202--Clause-blue.svg)](https://opensource.org/licenses/BSD-2-Clause)
+[![Python Versions](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![OpenFHE Version](https://img.shields.io/badge/OpenFHE-1.4.1%2B-green)](https://github.com/openfheorg/openfhe-development)
+
+Python wrapper for the main cryptographic capabilities of the OpenFHE C++ library. `OpenFHE-Python` provides a more user-friendly interface for Python developers, while keeping the efficiency of C++ FHE operations.
 
 ## Table of Contents
 
@@ -23,20 +29,21 @@ pip install openfhe==<openfhe_package_version>
 
 Once installed, any python example at https://github.com/openfheorg/openfhe-python/tree/main/examples can be executed.
 
-Note that Ubuntu LTS 20.04, 22.04, and 24.04 are currently supported. `pip uninstall` can be used to uninstall the openfhe package.
-
-## Running from Docker
-
-Please see [Instructions for the Docker setup](docker/README.md)
+Note that Ubuntu LTS 22.04 and 24.04 are currently supported. `pip uninstall` can be used to uninstall the openfhe package.
 
 ## Building from Source
+
+We recommend installing the wrapper from PyPI using `pip`, as this is the simplest method.
+If you prefer to build from source, you can use the [openfhe-python-packager](https://github.com/openfheorg/openfhe-python-packager) on Linux or follow the build instructions below. The packager generates a wheel that can be installed with `pip`.
+
+The legacy build instructions below are for other operating systems where [openfhe-python-packager](https://github.com/openfheorg/openfhe-python-packager) may not work.
 
 ### Requirements
 
 Before building, make sure you have the following dependencies installed:
 
-- [OpenFHE 1.4.0+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
-- [Python 3.6+](https://www.python.org/)
+- [OpenFHE 1.4.1+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
+- [Python 3.10+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
 
 We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then getting back to this repo. See notes on installing `pybind11` below
