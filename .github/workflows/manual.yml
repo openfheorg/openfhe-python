@@ -21,7 +21,7 @@ on:
         required: true
         default: '64'
       openfhe_development_branch:
-        description: 'openfhe-development branch'
+        description: 'openfhe-development branch/tag'
         type: string
         required: true
         default: 'main'
@@ -49,14 +49,13 @@ on:
         required: true
         default: '64'
       openfhe_development_branch:
-        description: 'openfhe-development branch'
+        description: 'openfhe-development branch/tag'
         type: string
         required: true
         default: 'main'
 
-# cmake_args_map_openfhe_lib holds job specific additional cmake options. As we are testing openfhe-python here
-# and not openfhe-development, we do not link unittest, benchmarks, etc. for openfhe-development.
-# compiler flags, native_backend flag and OpenMP flag are set in generic_workflow.yml
+# As we are testing openfhe_python here, and not openfhe-development, we do not need
+# additional cmake options besides the compiler
 jobs:
   call:
     uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@github-ci
@@ -65,8 +64,5 @@ jobs:
       compiler: "${{ inputs.compiler }}"
       native_backend: "${{ inputs.native_backend }}"
       openfhe_development_branch: "${{ inputs.openfhe_development_branch }}"
-      cmake_args_map_openfhe_lib: '{
-                  "default"           : "-DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF -DBUILD_EXAMPLES=OFF",
-                }'
       
 
