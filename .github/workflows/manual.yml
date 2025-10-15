@@ -1,5 +1,3 @@
-name: Manual
-
 # the workflow_call block was added to this manual workflow (on workflow_dispatch:) because
 # it has to be included if a reuseable workflow is called.
 # The changes from the workflow_dispatch inputs to the workflow_call inputs are:
@@ -7,6 +5,11 @@ name: Manual
 # - all "options:" are removed
 # The variable/tag for the runner (var.RUNNER) is defined on the "Actions secrets and variables" page, tab "Variables":
 # https://github.com/openfheorg/openfhe-development/settings/variables/actions
+name: Manual
+
+permissions:
+  contents: read
+
 on:
   workflow_call:
     inputs:
@@ -14,7 +17,7 @@ on:
         description: 'Compiler type'
         type: string
         required: true
-        default: 'GLANG-18'
+        default: 'CLANG-18'
       native_backend:
         description: 'Size of NativeInteger'
         type: string
@@ -37,7 +40,7 @@ on:
         - 'GCC-14'
         - 'CLANG-18'
         required: true
-        default: 'GLANG-18'
+        default: 'CLANG-18'
       native_backend:
         description: 'Size of NativeInteger'
         type: choice
@@ -58,7 +61,7 @@ on:
 # additional cmake options besides the compiler
 jobs:
   call:
-    uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@github-ci
+    uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@258-refactor-github-ci
     with:
       runner: ${{ vars.RUNNER }}
       compiler: "${{ inputs.compiler }}"
