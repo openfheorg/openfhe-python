@@ -56,10 +56,13 @@ runs:
         git clone https://github.com/openfheorg/openfhe-python-packager.git
         cd $OPENFHE_PACKAGER_DIR
 
+        ##### !!!!!!!!!!!!!!!!!!!! TODO: delete the following line after testing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        git checkout 13-add-compiler-option
+
         # update ci-vars.sh:
         sed -i \
             -e "s|^OPENFHE_TAG=.*|OPENFHE_TAG=${{inputs.openfhe_development_branch}}|"           \
-            -e "s|^OPENFHE_PYTHON_TAG=.*|OPENFHE_PYTHON_TAG=${{inputs.openfhe_python_branch}}|"  \
+            -e "s|^OPENFHE_PYTHON_TAG=.*|OPENFHE_PYTHON_TAG=${{github.ref_name}}|"  \
             -e "s|^ADDL_CMAKE_FLAGS=.*|ADDL_CMAKE_FLAGS=\"${{inputs.cmake_args_openfhe_lib}}\"|" \
             ./ci-vars.sh
 
@@ -84,6 +87,9 @@ runs:
 
         ### activate the virtual environment
         source ./scripts/get-env.sh
+
+        python3 -m pip install --upgrade pip
+        pip install pytest
 
         ### install the wheel
         pip install ./build/dist/*.whl
