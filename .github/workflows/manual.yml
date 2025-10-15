@@ -14,7 +14,7 @@ on:
         description: 'Compiler type'
         type: string
         required: true
-        default: 'GLANG-18'
+        default: 'CLANG-18'
       native_backend:
         description: 'Size of NativeInteger'
         type: string
@@ -37,7 +37,7 @@ on:
         - 'GCC-14'
         - 'CLANG-18'
         required: true
-        default: 'GLANG-18'
+        default: 'CLANG-18'
       native_backend:
         description: 'Size of NativeInteger'
         type: choice
@@ -58,7 +58,7 @@ on:
 # additional cmake options besides the compiler
 jobs:
   call:
-    uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@github-ci
+    uses: openfheorg/openfhe-python/.github/workflows/generic_workflow.yml@258-refactor-github-ci
     with:
       runner: ${{ vars.RUNNER }}
       compiler: "${{ inputs.compiler }}"
