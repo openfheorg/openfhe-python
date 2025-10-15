@@ -23,10 +23,6 @@ on:
         description: 'openfhe-development branch'
         type: string
         required: true
-      cmake_args_map_openfhe_lib:
-        description: 'Cmake args by job name (json string)'
-        type: string
-        required: true
           
 jobs:
   init:
@@ -34,7 +30,6 @@ jobs:
     outputs:
       integer_size: ${{ steps.int_size.outputs.integer_size }}
       compiler: ${{ steps.compiler.outputs.compiler_args }}
-      openmp_flag: ${{ steps.openmp.outputs.openmp_flag }}
     steps:
       - name: Print input parmeters
         id: print_values
@@ -44,7 +39,6 @@ jobs:
           echo "compiler                   : ${{ inputs.compiler }}"
           echo "native_backend             : ${{ inputs.native_backend }}"
           echo "openfhe_development_branch : ${{ inputs.openfhe_development_branch }}"
-          echo "cmake_args_map_openfhe_lib : ${{ inputs.cmake_args_map_openfhe_lib }}"
           echo "==================================================="
 
       - name: Get NativeInteger size for matrix
@@ -72,39 +66,10 @@ jobs:
           # JSON map to convert input Compiler Type to a string with cmake arguments to set the compiler for C and C++
           COMPILERS_MAP: >-
             {
-              "GCC-11"    : "-DCMAKE_CXX_COMPILER=/usr/bin/g++-11 -DCMAKE_C_COMPILER=/usr/bin/gcc-11",
-              "GCC-12"    : "-DCMAKE_CXX_COMPILER=/usr/bin/g++-12 -DCMAKE_C_COMPILER=/usr/bin/gcc-12",
-              "GCC-13"    : "-DCMAKE_CXX_COMPILER=/usr/bin/g++-13 -DCMAKE_C_COMPILER=/usr/bin/gcc-13",
               "GCC-14"    : "-DCMAKE_CXX_COMPILER=/usr/bin/g++-14 -DCMAKE_C_COMPILER=/usr/bin/gcc-14",
-              "CLANG-14"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-14 -DCMAKE_C_COMPILER=/usr/bin/clang-14",
-              "CLANG-15"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-15 -DCMAKE_C_COMPILER=/usr/bin/clang-15",
-              "CLANG-16"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-16 -DCMAKE_C_COMPILER=/usr/bin/clang-16",
-              "CLANG-17"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-17 -DCMAKE_C_COMPILER=/usr/bin/clang-17",
               "CLANG-18"  : "-DCMAKE_CXX_COMPILER=/usr/bin/clang++-18 -DCMAKE_C_COMPILER=/usr/bin/clang-18",
             }
 
-      # We can have multiple clang versions installed on Ubuntu, but each clang version works with its corresponding version of OpenMP only.
-      # For example: clang-18 requires libomp-18-dev.
-      # However, installation of a particular openmp version uninstalls all other openmp versions. Thus, OMP is disabled for all clang
-      # versions, but CLANG-18. If another version of clang requires openmp, then the corresponding version of libomp-xx-dev must be installed
-      # on the runner (command: "sudo apt install libomp-xx-dev") and the code below should be updated accordingly. 
-      - name: OpenMP ON/OFF
-        id: openmp
-        run: |
-          if [[ "${{ inputs.compiler }}" == *"CLANG"* ]]; then
-            if [ "${{ inputs.compiler }}" != "CLANG-18" ]; then
-              echo "openmp_flag=-DWITH_OPENMP=OFF"
-              echo "openmp_flag=-DWITH_OPENMP=OFF" >> $GITHUB_OUTPUT
-            else
-              echo "openmp_flag is not set"
-              echo "openmp_flag=" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "openmp_flag is not set"
-            echo "openmp_flag=" >> $GITHUB_OUTPUT
-          fi
-
-    
   ###############################################
   #
   #    default jobs starts here
@@ -126,12 +91,12 @@ jobs:
         echo "runs-on:     ${{ inputs.runner }}"
         echo "module_name: ${{ github.job }}"
         echo "openfhe_development_branch: ${{ inputs.openfhe_development_branch }}"
-        echo "cmake_args_openfhe_lib:  ${{ needs.init.outputs.compiler }} ${{ fromJson(inputs.cmake_args_map_openfhe_lib)[github.job] }} -DNATIVE_SIZE=${{ matrix.integer_size }} ${{ needs.init.outputs.openmp_flag }}"
+        echo "cmake_args_openfhe_lib:  ${{ needs.init.outputs.compiler }} -DNATIVE_SIZE=${{ matrix.integer_size }}"
 
     - name: ${{ github.job }}
       uses: openfheorg/openfhe-python/.github/actions/generic_workflow_builder@github-ci
       with:
         module_name: ${{ github.job }}
         openfhe_development_branch: ${{ inputs.openfhe_development_branch }}
-        cmake_args_openfhe_lib: "${{ needs.init.outputs.compiler }} ${{ fromJson(inputs.cmake_args_map_openfhe_lib)[github.job] }} -DNATIVE_SIZE=${{ matrix.integer_size }} ${{ needs.init.outputs.openmp_flag }}"
+        cmake_args_openfhe_lib: "${{ needs.init.outputs.compiler }} -DNATIVE_SIZE=${{ matrix.integer_size }}"
 
