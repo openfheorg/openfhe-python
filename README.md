@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-blue.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![Python Versions](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
-[![OpenFHE Version](https://img.shields.io/badge/OpenFHE-1.4.1%2B-green)](https://github.com/openfheorg/openfhe-development)
+[![OpenFHE Version](https://img.shields.io/badge/OpenFHE-1.4.2%2B-green)](https://github.com/openfheorg/openfhe-development)
 
 Python wrapper for the main cryptographic capabilities of the OpenFHE C++ library. `OpenFHE-Python` provides a more user-friendly interface for Python developers, while keeping the efficiency of C++ FHE operations.
 
@@ -42,7 +42,7 @@ The legacy build instructions below are for other operating systems where [openf
 
 Before building, make sure you have the following dependencies installed:
 
-- [OpenFHE 1.4.1+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
+- [OpenFHE 1.4.2+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.10+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
 
