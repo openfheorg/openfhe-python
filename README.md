@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-blue.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![Python Versions](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
-[![OpenFHE Version](https://img.shields.io/badge/OpenFHE-1.4.1%2B-green)](https://github.com/openfheorg/openfhe-development)
+[![OpenFHE Version](https://img.shields.io/badge/OpenFHE-1.4.2%2B-green)](https://github.com/openfheorg/openfhe-development)
 
 Python wrapper for the main cryptographic capabilities of the OpenFHE C++ library. `OpenFHE-Python` provides a more user-friendly interface for Python developers, while keeping the efficiency of C++ FHE operations.
 
