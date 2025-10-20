@@ -97,7 +97,7 @@ jobs:
         echo "cmake_args_openfhe_lib:  ${{ needs.init.outputs.compiler }} -DNATIVE_SIZE=${{ matrix.integer_size }}"
 
     - name: ${{ github.job }}
-      uses: openfheorg/openfhe-python/.github/actions/generic_workflow_builder@258-refactor-github-ci
+      uses: openfheorg/openfhe-python/.github/actions/generic_workflow_builder@github-ci
       with:
         module_name: ${{ github.job }}
         openfhe_development_branch: ${{ inputs.openfhe_development_branch }}
