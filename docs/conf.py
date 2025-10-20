@@ -26,7 +26,7 @@ author = 'Yuriy Polyakov, Ian Quah, Rener Oliveira, and Matthew Triplett.'
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = 'v1.4.1.0'
+release = 'v1.4.2.0'
 
 
 # -- General configuration ---------------------------------------------------
