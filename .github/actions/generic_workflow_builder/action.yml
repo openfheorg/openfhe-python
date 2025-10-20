@@ -35,93 +35,40 @@ runs:
         # pwd
         echo "======> step ${{ inputs.module_name }}_cleanup"
 
-        BUILD_DIR="$PWD/build"
-        echo "BUILD_DIR=$BUILD_DIR"
-        echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
-        if [ -d "$BUILD_DIR" ]; then
-          rm -Rf $BUILD_DIR;
-        fi
+        #### Uninstall openfhe by simply deleting $OPENFHE_PACKAGER_DIR along with
+        #### the local virtual python environment which has openfhe installed
 
-        OPENFHE_DIR="$PWD/openfhe-development"
-        echo "OPENFHE_DIR=$OPENFHE_DIR"
-        echo "OPENFHE_DIR=$OPENFHE_DIR" >> $GITHUB_ENV
-        if [ -d "$OPENFHE_DIR" ]; then
-          rm -Rf $OPENFHE_DIR;
-        fi
-
-        INSTALL_DIR="$PWD/install"
-        echo "INSTALL_DIR=$INSTALL_DIR"
-        echo "INSTALL_DIR=$INSTALL_DIR" >> $GITHUB_ENV
-        if [ -d "$INSTALL_DIR" ]; then
-          rm -Rf $INSTALL_DIR;
+        ### openfhe-python-packager location
+        OPENFHE_PACKAGER_DIR="$PWD/openfhe-python-packager"
+        echo "OPENFHE_PACKAGER_DIR=$OPENFHE_PACKAGER_DIR"
+        echo "OPENFHE_PACKAGER_DIR=$OPENFHE_PACKAGER_DIR" >> $GITHUB_ENV
+        if [ -d "$OPENFHE_PACKAGER_DIR" ]; then
+          rm -Rf $OPENFHE_PACKAGER_DIR;
         fi
 
     #####################################################################################
-    - name: '${{ inputs.module_name }}_build_openfhe_development'
+    - name: '${{ inputs.module_name }}_build_openfhe'
       shell: bash
       run: |
         # pwd
-        echo "======> step ${{ inputs.module_name }}_build_openfhe_development"
+        echo "======> step ${{ inputs.module_name }}_build_openfhe"
         
-        echo "$OPENFHE_DIR"
-        cmake_args="${{inputs.cmake_args_openfhe_lib}} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_PREFIX_PATH=${INSTALL_DIR}"
-        echo ${cmake_args}
+        git clone https://github.com/openfheorg/openfhe-python-packager.git
+        cd $OPENFHE_PACKAGER_DIR
 
-        git clone https://github.com/openfheorg/openfhe-development.git
-        cd $OPENFHE_DIR
-        git checkout ${{inputs.openfhe_development_branch}}
+        # update ci-vars.sh:
+        sed -i \
+            -e "s|^OPENFHE_TAG=.*|OPENFHE_TAG=${{inputs.openfhe_development_branch}}|"           \
+            -e "s|^OPENFHE_PYTHON_TAG=.*|OPENFHE_PYTHON_TAG=${{github.ref_name}}|"  \
+            -e "s|^ADDL_CMAKE_FLAGS=.*|ADDL_CMAKE_FLAGS=\"${{inputs.cmake_args_openfhe_lib}}\"|" \
+            ./ci-vars.sh
 
-        cmake -S . -B build ${cmake_args}
+        echo "====== ci-vars.sh ======"
+        cat ./ci-vars.sh
+        echo "========================"
 
-        cd build
-        make -j $[$(nproc) / 2]
-        make install
-    #####################################################################################
-    - name: '${{ inputs.module_name }}_set_environment'
-      shell: bash
-      run: |
-        # pwd
-        echo "======> step ${{ inputs.module_name }}_set_environment"
+        ./build_openfhe_wheel.sh
 
-        #################################################################################
-        # we can not install "pybind11[global]" and pytest on an AWS instance directly.
-        # It is strongly recommended to use a virtual environment for that: https://pip.pypa.io/warnings/venv
-        # so, we will have to use a virtual environment then...
-        #################################################################################
-        ### 1. create a virtual environment if it doesn't exist
-        if [ ! -d "openfhe-python-env" ]; then
-            python3 -m venv openfhe-python-env
-        fi
-
-        ### 2. activate the virtual environment
-        source openfhe-python-env/bin/activate
-
-        ### 3. install "pybind11[global]"
-        pip install "pybind11[global]"
-
-        ### 4. install pytest if it is not installed
-        if ! command -v pytest &> /dev/null; then
-            pip install pytest
-        fi
-
-    #####################################################################################
-    - name: '${{ inputs.module_name }}_build_openfhe_python'
-      shell: bash
-      run: |
-        # pwd
-        echo "======> step ${{ inputs.module_name }}_build_openfhe_python"
-
-        ### activate the virtual environment
-        source openfhe-python-env/bin/activate
-
-        cmake_args="${{inputs.cmake_args_openfhe_lib}} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_PREFIX_PATH=${INSTALL_DIR}"
-        echo ${cmake_args}
-
-        cmake -S . -B build ${cmake_args}
-
-        cd build
-        make -j $[$(nproc) / 2]
-        sudo make install
     #####################################################################################
     - name: '${{ inputs.module_name }}_tests'
       shell: bash
@@ -129,25 +76,35 @@ runs:
         # pwd
         echo "======> step ${{ inputs.module_name }}_tests"
 
+        ### save openfhe_python location before we start the process
+        OPENFHE_DIR="$PWD"
+        # echo "OPENFHE_DIR=$OPENFHE_DIR"
+ 
+        cd $OPENFHE_PACKAGER_DIR
+
         ### activate the virtual environment
-        source openfhe-python-env/bin/activate
+        source ./scripts/get-env.sh
 
-        ### set LD_LIBRARY_PATH and PYTHONPATH
-        export LD_LIBRARY_PATH=${INSTALL_DIR}/lib
-        export PYTHONPATH=${LD_LIBRARY_PATH}:${INSTALL_DIR}:${PYTHONPATH}
-        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
-        echo "PYTHONPATH=${PYTHONPATH}"
+        python3 -m pip install --upgrade pip
+        pip install pytest
 
-        cd tests
-        pytest *.py
+        ### install the wheel
+        pip install ./build/dist/*.whl
+
+        echo "====== Currently installed OPENFHE packages ======"
+        pip list|grep openfhe
+        echo "=================================================="
+
+        ### run tests from the main openfhe_python location
+        cd $OPENFHE_DIR/tests
+        pytest --run-all
 
         ### deactivate the virtual environment
         deactivate
-    #####################################################################################
+
+    # #####################################################################################
     # - name: '${{ inputs.module_name }}_final_cleanup'
     #   shell: bash
     #   run: |
     #     pwd
-    #     rm -rf ${BUILD_DIR}
-    #     rm -rf ${OPENFHE_DIR}
-    #     rm -rf ${INSTALL_DIR}
+    #     rm -rf ${OPENFHE_PACKAGER_DIR}
