@@ -1311,10 +1311,16 @@ void bind_enums_and_constants(py::module &m) {
         .value("HEStd_128_classic", SecurityLevel::HEStd_128_classic)
         .value("HEStd_192_classic", SecurityLevel::HEStd_192_classic)
         .value("HEStd_256_classic", SecurityLevel::HEStd_256_classic)
+        .value("HEStd_128_quantum", SecurityLevel::HEStd_128_quantum)
+        .value("HEStd_192_quantum", SecurityLevel::HEStd_192_quantum)
+        .value("HEStd_256_quantum", SecurityLevel::HEStd_256_quantum)
         .value("HEStd_NotSet", SecurityLevel::HEStd_NotSet);
     m.attr("HEStd_128_classic") = py::cast(SecurityLevel::HEStd_128_classic);
     m.attr("HEStd_192_classic") = py::cast(SecurityLevel::HEStd_192_classic);
     m.attr("HEStd_256_classic") = py::cast(SecurityLevel::HEStd_256_classic);
+    m.attr("HEStd_128_quantum") = py::cast(SecurityLevel::HEStd_128_quantum);
+    m.attr("HEStd_192_quantum") = py::cast(SecurityLevel::HEStd_192_quantum);
+    m.attr("HEStd_256_quantum") = py::cast(SecurityLevel::HEStd_256_quantum);
     m.attr("HEStd_NotSet") = py::cast(SecurityLevel::HEStd_NotSet);
     
     //NATIVEINT function
