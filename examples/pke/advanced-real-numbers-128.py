@@ -10,7 +10,7 @@ def automatic_rescale_demo(scal_tech):
     batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(6)
-    parameters.SetScalingModSize(90)
+    parameters.SetScalingModSize(89)
     parameters.SetScalingTechnique(scal_tech)
     parameters.SetBatchSize(batch_size)
 
@@ -70,7 +70,7 @@ def manual_rescale_demo(scal_tech):
     batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
-    parameters.SetScalingModSize(90)
+    parameters.SetScalingModSize(89)
     parameters.SetBatchSize(batch_size)
 
     cc = GenCryptoContext(parameters)
@@ -133,7 +133,7 @@ def hybrid_key_switching_demo1():
     batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
-    parameters.SetScalingModSize(90)
+    parameters.SetScalingModSize(89)
     parameters.SetBatchSize(batch_size)
     parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
     parameters.SetNumLargeDigits(dnum)
@@ -176,7 +176,7 @@ def hybrid_key_switching_demo2():
     batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(5)
-    parameters.SetScalingModSize(90)
+    parameters.SetScalingModSize(89)
     parameters.SetBatchSize(batch_size)
     parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
     parameters.SetNumLargeDigits(dnum)
@@ -219,7 +219,7 @@ def fast_rotation_demo1():
     batch_size = 8
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(1)
-    parameters.SetScalingModSize(90)
+    parameters.SetScalingModSize(89)
     parameters.SetBatchSize(batch_size)
 
     cc = GenCryptoContext(parameters)
@@ -295,7 +295,7 @@ def fast_rotation_demo2():
 
     parameters = CCParamsCKKSRNS()
     parameters.SetMultiplicativeDepth(1)
-    parameters.SetScalingModSize(90)
+    parameters.SetScalingModSize(89)
     parameters.SetBatchSize(batch_size)
     parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
     parameters.SetKeySwitchTechnique(KeySwitchTechnique.BV)
@@ -383,7 +383,7 @@ def main():
         fast_rotation_demo1()
         fast_rotation_demo2()
     else:
-        print("This demo only runs for 128-bit CKKS.\nIf you want to test it please reinstall the OpenFHE C++ with the flag -DNATIVE_INT=128, then reinstall OpenFHE-Python.")
+        print("This demo only runs for 128-bit CKKS.\nIf you want to test it please reinstall the OpenFHE C++ with the flag -DNATIVE_SIZE=128, then reinstall OpenFHE-Python.")
 
 if __name__ == "__main__":
     main()
