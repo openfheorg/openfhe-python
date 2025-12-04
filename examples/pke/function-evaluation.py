@@ -92,6 +92,12 @@ def eval_function_example():
     expected_output = [1, 1.414213, 1.732050, 2, 2.236067, 2.449489, 2.645751, 2.828427, 3]
     print(f"Expected output\n\t {expected_output}\n")
 
+    # Compute the same approximation on cleartext data
+    # input = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    func = lambda x: math.sqrt(x)
+    ptxt_approx = EvalChebyshevFunctionPtxt(func, input, lower_bound, upper_bound, poly_degree)
+    print(f"Cleartext output\n\t {ptxt_approx}\n")
+
     final_result = plaintext_dec.GetCKKSPackedValue()
     print(f"Actual output\n\t {final_result}\n")
 if __name__ == "__main__":
