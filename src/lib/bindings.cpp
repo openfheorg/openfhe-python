@@ -33,6 +33,7 @@
 #include "openfhe.h"
 
 #include "key/key-ser.h"
+#include "math/chebyshev.h"
 #include "binfhe_bindings.h"
 
 #include <pybind11/stl.h>
@@ -1594,6 +1595,20 @@ void bind_utils(py::module& m) {
           py::doc("Disable CRT precomputation after deserialization"));
 }
 
+void bind_free_functions(py::module& m) {
+    m.def("EvalChebyshevCoefficients", &lbcrypto::EvalChebyshevCoefficients,
+          py::arg("func"),
+          py::arg("a"),
+          py::arg("b"),
+          py::arg("degree"));
+    m.def("EvalChebyshevFunctionPtxt", &lbcrypto::EvalChebyshevFunctionPtxt,
+          py::arg("func"),
+          py::arg("ptxt"),
+          py::arg("a"),
+          py::arg("b"),
+          py::arg("degree"));
+}
+
 PYBIND11_MODULE(openfhe, m) {
     // sequence of function calls matters
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
@@ -1616,4 +1631,5 @@ PYBIND11_MODULE(openfhe, m) {
     bind_schemes(m);
     bind_sch_swch_params(m);
     bind_utils(m);
+    bind_free_functions(m);
 }
