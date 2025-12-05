@@ -40,6 +40,7 @@
 #include "key/key-ser.h"
 
 using namespace lbcrypto;
+using CryptoContextDCRT = CryptoContext<DCRTPoly>;
 namespace py = pybind11;
 
 // disable the PYBIND11 template-based conversion for this type
@@ -79,8 +80,8 @@ std::tuple<T, bool> DeserializeFromFileWrapper(const std::string& filename, cons
     return std::make_tuple(newob, result);
 }
 template <typename ST>
-std::tuple<CryptoContext<DCRTPoly>, bool> DeserializeCCWrapper(const std::string& filename, const ST& sertype) {
-    CryptoContext<DCRTPoly> newob;
+std::tuple<CryptoContextDCRT, bool> DeserializeCCWrapper(const std::string& filename, const ST& sertype) {
+    CryptoContextDCRT newob;
     bool result = Serial::DeserializeFromFile<DCRTPoly>(filename, newob, sertype);
     return std::make_tuple(newob, result);
 }
@@ -113,8 +114,8 @@ T DeserializeFromStringWrapper(const std::string& str, const ST& sertype) {
 }
 
 template <typename ST>
-CryptoContext<DCRTPoly> DeserializeCCFromStringWrapper(const std::string& str, const ST& sertype) {
-    CryptoContext<DCRTPoly> obj;
+CryptoContextDCRT DeserializeCCFromStringWrapper(const std::string& str, const ST& sertype) {
+    CryptoContextDCRT obj;
     std::istringstream iss(str);
     Serial::Deserialize<DCRTPoly>(obj, iss, sertype);
     return obj;
@@ -131,11 +132,11 @@ T DeserializeFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
 }
 
 template <typename ST>
-CryptoContext<DCRTPoly> DeserializeCCFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
+CryptoContextDCRT DeserializeCCFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
     std::string str{static_cast<std::string>(bytes)};
     std::istringstream iss(str, std::ios::binary);
 
-    CryptoContext<DCRTPoly> obj;
+    CryptoContextDCRT obj;
     Serial::Deserialize<DCRTPoly>(obj, iss, sertype);
     return obj;
 }
@@ -229,9 +230,9 @@ void DeserializeEvalAutomorphismKeyFromBytesWrapper(const py::bytes& bytes, cons
 
 void bind_serialization(pybind11::module &m) {
     // Json Serialization
-    m.def("SerializeToFile", static_cast<bool (*)(const std::string &, const CryptoContext<DCRTPoly> &, const SerType::SERJSON &)>(&Serial::SerializeToFile<DCRTPoly>),
+    m.def("SerializeToFile", static_cast<bool (*)(const std::string &, const CryptoContextDCRT &, const SerType::SERJSON &)>(&Serial::SerializeToFile<CryptoContextDCRT>),
           py::arg("filename"), py::arg("obj"), py::arg("sertype"));
-    m.def("DeserializeCryptoContext", static_cast<std::tuple<CryptoContext<DCRTPoly>, bool> (*)(const std::string &, const SerType::SERJSON &)>(&DeserializeCCWrapper<SerType::SERJSON>),
+    m.def("DeserializeCryptoContext", static_cast<std::tuple<CryptoContextDCRT, bool> (*)(const std::string &, const SerType::SERJSON &)>(&DeserializeCCWrapper<SerType::SERJSON>),
           py::arg("filename"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string &, const PublicKey<DCRTPoly> &, const SerType::SERJSON &)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>),
           py::arg("filename"), py::arg("obj"), py::arg("sertype"));
@@ -255,7 +256,7 @@ void bind_serialization(pybind11::module &m) {
           py::arg("filename"), py::arg("sertype"));
 
     // JSON Serialization to string
-    m.def("Serialize", &SerializeToStringWrapper<CryptoContext<DCRTPoly>, SerType::SERJSON>,
+    m.def("Serialize", &SerializeToStringWrapper<CryptoContextDCRT, SerType::SERJSON>,
           py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeCryptoContextString", &DeserializeCCFromStringWrapper<SerType::SERJSON>,
           py::arg("str"), py::arg("sertype"));
@@ -292,9 +293,9 @@ void bind_serialization(pybind11::module &m) {
           py::arg("data"), py::arg("sertype"));
 
     // Binary Serialization
-    m.def("SerializeToFile", static_cast<bool (*)(const std::string&,const CryptoContext<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<DCRTPoly>),
+    m.def("SerializeToFile", static_cast<bool (*)(const std::string&,const CryptoContextDCRT&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<CryptoContextDCRT>),
           py::arg("filename"), py::arg("obj"), py::arg("sertype"));
-    m.def("DeserializeCryptoContext", static_cast<std::tuple<CryptoContext<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeCCWrapper<SerType::SERBINARY>),
+    m.def("DeserializeCryptoContext", static_cast<std::tuple<CryptoContextDCRT,bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeCCWrapper<SerType::SERBINARY>),
           py::arg("filename"), py::arg("sertype"));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PublicKey<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>),
           py::arg("filename"), py::arg("obj"), py::arg("sertype"));
@@ -318,7 +319,7 @@ void bind_serialization(pybind11::module &m) {
           py::arg("filename"), py::arg("sertype"));
 
     // Binary Serialization to bytes
-    m.def("Serialize", &SerializeToBytesWrapper<CryptoContext<DCRTPoly>, SerType::SERBINARY>,
+    m.def("Serialize", &SerializeToBytesWrapper<CryptoContextDCRT, SerType::SERBINARY>,
           py::arg("obj"), py::arg("sertype"));
     m.def("DeserializeCryptoContextString", &DeserializeCCFromBytesWrapper<SerType::SERBINARY>,
           py::arg("str"), py::arg("sertype"));
