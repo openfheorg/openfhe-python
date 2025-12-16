@@ -12,10 +12,13 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
 
+this_dir = os.path.dirname(__file__)
+repo_root = os.path.abspath(os.path.join(this_dir, ".."))
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
 
 # -- Project information -----------------------------------------------------
 
@@ -44,6 +47,8 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.napoleon'
 ]
+
+autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -75,10 +80,21 @@ pygments_style = None
 
 # -- Options for HTML output -------------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-html_theme = 'sphinx_rtd_theme'
+# on_rtd is whether we are on readthedocs.org
+on_rtd = os.environ.get("READTHEDOCS", None) == "True"
+
+if not on_rtd:
+    # Local builds: use sphinx_rtd_theme explicitly
+    import sphinx_rtd_theme
+    html_theme = "sphinx_rtd_theme"
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+else:
+    # On RTD, the theme is provided automatically, but this is harmless
+    html_theme = "sphinx_rtd_theme"
+# # The theme to use for HTML and HTML Help pages.  See the documentation for
+# # a list of builtin themes.
+# #
+# html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
