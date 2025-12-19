@@ -5,10 +5,3 @@ openfhe==1.4.2.0.24.4
 # Core documentation stack
 sphinx>=8,<9
 sphinx-rtd-theme
-
-# # C++ API extraction (only if you actually use breathe/exhale)
-# breathe>=4.36.0
-# exhale>=0.3.0
-
-# # Diagrams (remove if unused)
-# sphinxcontrib-mermaid

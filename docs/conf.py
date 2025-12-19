@@ -91,6 +91,11 @@ if not on_rtd:
 else:
     # On RTD, the theme is provided automatically, but this is harmless
     html_theme = "sphinx_rtd_theme"
+
+    try:
+        import openfhe.openfhe  # noqa: F401
+    except Exception as e:
+        raise RuntimeError(f"openfhe extension failed to import on RTD: {e}") from e
 # # The theme to use for HTML and HTML Help pages.  See the documentation for
 # # a list of builtin themes.
 # #
