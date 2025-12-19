@@ -1,6 +1,6 @@
 # Force binary wheel for OpenFHE (required for autodoc)
---only-binary=openfhe
-openfhe==1.4.2.0.24.4
+# --only-binary=openfhe
+# openfhe==1.4.2.0.24.4
 
 # Core documentation stack
 sphinx>=8,<9
