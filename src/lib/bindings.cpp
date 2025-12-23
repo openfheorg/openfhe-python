@@ -1433,9 +1433,15 @@ void bind_encodings(py::module &m) {
         .def("GetScalingFactor", &PlaintextImpl::GetScalingFactor, ptx_GetScalingFactor_docs)
         .def("SetScalingFactor", &PlaintextImpl::SetScalingFactor,
             py::arg("sf"),
-            py::doc(ptx_SetScalingFactor_docs))
-        .def("GetSchemeID", &PlaintextImpl::GetSchemeID, ptx_GetSchemeID_docs)
-        .def("GetLength", &PlaintextImpl::GetLength, ptx_GetLength_docs)
+            py::doc(ptx_SetScalingFactor_docs)
+        .def("GetSchemeID", &PlaintextImpl::GetSchemeID,
+            ptx_GetSchemeID_docs)
+        .def("__len__", &PlaintextImpl::GetLength,
+            ptx_GetLength_docs)
+        .def("GetLength", &PlaintextImpl::GetLength,
+            ptx_GetLength_docs)
+        .def("GetSchemeID", &PlaintextImpl::GetSchemeID,
+            ptx_GetSchemeID_docs)
         .def("SetLength", &PlaintextImpl::SetLength,
             py::arg("newSize"),
             py::doc(ptx_SetLength_docs))
