@@ -9,18 +9,22 @@ build:
   os: ubuntu-24.04
   tools:
     python: "3.12"
-
-  commands:
-    - python -m pip install -U pip
-    - python -m pip install -r docs/requirements.txt
-
-    # Build wheel using the real RTD branch name and install it
-    - WHEEL_PATH="$(bash docs/scripts/build-wheel-for-docs.sh)"
-    - echo "Installing wheel: ${WHEEL_PATH}"
-    - python -m pip install "${WHEEL_PATH}"
-
-    # Build documentation
-    - python -m sphinx -b html docs/ "$READTHEDOCS_OUTPUT/html"
+  apt_packages:
+    - cmake
+    - build-essential
+  # commands:
+  jobs:
+    post_install:
+      - python -m pip install -U pip
+      - python -m pip install -r docs/requirements.txt
+      # Build wheel using the real RTD branch name and install it
+      - |
+        set -e
+        WHEEL_PATH="$(bash docs/scripts/build-wheel-for-docs.sh)"
+        echo "Installing wheel: ${WHEEL_PATH}"
+        python -m pip install "${WHEEL_PATH}"
+    # # Build documentation
+    # - python -m sphinx -b html docs/ "$READTHEDOCS_OUTPUT/html"
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
