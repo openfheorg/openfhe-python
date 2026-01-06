@@ -344,7 +344,6 @@ void bind_crypto_context(py::module &m) {
         .def("EvalRotateKeyGen", &CryptoContextImpl<DCRTPoly>::EvalRotateKeyGen,
             py::arg("privateKey"),
             py::arg("indexList"),
-            py::arg("publicKey") = py::none(),
             py::doc(cc_EvalRotateKeyGen_docs))
         .def("MakeStringPlaintext", &CryptoContextImpl<DCRTPoly>::MakeStringPlaintext,
             py::arg("str"),
@@ -424,7 +423,6 @@ void bind_crypto_context(py::module &m) {
         .def("EvalAtIndexKeyGen", &CryptoContextImpl<DCRTPoly>::EvalAtIndexKeyGen,
             py::arg("privateKey"),
             py::arg("indexList"),
-            py::arg("publicKey") = py::none(),
             py::doc(cc_EvalAtIndexKeyGen_docs))
         .def("EvalAtIndex", &CryptoContextImpl<DCRTPoly>::EvalAtIndex,
             py::arg("ciphertext"),
@@ -692,18 +690,41 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_EvalDivide_docs))
         .def("EvalSumKeyGen", &CryptoContextImpl<DCRTPoly>::EvalSumKeyGen,
             py::arg("privateKey"),
-            py::arg("publicKey") = py::none(),
             py::doc(cc_EvalSumKeyGen_docs))
-        //TODO (Oliveira, R.): Solve pointer handling bug when dealing with EvalKeyMap object for the next functions 
-        .def("EvalSumRowsKeyGen", &CryptoContextImpl<DCRTPoly>::EvalSumRowsKeyGen,
+        .def("EvalSumRowsKeyGen",
+            [](CryptoContextImpl<DCRTPoly>& self,
+                const PrivateKey<DCRTPoly> privateKey,
+                uint32_t rowSize,
+                uint32_t subringDim) {
+                auto m = self.EvalSumRowsKeyGen(privateKey, rowSize, subringDim);
+                py::dict d;
+                for (const auto& [k, v] : *m)
+                    d[py::int_(k)] = v;
+                return d;
+            },
             py::arg("privateKey"),
-            py::arg("publicKey") = py::none(),
             py::arg("rowSize") = 0,
             py::arg("subringDim") = 0,
             py::doc(cc_EvalSumRowsKeyGen_docs))
+        .def("EvalSumRowsKeyGen",
+            [](CryptoContextImpl<DCRTPoly>& self,
+                const PrivateKey<DCRTPoly> privateKey,
+                const PublicKey<DCRTPoly> publicKey,
+                uint32_t rowSize,
+                uint32_t subringDim) {
+                auto m = self.EvalSumRowsKeyGen(privateKey, publicKey, rowSize, subringDim);
+                py::dict d;
+                for (const auto& [k, v] : *m)
+                    d[py::int_(k)] = v;
+                return d;
+            },
+            py::arg("privateKey"),
+            py::arg("publicKey"),
+            py::arg("rowSize") = 0,
+            py::arg("subringDim") = 0)
+        // TODO (Oliveira, R.): Solve pointer handling bug when dealing with EvalKeyMap object for the next functions 
         .def("EvalSumColsKeyGen", &CryptoContextImpl<DCRTPoly>::EvalSumColsKeyGen,
             py::arg("privateKey"),
-            py::arg("publicKey") = py::none(),
             py::doc(cc_EvalSumColsKeyGen_docs))
         .def("EvalSum", &CryptoContextImpl<DCRTPoly>::EvalSum,
             py::arg("ciphertext"),
@@ -1294,11 +1315,11 @@ void bind_enums_and_constants(py::module &m) {
     m.attr("HPSPOVERQLEVELED") = py::cast(MultiplicationTechnique::HPSPOVERQLEVELED);
 
     // Compression Leval
-    py::enum_<COMPRESSION_LEVEL>(m,"COMPRESSION_LEVEL")
-        .value("COMPACT", COMPRESSION_LEVEL::COMPACT)
-        .value("SLACK", COMPRESSION_LEVEL::SLACK);
-    m.attr("COMPACT") = py::cast(COMPRESSION_LEVEL::COMPACT);
-    m.attr("SLACK") = py::cast(COMPRESSION_LEVEL::SLACK);
+    py::enum_<CompressionLevel>(m,"CompressionLevel")
+        .value("COMPACT", CompressionLevel::COMPACT)
+        .value("SLACK", CompressionLevel::SLACK);
+    m.attr("COMPACT") = py::cast(CompressionLevel::COMPACT);
+    m.attr("SLACK") = py::cast(CompressionLevel::SLACK);
 
     py::enum_<CKKSDataType>(m,"CKKSDataType")
         .value("REAL", CKKSDataType::REAL)
