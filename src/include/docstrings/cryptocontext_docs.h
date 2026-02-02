@@ -1115,11 +1115,20 @@ const char* cc_IntMPBootAdjustScale_docs = R"pbdoc(
     :rtype: Ciphertext
 )pbdoc";
 
-const char* cc_IntMPBootRandomElementGen_docs = R"pbdoc(
+const char* cc_IntMPBootRandomElementGenPublicKey_docs = R"pbdoc(
     Threshold FHE: Generate a common random polynomial for Multi-Party Interactive Bootstrapping
 
     :param publicKey: the scheme public key (you can also provide the lead party's public-key)
     :type publicKey: PublicKey
+    :return: Resulting ring element
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_IntMPBootRandomElementGenCiphertext_docs = R"pbdoc(
+    Threshold FHE: Generate a common random polynomial for Multi-Party Interactive Bootstrapping
+
+    :param ciphertext: reference ciphertext used to derive cryptographic parameters
+    :type ciphertext: Ciphertext
     :return: Resulting ring element
     :rtype: Ciphertext
 )pbdoc";

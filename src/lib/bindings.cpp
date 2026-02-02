@@ -232,6 +232,7 @@ void bind_crypto_context(py::module &m) {
     py::class_<ParmType, ParmTypePtr>(m, "ParmType");
 
     auto cc_class = py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext");
+    using CC = CryptoContextImpl<DCRTPoly>;
 
     cc_class.def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel, cc_GetKeyGenLevel_docs)
@@ -840,9 +841,22 @@ void bind_crypto_context(py::module &m) {
         .def("IntMPBootAdjustScale",&CryptoContextImpl<DCRTPoly>::IntMPBootAdjustScale,
             py::arg("ciphertext"),
             py::doc(cc_IntMPBootAdjustScale_docs))
-        .def("IntMPBootRandomElementGen", &CryptoContextImpl<DCRTPoly>::IntMPBootRandomElementGen,
+        // .def("IntMPBootRandomElementGen",
+        //     py::overload_cast<const PublicKey<DCRTPoly>>(&CryptoContextImpl<DCRTPoly>::IntMPBootRandomElementGen, py::const_),
+        //     py::arg("publicKey"),
+        //     py::doc(cc_IntMPBootRandomElementGen_from_publickey_docs))
+        // .def("IntMPBootRandomElementGen",
+        //     py::overload_cast<ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::IntMPBootRandomElementGen, py::const_),
+        //     py::arg("ciphertext"),
+        //     py::doc(cc_IntMPBootRandomElementGen_from_ciphertext_docs))
+        .def("IntMPBootRandomElementGen",
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(PublicKey<DCRTPoly>) const>(&CC::IntMPBootRandomElementGen),
             py::arg("publicKey"),
-            py::doc(cc_IntMPBootRandomElementGen_docs))
+            py::doc(cc_IntMPBootRandomElementGenPublicKey_docs))
+        .def("IntMPBootRandomElementGen",
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&) const>(&CC::IntMPBootRandomElementGen),
+            py::arg("ciphertext"),
+            py::doc(cc_IntMPBootRandomElementGenCiphertext_docs))
         .def("IntMPBootDecrypt", &CryptoContextImpl<DCRTPoly>::IntMPBootDecrypt,
             py::arg("privateKey"),
             py::arg("ciphertext"),
@@ -898,6 +912,7 @@ void bind_crypto_context(py::module &m) {
             py::arg("slots") = 0,
             py::arg("correctionFactor") = 0,
             py::arg("precompute")= true,
+            py::arg("BTSlotsEncoding")= false,
             py::doc(cc_EvalBootstrapSetup_docs))
         .def("EvalBootstrapKeyGen", &CryptoContextImpl<DCRTPoly>::EvalBootstrapKeyGen,
             py::arg("privateKey"),
@@ -1610,19 +1625,19 @@ void bind_sch_swch_params(py::module &m) {
 }
 
 void bind_utils(py::module& m) {
-    m.def("EnablePrecomputeCRTTablesAfterDeserializaton", &lbcrypto::EnablePrecomputeCRTTablesAfterDeserializaton,
+    m.def("EnablePrecomputeCRTTablesAfterDeserializaton", &EnablePrecomputeCRTTablesAfterDeserializaton,
           py::doc("Enable CRT precomputation after deserialization"));
-    m.def("DisablePrecomputeCRTTablesAfterDeserializaton", &lbcrypto::DisablePrecomputeCRTTablesAfterDeserializaton,
+    m.def("DisablePrecomputeCRTTablesAfterDeserializaton", &DisablePrecomputeCRTTablesAfterDeserializaton,
           py::doc("Disable CRT precomputation after deserialization"));
 }
 
 void bind_free_functions(py::module& m) {
-    m.def("EvalChebyshevCoefficients", &lbcrypto::EvalChebyshevCoefficients,
+    m.def("EvalChebyshevCoefficients", &EvalChebyshevCoefficients,
           py::arg("func"),
           py::arg("a"),
           py::arg("b"),
           py::arg("degree"));
-    m.def("EvalChebyshevFunctionPtxt", &lbcrypto::EvalChebyshevFunctionPtxt,
+    m.def("EvalChebyshevFunctionPtxt", &EvalChebyshevFunctionPtxt,
           py::arg("func"),
           py::arg("ptxt"),
           py::arg("a"),
