@@ -610,6 +610,26 @@ void bind_crypto_context(py::module &m) {
             py::arg("scalar"),
             py::arg("ciphertext"),
             py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
+        .def("EvalMultInPlace",
+            static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, double) const>(&CC::EvalMultInPlace),
+            py::arg("ciphertext"),
+            py::arg("scalar"),
+            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
+        .def("EvalMultInPlace",
+            static_cast<void (CC::*)(double, Ciphertext<DCRTPoly>&) const>(&CC::EvalMultInPlace),
+            py::arg("scalar"),
+            py::arg("ciphertext"),
+            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
+        .def("EvalMultInPlace",
+            static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, std::complex<double>) const>(&CC::EvalMultInPlace),
+            py::arg("ciphertext"),
+            py::arg("scalar"),
+            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
+        .def("EvalMultInPlace",
+            static_cast<void (CC::*)(std::complex<double>, Ciphertext<DCRTPoly>&) const>(&CC::EvalMultInPlace),
+            py::arg("scalar"),
+            py::arg("ciphertext"),
+            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
         .def("EvalMultMutable",
             py::overload_cast<Ciphertext<DCRTPoly>&, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalMultMutable, py::const_),
             py::arg("ciphertext1"),
@@ -841,6 +861,11 @@ void bind_crypto_context(py::module &m) {
         .def("IntMPBootAdjustScale",&CryptoContextImpl<DCRTPoly>::IntMPBootAdjustScale,
             py::arg("ciphertext"),
             py::doc(cc_IntMPBootAdjustScale_docs))
+        /////////////////////////////////////////////////////////
+        // static_cast seems to be better than py::overload_cast for overloaded functions (even it doesn't look pretty):
+        // 1. compiler tells your exactly what doesn’t match
+        // 2. never silently selects the wrong overload if only one is visible
+        /////////////////////////////////////////////////////////
         // .def("IntMPBootRandomElementGen",
         //     py::overload_cast<const PublicKey<DCRTPoly>>(&CryptoContextImpl<DCRTPoly>::IntMPBootRandomElementGen, py::const_),
         //     py::arg("publicKey"),
