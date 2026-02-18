@@ -74,8 +74,6 @@ def SimpleComplexNumbers():
     cc.EvalSubInPlace(cSubC, constComplex2)
 
     # Step 5: Decryption and output
-    result = Plaintext()
-
     print("\nDecrypted complex inputs:\n")
     result = cc.Decrypt(keys.secretKey, c1)
     result.SetLength(batchSize)

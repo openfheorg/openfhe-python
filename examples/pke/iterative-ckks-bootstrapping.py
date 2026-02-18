@@ -96,7 +96,7 @@ def iterative_bootstrap_example():
 
     result = cryptocontext.Decrypt(ciphertext_after,key_pair.secretKey)
     result.SetLength(num_slots)
-    precision = calculate_approximation_error(result.GetCKKSPackedValue(),ptxt.GetCKKSPackedValue())
+    precision = math.floor(calculate_approximation_error(result.GetCKKSPackedValue(),ptxt.GetCKKSPackedValue()))
     print(f"Bootstrapping precision after 1 iteration: {precision} bits\n")
 
     # Set the precision equal to empirically measured value after many test runs.
@@ -197,7 +197,7 @@ def iterative_bootstrap_stc_example():
 
     result = cryptocontext.Decrypt(ciphertext_after, key_pair.secretKey)
     result.SetLength(num_slots)
-    precision = calculate_approximation_error(result.GetCKKSPackedValue(), ptxt.GetCKKSPackedValue())
+    precision = math.floor(calculate_approximation_error(result.GetCKKSPackedValue(), ptxt.GetCKKSPackedValue()))
     print(f"Bootstrapping precision after 1 iteration: {precision} bits\n")
 
     # Set the precision equal to empirically measured value after many test runs.
