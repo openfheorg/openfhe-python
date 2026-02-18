@@ -49,6 +49,7 @@
 #include "ciphertext_docs.h"
 
 using namespace lbcrypto;
+using CC = CryptoContextImpl<DCRTPoly>;
 namespace py = pybind11;
 
 // disable the PYBIND11 template-based conversion for this type
@@ -144,84 +145,240 @@ void bind_parameters(py::module &m, const std::string name) {
 }
 
 template <typename T>
-void bind_crypto_context_templates(py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>& cls) {
+void bind_crypto_context_templates(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalChebyshevSeries",
-            static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(
                 ConstCiphertext<DCRTPoly>&,
                 const std::vector<T>&,
                 double,
                 double
-            ) const>(&CryptoContextImpl<DCRTPoly>::EvalChebyshevSeries),
+            ) const>(&CC::EvalChebyshevSeries),
             py::arg("ciphertext"),
             py::arg("coefficients"),
             py::arg("a"),
             py::arg("b"),
             py::doc(cc_EvalChebyshevSeries_docs))
         .def("EvalChebyshevSeriesLinear",
-            static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(
                 ConstCiphertext<DCRTPoly>&,
                 const std::vector<T>&,
                 double,
                 double
-            ) const>(&CryptoContextImpl<DCRTPoly>::EvalChebyshevSeriesLinear),
+            ) const>(&CC::EvalChebyshevSeriesLinear),
             py::arg("ciphertext"),
             py::arg("coefficients"),
             py::arg("a"),
             py::arg("b"),
             py::doc(cc_EvalChebyshevSeriesLinear_docs))
         .def("EvalChebyshevSeriesPS",
-            static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(
                 ConstCiphertext<DCRTPoly>&,
                 const std::vector<T>&,
                 double,
                 double
-            ) const>(&CryptoContextImpl<DCRTPoly>::EvalChebyshevSeriesPS),
+            ) const>(&CC::EvalChebyshevSeriesPS),
             py::arg("ciphertext"),
             py::arg("coefficients"),
             py::arg("a"),
             py::arg("b"),
             py::doc(cc_EvalChebyshevSeriesPS_docs))
         .def("EvalLinearWSum",
-            static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(
                 std::vector<ReadOnlyCiphertext<DCRTPoly>>&,
                 const std::vector<T>&
-            ) const>(&CryptoContextImpl<DCRTPoly>::EvalLinearWSum),
+            ) const>(&CC::EvalLinearWSum),
             py::arg("ciphertextVec"),
             py::arg("constantVec"),
             py::doc("Evaluate a weighted sum of ciphertexts using scalar coefficients"))
         .def("EvalLinearWSumMutable",
-            static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(
                 const std::vector<T>&,
                 std::vector<Ciphertext<DCRTPoly>>&
-            ) const>(&CryptoContextImpl<DCRTPoly>::EvalLinearWSumMutable),
+            ) const>(&CC::EvalLinearWSumMutable),
             py::arg("constantsVec"),
             py::arg("ciphertextVec"),
             py::doc("Evaluate a weighted sum (mutable version) with given coefficients"))
         .def("EvalPoly",
-            static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(
                 ConstCiphertext<DCRTPoly>&,
                 const std::vector<T>&
-            ) const>(&CryptoContextImpl<DCRTPoly>::EvalPoly),
+            ) const>(&CC::EvalPoly),
             py::arg("ciphertext"),
             py::arg("coefficients"),
             py::doc(cc_EvalPoly_docs))
         .def("EvalPolyLinear",
-            static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(
                 ConstCiphertext<DCRTPoly>&,
                 const std::vector<T>&
-            ) const>(&CryptoContextImpl<DCRTPoly>::EvalPolyLinear),
+            ) const>(&CC::EvalPolyLinear),
             py::arg("ciphertext"),
             py::arg("coefficients"),
             py::doc(cc_EvalPolyLinear_docs))
         .def("EvalPolyPS",
-            static_cast<Ciphertext<DCRTPoly> (CryptoContextImpl<DCRTPoly>::*)(
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(
                 ConstCiphertext<DCRTPoly>&,
                 const std::vector<T>&
-            ) const>(&CryptoContextImpl<DCRTPoly>::EvalPolyPS),
+            ) const>(&CC::EvalPolyPS),
             py::arg("ciphertext"),
             py::arg("coefficients"),
             py::doc(cc_EvalPolyPS_docs))
     ;
+}
+
+void bind_eval_add_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalAdd),
+        py::arg("ciphertext1"),
+        py::arg("ciphertext2"),
+        py::doc(cc_EvalAdd_docs));
+    cls.def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, Plaintext&) const>(&CC::EvalAdd),
+        py::arg("ciphertext"),
+        py::arg("plaintext"),
+        py::doc(cc_EvalAddPlaintext_docs));
+    cls.def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CC::*)(Plaintext&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalAdd),
+        py::arg("plaintext"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+template <typename ScalarT>
+void bind_eval_add_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalAdd),
+        py::arg("ciphertext"),
+        py::arg("scalar"),
+        py::doc(cc_EvalAddfloat_docs));
+    cls.def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CC::*)(ScalarT, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalAdd),
+        py::arg("scalar"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+
+void bind_eval_addinplace_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalAddInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalAddInPlace),
+        py::arg("ciphertext1"),
+        py::arg("ciphertext2"),
+        py::doc(cc_EvalAddInPlace_docs));
+    cls.def("EvalAddInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, Plaintext&) const>(&CC::EvalAddInPlace),
+        py::arg("ciphertext"),
+        py::arg("plaintext"),
+        py::doc(cc_EvalAddInPlacePlaintext_docs));
+    cls.def("EvalAddInPlace", static_cast<void (CC::*)(Plaintext&, Ciphertext<DCRTPoly>&) const>(&CC::EvalAddInPlace),
+        py::arg("plaintext"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+template <typename ScalarT>
+void bind_eval_addinplace_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalAddInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalAddInPlace),
+        py::arg("ciphertext"),
+        py::arg("scalar"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+    cls.def("EvalAddInPlace", static_cast<void (CC::*)(ScalarT, Ciphertext<DCRTPoly>&) const>(&CC::EvalAddInPlace),
+        py::arg("scalar"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+
+void bind_eval_sub_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalSub),
+        py::arg("ciphertext1"),
+        py::arg("ciphertext2"),
+        py::doc(cc_EvalSub_docs));
+    cls.def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, Plaintext&) const>(&CC::EvalSub),
+        py::arg("ciphertext"),
+        py::arg("plaintext"),
+        py::doc(cc_EvalSubPlaintext_docs));
+    cls.def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CC::*)(Plaintext&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalSub),
+        py::arg("plaintext"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+template <typename ScalarT>
+void bind_eval_sub_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalSub),
+        py::arg("ciphertext"),
+        py::arg("scalar"),
+        py::doc(cc_EvalSubfloat_docs));
+    cls.def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CC::*)(ScalarT, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalSub),
+        py::arg("scalar"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+
+void bind_eval_subinplace_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalSubInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalSubInPlace),
+        py::arg("ciphertext1"),
+        py::arg("ciphertext2"),
+        py::doc(cc_EvalSubInPlace_docs));
+    cls.def("EvalSubInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ConstPlaintext&) const>(&CC::EvalSubInPlace),
+        py::arg("ciphertext"),
+        py::arg("plaintext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+    cls.def("EvalSubInPlace", static_cast<void (CC::*)(Plaintext&, Ciphertext<DCRTPoly>&) const>(&CC::EvalSubInPlace),
+        py::arg("plaintext"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+template <typename ScalarT>
+void bind_eval_subinplace_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalSubInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalSubInPlace),
+        py::arg("ciphertext"),
+        py::arg("scalar"),
+        py::doc(cc_EvalSubInPlacefloat_docs));
+    cls.def("EvalSubInPlace", static_cast<void (CC::*)(ScalarT, Ciphertext<DCRTPoly>&) const>(&CC::EvalSubInPlace),
+        py::arg("scalar"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+
+void bind_eval_mult_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalMult),
+        py::arg("ciphertext1"),
+        py::arg("ciphertext2"),
+        py::doc(cc_EvalMult_docs));
+    cls.def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, ConstPlaintext&) const>(&CC::EvalMult),
+        py::arg("ciphertext"),
+        py::arg("plaintext"),
+        py::doc(cc_EvalMultPlaintext_docs));
+    cls.def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstPlaintext&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalMult),
+        py::arg("plaintext"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+template <typename ScalarT>
+void bind_eval_mult_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalMult),
+        py::arg("ciphertext"),
+        py::arg("scalar"),
+        py::doc(cc_EvalMultfloat_docs));
+    cls.def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CC::*)(ScalarT, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalMult),
+        py::arg("scalar"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+}
+
+// void bind_eval_multinplace_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
+//     cls.def("EvalMultInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalMultInPlace),
+//         py::arg("ciphertext1"),
+//         py::arg("ciphertext2"),
+//         py::doc(cc_EvalMultInPlace_docs));
+//     cls.def("EvalMultInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, Plaintext&) const>(&CC::EvalMultInPlace),
+//         py::arg("ciphertext"),
+//         py::arg("plaintext"),
+//         py::doc(cc_EvalMultInPlacePlaintext_docs));
+//     cls.def("EvalMultInPlace", static_cast<void (CC::*)(Plaintext&, Ciphertext<DCRTPoly>&) const>(&CC::EvalMultInPlace),
+//         py::arg("plaintext"),
+//         py::arg("ciphertext"),
+//         py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+// }
+template <typename ScalarT>
+void bind_eval_multinplace_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
+    cls.def("EvalAddInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalAddInPlace),
+        py::arg("ciphertext"),
+        py::arg("scalar"),
+        py::doc(""));
+    cls.def("EvalAddInPlace", static_cast<void (CC::*)(ScalarT, Ciphertext<DCRTPoly>&) const>(&CC::EvalAddInPlace),
+        py::arg("scalar"),
+        py::arg("ciphertext"),
+        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
 }
 
 void bind_crypto_context(py::module &m) {
@@ -232,7 +389,6 @@ void bind_crypto_context(py::module &m) {
     py::class_<ParmType, ParmTypePtr>(m, "ParmType");
 
     auto cc_class = py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext");
-    using CC = CryptoContextImpl<DCRTPoly>;
 
     cc_class.def(py::init<>())
         .def("GetKeyGenLevel", &CryptoContextImpl<DCRTPoly>::GetKeyGenLevel, cc_GetKeyGenLevel_docs)
@@ -480,51 +636,6 @@ void bind_crypto_context(py::module &m) {
             py::arg("oldPrivateKey"),
             py::arg("newPrivateKey"),
             py::doc(cc_KeySwitchGen_docs))
-        .def("EvalAdd",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalAdd, py::const_),
-            py::arg("ciphertext1"),
-            py::arg("ciphertext2"),
-            py::doc(cc_EvalAdd_docs))
-        .def("EvalAdd",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, double>(&CryptoContextImpl<DCRTPoly>::EvalAdd, py::const_),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(cc_EvalAddfloat_docs))
-        .def("EvalAdd",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, std::complex<double>>(&CryptoContextImpl<DCRTPoly>::EvalAdd, py::const_),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(""))
-        .def("EvalAdd",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, Plaintext&>(&CryptoContextImpl<DCRTPoly>::EvalAdd, py::const_),
-            py::arg("ciphertext"),
-            py::arg("plaintext"),
-            py::doc(cc_EvalAddPlaintext_docs))
-        .def("EvalAddInPlace",
-            py::overload_cast<Ciphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalAddInPlace, py::const_),
-            py::arg("ciphertext1"),
-            py::arg("ciphertext2"),
-            py::doc(cc_EvalAddInPlace_docs))
-        .def("EvalAddInPlace",
-            py::overload_cast<Ciphertext<DCRTPoly>&, Plaintext&>(&CryptoContextImpl<DCRTPoly>::EvalAddInPlace, py::const_),
-            py::arg("ciphertext"),
-            py::arg("plaintext"),
-            py::doc(cc_EvalAddInPlacePlaintext_docs))
-        .def("EvalAddInPlace",
-            py::overload_cast<Plaintext&, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalAddInPlace, py::const_),
-            py::arg("plaintext"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalAddInPlace",
-            py::overload_cast<Ciphertext<DCRTPoly>&, double>(&CryptoContextImpl<DCRTPoly>::EvalAddInPlace, py::const_),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalAddInPlace",
-            py::overload_cast<double, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalAddInPlace, py::const_),
-            py::arg("scalar"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
         .def("EvalAddMutable",
             py::overload_cast<Ciphertext<DCRTPoly>&, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalAddMutable, py::const_),
             py::arg("ciphertext1"),
@@ -543,68 +654,6 @@ void bind_crypto_context(py::module &m) {
             py::arg("ciphertext1"),
             py::arg("ciphertext2"),
             py::doc(cc_EvalAddMutableInPlace_docs))
-        .def("EvalSub",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalSub, py::const_),
-            py::arg("ciphertext1"),
-            py::arg("ciphertext2"),
-            py::doc(cc_EvalSub_docs))
-        .def("EvalSub",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, double>(&CryptoContextImpl<DCRTPoly>::EvalSub, py::const_),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(cc_EvalSubfloat_docs))
-        .def("EvalSub",
-            py::overload_cast<double, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalSub, py::const_),
-            py::arg("scalar"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalSub",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, std::complex<double>>(&CryptoContextImpl<DCRTPoly>::EvalSub, py::const_),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(cc_EvalSubfloat_docs))
-        .def("EvalSub",
-            py::overload_cast<std::complex<double>, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalSub, py::const_),
-            py::arg("scalar"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalSub",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, Plaintext&>(&CryptoContextImpl<DCRTPoly>::EvalSub, py::const_),
-            py::arg("ciphertext"),
-            py::arg("plaintext"),
-            py::doc(cc_EvalSubPlaintext_docs))
-        .def("EvalSub",
-            py::overload_cast<Plaintext&, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalSub, py::const_),
-            py::arg("plaintext"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalSubInPlace",
-            py::overload_cast<Ciphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalSubInPlace, py::const_),
-            py::arg("ciphertext1"),
-            py::arg("ciphertext2"),
-            py::doc(cc_EvalSubInPlace_docs))
-        .def("EvalSubInPlace",
-            py::overload_cast<Ciphertext<DCRTPoly>&, double>(&CryptoContextImpl<DCRTPoly>::EvalSubInPlace, py::const_),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(cc_EvalSubInPlacefloat_docs))
-        .def("EvalSubInPlace",
-            py::overload_cast<double, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalSubInPlace, py::const_),
-            py::arg("scalar"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalSubInPlace",
-            py::overload_cast<Ciphertext<DCRTPoly>&, ConstPlaintext&>(
-                &CryptoContextImpl<DCRTPoly>::EvalSubInPlace, py::const_),
-            py::arg("ciphertext"),
-            py::arg("plaintext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalSubInPlace",
-            py::overload_cast<Plaintext&, Ciphertext<DCRTPoly>&>(
-                &CryptoContextImpl<DCRTPoly>::EvalSubInPlace, py::const_),
-            py::arg("plaintext"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
         .def("EvalSubMutable",
             py::overload_cast<Ciphertext<DCRTPoly>&, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalSubMutable, py::const_),
             py::arg("ciphertext1"),
@@ -624,61 +673,6 @@ void bind_crypto_context(py::module &m) {
             py::arg("ciphertext1"),
             py::arg("ciphertext2"),
             py::doc(cc_EvalSubMutableInPlace_docs))
-        .def("EvalMult",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalMult, py::const_),
-            py::arg("ciphertext1"),
-            py::arg("ciphertext2"),
-            py::doc(cc_EvalMult_docs))
-        .def("EvalMult",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, double>(&CryptoContextImpl<DCRTPoly>::EvalMult, py::const_),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(cc_EvalMultfloat_docs))
-        .def("EvalMult",
-            py::overload_cast<double, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalMult, py::const_),
-            py::arg("scalar"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalMult",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, std::complex<double>>(&CryptoContextImpl<DCRTPoly>::EvalMult, py::const_),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(cc_EvalMultfloat_docs))
-        .def("EvalMult",
-            py::overload_cast<std::complex<double>, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalMult, py::const_),
-            py::arg("scalar"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalMult",
-            py::overload_cast<ConstCiphertext<DCRTPoly>&, ConstPlaintext&>(&CryptoContextImpl<DCRTPoly>::EvalMult, py::const_),
-            py::arg("ciphertext"),
-            py::arg("plaintext"),
-            py::doc(cc_EvalMultPlaintext_docs))
-        .def("EvalMult",
-            py::overload_cast<ConstPlaintext&, ConstCiphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalMult, py::const_),
-            py::arg("plaintext"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalMultInPlace",
-            static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, double) const>(&CC::EvalMultInPlace),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalMultInPlace",
-            static_cast<void (CC::*)(double, Ciphertext<DCRTPoly>&) const>(&CC::EvalMultInPlace),
-            py::arg("scalar"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalMultInPlace",
-            static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, std::complex<double>) const>(&CC::EvalMultInPlace),
-            py::arg("ciphertext"),
-            py::arg("scalar"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
-        .def("EvalMultInPlace",
-            static_cast<void (CC::*)(std::complex<double>, Ciphertext<DCRTPoly>&) const>(&CC::EvalMultInPlace),
-            py::arg("scalar"),
-            py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
         .def("EvalMultMutable",
             py::overload_cast<Ciphertext<DCRTPoly>&, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalMultMutable, py::const_),
             py::arg("ciphertext1"),
@@ -1244,6 +1238,29 @@ void bind_crypto_context(py::module &m) {
     bind_crypto_context_templates<int64_t>(cc_class);
     bind_crypto_context_templates<double>(cc_class);
     bind_crypto_context_templates<std::complex<double>>(cc_class);
+
+    bind_eval_add_family(cc_class);
+    bind_eval_add_scalar_overloads<double>(cc_class);
+    bind_eval_add_scalar_overloads<std::complex<double>>(cc_class);
+
+    bind_eval_addinplace_family(cc_class);
+    bind_eval_addinplace_scalar_overloads<double>(cc_class);
+    bind_eval_addinplace_scalar_overloads<std::complex<double>>(cc_class);
+
+    bind_eval_sub_family(cc_class);
+    bind_eval_sub_scalar_overloads<double>(cc_class);
+    bind_eval_sub_scalar_overloads<std::complex<double>>(cc_class);
+
+    bind_eval_subinplace_family(cc_class);
+    bind_eval_subinplace_scalar_overloads<double>(cc_class);
+    bind_eval_subinplace_scalar_overloads<std::complex<double>>(cc_class);
+
+    bind_eval_mult_family(cc_class);
+    bind_eval_mult_scalar_overloads<double>(cc_class);
+    bind_eval_mult_scalar_overloads<std::complex<double>>(cc_class);
+
+    bind_eval_multinplace_scalar_overloads<double>(cc_class);
+    bind_eval_multinplace_scalar_overloads<std::complex<double>>(cc_class);
 
     // Generator Functions
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>,
