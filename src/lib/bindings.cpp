@@ -288,6 +288,8 @@ void bind_crypto_context(py::module &m) {
             })
         .def("GetCyclotomicOrder", &CryptoContextImpl<DCRTPoly>::GetCyclotomicOrder, cc_GetCyclotomicOrder_docs)
         .def("GetCKKSDataType", &CryptoContextImpl<DCRTPoly>::GetCKKSDataType)
+        .def("GetCKKSBootCorrectionFactor", &CC::GetCKKSBootCorrectionFactor)
+        .def("SetCKKSBootCorrectionFactor", &CC::SetCKKSBootCorrectionFactor, py::arg("cf"))
         .def("GetNoiseEstimate", [](CryptoContext<DCRTPoly>& self) {
             return GetParamsRNSChecked(self, "GetNoiseEstimate")->GetNoiseEstimate();
         })
@@ -396,18 +398,22 @@ void bind_crypto_context(py::module &m) {
             py::arg("ciphertext"),
             py::doc(cc_EvalFastRotationPreCompute_docs))
         .def("EvalFastRotation",
-            [](CryptoContext<DCRTPoly>& self,
-                ConstCiphertext<DCRTPoly> ciphertext,
-                uint32_t index,
-                uint32_t m,
-                ConstCiphertext<DCRTPoly> digits) {
-                return self->EvalFastRotation(ciphertext, index, m, std::make_shared<std::vector<DCRTPoly>>(digits->GetElements()));
-            },
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, uint32_t, uint32_t,
+                                                     const std::shared_ptr<std::vector<DCRTPoly>>) const>(
+                &CC::EvalFastRotation),
             py::arg("ciphertext"),
             py::arg("index"),
             py::arg("m"),
             py::arg("digits"),
             py::doc(cc_EvalFastRotation_docs))
+        .def("EvalFastRotation",
+            static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstCiphertext<DCRTPoly>&, uint32_t,
+                                                     const std::shared_ptr<std::vector<DCRTPoly>>) const>(
+                &CC::EvalFastRotation),
+            py::arg("ciphertext"),
+            py::arg("index"),
+            py::arg("digits"),
+            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
         .def("EvalFastRotationExt",
             [](CryptoContext<DCRTPoly>& self,
                 ConstCiphertext<DCRTPoly> ciphertext,
@@ -1297,10 +1303,12 @@ void bind_enums_and_constants(py::module &m) {
     py::enum_<SecretKeyDist>(m, "SecretKeyDist")
         .value("GAUSSIAN", SecretKeyDist::GAUSSIAN)
         .value("UNIFORM_TERNARY", SecretKeyDist::UNIFORM_TERNARY)
-        .value("SPARSE_TERNARY", SecretKeyDist::SPARSE_TERNARY);
+        .value("SPARSE_TERNARY", SecretKeyDist::SPARSE_TERNARY)
+        .value("SPARSE_ENCAPSULATED", SecretKeyDist::SPARSE_ENCAPSULATED);
     m.attr("GAUSSIAN") = py::cast(SecretKeyDist::GAUSSIAN);
     m.attr("UNIFORM_TERNARY") = py::cast(SecretKeyDist::UNIFORM_TERNARY);
     m.attr("SPARSE_TERNARY") = py::cast(SecretKeyDist::SPARSE_TERNARY);
+    m.attr("SPARSE_ENCAPSULATED") = py::cast(SecretKeyDist::SPARSE_ENCAPSULATED);
 
     // ProxyReEncryptionMode
     py::enum_<ProxyReEncryptionMode>(m, "ProxyReEncryptionMode")
