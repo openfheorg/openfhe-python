@@ -113,10 +113,14 @@ void bind_binfhe_enums(py::module &m) {
      py::enum_<BINFHE_OUTPUT>(m, "BINFHE_OUTPUT")
           .value("INVALID_OUTPUT", BINFHE_OUTPUT::INVALID_OUTPUT)
           .value("FRESH", BINFHE_OUTPUT::FRESH)
-          .value("BOOTSTRAPPED", BINFHE_OUTPUT::BOOTSTRAPPED);
+          .value("BOOTSTRAPPED", BINFHE_OUTPUT::BOOTSTRAPPED)
+          .value("LARGE_DIM", BINFHE_OUTPUT::LARGE_DIM)
+          .value("SMALL_DIM", BINFHE_OUTPUT::SMALL_DIM);
      m.attr("INVALID_OUTPUT") = py::cast(BINFHE_OUTPUT::INVALID_OUTPUT);
      m.attr("FRESH") = py::cast(BINFHE_OUTPUT::FRESH);
      m.attr("BOOTSTRAPPED") = py::cast(BINFHE_OUTPUT::BOOTSTRAPPED);
+     m.attr("LARGE_DIM") = py::cast(BINFHE_OUTPUT::LARGE_DIM);
+     m.attr("SMALL_DIM") = py::cast(BINFHE_OUTPUT::SMALL_DIM);
 
      py::enum_<BINGATE>(m, "BINGATE")
           .value("OR", BINGATE::OR)
