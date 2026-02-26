@@ -49,7 +49,7 @@ def TCKKSCollectiveBoot(scaleTech):
     batchSize = 16  # Adjust batch size if needed
     parameters.SetBatchSize(batchSize)
 
-    compressionLevel = COMPRESSION_LEVEL.COMPACT  # or COMPRESSION_LEVEL.SLACK
+    compressionLevel = CompressionLevel.COMPACT  # or CompressionLevel.SLACK
     parameters.SetInteractiveBootCompressionLevel(compressionLevel)
 
     cryptoContext = GenCryptoContext(parameters)

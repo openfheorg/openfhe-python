@@ -123,8 +123,6 @@ const char* cc_EvalRotateKeyGen_docs = R"pbdoc(
     :type privateKey: PrivateKey
     :param indexList: list of integers representing the indices
     :type indexList: list
-    :param publicKey: public key (used in NTRU schemes)
-    :type publicKey: PublicKey
 )pbdoc";
 
 const char* cc_MakeStringPlaintext_docs = R"pbdoc(
@@ -305,8 +303,6 @@ const char* cc_EvalAtIndexKeyGen_docs = R"pbdoc(
     :type privateKey: PrivateKey
     :param indexList: list of indices
     :type indexList: list
-    :param publicKey: the public key (used in NTRU schemes). Not used anymore.
-    :type publicKey: PublicKey
     :return: None
 )pbdoc";
 
@@ -785,8 +781,6 @@ const char* cc_EvalSumKeyGen_docs = R"pbdoc(
 
     :param privateKey: private key
     :type privateKey: PrivateKey
-    :param publicKey: public key (used in NTRU schemes)
-    :type publicKey: PublicKey
     :return: None
 )pbdoc";
 
@@ -795,8 +789,6 @@ const char* cc_EvalSumRowsKeyGen_docs = R"pbdoc(
 
     :param privateKey: Private key used for key generation.
     :type privateKey: PrivateKey
-    :param publicKey: Public key (used in NTRU schemes; unused now).
-    :type publicKey: PublicKey
     :param rowSize: Number of slots per row in the packed matrix.
     :type rowSize: int
     :param subringDim: Subring dimension (use cyclotomic order if 0).
@@ -1123,11 +1115,20 @@ const char* cc_IntMPBootAdjustScale_docs = R"pbdoc(
     :rtype: Ciphertext
 )pbdoc";
 
-const char* cc_IntMPBootRandomElementGen_docs = R"pbdoc(
+const char* cc_IntMPBootRandomElementGenPublicKey_docs = R"pbdoc(
     Threshold FHE: Generate a common random polynomial for Multi-Party Interactive Bootstrapping
 
     :param publicKey: the scheme public key (you can also provide the lead party's public-key)
     :type publicKey: PublicKey
+    :return: Resulting ring element
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* cc_IntMPBootRandomElementGenCiphertext_docs = R"pbdoc(
+    Threshold FHE: Generate a common random polynomial for Multi-Party Interactive Bootstrapping
+
+    :param ciphertext: reference ciphertext used to derive cryptographic parameters
+    :type ciphertext: Ciphertext
     :return: Resulting ring element
     :rtype: Ciphertext
 )pbdoc";
