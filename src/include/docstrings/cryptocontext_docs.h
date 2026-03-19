@@ -306,13 +306,24 @@ const char* cc_EvalAtIndexKeyGen_docs = R"pbdoc(
     :return: None
 )pbdoc";
 
-const char* cc_Encrypt_docs = R"doc(
+const char* cc_EncryptPubkey_docs = R"doc(
     Encrypt a plaintext using a given public key
 
     :param plaintext: plaintext
-    :type plaintext: Plaintext
+    :type plaintext: ConstPlaintext
     :param publicKey: public key
     :type publicKey: PublicKey
+    :return: ciphertext (or null on failure)
+    :rtype: Ciphertext
+)doc";
+
+const char* cc_EncryptPrivkey_docs = R"doc(
+    Encrypt a plaintext using a given private key
+
+    :param plaintext: plaintext
+    :type plaintext: ConstPlaintext
+    :param privateKey: private key
+    :type privateKey: PrivateKey
     :return: ciphertext (or null on failure)
     :rtype: Ciphertext
 )doc";
