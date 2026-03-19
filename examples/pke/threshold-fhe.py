@@ -17,6 +17,7 @@ def main():
 def RunBGVrnsAdditive():
     parameters = CCParamsBGVRNS()
     parameters.SetPlaintextModulus(65537)
+    parameters.SetRingDim(32768)
 
     # NOISE_FLOODING_MULTIPARTY adds extra noise to the ciphertext before decrypting
     # and is most secure mode of threshold FHE for BFV and BGV.

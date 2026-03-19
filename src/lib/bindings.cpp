@@ -613,7 +613,12 @@ void bind_crypto_context(py::module &m) {
             py::overload_cast<const PublicKey<DCRTPoly>&, ConstPlaintext&>(&CryptoContextImpl<DCRTPoly>::Encrypt, py::const_),
             py::arg("publicKey"),
             py::arg("plaintext"),
-            py::doc(cc_Encrypt_docs))
+            py::doc(cc_EncryptPubkey_docs))
+       .def("Encrypt",
+            py::overload_cast<const PrivateKey<DCRTPoly>&, ConstPlaintext&>(&CryptoContextImpl<DCRTPoly>::Encrypt, py::const_),
+            py::arg("privateKey"),
+            py::arg("plaintext"),
+            py::doc(cc_EncryptPrivkey_docs))
         .def("Decrypt",
             [](CryptoContext<DCRTPoly>& self, const PrivateKey<DCRTPoly> privKey, ConstCiphertext<DCRTPoly> ct) {
                 Plaintext result;
