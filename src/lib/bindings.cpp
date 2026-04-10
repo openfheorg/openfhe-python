@@ -613,7 +613,12 @@ void bind_crypto_context(py::module &m) {
             py::overload_cast<const PublicKey<DCRTPoly>&, ConstPlaintext&>(&CryptoContextImpl<DCRTPoly>::Encrypt, py::const_),
             py::arg("publicKey"),
             py::arg("plaintext"),
-            py::doc(cc_Encrypt_docs))
+            py::doc(cc_EncryptPubkey_docs))
+       .def("Encrypt",
+            py::overload_cast<const PrivateKey<DCRTPoly>&, ConstPlaintext&>(&CryptoContextImpl<DCRTPoly>::Encrypt, py::const_),
+            py::arg("privateKey"),
+            py::arg("plaintext"),
+            py::doc(cc_EncryptPrivkey_docs))
         .def("Decrypt",
             [](CryptoContext<DCRTPoly>& self, const PrivateKey<DCRTPoly> privKey, ConstCiphertext<DCRTPoly> ct) {
                 Plaintext result;
@@ -760,11 +765,7 @@ void bind_crypto_context(py::module &m) {
                 const PrivateKey<DCRTPoly> privateKey,
                 uint32_t rowSize,
                 uint32_t subringDim) {
-                auto m = self.EvalSumRowsKeyGen(privateKey, rowSize, subringDim);
-                py::dict d;
-                for (const auto& [k, v] : *m)
-                    d[py::int_(k)] = v;
-                return d;
+                return self.EvalSumRowsKeyGen(privateKey, rowSize, subringDim);
             },
             py::arg("privateKey"),
             py::arg("rowSize") = 0,
@@ -776,16 +777,13 @@ void bind_crypto_context(py::module &m) {
                 const PublicKey<DCRTPoly> publicKey,
                 uint32_t rowSize,
                 uint32_t subringDim) {
-                auto m = self.EvalSumRowsKeyGen(privateKey, publicKey, rowSize, subringDim);
-                py::dict d;
-                for (const auto& [k, v] : *m)
-                    d[py::int_(k)] = v;
-                return d;
+                return self.EvalSumRowsKeyGen(privateKey, publicKey, rowSize, subringDim);
             },
             py::arg("privateKey"),
             py::arg("publicKey"),
             py::arg("rowSize") = 0,
-            py::arg("subringDim") = 0)
+            py::arg("subringDim") = 0,
+            py::doc(cc_EvalSumRowsKeyGen_docs))
         // TODO (Oliveira, R.): Solve pointer handling bug when dealing with EvalKeyMap object for the next functions 
         .def("EvalSumColsKeyGen", &CryptoContextImpl<DCRTPoly>::EvalSumColsKeyGen,
             py::arg("privateKey"),
