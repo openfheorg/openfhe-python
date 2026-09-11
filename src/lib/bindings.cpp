@@ -1148,6 +1148,12 @@ void bind_crypto_context(py::module &m) {
         .def_static("GetEvalAutomorphismKeyMap", &CryptoContextImpl<DCRTPoly>::GetEvalAutomorphismKeyMapPtr,
             py::arg("keyTag") = "",
             py::doc(cc_GetEvalAutomorphismKeyMap_docs))
+        .def_static("GetExistingEvalAutomorphismKeyIndices", [](const std::string& keyTag) {
+                const auto indices = CryptoContextImpl<DCRTPoly>::GetExistingEvalAutomorphismKeyIndices(keyTag);
+                return std::vector<uint32_t>(indices.begin(), indices.end());
+            },
+            py::arg("keyTag") = "",
+            py::doc(cc_GetExistingEvalAutomorphismKeyIndices_docs))
         .def_static("SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string keyTag = "") {
                 std::ofstream outfile(filename, std::ios::out | std::ios::binary);
                 bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERBINARY>(outfile, sertype, keyTag);
