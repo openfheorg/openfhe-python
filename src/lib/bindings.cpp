@@ -1110,10 +1110,15 @@ void bind_crypto_context(py::module &m) {
             py::arg("ciphertextVec"))
         .def("EvalAddManyInPlace", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
             py::arg("ciphertextVec"))
-        .def("FindAutomorphismIndex", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndex,
+        .def("FindAutomorphismIndex", [](const CryptoContextImpl<DCRTPoly>& self, int32_t idx) {
+                return self.FindAutomorphismIndex(static_cast<uint32_t>(idx));
+            },
             py::arg("idx"),
             py::doc(cc_FindAutomorphismIndex_docs))
-        .def("FindAutomorphismIndices", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndices,
+        .def("FindAutomorphismIndices", [](const CryptoContextImpl<DCRTPoly>& self, const std::vector<int32_t>& idxList) {
+                // The C++ API carries signed rotation offsets in uint32_t values.
+                return self.FindAutomorphismIndices(std::vector<uint32_t>(idxList.begin(), idxList.end()));
+            },
             py::arg("idxList"),
             py::doc(cc_FindAutomorphismIndices_docs))
         .def("GetEvalSumKeyMap",
@@ -1148,6 +1153,12 @@ void bind_crypto_context(py::module &m) {
         .def_static("GetEvalAutomorphismKeyMap", &CryptoContextImpl<DCRTPoly>::GetEvalAutomorphismKeyMapPtr,
             py::arg("keyTag") = "",
             py::doc(cc_GetEvalAutomorphismKeyMap_docs))
+        .def_static("GetExistingEvalAutomorphismKeyIndices", [](const std::string& keyTag) {
+                const auto indices = CryptoContextImpl<DCRTPoly>::GetExistingEvalAutomorphismKeyIndices(keyTag);
+                return std::vector<uint32_t>(indices.begin(), indices.end());
+            },
+            py::arg("keyTag") = "",
+            py::doc(cc_GetExistingEvalAutomorphismKeyIndices_docs))
         .def_static("SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string keyTag = "") {
                 std::ofstream outfile(filename, std::ios::out | std::ios::binary);
                 bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERBINARY>(outfile, sertype, keyTag);
