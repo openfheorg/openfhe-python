@@ -1110,10 +1110,15 @@ void bind_crypto_context(py::module &m) {
             py::arg("ciphertextVec"))
         .def("EvalAddManyInPlace", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
             py::arg("ciphertextVec"))
-        .def("FindAutomorphismIndex", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndex,
+        .def("FindAutomorphismIndex", [](const CryptoContextImpl<DCRTPoly>& self, int32_t idx) {
+                return self.FindAutomorphismIndex(static_cast<uint32_t>(idx));
+            },
             py::arg("idx"),
             py::doc(cc_FindAutomorphismIndex_docs))
-        .def("FindAutomorphismIndices", &CryptoContextImpl<DCRTPoly>::FindAutomorphismIndices,
+        .def("FindAutomorphismIndices", [](const CryptoContextImpl<DCRTPoly>& self, const std::vector<int32_t>& idxList) {
+                // The C++ API carries signed rotation offsets in uint32_t values.
+                return self.FindAutomorphismIndices(std::vector<uint32_t>(idxList.begin(), idxList.end()));
+            },
             py::arg("idxList"),
             py::doc(cc_FindAutomorphismIndices_docs))
         .def("GetEvalSumKeyMap",

@@ -72,12 +72,10 @@ def test_existing_eval_automorphism_key_indices(ckks_context):
     assert indices == expected
     assert fhe.CryptoContext.GetExistingEvalAutomorphismKeyIndices(key_tag) == expected
     # The documented way to go from a slot offset to an entry in this list. This also
-    # cross-checks the 5^offset formula above. FindAutomorphismIndex rejects negative
-    # offsets, so only the positive one round-trips.
-    assert cc.FindAutomorphismIndex(1) == pow(5, 1, cyclotomic_order)
-    assert cc.FindAutomorphismIndex(1) in indices
-    with pytest.raises(TypeError):
-        cc.FindAutomorphismIndex(-2)
+    # cross-checks the 5^offset formula above for both rotation directions.
+    for offset in [1, -2]:
+        assert cc.FindAutomorphismIndex(offset) == pow(5, offset, cyclotomic_order)
+        assert cc.FindAutomorphismIndex(offset) in indices
     # keyTag defaults to "", which matches no key map.
     assert cc.GetExistingEvalAutomorphismKeyIndices() == []
 
@@ -87,6 +85,21 @@ def test_existing_eval_automorphism_key_indices(ckks_context):
     assert cc.GetExistingEvalAutomorphismKeyIndices(key_tag) == updated
     assert cc.GetExistingEvalAutomorphismKeyIndices(existing_keys.secretKey.GetKeyTag()) == expected
     assert indices == expected
+
+
+def test_find_automorphism_indices_signed_offsets(ckks_context):
+    _, cc, _ = ckks_context
+    cyclotomic_order = 2 * cc.GetRingDimension()
+    offsets = [0, 1, -2, 3, -1, -2]
+    expected = [pow(5, offset, cyclotomic_order) for offset in offsets]
+    assert cc.FindAutomorphismIndices(idxList=offsets) == expected
+    assert [cc.FindAutomorphismIndex(idx=offset) for offset in offsets] == expected
+    assert cc.FindAutomorphismIndices([]) == []
+    for offset in [-(2**31) - 1, 2**31]:
+        with pytest.raises(TypeError):
+            cc.FindAutomorphismIndex(offset)
+        with pytest.raises(TypeError):
+            cc.FindAutomorphismIndices([1, offset])
 
 
 def test_existing_bootstrap_key_indices():
