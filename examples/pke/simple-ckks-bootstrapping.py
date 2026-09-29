@@ -52,6 +52,9 @@ def simple_bootstrap_example():
     cryptocontext.EvalMultKeyGen(key_pair.secretKey)
     cryptocontext.EvalBootstrapKeyGen(key_pair.secretKey, num_slots)
 
+    key_indices = cryptocontext.GetExistingEvalAutomorphismKeyIndices(key_pair.secretKey.GetKeyTag())
+    print(f"Number of bootstrapping automorphism keys: {len(key_indices)}")
+
     x = [0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0, 5.0]
     encoded_length = len(x)
 
