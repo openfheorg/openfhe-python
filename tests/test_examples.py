@@ -1,7 +1,7 @@
 import os
+import subprocess
 import sys
 from pathlib import Path
-import importlib.util
 import pytest
 import tempfile
 import shutil
@@ -12,14 +12,32 @@ pytestmark = pytest.mark.skipif(fhe.get_native_int() == 32, reason="Doesn't work
 EXAMPLES_SCRIPTS_PATH = os.path.join(Path(__file__).parent.parent, "examples", "pke")
 
 
-def importhelper(path, modulename):
-    spec = importlib.util.spec_from_file_location(
-        modulename, os.path.join(path, modulename + ".py")
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[modulename] = module
-    spec.loader.exec_module(module)
-    return module
+def run_example(scripts_path, raw_modulename, require_main):
+    """
+    Run one example in its own interpreter so the memory it allocates is
+    returned to the OS when the example finishes. The binfhe examples keep
+    their cryptocontexts and bootstrapping keys in module-level globals
+    (~1-2.5 GB each); running every example inside the pytest process
+    accumulates tens of GB and gets pytest OOM-killed on CI.
+    """
+    with tempfile.TemporaryDirectory() as td:
+        os.mkdir(os.path.join(td, "demoData"))
+        modulename_py = os.path.basename(raw_modulename).replace("-", "_")
+        shutil.copyfile(
+            os.path.join(scripts_path, raw_modulename),
+            os.path.join(td, modulename_py),
+        )
+        modulename = modulename_py.split(".")[0]
+        print(f"-*- running module {modulename} -*-")
+        if require_main:
+            # pke examples must define main() and must not run at import time
+            code = f"import {modulename}; {modulename}.main()"
+        else:
+            # most binfhe examples run at import time; the serialization ones define main()
+            code = f"import {modulename}; getattr({modulename}, 'main', lambda: None)()"
+        env = dict(os.environ)
+        env["PYTHONPATH"] = td + os.pathsep + env.get("PYTHONPATH", "")
+        subprocess.run([sys.executable, "-c", code], cwd=td, env=env, check=True)
 
 
 @pytest.mark.parametrize(
@@ -65,18 +83,7 @@ def importhelper(path, modulename):
     ],
 )
 def test_run_scripts(raw_modulename):
-    with tempfile.TemporaryDirectory() as td:
-        os.mkdir(td + "/demoData")
-        modulename_py = raw_modulename.replace("-", "_")
-        shutil.copyfile(
-            os.path.join(EXAMPLES_SCRIPTS_PATH, raw_modulename),
-            os.path.join(td, modulename_py),
-        )
-        sys.path.insert(0, td)
-        modulename = modulename_py.split(".")[0]
-        print(f"-*- running module {modulename} -*-")
-        module = importhelper(td, modulename)
-        module.main()
+    run_example(EXAMPLES_SCRIPTS_PATH, raw_modulename, require_main=True)
 
 
 # The functional bootstrapping examples take too long for the regular CI runs
@@ -94,18 +101,7 @@ def test_run_scripts(raw_modulename):
     ],
 )
 def test_run_slow_scripts(raw_modulename):
-    with tempfile.TemporaryDirectory() as td:
-        os.mkdir(td + "/demoData")
-        modulename_py = raw_modulename.replace("-", "_")
-        shutil.copyfile(
-            os.path.join(EXAMPLES_SCRIPTS_PATH, raw_modulename),
-            os.path.join(td, modulename_py),
-        )
-        sys.path.insert(0, td)
-        modulename = modulename_py.split(".")[0]
-        print(f"-*- running module {modulename} -*-")
-        module = importhelper(td, modulename)
-        module.main()
+    run_example(EXAMPLES_SCRIPTS_PATH, raw_modulename, require_main=True)
 
 
 BINFHE_EXAMPLES_SCRIPTS_PATH = os.path.join(Path(__file__).parent.parent, "examples", "binfhe")
@@ -137,20 +133,7 @@ BINFHE_EXAMPLES_SCRIPTS_PATH = os.path.join(Path(__file__).parent.parent, "examp
     ],
 )
 def test_run_binfhe_scripts(raw_modulename):
-    with tempfile.TemporaryDirectory() as td:
-        os.mkdir(td + "/demoData")
-        modulename_py = os.path.basename(raw_modulename).replace("-", "_")
-        shutil.copyfile(
-            os.path.join(BINFHE_EXAMPLES_SCRIPTS_PATH, raw_modulename),
-            os.path.join(td, modulename_py),
-        )
-        sys.path.insert(0, td)
-        modulename = modulename_py.split(".")[0]
-        print(f"-*- running module {modulename} -*-")
-        # most binfhe examples run at import time; the serialization ones define main()
-        module = importhelper(td, modulename)
-        if hasattr(module, "main"):
-            module.main()
+    run_example(BINFHE_EXAMPLES_SCRIPTS_PATH, raw_modulename, require_main=False)
 
 
 def _parametrized_example_names(test_function):
