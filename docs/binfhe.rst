@@ -19,3 +19,24 @@ LWEPrivateKey
     :members:
     :undoc-members:
     :show-inheritance:
+
+LWEPublicKey
+----------------
+.. autoclass:: openfhe.LWEPublicKey
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+LWEKeyPair
+----------------
+.. autoclass:: openfhe.LWEKeyPair
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+RingGSWBTKey
+----------------
+.. autoclass:: openfhe.RingGSWBTKey
+    :members:
+    :undoc-members:
+    :show-inheritance:

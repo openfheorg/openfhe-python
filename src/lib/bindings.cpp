@@ -62,6 +62,12 @@ inline std::shared_ptr<CryptoParametersRNS> GetParamsRNSChecked(const CryptoCont
     return ptr;
 }
 
+// Converts BigInteger to an arbitrary-size Python integer using its decimal
+// string representation, as BigInteger may not fit in any native integer type.
+inline py::int_ BigIntegerToPyInt(const BigInteger& value) {
+    return py::reinterpret_steal<py::int_>(PyLong_FromString(value.ToString().c_str(), nullptr, 10));
+}
+
 void bind_DCRTPoly(py::module &m) {
   py::class_<DCRTPoly>(m, "DCRTPoly").def(py::init<>());
 }
@@ -386,7 +392,11 @@ void bind_crypto_context(py::module &m) {
     // TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else
     using ParmType = typename DCRTPoly::Params;
     using ParmTypePtr = std::shared_ptr<ParmType>;
-    py::class_<ParmType, ParmTypePtr>(m, "ParmType");
+    py::class_<ParmType, ParmTypePtr>(m, "ParmType")
+        .def("GetModulus",
+            [](const ParmType& self) { return BigIntegerToPyInt(self.GetModulus()); })
+        .def("GetRingDimension", &ParmType::GetRingDimension)
+        .def("GetCyclotomicOrder", &ParmType::GetCyclotomicOrder);
 
     auto cc_class = py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext");
 
@@ -989,6 +999,7 @@ void bind_crypto_context(py::module &m) {
             py::arg("numIterations") = 1,
             py::arg("precision") = 0,
             py::doc(cc_EvalBootstrap_docs))
+        .def_static("ClearStaticMapsAndVectors", &CryptoContextImpl<DCRTPoly>::ClearStaticMapsAndVectors)
         .def("EvalCKKStoFHEWSetup", &CryptoContextImpl<DCRTPoly>::EvalCKKStoFHEWSetup,
             py::arg("schswchparams"),
             py::doc(cc_EvalCKKStoFHEWSetup_docs))
@@ -1244,6 +1255,8 @@ void bind_crypto_context(py::module &m) {
             py::arg("sertype"),
             py::doc(cc_DeserializeEvalAutomorphismKey_docs));
 
+    bind_fbt_crypto_context(cc_class);
+
     bind_crypto_context_templates<int64_t>(cc_class);
     bind_crypto_context_templates<double>(cc_class);
     bind_crypto_context_templates<std::complex<double>>(cc_class);
@@ -1284,6 +1297,7 @@ void bind_crypto_context(py::module &m) {
     m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
 
     m.def("ClearEvalMultKeys", static_cast<void (*)()>(&CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys));
+    m.def("ClearEvalSumKeys", static_cast<void (*)()>(&CryptoContextImpl<DCRTPoly>::ClearEvalSumKeys));
 }
 
 int get_native_int() {
@@ -1665,7 +1679,9 @@ void bind_ciphertext(py::module &m) {
 
 void bind_schemes(py::module &m) {
     // Bind schemes specific functionalities like bootstrapping functions and multiparty
-    py::class_<FHECKKSRNS>(m, "FHECKKSRNS")
+    auto fheckks_class = py::class_<FHECKKSRNS>(m, "FHECKKSRNS");
+
+    fheckks_class
         .def(py::init<>())
         .def_static("GetBootstrapDepth",
             py::overload_cast<uint32_t, const std::vector<uint32_t>&, SecretKeyDist>(&FHECKKSRNS::GetBootstrapDepth),
@@ -1675,8 +1691,9 @@ void bind_schemes(py::module &m) {
         .def_static("GetBootstrapDepth",
             py::overload_cast<const std::vector<uint32_t>&, SecretKeyDist>(&FHECKKSRNS::GetBootstrapDepth),
             py::arg("levelBudget"),
-            py::arg("keyDist"))
-        ;
+            py::arg("keyDist"));
+
+    bind_fbt_scheme(fheckks_class);
 }
 
 void bind_sch_swch_params(py::module &m) {
@@ -1757,6 +1774,7 @@ PYBIND11_MODULE(openfhe, m) {
     bind_binfhe_ciphertext(m);
     bind_binfhe_keys(m);
     bind_binfhe_context(m);
+    bind_binfhe_serialization(m);
     // pke library
     bind_enums_and_constants(m);
     bind_parameters<CryptoContextBFVRNS>(m,"CCParamsBFVRNS");
@@ -1769,6 +1787,7 @@ PYBIND11_MODULE(openfhe, m) {
     bind_serialization(m);
     bind_schemes(m);
     bind_sch_swch_params(m);
+    bind_fbt(m);
     bind_utils(m);
     bind_free_functions(m);
 }

@@ -31,7 +31,16 @@
 #ifndef __BINDINGS_H__
 #define __BINDINGS_H__
 
+#include "openfhe.h"
+
 #include <pybind11/pybind11.h>
+
+#include <memory>
+
+using DCRTCryptoContextClass = pybind11::class_<
+    lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>,
+    std::shared_ptr<lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>>>;
+using FHECKKSRNSClass = pybind11::class_<lbcrypto::FHECKKSRNS>;
 
 void bind_parameters(pybind11::module &m);
 void bind_crypto_context(pybind11::module &m);
@@ -42,5 +51,8 @@ void bind_ciphertext(pybind11::module &m);
 void bind_serialization(pybind11::module &m);
 void bind_schemes(pybind11::module &m);
 void bind_sch_swch_params(pybind11::module &m);
+void bind_fbt_crypto_context(DCRTCryptoContextClass &cls);
+void bind_fbt_scheme(FHECKKSRNSClass &cls);
+void bind_fbt(pybind11::module &m);
 
 #endif // __BINDINGS_H__
