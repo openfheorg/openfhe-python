@@ -24,7 +24,9 @@ def main():
     # generate homomorphic evaluation multiplication keys for s^2 and s^3
     parameters = CCParamsBGVRNS()
     parameters.SetMultiplicativeDepth(3)
-    parameters.SetPlaintextModulus(536903681)
+    # This prime supports packed encoding for the m = 65536 cyclotomic order
+    # selected by the 128-bit backend, as well as the smaller backends.
+    parameters.SetPlaintextModulus(537133057)
     parameters.SetMaxRelinSkDeg(3)
 
     crypto_context = GenCryptoContext(parameters)
