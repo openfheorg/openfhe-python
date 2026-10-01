@@ -11,6 +11,19 @@ pytestmark = pytest.mark.skipif(fhe.get_native_int() == 32, reason="Doesn't work
 
 EXAMPLES_SCRIPTS_PATH = os.path.join(Path(__file__).parent.parent, "examples", "pke")
 
+# 128-bit CKKS rejects the COMPOSITESCALING* and FLEXIBLE* scaling techniques these
+# examples demonstrate (their C++ counterparts have no 128-bit variant either),
+# so they only run on 64-bit builds.
+EXAMPLES_UNSUPPORTED_ON_128 = {
+    "iterative-ckks-bootstrapping-composite-scaling.py",
+    "simple-ckks-bootstrapping-composite-scaling.py",
+    "simple-real-numbers-composite-scaling.py",
+    "polynomial-evaluation-high-precision-composite-scaling.py",
+    "simple-composite-scaling-manual.py",
+    "functional-bootstrapping-ckks.py",
+    "FE-functional-bootstrapping-ckks.py",
+}
+
 
 def run_example(scripts_path, raw_modulename, require_main):
     """
@@ -20,6 +33,8 @@ def run_example(scripts_path, raw_modulename, require_main):
     (~1-2.5 GB each); running every example inside the pytest process
     accumulates tens of GB and gets pytest OOM-killed on CI.
     """
+    if fhe.get_native_int() == 128 and raw_modulename in EXAMPLES_UNSUPPORTED_ON_128:
+        pytest.skip("this example's scaling technique is not supported for NATIVE_SIZE=128")
     with tempfile.TemporaryDirectory() as td:
         os.mkdir(os.path.join(td, "demoData"))
         modulename_py = os.path.basename(raw_modulename).replace("-", "_")

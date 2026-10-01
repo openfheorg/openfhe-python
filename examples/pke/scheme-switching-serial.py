@@ -51,7 +51,9 @@ def server_setup_and_write(ring_dim, batch_size, mult_depth, scale_mod_size, fir
     parameters.SetBatchSize(batch_size)
     parameters.SetScalingModSize(scale_mod_size)
     parameters.SetFirstModSize(first_mod_size)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    # 128-bit CKKS supports only the FIXED* scaling techniques; keep the library default there
+    if get_native_int() != 128:
+        parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
 
     server_cc = GenCryptoContext(parameters)
 

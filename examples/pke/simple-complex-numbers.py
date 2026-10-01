@@ -146,10 +146,14 @@ def SimpleBootstrappingComplex():
     ringDim = 1 << 6
     parameters.SetRingDim(ringDim)
 
-    # In your C++ demo this depends on NATIVEINT. Here we pick the common 64-bit path.
-    rescaleTech = ScalingTechnique.FLEXIBLEAUTO
-    dcrtBits = 59
-    firstMod = 60
+    if get_native_int() == 128:
+        rescaleTech = ScalingTechnique.FIXEDAUTO
+        dcrtBits = 78
+        firstMod = 89
+    else:
+        rescaleTech = ScalingTechnique.FLEXIBLEAUTO
+        dcrtBits = 59
+        firstMod = 60
 
     parameters.SetScalingModSize(dcrtBits)
     parameters.SetScalingTechnique(rescaleTech)
@@ -216,10 +220,14 @@ def SimpleBootstrappingStCFirstComplex():
     ringDim = 1 << 6
     parameters.SetRingDim(ringDim)
 
-    # Common 64-bit path
-    rescaleTech = ScalingTechnique.FLEXIBLEAUTO
-    dcrtBits = 59
-    firstMod = 60
+    if get_native_int() == 128:
+        rescaleTech = ScalingTechnique.FIXEDAUTO
+        dcrtBits = 78
+        firstMod = 89
+    else:
+        rescaleTech = ScalingTechnique.FLEXIBLEAUTO
+        dcrtBits = 59
+        firstMod = 60
 
     parameters.SetScalingModSize(dcrtBits)
     parameters.SetScalingTechnique(rescaleTech)

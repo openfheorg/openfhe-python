@@ -15,7 +15,10 @@ def main():
     parameters.SetBatchSize(8)
     parameters.SetSecurityLevel(SecurityLevel.HEStd_NotSet)
     parameters.SetRingDim(2048)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    if get_native_int() == 128:
+        parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
+    else:
+        parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
     parameters.SetFirstModSize(60)
 
     cc = GenCryptoContext(parameters)

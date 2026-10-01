@@ -36,9 +36,14 @@ def build_bootstrap_context():
     parameters.SetSecurityLevel(SecurityLevel.HEStd_NotSet)
     parameters.SetRingDim(1 << 12)
 
-    parameters.SetScalingModSize(59)
-    parameters.SetFirstModSize(60)
-    parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
+    if get_native_int() == 128:
+        parameters.SetScalingModSize(78)
+        parameters.SetFirstModSize(89)
+        parameters.SetScalingTechnique(ScalingTechnique.FIXEDAUTO)
+    else:
+        parameters.SetScalingModSize(59)
+        parameters.SetFirstModSize(60)
+        parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
 
     level_budget = [4, 4]
     depth = 10 + FHECKKSRNS.GetBootstrapDepth(level_budget, sk_dist)
