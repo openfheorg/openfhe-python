@@ -45,7 +45,7 @@ def main_action():
 
     level_budget = [4, 4]
     levels_available_after_bootstrap = 10
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetBootstrapDepth(level_budget, secret_key_dist)
+    depth = levels_available_after_bootstrap + CryptoContext.GetBootstrapDepth(level_budget, secret_key_dist)
     parameters.SetMultiplicativeDepth(depth)
 
     server_cc = GenCryptoContext(parameters)

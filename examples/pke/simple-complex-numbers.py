@@ -166,7 +166,7 @@ def SimpleBootstrappingComplex():
 
     levelBudget = [2, 2]
     levelsAvailableAfterBootstrap = 10
-    depth = levelsAvailableAfterBootstrap + FHECKKSRNS.GetBootstrapDepth(levelBudget, secretKeyDist)
+    depth = levelsAvailableAfterBootstrap + CryptoContext.GetBootstrapDepth(levelBudget, secretKeyDist)
     parameters.SetMultiplicativeDepth(depth)
 
     cryptoContext = GenCryptoContext(parameters)
@@ -241,7 +241,7 @@ def SimpleBootstrappingStCFirstComplex():
     levelBudget = [2, 2]
 
     levelsAvailableAfterBootstrap = 10 + levelBudget[1]
-    depth = levelsAvailableAfterBootstrap + FHECKKSRNS.GetBootstrapDepth([levelBudget[0], 0], secretKeyDist)
+    depth = levelsAvailableAfterBootstrap + CryptoContext.GetBootstrapDepth([levelBudget[0], 0], secretKeyDist)
     parameters.SetMultiplicativeDepth(depth)
 
     cryptoContext = GenCryptoContext(parameters)

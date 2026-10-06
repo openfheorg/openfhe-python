@@ -58,7 +58,7 @@ def simple_bootstrap_example():
 
     levels_available_after_bootstrap = 10
 
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetBootstrapDepth(level_budget, secret_key_dist)
+    depth = levels_available_after_bootstrap + CryptoContext.GetBootstrapDepth(level_budget, secret_key_dist)
 
     print(f"levelBudget[0] = {level_budget[0]}")
     print(f"levelBudget[1] = {level_budget[1]}")
@@ -151,7 +151,7 @@ def simple_bootstrap_stc_first_example():
     # is used for scaling the ciphertext before next bootstrapping (in 64-bit CKKS bootstrapping)
     levels_available_after_bootstrap = 10 + level_budget[1]
 
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetBootstrapDepth([level_budget[0], 0], secret_key_dist)
+    depth = levels_available_after_bootstrap + CryptoContext.GetBootstrapDepth([level_budget[0], 0], secret_key_dist)
 
     print(f"levelBudget[0] = {level_budget[0]}")
     print(f"levelBudget[1] = {level_budget[1]}")

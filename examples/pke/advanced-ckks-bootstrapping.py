@@ -84,7 +84,7 @@ def bootstrap_example(num_slots):
     # using GetBootstrapDepth, and add it to levelsAvailableAfterBootstrap to set our initial multiplicative
     # depth.
     levels_available_after_bootstrap = 10
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetBootstrapDepth(level_budget, secret_key_dist)
+    depth = levels_available_after_bootstrap + CryptoContext.GetBootstrapDepth(level_budget, secret_key_dist)
     parameters.SetMultiplicativeDepth(depth)
 
     # Generate crypto context.

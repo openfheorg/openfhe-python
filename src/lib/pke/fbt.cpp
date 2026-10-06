@@ -73,11 +73,36 @@ static py::int_ FBTBigIntegerToPyInt(const BigInteger& value) {
 }
 
 void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
-    // CKKS functional bootstrapping of a look-up table. The overloads taking a list of ints
-    // correspond to the optimized Boolean case (integer Hermite coefficients); the overloads
-    // taking a list of complex numbers cover the general case. Lambdas convert
-    // arbitrary-size Python ints to BigInteger.
-    cls.def("EvalFBTSetup",
+    // Keep CKKS depth helpers on CryptoContext without exposing the scheme implementation class.
+    // For functional bootstrapping, overloads taking a list of ints correspond to the optimized
+    // Boolean case; overloads taking a list of complex numbers cover the general case. Lambdas
+    // convert arbitrary-size Python ints to BigInteger.
+    cls.def_static("GetBootstrapDepth",
+            py::overload_cast<uint32_t, const std::vector<uint32_t>&, SecretKeyDist>(&FHECKKSRNS::GetBootstrapDepth),
+            py::arg("depth"), py::arg("levelBudget"), py::arg("keyDist"))
+        .def_static("GetBootstrapDepth",
+            py::overload_cast<const std::vector<uint32_t>&, SecretKeyDist>(&FHECKKSRNS::GetBootstrapDepth),
+            py::arg("levelBudget"), py::arg("keyDist"))
+        .def_static("GetFBTDepth",
+            [](const std::vector<uint32_t>& levelBudget, const std::vector<int64_t>& coefficients,
+               const py::int_& PInput, size_t order, SecretKeyDist skd, uint32_t firstModSize) {
+                return FHECKKSRNS::GetFBTDepth(levelBudget, coefficients, FBTPyIntToBigInteger(PInput), order, skd,
+                                               firstModSize);
+            },
+            py::arg("levelBudget"), py::arg("coefficients"), py::arg("PInput"), py::arg("order"), py::arg("skd"),
+            py::arg("firstModSize") = 60)
+        .def_static("GetFBTDepth",
+            [](const std::vector<uint32_t>& levelBudget, const std::vector<std::complex<double>>& coefficients,
+               const py::int_& PInput, size_t order, SecretKeyDist skd, uint32_t firstModSize) {
+                return FHECKKSRNS::GetFBTDepth(levelBudget, coefficients, FBTPyIntToBigInteger(PInput), order, skd,
+                                               firstModSize);
+            },
+            py::arg("levelBudget"), py::arg("coefficients"), py::arg("PInput"), py::arg("order"), py::arg("skd"),
+            py::arg("firstModSize") = 60)
+        .def_static("GetFEFBTDepth", &FHECKKSRNS::GetFEFBTDepth<std::complex<double>>,
+            py::arg("levelBudget"), py::arg("coefficients"), py::arg("skd") = SPARSE_TERNARY,
+            py::arg("firstModSize") = 60)
+        .def("EvalFBTSetup",
             [](CC& self, const std::vector<int64_t>& coeffs, uint32_t numSlots, const py::int_& PIn,
                const py::int_& POut, const py::int_& Bigq, const PublicKey<DCRTPoly>& pubKey,
                const std::vector<uint32_t>& dim1, const std::vector<uint32_t>& levelBudget, uint32_t lvlsAfterBoot,
@@ -175,29 +200,6 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
         .def("EvalFEFuncBootstrapWithPrecomp", &CryptoContextImpl<DCRTPoly>::EvalFEFuncBootstrapWithPrecomp,
             py::arg("powers"), py::arg("coefficients"))
         .def("ClearBootstrapPrecom", &CryptoContextImpl<DCRTPoly>::ClearBootstrapPrecom);
-}
-
-void bind_fbt_scheme(FHECKKSRNSClass &cls) {
-    // GetFBTDepth uses lambdas to convert arbitrary-size Python ints to BigInteger.
-    cls.def_static("GetFBTDepth",
-            [](const std::vector<uint32_t>& levelBudget, const std::vector<int64_t>& coefficients,
-               const py::int_& PInput, size_t order, SecretKeyDist skd, uint32_t firstModSize) {
-                return FHECKKSRNS::GetFBTDepth(levelBudget, coefficients, FBTPyIntToBigInteger(PInput), order, skd,
-                                               firstModSize);
-            },
-            py::arg("levelBudget"), py::arg("coefficients"), py::arg("PInput"), py::arg("order"), py::arg("skd"),
-            py::arg("firstModSize") = 60)
-        .def_static("GetFBTDepth",
-            [](const std::vector<uint32_t>& levelBudget, const std::vector<std::complex<double>>& coefficients,
-               const py::int_& PInput, size_t order, SecretKeyDist skd, uint32_t firstModSize) {
-                return FHECKKSRNS::GetFBTDepth(levelBudget, coefficients, FBTPyIntToBigInteger(PInput), order, skd,
-                                               firstModSize);
-            },
-            py::arg("levelBudget"), py::arg("coefficients"), py::arg("PInput"), py::arg("order"), py::arg("skd"),
-            py::arg("firstModSize") = 60)
-        .def_static("GetFEFBTDepth", &FHECKKSRNS::GetFEFBTDepth<std::complex<double>>,
-            py::arg("levelBudget"), py::arg("coefficients"), py::arg("skd") = SPARSE_TERNARY,
-            py::arg("firstModSize") = 60);
 }
 
 void bind_fbt(py::module &m) {

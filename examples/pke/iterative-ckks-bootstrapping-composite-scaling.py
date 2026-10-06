@@ -58,7 +58,7 @@ def iterative_bootstrap_example():
 
     levels_available_after_bootstrap = 10
     # Each extra iteration on top of 1 requires an extra level to be consumed.
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetBootstrapDepth(level_budget, secret_key_dist) + (num_iterations - 1)
+    depth = levels_available_after_bootstrap + CryptoContext.GetBootstrapDepth(level_budget, secret_key_dist) + (num_iterations - 1)
     parameters.SetMultiplicativeDepth(depth)
 
     # Generate crypto context.

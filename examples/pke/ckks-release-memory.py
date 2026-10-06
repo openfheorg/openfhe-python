@@ -46,7 +46,7 @@ def build_bootstrap_context():
         parameters.SetScalingTechnique(ScalingTechnique.FLEXIBLEAUTO)
 
     level_budget = [4, 4]
-    depth = 10 + FHECKKSRNS.GetBootstrapDepth(level_budget, sk_dist)
+    depth = 10 + CryptoContext.GetBootstrapDepth(level_budget, sk_dist)
     parameters.SetMultiplicativeDepth(depth)
 
     cc = GenCryptoContext(parameters)

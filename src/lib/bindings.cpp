@@ -1677,25 +1677,6 @@ void bind_ciphertext(py::module &m) {
             });
 }
 
-void bind_schemes(py::module &m) {
-    // Bind schemes specific functionalities like bootstrapping functions and multiparty
-    auto fheckks_class = py::class_<FHECKKSRNS>(m, "FHECKKSRNS");
-
-    fheckks_class
-        .def(py::init<>())
-        .def_static("GetBootstrapDepth",
-            py::overload_cast<uint32_t, const std::vector<uint32_t>&, SecretKeyDist>(&FHECKKSRNS::GetBootstrapDepth),
-            py::arg("depth"),
-            py::arg("levelBudget"),
-            py::arg("keyDist"))
-        .def_static("GetBootstrapDepth",
-            py::overload_cast<const std::vector<uint32_t>&, SecretKeyDist>(&FHECKKSRNS::GetBootstrapDepth),
-            py::arg("levelBudget"),
-            py::arg("keyDist"));
-
-    bind_fbt_scheme(fheckks_class);
-}
-
 void bind_sch_swch_params(py::module &m) {
     py::class_<SchSwchParams>(m, "SchSwchParams")
         .def(py::init<>())
@@ -1785,7 +1766,6 @@ PYBIND11_MODULE(openfhe, m) {
     bind_keys(m);
     bind_crypto_context(m);
     bind_serialization(m);
-    bind_schemes(m);
     bind_sch_swch_params(m);
     bind_fbt(m);
     bind_utils(m);

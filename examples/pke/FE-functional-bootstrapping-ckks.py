@@ -166,9 +166,9 @@ def main():
     # GetFEFBTDepth covers the functional bootstrapping itself, for the longest of the three series; the
     # levels added on top of it are what is left to compute with on the refreshed ciphertext.
     levels_after_bootstrapping = 6
-    depth = max(FHECKKSRNS.GetFEFBTDepth(level_budget, COEFF_EXP_2_DOUBLE_29, skd),
-                FHECKKSRNS.GetFEFBTDepth(level_budget, COEFF_SIGMOID_8_DOUBLE_34, skd),
-                FHECKKSRNS.GetFEFBTDepth(level_budget, COEFF_GELU_8_DOUBLE_44, skd)) + levels_after_bootstrapping
+    depth = max(CryptoContext.GetFEFBTDepth(level_budget, COEFF_EXP_2_DOUBLE_29, skd),
+                CryptoContext.GetFEFBTDepth(level_budget, COEFF_SIGMOID_8_DOUBLE_34, skd),
+                CryptoContext.GetFEFBTDepth(level_budget, COEFF_GELU_8_DOUBLE_44, skd)) + levels_after_bootstrapping
 
     parameters = CCParamsCKKSRNS()
     parameters.SetCKKSDataType(CKKSDataType.COMPLEX)

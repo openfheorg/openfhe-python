@@ -95,7 +95,7 @@ def arbitrary_lut(qbfv_init, p_input, p_output, Q, bigq, scale_thi, order, num_s
     parameters.SetBatchSize(num_slots_ckks)
     parameters.SetRingDim(ring_dim)
 
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetFBTDepth(lvlb, coeff, p_input, order, secret_key_dist)
+    depth = levels_available_after_bootstrap + CryptoContext.GetFBTDepth(lvlb, coeff, p_input, order, secret_key_dist)
     parameters.SetMultiplicativeDepth(depth)
 
     cc = GenCryptoContext(parameters)
@@ -200,7 +200,7 @@ def multi_value_bootstrapping(qbfv_init, p_input, p_output, Q, bigq, scale_thi, 
     parameters.SetRingDim(ring_dim)
 
     depth = levels_available_after_bootstrap + levels_computation + \
-        FHECKKSRNS.GetFBTDepth(lvlb, coeff1, p_input, order, secret_key_dist)
+        CryptoContext.GetFBTDepth(lvlb, coeff1, p_input, order, secret_key_dist)
     parameters.SetMultiplicativeDepth(depth)
 
     cc = GenCryptoContext(parameters)
@@ -362,10 +362,10 @@ def multi_precision_sign(qbfv_init, p_input, p_digit, Q, bigq, scale_thi, scale_
 
     if binary_lut:
         depth = levels_available_after_bootstrap + \
-            FHECKKSRNS.GetFBTDepth(lvlb, coeffint_mod, p_digit, order, secret_key_dist)
+            CryptoContext.GetFBTDepth(lvlb, coeffint_mod, p_digit, order, secret_key_dist)
     else:
         depth = levels_available_after_bootstrap + \
-            FHECKKSRNS.GetFBTDepth(lvlb, coeffcomp_mod, p_digit, order, secret_key_dist)
+            CryptoContext.GetFBTDepth(lvlb, coeffcomp_mod, p_digit, order, secret_key_dist)
     parameters.SetMultiplicativeDepth(depth)
 
     cc = GenCryptoContext(parameters)
