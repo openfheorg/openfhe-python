@@ -188,6 +188,12 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
             py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("order") = (size_t)1)
         .def("EvalMVBNoDecoding", &CryptoContextImpl<DCRTPoly>::EvalMVBNoDecoding<std::complex<double>>,
             py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("order") = (size_t)1)
+        .def("EvalHermiteTrigSeries", &CryptoContextImpl<DCRTPoly>::EvalHermiteTrigSeries<int64_t>,
+            py::arg("ciphertext"), py::arg("coefficientsCheb"), py::arg("a"), py::arg("b"),
+            py::arg("coefficientsHerm"), py::arg("precomp") = (size_t)0)
+        .def("EvalHermiteTrigSeries", &CryptoContextImpl<DCRTPoly>::EvalHermiteTrigSeries<std::complex<double>>,
+            py::arg("ciphertext"), py::arg("coefficientsCheb"), py::arg("a"), py::arg("b"),
+            py::arg("coefficientsHerm"), py::arg("precomp") = (size_t)0)
         // FE functional bootstrapping
         .def("EvalFEFuncBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalFEFuncBootstrapSetup,
             py::arg("levelBudget") = std::vector<uint32_t>({5, 4}),

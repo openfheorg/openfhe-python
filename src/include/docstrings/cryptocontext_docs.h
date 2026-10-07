@@ -76,6 +76,25 @@ const char* cc_GetCyclotomicOrder_docs = R"pbdoc(
     :rtype: int
 )pbdoc";
 
+const char* cc_GetElementParams_docs = R"pbdoc(
+    Getter for the element (ring) parameters of the crypto context.
+
+    Supplies the elementParams argument of GetPlaintextForDecrypt().
+
+    :return: element parameters
+    :rtype: ParmType
+)pbdoc";
+
+const char* cc_GetRootOfUnity_docs = R"pbdoc(
+    Getter for the root of unity of the element parameters.
+
+    DCRTPoly keeps a root of unity per RNS tower rather than one for the whole
+    ciphertext modulus, so this returns 0 for every DCRTPoly context.
+
+    :return: root of unity, 0 for DCRTPoly
+    :rtype: int
+)pbdoc";
+
 const char* cc_GetModulus_docs = R"pbdoc(
     Getter for ciphertext modulus
 
