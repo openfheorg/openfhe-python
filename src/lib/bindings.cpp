@@ -29,6 +29,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //==================================================================================
 #include "bindings.h"
+#include "integer_conversions.h"
 
 #include "openfhe.h"
 
@@ -60,21 +61,6 @@ inline std::shared_ptr<CryptoParametersRNS> GetParamsRNSChecked(const CryptoCont
     if (!ptr)
         OPENFHE_THROW("Failed to cast to CryptoParametersRNS in " + func + "()");
     return ptr;
-}
-
-// Converts BigInteger to an arbitrary-size Python integer using its decimal
-// string representation, as BigInteger may not fit in any native integer type.
-inline py::int_ BigIntegerToPyInt(const BigInteger& value) {
-    return py::reinterpret_steal<py::int_>(PyLong_FromString(value.ToString().c_str(), nullptr, 10));
-}
-
-inline py::int_ NativeIntegerToPyInt(const NativeInteger& value) {
-    return py::reinterpret_steal<py::int_>(PyLong_FromString(value.ToString().c_str(), nullptr, 10));
-}
-
-inline NativeInteger PyIntToNativeInteger(const py::int_& value) {
-    auto valueStr = py::reinterpret_steal<py::str>(PyObject_Str(value.ptr()));
-    return NativeInteger(valueStr.cast<std::string>());
 }
 
 void bind_DCRTPoly(py::module &m) {
@@ -422,7 +408,7 @@ void bind_crypto_context(py::module &m) {
     using ParmTypePtr = std::shared_ptr<ParmType>;
     py::class_<ParmType, ParmTypePtr>(m, "ParmType")
         .def("GetModulus",
-            [](const ParmType& self) { return BigIntegerToPyInt(self.GetModulus()); })
+            [](const ParmType& self) { return openfhe_python::IntegerToPyInt(self.GetModulus()); })
         .def("GetRingDimension", &ParmType::GetRingDimension)
         .def("GetCyclotomicOrder", &ParmType::GetCyclotomicOrder);
 
@@ -494,7 +480,7 @@ void bind_crypto_context(py::module &m) {
             },
             py::doc(cc_GetElementParams_docs))
         .def("GetRootOfUnity", [](const CC& self) {
-                return BigIntegerToPyInt(self.GetRootOfUnity());
+                return openfhe_python::IntegerToPyInt(self.GetRootOfUnity());
             },
             py::doc(cc_GetRootOfUnity_docs))
         .def("GetScheme", &CC::GetScheme)
@@ -776,7 +762,8 @@ void bind_crypto_context(py::module &m) {
         .def("EvalMultNoRelinNoCheck", &CC::EvalMultNoRelinNoCheck,
             py::arg("ciphertext1"), py::arg("ciphertext2"))
         .def("EvalMultNoCheck", [](const CC& self, ConstCiphertext<DCRTPoly>& ciphertext, const py::int_& scalar) {
-                return self.EvalMultNoCheck(ciphertext, PyIntToNativeInteger(scalar));
+                return self.EvalMultNoCheck(ciphertext,
+                                            openfhe_python::PyIntToInteger<NativeInteger>(scalar));
             }, py::arg("ciphertext"), py::arg("scalar"))
         .def("EvalAddInPlaceNoCheck", &CC::EvalAddInPlaceNoCheck,
             py::arg("ciphertext1"), py::arg("ciphertext2"))
@@ -1768,10 +1755,10 @@ void bind_encodings(py::module &m) {
     py::class_<PlaintextImpl, std::shared_ptr<PlaintextImpl>, PlaintextImpl_helper>(m, "Plaintext")
         .def("GetScalingFactor", &PlaintextImpl::GetScalingFactor, ptx_GetScalingFactor_docs)
         .def("GetScalingFactorInt", [](const PlaintextImpl& self) {
-                return NativeIntegerToPyInt(self.GetScalingFactorInt());
+                return openfhe_python::IntegerToPyInt(self.GetScalingFactorInt());
             })
         .def("SetScalingFactorInt", [](PlaintextImpl& self, const py::int_& sf) {
-                self.SetScalingFactorInt(PyIntToNativeInteger(sf));
+                self.SetScalingFactorInt(openfhe_python::PyIntToInteger<NativeInteger>(sf));
             }, py::arg("sf"))
         .def("SetScalingFactor", &PlaintextImpl::SetScalingFactor,
             py::arg("sf"),
@@ -1783,7 +1770,7 @@ void bind_encodings(py::module &m) {
         .def("SetCKKSDataType", &PlaintextImpl::SetCKKSDataType, py::arg("dataType"))
         .def("GetElementRingDimension", &PlaintextImpl::GetElementRingDimension)
         .def("GetElementModulus", [](const PlaintextImpl& self) {
-                return BigIntegerToPyInt(self.GetElementModulus());
+                return openfhe_python::IntegerToPyInt(self.GetElementModulus());
             })
         .def("GetLength", &PlaintextImpl::GetLength, ptx_GetLength_docs)
         .def("SetLength", &PlaintextImpl::SetLength,
@@ -1855,10 +1842,10 @@ void bind_ciphertext(py::module &m) {
         .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
         .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor)
         .def("GetScalingFactorInt", [](const CiphertextImpl<DCRTPoly>& self) {
-                return NativeIntegerToPyInt(self.GetScalingFactorInt());
+                return openfhe_python::IntegerToPyInt(self.GetScalingFactorInt());
             })
         .def("SetScalingFactorInt", [](CiphertextImpl<DCRTPoly>& self, const py::int_& sf) {
-                self.SetScalingFactorInt(PyIntToNativeInteger(sf));
+                self.SetScalingFactorInt(openfhe_python::PyIntToInteger<NativeInteger>(sf));
             }, py::arg("sf"))
         .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
         .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots)
