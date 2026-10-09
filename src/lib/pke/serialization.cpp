@@ -73,6 +73,37 @@ bool DeserializeEvalMultKeyWrapper(const std::string& filename, const ST& sertyp
     return res;
 }
 
+template <typename ST>
+bool SerializeEvalBootstrapKeyWrapper(const std::string& filename, const ST& sertype, const CryptoContextDCRT& cc,
+                                      const std::string& keyTag, uint32_t slots) {
+    std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalBootstrapKey(outfile, sertype, cc, keyTag, slots);
+    outfile.close();
+    return res;
+}
+
+template <typename ST>
+bool DeserializeEvalBootstrapKeyWrapper(const std::string& filename, const ST& sertype, const CryptoContextDCRT& cc,
+                                        const std::string& keyTag, uint32_t slots) {
+    std::ifstream keyfile(filename, std::ios::in | std::ios::binary);
+    if (!keyfile.is_open()) {
+        std::cerr << "I cannot read serialization from " << filename << std::endl;
+        return false;
+    }
+    return CryptoContextImpl<DCRTPoly>::DeserializeEvalBootstrapKey(keyfile, sertype, cc, keyTag, slots);
+}
+
+template <typename ST>
+bool DeserializeEvalBootstrapKeyByIndexWrapper(const std::string& filename, const ST& sertype,
+                                               const std::string& keyTag, const std::vector<uint32_t>& indexList) {
+    std::ifstream keyfile(filename, std::ios::in | std::ios::binary);
+    if (!keyfile.is_open()) {
+        std::cerr << "I cannot read serialization from " << filename << std::endl;
+        return false;
+    }
+    return CryptoContextImpl<DCRTPoly>::DeserializeEvalBootstrapKey(keyfile, sertype, keyTag, indexList);
+}
+
 template <typename T, typename ST>
 std::tuple<T, bool> DeserializeFromFileWrapper(const std::string& filename, const ST& sertype) {
     T newob;
@@ -229,6 +260,20 @@ void DeserializeEvalAutomorphismKeyFromBytesWrapper(const py::bytes& bytes, cons
 }
 
 void bind_serialization(pybind11::module &m) {
+    // CKKS bootstrapping key (de)serialization
+    m.def("SerializeEvalBootstrapKey", &SerializeEvalBootstrapKeyWrapper<SerType::SERJSON>,
+          py::arg("filename"), py::arg("sertype"), py::arg("cc"), py::arg("keyTag"), py::arg("slots"));
+    m.def("SerializeEvalBootstrapKey", &SerializeEvalBootstrapKeyWrapper<SerType::SERBINARY>,
+          py::arg("filename"), py::arg("sertype"), py::arg("cc"), py::arg("keyTag"), py::arg("slots"));
+    m.def("DeserializeEvalBootstrapKey", &DeserializeEvalBootstrapKeyWrapper<SerType::SERJSON>,
+          py::arg("filename"), py::arg("sertype"), py::arg("cc"), py::arg("keyTag"), py::arg("slots"));
+    m.def("DeserializeEvalBootstrapKey", &DeserializeEvalBootstrapKeyWrapper<SerType::SERBINARY>,
+          py::arg("filename"), py::arg("sertype"), py::arg("cc"), py::arg("keyTag"), py::arg("slots"));
+    m.def("DeserializeEvalBootstrapKey", &DeserializeEvalBootstrapKeyByIndexWrapper<SerType::SERJSON>,
+          py::arg("filename"), py::arg("sertype"), py::arg("keyTag"), py::arg("indexList"));
+    m.def("DeserializeEvalBootstrapKey", &DeserializeEvalBootstrapKeyByIndexWrapper<SerType::SERBINARY>,
+          py::arg("filename"), py::arg("sertype"), py::arg("keyTag"), py::arg("indexList"));
+
     // Json Serialization
     m.def("SerializeToFile", static_cast<bool (*)(const std::string &, const CryptoContextDCRT &, const SerType::SERJSON &)>(&Serial::SerializeToFile<CryptoContextDCRT>),
           py::arg("filename"), py::arg("obj"), py::arg("sertype"));

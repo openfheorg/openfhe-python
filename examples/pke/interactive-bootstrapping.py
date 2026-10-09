@@ -3,8 +3,10 @@ from openfhe import *
 
 def main():
     # the scaling technigue can be changed to FIXEDMANUAL, FIXEDAUTO, or FLEXIBLEAUTOEXT
-    ThresholdFHE(FLEXIBLEAUTO)
-    Chebyshev(FLEXIBLEAUTO)
+    # (128-bit CKKS supports only the FIXED* scaling techniques)
+    scaleTech = FIXEDAUTO if get_native_int() == 128 else FLEXIBLEAUTO
+    ThresholdFHE(scaleTech)
+    Chebyshev(scaleTech)
 
 def ThresholdFHE(scaleTech):
     # if scaleTech not in [FIXEDMANUAL, FIXEDAUTO, FLEXIBLEAUTOEXT]:

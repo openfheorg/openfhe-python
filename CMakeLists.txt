@@ -3,14 +3,14 @@ cmake_minimum_required (VERSION 3.16.3)
 project (OpenFHE-Python)
 
 set(OPENFHE_PYTHON_VERSION_MAJOR 1)
-set(OPENFHE_PYTHON_VERSION_MINOR 5)
-set(OPENFHE_PYTHON_VERSION_PATCH 1)
+set(OPENFHE_PYTHON_VERSION_MINOR 6)
+set(OPENFHE_PYTHON_VERSION_PATCH 0)
 set(OPENFHE_PYTHON_VERSION_TWEAK 0)
 set(OPENFHE_PYTHON_VERSION ${OPENFHE_PYTHON_VERSION_MAJOR}.${OPENFHE_PYTHON_VERSION_MINOR}.${OPENFHE_PYTHON_VERSION_PATCH}.${OPENFHE_PYTHON_VERSION_TWEAK})
 
-# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.5.1)
+# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.6.0)
 if(NOT DEFINED OPENFHE_REQUIRED_VERSION)
-    set(OPENFHE_REQUIRED_VERSION "1.5.1" CACHE STRING "Required OpenFHE version")
+    set(OPENFHE_REQUIRED_VERSION "1.6.0" CACHE STRING "Required OpenFHE version")
 else()
     # User provided OPENFHE_REQUIRED_VERSION via -D
     message(STATUS "Using user-specified OpenFHE version: ${OPENFHE_REQUIRED_VERSION}")
@@ -66,11 +66,13 @@ endif()
 ### add_executable( test demo-simple-example.cpp )
 
 ### Pybind Modules
-pybind11_add_module(openfhe 
-                    src/lib/bindings.cpp 
+pybind11_add_module(openfhe
+                    src/lib/bindings.cpp
                     src/lib/binfhe_bindings.cpp
                     src/lib/binfhe/binfhecontext_wrapper.cpp
-                    src/lib/pke/serialization.cpp 
+                    src/lib/pke/serialization.cpp
+                    src/lib/pke/fbt.cpp
+                    src/lib/pke/schemeswitching_data_serializer.cpp
                     )
 # The next line ensures that the installed openfhe module can find its shared library dependencies
 # in the 'lib/' subdirectory relative to itself without requiring LD_LIBRARY_PATH.

@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-blue.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![Python Versions](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
-[![OpenFHE Version](https://img.shields.io/badge/OpenFHE-1.5.1%2B-green)](https://github.com/openfheorg/openfhe-development)
+[![OpenFHE Version](https://img.shields.io/badge/OpenFHE-1.6.0%2B-green)](https://github.com/openfheorg/openfhe-development)
 
 Python wrapper for the main cryptographic capabilities of the OpenFHE C++ library. `OpenFHE-Python` provides a more user-friendly interface for Python developers, while keeping the efficiency of C++ FHE operations.
 
@@ -42,7 +42,7 @@ The legacy build instructions below are for other operating systems where [openf
 
 Before building, make sure you have the following dependencies installed:
 
-- [OpenFHE 1.5.1+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
+- [OpenFHE 1.6.0+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.10+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
 
@@ -152,7 +152,7 @@ To get familiar with the OpenFHE Python API, check out the examples:
   - [Code Example for BGV, BFV, and CKKS](examples/pke/threshold-fhe.py)
   - [2-party Interactive Bootstrapping Examples](examples/pke/interactive-bootstrapping.py)
   - [Simple n-party Interactive Bootstrapping Example](examples/pke/tckks-interactive-mp-bootstrapping.py)
-  - [n-party Interactive Bootstrapping after Chebyshev Approximation](examples/pke/tckks-interactive-mp-bootstrapping-Chebyschev.py)
+  - [n-party Interactive Bootstrapping after Chebyshev Approximation](examples/pke/tckks-interactive-mp-bootstrapping-Chebyshev.py)
   - [Code Example for BFV with 5 parties](examples/pke/threshold-fhe-5p.py)
 
 ## OpenFHE Python Wrapper Documentation

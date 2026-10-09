@@ -5,6 +5,15 @@ import openfhe as fhe
 
 pytestmark = pytest.mark.skipif(fhe.get_native_int() == 32, reason="Doesn't work for NATIVE_INT=32")
 
+
+def test_ckks_depth_helpers_are_on_crypto_context():
+    assert fhe.CryptoContext.GetBootstrapDepth([2, 2], fhe.UNIFORM_TERNARY) > 0
+    assert fhe.CryptoContext.GetBootstrapDepth(9, [2, 2], fhe.UNIFORM_TERNARY) > 0
+    assert fhe.CryptoContext.GetFBTDepth([3, 3], [1, -1], 2, 1, fhe.SPARSE_ENCAPSULATED) > 0
+    assert fhe.CryptoContext.GetFBTDepth([3, 3], [1 + 0j, -1 + 0j], 4, 1, fhe.SPARSE_ENCAPSULATED) > 0
+    assert fhe.CryptoContext.GetFEFBTDepth([3, 2], [1 + 0j, -1 + 0j], fhe.SPARSE_ENCAPSULATED) > 0
+
+
 @pytest.fixture(scope="module")
 def ckks_context():
     """
@@ -108,7 +117,7 @@ def test_existing_bootstrap_key_indices():
     parameters.SetRingDim(512)
     parameters.SetSecretKeyDist(fhe.UNIFORM_TERNARY)
     level_budget = [2, 2]
-    depth = fhe.FHECKKSRNS.GetBootstrapDepth(level_budget, fhe.UNIFORM_TERNARY)
+    depth = fhe.CryptoContext.GetBootstrapDepth(level_budget, fhe.UNIFORM_TERNARY)
     parameters.SetMultiplicativeDepth(depth + 2)
     parameters.SetScalingTechnique(fhe.FIXEDAUTO)
     parameters.SetScalingModSize(78 if fhe.get_native_int() == 128 else 59)

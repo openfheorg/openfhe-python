@@ -1,7 +1,7 @@
 //==================================================================================
 // BSD 2-Clause License
 //
-// Copyright (c) 2023-2025, Duality Technologies Inc. and other contributors
+// Copyright (c) 2023-2026, Duality Technologies Inc. and other contributors
 //
 // All rights reserved.
 //
@@ -28,14 +28,35 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //==================================================================================
-#ifndef __BINFHE_BINDINGS_H__
-#define __BINFHE_BINDINGS_H__
+#ifndef OPENFHE_PYTHON_INTEGER_CONVERSIONS_H
+#define OPENFHE_PYTHON_INTEGER_CONVERSIONS_H
 
 #include <pybind11/pybind11.h>
 
-void bind_binfhe_enums(pybind11::module &m);
-void bind_binfhe_context(pybind11::module &m);
-void bind_binfhe_keys(pybind11::module &m);
-void bind_binfhe_ciphertext(pybind11::module &m);
-void bind_binfhe_serialization(pybind11::module &m);
-#endif // __BINFHE_BINDINGS_H__
+#include <string>
+
+namespace openfhe_python {
+
+// Convert an arbitrary-size OpenFHE integer to a Python integer without
+// narrowing through a native C++ integer type.
+template <typename Integer>
+pybind11::int_ IntegerToPyInt(const Integer& value) {
+    PyObject* result = PyLong_FromString(value.ToString().c_str(), nullptr, 10);
+    if (result == nullptr)
+        throw pybind11::error_already_set();
+    return pybind11::reinterpret_steal<pybind11::int_>(result);
+}
+
+// Convert an arbitrary-size Python integer through its decimal representation.
+template <typename Integer>
+Integer PyIntToInteger(const pybind11::int_& value) {
+    PyObject* result = PyObject_Str(value.ptr());
+    if (result == nullptr)
+        throw pybind11::error_already_set();
+    auto valueStr = pybind11::reinterpret_steal<pybind11::str>(result);
+    return Integer(valueStr.cast<std::string>());
+}
+
+}  // namespace openfhe_python
+
+#endif  // OPENFHE_PYTHON_INTEGER_CONVERSIONS_H
