@@ -71,11 +71,22 @@ const char* ccparams_doc = R"doc(
 const char* cc_GetScalingFactorReal_docs = R"pbdoc(
     Method to retrieve the scaling factor of level l. For FIXEDMANUAL scaling technique method always returns 2^p, where p corresponds to plaintext modulus
 
-    :param l:  For FLEXIBLEAUTO scaling technique the level whose scaling factor we want to learn. Levels start from 0 (no scaling done - all towers) and go up to K-1, where K is the number of towers supported.
-    :type l: int
+    :param level:  For FLEXIBLEAUTO scaling technique the level whose scaling factor we want to learn. Levels start from 0 (no scaling done - all towers) and go up to K-1, where K is the number of towers supported.
+    :type level: int
     :return: the scaling factor.
     :rtype: float
 )pbdoc";
 
+
+const char* ccparams_GetThresholdNumOfParties_docs = R"pbdoc(
+    Get the number of parties in threshold FHE.
+
+    :return: number of parties
+    :rtype: int
+)pbdoc";
+
+const char* schswchparams_SetParamsFromCKKSCryptocontextCalled_docs = R"pbdoc(
+    Mark the parameters as populated from a CKKS crypto context, which unlocks the getters.
+)pbdoc";
 
 #endif // __CRYPTOPARAMETERS_DOCS_H__

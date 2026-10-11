@@ -90,11 +90,15 @@ const char* ptx_GetLogPrecision_docs = R"pbdoc(
 // Encode
 const char* ptx_Encode_docs = R"pbdoc(
     Encode the plaintext into a polynomial.
+    :return: true on success
+    :rtype: bool
 )pbdoc";
 
 // Decode
 const char* ptx_Decode_docs = R"pbdoc(
     Decode the polynomial into a plaintext.
+    :return: true on success
+    :rtype: bool
 )pbdoc";
 
 const char* ptx_LowBound_docs = R"pbdoc(
@@ -135,5 +139,82 @@ const char* ptx_GetRealPackedValue_docs = R"pbdoc(
     :rtype: List[double]
 )pbdoc";
 
+
+const char* encparams_GetBatchSize_docs = R"pbdoc(
+    Get the plaintext batch size.
+
+    :return: the plaintext batch size
+    :rtype: int
+)pbdoc";
+
+const char* encparams_GetPlaintextGenerator_docs = R"pbdoc(
+    Get the plaintext generator.
+
+    :return: the plaintext generator
+    :rtype: int
+)pbdoc";
+
+const char* encparams_GetPlaintextModulus_docs = R"pbdoc(
+    Get the plaintext modulus.
+
+    :return: the plaintext modulus
+    :rtype: int
+)pbdoc";
+
+const char* ptx_GetCKKSDataType_docs = R"pbdoc(
+    Get the CKKS data type, real or complex.
+
+    :return: CKKS data type with this plaintext
+    :rtype: CKKSDataType
+)pbdoc";
+
+const char* ptx_GetElementModulus_docs = R"pbdoc(
+    Get the modulus of the underlying element.
+
+    :return: modulus on the underlying element
+    :rtype: int
+)pbdoc";
+
+const char* ptx_GetElementRingDimension_docs = R"pbdoc(
+    Get the ring dimension of the underlying element.
+
+    :return: ring dimension on the underlying element
+    :rtype: int
+)pbdoc";
+
+const char* ptx_GetEncodingParams_docs = R"pbdoc(
+    Get the encoding parameters of the plaintext.
+
+    :return: encoding params used with this plaintext
+    :rtype: EncodingParams
+)pbdoc";
+
+const char* ptx_GetEncodingType_docs = R"pbdoc(
+    Get the encoding type of the plaintext.
+
+    :return: encoding type used by this plaintext
+    :rtype: PlaintextEncodings
+)pbdoc";
+
+const char* ptx_GetScalingFactorInt_docs = R"pbdoc(
+    Get the integer scaling factor of the plaintext.
+
+    :return: the integer scaling factor
+    :rtype: int
+)pbdoc";
+
+const char* ptx_SetCKKSDataType_docs = R"pbdoc(
+    Set the CKKS data type, real or complex.
+
+    :param dataType: the CKKS data type
+    :type dataType: CKKSDataType
+)pbdoc";
+
+const char* ptx_SetScalingFactorInt_docs = R"pbdoc(
+    Set the integer scaling factor of the plaintext.
+
+    :param sf: the integer scaling factor
+    :type sf: int
+)pbdoc";
 
 #endif // __PLAINTEXT_DOCS_H__

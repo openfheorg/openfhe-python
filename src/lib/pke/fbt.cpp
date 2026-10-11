@@ -34,6 +34,7 @@
 // the scheme-switching data (de)serializer.
 
 #include "bindings.h"
+#include "docstrings/fbt_docs.h"
 #include "integer_conversions.h"
 
 #include "openfhe.h"
@@ -56,6 +57,7 @@
 using namespace lbcrypto;
 using CC = CryptoContextImpl<DCRTPoly>;
 namespace py = pybind11;
+
 
 // disable the PYBIND11 template-based conversion for this type: a vector of Poly is
 // treated as an opaque RLWE ciphertext produced/consumed by SchemeletRLWEMP
@@ -187,10 +189,12 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
             py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("order") = (size_t)1)
         .def("EvalHermiteTrigSeries", &CryptoContextImpl<DCRTPoly>::EvalHermiteTrigSeries<int64_t>,
             py::arg("ciphertext"), py::arg("coefficientsCheb"), py::arg("a"), py::arg("b"),
-            py::arg("coefficientsHerm"), py::arg("precomp") = (size_t)0)
+            py::arg("coefficientsHerm"), py::arg("precomp") = (size_t)0,
+            py::doc(cc_EvalHermiteTrigSeries_docs))
         .def("EvalHermiteTrigSeries", &CryptoContextImpl<DCRTPoly>::EvalHermiteTrigSeries<std::complex<double>>,
             py::arg("ciphertext"), py::arg("coefficientsCheb"), py::arg("a"), py::arg("b"),
-            py::arg("coefficientsHerm"), py::arg("precomp") = (size_t)0)
+            py::arg("coefficientsHerm"), py::arg("precomp") = (size_t)0,
+            py::doc(cc_EvalHermiteTrigSeries_docs))
         // FE functional bootstrapping
         .def("EvalFEFuncBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalFEFuncBootstrapSetup,
             py::arg("levelBudget") = std::vector<uint32_t>({5, 4}),

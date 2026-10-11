@@ -169,7 +169,8 @@ void bind_binfhe_keys(py::module &m) {
           .def("GetModulus",
                [](const LWEPrivateKeyImpl& self) {
                     return openfhe_python::IntegerToPyInt(self.GetModulus());
-               })
+               },
+              py::doc(binfhe_LWEPrivateKeyGetModulus_docs))
           .def(py::self == py::self)
           .def(py::self != py::self);
 
@@ -179,7 +180,8 @@ void bind_binfhe_keys(py::module &m) {
           .def("GetModulus",
                [](const LWEPublicKeyImpl& self) {
                     return openfhe_python::IntegerToPyInt(self.GetModulus());
-               })
+               },
+              py::doc(binfhe_LWEPublicKeyGetModulus_docs))
           .def(py::self == py::self)
           .def(py::self != py::self);
 
@@ -207,17 +209,20 @@ void bind_binfhe_ciphertext(py::module &m) {
           .def("GetptModulus",
                [](const LWECiphertextImpl& self) {
                     return openfhe_python::IntegerToPyInt(self.GetptModulus());
-               })
+               },
+              py::doc(binfhe_LWECiphertextGetptModulus_docs))
           .def("SetModulus",
                [](LWECiphertextImpl& self, const py::int_& modulus) {
                     self.SetModulus(openfhe_python::PyIntToInteger<NativeInteger>(modulus));
                },
-               py::arg("modulus"))
+               py::arg("modulus"),
+              py::doc(binfhe_LWECiphertextSetModulus_docs))
           .def("SetptModulus",
                [](LWECiphertextImpl& self, const py::int_& plaintextModulus) {
                     self.SetptModulus(openfhe_python::PyIntToInteger<NativeInteger>(plaintextModulus));
                },
-               py::arg("plaintextModulus"))
+               py::arg("plaintextModulus"),
+              py::doc(binfhe_LWECiphertextSetptModulus_docs))
           .def(py::self == py::self)
           .def(py::self != py::self);
 }
@@ -247,12 +252,15 @@ void bind_binfhe_context(py::module &m) {
           .def("KeyGenPair", &BinFHEContext::KeyGenPair)
           .def("KeySwitchGen", &BinFHEContext::KeySwitchGen,
                py::arg("sk"),
-               py::arg("skN"))
+               py::arg("skN"),
+               py::doc(binfhe_KeySwitchGen_docs))
           .def("PubKeyGen", &BinFHEContext::PubKeyGen,
-               py::arg("sk"))
+               py::arg("sk"),
+               py::doc(binfhe_PubKeyGen_docs))
           .def("SwitchCTtoqn", &BinFHEContext::SwitchCTtoqn,
                py::arg("ksk"),
-               py::arg("ct"))
+               py::arg("ct"),
+               py::doc(binfhe_SwitchCTtoqn_docs))
           .def("BTKeyGen", &BinFHEContext::BTKeyGen,
                binfhe_BTKeyGen_docs,
                py::arg("sk"),
@@ -348,8 +356,10 @@ void bind_binfhe_context(py::module &m) {
                py::arg("schemeSwitch") = false)
           .def("EvalConstant", &BinFHEContext::EvalConstant)
           .def("ClearBTKeys", &BinFHEContext::ClearBTKeys)
-          .def("HasInternal32RefreshKey", &BinFHEContext::HasInternal32RefreshKey)
-          .def("HasInternal32SwitchKey", &BinFHEContext::HasInternal32SwitchKey)
+          .def("HasInternal32RefreshKey", &BinFHEContext::HasInternal32RefreshKey,
+              py::doc(binfhe_HasInternal32RefreshKey_docs))
+          .def("HasInternal32SwitchKey", &BinFHEContext::HasInternal32SwitchKey,
+              py::doc(binfhe_HasInternal32SwitchKey_docs))
           .def("Bootstrap", &BinFHEContext::Bootstrap, py::arg("ct"), py::arg("extended") = false)
           .def("SerializedVersion", &BinFHEContext::SerializedVersion,
                binfhe_SerializedVersion_docs)
