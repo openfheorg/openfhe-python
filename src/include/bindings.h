@@ -41,7 +41,6 @@ using DCRTCryptoContextClass = pybind11::class_<
     lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>,
     std::shared_ptr<lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>>>;
 
-void bind_parameters(pybind11::module &m);
 void bind_crypto_context(pybind11::module &m);
 void bind_enums_and_constants(pybind11::module &m);
 void bind_keys(pybind11::module &m);

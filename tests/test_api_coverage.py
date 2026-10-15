@@ -238,6 +238,25 @@ def test_eval_sum_key_serialization_reports_unusable_paths(ckks_context, sertype
     assert fhe.CryptoContext.DeserializeEvalSumKey(unusable, sertype) is False
 
 
+@pytest.mark.parametrize("sertype", [fhe.BINARY, fhe.JSON], ids=["binary", "json"])
+def test_mult_and_automorphism_key_deserialization_reports_unusable_paths(sertype):
+    """An unopenable file returns False instead of deserializing from a closed stream."""
+    unusable = "/nonexistent-directory-for-openfhe-tests/keys"
+
+    assert fhe.CryptoContext.DeserializeEvalMultKey(unusable, sertype) is False
+    assert fhe.CryptoContext.DeserializeEvalAutomorphismKey(unusable, sertype) is False
+
+
+def test_enum_members_are_exported_at_module_level():
+    """Every pybind11 enum member must also be addressable as fhe.<MEMBER> (export_values)."""
+    enum_types = [obj for obj in vars(fhe).values()
+                  if isinstance(obj, type) and hasattr(obj, "__members__")]
+    assert len(enum_types) >= 20
+    for enum_type in enum_types:
+        for name, member in enum_type.__members__.items():
+            assert getattr(fhe, name) == member, f"{enum_type.__name__}.{name} is not exported"
+
+
 def test_element_params_feed_get_plaintext_for_decrypt(ckks_context):
     cc, _ = ckks_context
     element_params = cc.GetElementParams()

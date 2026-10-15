@@ -4,13 +4,13 @@ project (OpenFHE-Python)
 
 set(OPENFHE_PYTHON_VERSION_MAJOR 1)
 set(OPENFHE_PYTHON_VERSION_MINOR 6)
-set(OPENFHE_PYTHON_VERSION_PATCH 0)
+set(OPENFHE_PYTHON_VERSION_PATCH 1)
 set(OPENFHE_PYTHON_VERSION_TWEAK 0)
 set(OPENFHE_PYTHON_VERSION ${OPENFHE_PYTHON_VERSION_MAJOR}.${OPENFHE_PYTHON_VERSION_MINOR}.${OPENFHE_PYTHON_VERSION_PATCH}.${OPENFHE_PYTHON_VERSION_TWEAK})
 
-# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.6.0)
+# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.6.1)
 if(NOT DEFINED OPENFHE_REQUIRED_VERSION)
-    set(OPENFHE_REQUIRED_VERSION "1.6.0" CACHE STRING "Required OpenFHE version")
+    set(OPENFHE_REQUIRED_VERSION "1.6.1" CACHE STRING "Required OpenFHE version")
 else()
     # User provided OPENFHE_REQUIRED_VERSION via -D
     message(STATUS "Using user-specified OpenFHE version: ${OPENFHE_REQUIRED_VERSION}")
@@ -25,6 +25,15 @@ endif()
 
 find_package(OpenFHE ${OPENFHE_REQUIRED_VERSION} REQUIRED)
 message(STATUS "Building with OpenFHE version: ${OPENFHE_REQUIRED_VERSION}")
+
+# Allow the user to specify the path to the Python executable (if not provided, find it).
+# Python must be selected before pybind11 is found: pybind11 locks in the first Python
+# that CMake discovers, and a later find_package(Python) with a different interpreter fails.
+set(PYTHON_EXECUTABLE_PATH "" CACHE FILEPATH "Path to Python executable")
+if(PYTHON_EXECUTABLE_PATH)
+    set(Python_EXECUTABLE "${PYTHON_EXECUTABLE_PATH}")
+endif()
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
 set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 REQUIRED)
@@ -99,28 +108,14 @@ elseif(APPLE)
 endif()
 
 
-### Python installation 
-# Allow the user to specify the path to Python executable (if not provided, find it)
-option(PYTHON_EXECUTABLE_PATH "Path to Python executable" "")
-if(PYTHON_EXECUTABLE_PATH)
-    set(Python_EXECUTABLE "${PYTHON_EXECUTABLE_PATH}")
-endif()
-find_package(Python REQUIRED COMPONENTS Interpreter Development)
-
-# Check Python version
-if(${Python_VERSION_MAJOR} EQUAL 3 AND ${Python_VERSION_MINOR} GREATER_EQUAL 10)
-    execute_process(
-        COMMAND "${Python_EXECUTABLE}" -c "from sys import exec_prefix; print(exec_prefix)"
-        OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-else()
-    execute_process(
-        COMMAND "${Python_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-        OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-endif()
+### Python installation
+# sysconfig's platlib is the platform-specific site-packages directory (also inside venvs);
+# sys.exec_prefix used here previously is the installation root, not site-packages.
+execute_process(
+    COMMAND "${Python_EXECUTABLE}" -c "import sysconfig; print(sysconfig.get_path('platlib'))"
+    OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
 message(STATUS "Python site packages directory: ${PYTHON_SITE_PACKAGES}")
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)

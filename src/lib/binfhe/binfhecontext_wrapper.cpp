@@ -38,24 +38,27 @@ using namespace lbcrypto;
 namespace py = pybind11;
 
 
-// Define static variables to hold the state
-py::function* static_f = nullptr;
+// GenerateLUTviaFunction takes a plain function pointer, so the Python callable is
+// passed through thread-local state instead of a capturing lambda.
+static thread_local py::function* static_f = nullptr;
 
-// Define a static function that uses the static variables
 NativeInteger StaticFunction(NativeInteger m, NativeInteger p) {
-    // Call the Python function
     py::object result_py = (*static_f)(m.ConvertToInt<uint64_t>(), p.ConvertToInt<uint64_t>());
-    // Convert the result to a NativeInteger
     return NativeInteger(py::cast<uint64_t>(result_py));
 }
 
 std::vector<uint64_t> GenerateLUTviaFunctionWrapper(BinFHEContext &self, py::function f, uint64_t p) {
-    static_f = &f;
+    // restore the previous callable even if GenerateLUTviaFunction throws
+    struct CallbackGuard {
+        py::function* previous;
+        explicit CallbackGuard(py::function* f) : previous(static_f) { static_f = f; }
+        ~CallbackGuard() { static_f = previous; }
+    } guard(&f);
+
     std::vector<NativeInteger> result = self.GenerateLUTviaFunction(StaticFunction, NativeInteger(p));
-    static_f = nullptr;
 
     std::vector<uint64_t> result_uint64_t;
-    result.reserve(result.size());
+    result_uint64_t.reserve(result.size());
     for (const auto& value : result)
         result_uint64_t.emplace_back(value.ConvertToInt<uint64_t>());
 

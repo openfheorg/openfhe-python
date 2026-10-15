@@ -41,8 +41,6 @@
 #include <pybind11/stl.h>
 #include <pybind11/operators.h>
 
-#include "cereal/archives/binary.hpp"
-
 #include <map>
 #include <string>
 #include <tuple>
@@ -75,59 +73,28 @@ void bind_binfhe_enums(py::module &m) {
           .value("STD128Q_4_LMKCDEY", BINFHE_PARAMSET::STD128Q_4_LMKCDEY)
           .value("STD192Q_4", BINFHE_PARAMSET::STD192Q_4)
           .value("STD256Q_4", BINFHE_PARAMSET::STD256Q_4)
-          .value("SIGNED_MOD_TEST", BINFHE_PARAMSET::SIGNED_MOD_TEST);
-     m.attr("TOY") = py::cast(BINFHE_PARAMSET::TOY);
-     m.attr("MEDIUM") = py::cast(BINFHE_PARAMSET::MEDIUM);
-     m.attr("STD128_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_LMKCDEY);
-     m.attr("STD128_AP") = py::cast(BINFHE_PARAMSET::STD128_AP);
-     m.attr("STD128") = py::cast(BINFHE_PARAMSET::STD128);
-     m.attr("STD192") = py::cast(BINFHE_PARAMSET::STD192);
-     m.attr("STD256") = py::cast(BINFHE_PARAMSET::STD256);
-     m.attr("STD128Q") = py::cast(BINFHE_PARAMSET::STD128Q);
-     m.attr("STD128Q_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_LMKCDEY);
-     m.attr("STD192Q") = py::cast(BINFHE_PARAMSET::STD192Q);
-     m.attr("STD256Q") = py::cast(BINFHE_PARAMSET::STD256Q);
-     m.attr("STD128_3") = py::cast(BINFHE_PARAMSET::STD128_3);
-     m.attr("STD128_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_3_LMKCDEY);
-     m.attr("STD128Q_3") = py::cast(BINFHE_PARAMSET::STD128Q_3);
-     m.attr("STD128Q_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_3_LMKCDEY);
-     m.attr("STD192Q_3") = py::cast(BINFHE_PARAMSET::STD192Q_3);
-     m.attr("STD256Q_3") = py::cast(BINFHE_PARAMSET::STD256Q_3);
-     m.attr("STD128_4") = py::cast(BINFHE_PARAMSET::STD128_4);
-     m.attr("STD128_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_4_LMKCDEY);
-     m.attr("STD128Q_4") = py::cast(BINFHE_PARAMSET::STD128Q_4);
-     m.attr("STD128Q_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_4_LMKCDEY);
-     m.attr("STD192Q_4") = py::cast(BINFHE_PARAMSET::STD192Q_4);
-     m.attr("STD256Q_4") = py::cast(BINFHE_PARAMSET::STD256Q_4);
-     m.attr("SIGNED_MOD_TEST") = py::cast(BINFHE_PARAMSET::SIGNED_MOD_TEST);
+          .value("SIGNED_MOD_TEST", BINFHE_PARAMSET::SIGNED_MOD_TEST)
+          .export_values();
 
      py::enum_<BINFHE_METHOD>(m, "BINFHE_METHOD")
           .value("INVALID_METHOD", BINFHE_METHOD::INVALID_METHOD)
           .value("AP", BINFHE_METHOD::AP)
           .value("GINX", BINFHE_METHOD::GINX)
-          .value("LMKCDEY", BINFHE_METHOD::LMKCDEY);
-     m.attr("INVALID_METHOD") = py::cast(BINFHE_METHOD::INVALID_METHOD);
-     m.attr("GINX") = py::cast(BINFHE_METHOD::GINX);
-     m.attr("AP") = py::cast(BINFHE_METHOD::AP);
-     m.attr("LMKCDEY") = py::cast(BINFHE_METHOD::LMKCDEY);
+          .value("LMKCDEY", BINFHE_METHOD::LMKCDEY)
+          .export_values();
 
      py::enum_<KEYGEN_MODE>(m, "KEYGEN_MODE")
           .value("SYM_ENCRYPT", KEYGEN_MODE::SYM_ENCRYPT)
-          .value("PUB_ENCRYPT", KEYGEN_MODE::PUB_ENCRYPT);
-     m.attr("SYM_ENCRYPT") = py::cast(KEYGEN_MODE::SYM_ENCRYPT);
-     m.attr("PUB_ENCRYPT") = py::cast(KEYGEN_MODE::PUB_ENCRYPT);
+          .value("PUB_ENCRYPT", KEYGEN_MODE::PUB_ENCRYPT)
+          .export_values();
 
      py::enum_<BINFHE_OUTPUT>(m, "BINFHE_OUTPUT")
           .value("INVALID_OUTPUT", BINFHE_OUTPUT::INVALID_OUTPUT)
           .value("FRESH", BINFHE_OUTPUT::FRESH)
           .value("BOOTSTRAPPED", BINFHE_OUTPUT::BOOTSTRAPPED)
           .value("LARGE_DIM", BINFHE_OUTPUT::LARGE_DIM)
-          .value("SMALL_DIM", BINFHE_OUTPUT::SMALL_DIM);
-     m.attr("INVALID_OUTPUT") = py::cast(BINFHE_OUTPUT::INVALID_OUTPUT);
-     m.attr("FRESH") = py::cast(BINFHE_OUTPUT::FRESH);
-     m.attr("BOOTSTRAPPED") = py::cast(BINFHE_OUTPUT::BOOTSTRAPPED);
-     m.attr("LARGE_DIM") = py::cast(BINFHE_OUTPUT::LARGE_DIM);
-     m.attr("SMALL_DIM") = py::cast(BINFHE_OUTPUT::SMALL_DIM);
+          .value("SMALL_DIM", BINFHE_OUTPUT::SMALL_DIM)
+          .export_values();
 
      py::enum_<BINGATE>(m, "BINGATE")
           .value("OR", BINGATE::OR)
@@ -143,21 +110,8 @@ void bind_binfhe_enums(py::module &m) {
           .value("OR3", BINGATE::OR3)
           .value("AND4", BINGATE::AND4)
           .value("OR4", BINGATE::OR4)
-          .value("CMUX", BINGATE::CMUX);
-     m.attr("OR") = py::cast(BINGATE::OR);
-     m.attr("AND") = py::cast(BINGATE::AND);
-     m.attr("NOR") = py::cast(BINGATE::NOR);
-     m.attr("NAND") = py::cast(BINGATE::NAND);
-     m.attr("XOR_FAST") = py::cast(BINGATE::XOR_FAST);
-     m.attr("XNOR_FAST") = py::cast(BINGATE::XNOR_FAST);
-     m.attr("XOR") = py::cast(BINGATE::XOR);
-     m.attr("XNOR") = py::cast(BINGATE::XNOR);
-     m.attr("MAJORITY") = py::cast(BINGATE::MAJORITY);
-     m.attr("AND3") = py::cast(BINGATE::AND3);
-     m.attr("OR3") = py::cast(BINGATE::OR3);
-     m.attr("AND4") = py::cast(BINGATE::AND4);
-     m.attr("OR4") = py::cast(BINGATE::OR4);
-     m.attr("CMUX") = py::cast(BINGATE::CMUX);
+          .value("CMUX", BINGATE::CMUX)
+          .export_values();
 }
 
 void bind_binfhe_keys(py::module &m) {
@@ -354,7 +308,8 @@ void bind_binfhe_context(py::module &m) {
                binfhe_EvalSign_docs,
                py::arg("ct"),
                py::arg("schemeSwitch") = false)
-          .def("EvalConstant", &BinFHEContext::EvalConstant)
+          .def("EvalConstant", &BinFHEContext::EvalConstant,
+               py::arg("value"))
           .def("ClearBTKeys", &BinFHEContext::ClearBTKeys)
           .def("HasInternal32RefreshKey", &BinFHEContext::HasInternal32RefreshKey,
               py::doc(binfhe_HasInternal32RefreshKey_docs))
@@ -365,18 +320,11 @@ void bind_binfhe_context(py::module &m) {
                binfhe_SerializedVersion_docs)
           .def("SerializedObjectName", &BinFHEContext::SerializedObjectName,
                binfhe_SerializedObjectName_docs)
-          .def("SaveJSON", &BinFHEContext::save<cereal::JSONOutputArchive>)
-          .def("LoadJSON", &BinFHEContext::load<cereal::JSONInputArchive>)
-          .def("SaveBinary", &BinFHEContext::save<cereal::BinaryOutputArchive>)
-          .def("LoadBinary", &BinFHEContext::load<cereal::BinaryInputArchive>)
-          .def("SavePortableBinary", &BinFHEContext::save<cereal::PortableBinaryOutputArchive>)
-          .def("LoadPortableBinary", &BinFHEContext::load<cereal::PortableBinaryInputArchive>)
+          // note: save/load (cereal archives), GetRefreshKey, GetBinFHEScheme, GetLWEScheme and
+          // GetParams are not bound: their argument/return types are not exposed to Python, so
+          // the bindings could never be called successfully
           .def("GetPublicKey", &BinFHEContext::GetPublicKey)
           .def("GetSwitchKey", &BinFHEContext::GetSwitchKey)
-          .def("GetRefreshKey", &BinFHEContext::GetRefreshKey)
-          .def("GetBinFHEScheme", &BinFHEContext::GetBinFHEScheme)
-          .def("GetLWEScheme", &BinFHEContext::GetLWEScheme)
-          .def("GetParams", &BinFHEContext::GetParams)
           .def("GetN",
                [](BinFHEContext& self) {
                     return self.GetParams()->GetLWEParams()->GetN();

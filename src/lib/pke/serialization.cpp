@@ -28,8 +28,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //==================================================================================
-#include "serialization.h"
-
+#include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 // #include <pybind11/stl_bind.h> - not needed for now
 
@@ -46,32 +45,6 @@ namespace py = pybind11;
 // disable the PYBIND11 template-based conversion for this type
 PYBIND11_MAKE_OPAQUE(std::map<uint32_t, EvalKey<DCRTPoly>>);
 
-
-template <typename ST>
-bool SerializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype, std::string keyTag) {
-    std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<ST>(outfile, sertype, keyTag);
-    outfile.close();
-    return res;
-}
-
-template <typename ST>
-bool SerializeEvalAutomorphismKeyWrapper(const std::string& filename, const ST& sertype, std::string keyTag) {
-    std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<ST>(outfile, sertype, keyTag);
-    outfile.close();
-    return res;
-}
-
-template <typename ST>
-bool DeserializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype) {
-    std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
-    if (!emkeys.is_open()) {
-        std::cerr << "I cannot read serialization from " << filename << std::endl;
-    }
-    bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<ST>(emkeys, sertype);
-    return res;
-}
 
 template <typename ST>
 bool SerializeEvalBootstrapKeyWrapper(const std::string& filename, const ST& sertype, const CryptoContextDCRT& cc,

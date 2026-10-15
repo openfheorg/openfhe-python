@@ -23,6 +23,23 @@ def test_spreadsheet_add_apis_are_exposed():
     assert not {cls: names for cls, names in missing.items() if names}
 
 
+def test_generate_lut_via_function_recovers_from_callback_errors():
+    """The LUT callback is routed through thread-local state; a raising callback
+    must propagate its exception and leave the wrapper usable afterwards."""
+    cc = fhe.BinFHEContext()
+    cc.GenerateBinFHEContext(fhe.TOY, False, 12)
+    p = 8
+
+    def bad(m, q):
+        raise ValueError("callback failure")
+
+    with pytest.raises(ValueError):
+        cc.GenerateLUTviaFunction(bad, p)
+
+    lut = cc.GenerateLUTviaFunction(lambda m, q: (m * 3) % q, p)
+    assert lut, "LUT generation must still work after a failed callback"
+
+
 def test_new_binfhe_bindings_round_trip():
     cc = fhe.BinFHEContext()
     cc.GenerateBinFHEContext(fhe.TOY, fhe.GINX)
