@@ -33,9 +33,11 @@ def test_lwe_public_key_cannot_be_default_constructed():
 def test_generate_lut_via_function_recovers_from_callback_errors():
     """The LUT callback is routed through thread-local state; a raising callback
     must propagate its exception and leave the wrapper usable afterwards."""
+    # the plain TOY context works on every NATIVE_SIZE; the large-precision
+    # overload needs primes wider than a 32-bit build can represent
     cc = fhe.BinFHEContext()
-    cc.GenerateBinFHEContext(fhe.TOY, False, 12)
-    p = 8
+    cc.GenerateBinFHEContext(fhe.TOY, fhe.GINX)
+    p = cc.GetMaxPlaintextSpace()
 
     def bad(m, q):
         raise ValueError("callback failure")
@@ -50,9 +52,10 @@ def test_generate_lut_via_function_recovers_from_callback_errors():
 def test_generate_lut_via_function_supports_nested_calls():
     """The callback slot is saved and restored by a guard, so a callback may
     itself generate a LUT without corrupting the outer generation."""
+    # the plain TOY context works on every NATIVE_SIZE (see the test above)
     cc = fhe.BinFHEContext()
-    cc.GenerateBinFHEContext(fhe.TOY, False, 12)
-    p = 8
+    cc.GenerateBinFHEContext(fhe.TOY, fhe.GINX)
+    p = cc.GetMaxPlaintextSpace()
     nested = {}
 
     def outer(m, q):

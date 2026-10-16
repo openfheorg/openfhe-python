@@ -72,73 +72,137 @@ void bind_parameters(py::module &m, const std::string name) {
     py::class_<CCParams<T>>(m, name.c_str())
         .def(py::init<>())
         // getters
-        .def("GetPlaintextModulus", &CCParams<T>::GetPlaintextModulus)
-        .def("GetScheme", &CCParams<T>::GetScheme)
-        .def("GetDigitSize", &CCParams<T>::GetDigitSize)
-        .def("GetStandardDeviation", &CCParams<T>::GetStandardDeviation)
-        .def("GetSecretKeyDist", &CCParams<T>::GetSecretKeyDist)
-        .def("GetMaxRelinSkDeg", &CCParams<T>::GetMaxRelinSkDeg)
-        .def("GetPREMode", &CCParams<T>::GetPREMode)
-        .def("GetMultipartyMode", &CCParams<T>::GetMultipartyMode)
-        .def("GetExecutionMode", &CCParams<T>::GetExecutionMode)
-        .def("GetDecryptionNoiseMode", &CCParams<T>::GetDecryptionNoiseMode)
-        .def("GetNoiseEstimate", &CCParams<T>::GetNoiseEstimate)
-        .def("GetDesiredPrecision", &CCParams<T>::GetDesiredPrecision)
-        .def("GetStatisticalSecurity", &CCParams<T>::GetStatisticalSecurity)
-        .def("GetNumAdversarialQueries", &CCParams<T>::GetNumAdversarialQueries)
+        .def("GetPlaintextModulus", &CCParams<T>::GetPlaintextModulus,
+            py::doc("Get the plaintext modulus (used by BGV/BFV)."))
+        .def("GetScheme", &CCParams<T>::GetScheme,
+            py::doc("Get the scheme type."))
+        .def("GetDigitSize", &CCParams<T>::GetDigitSize,
+            py::doc("Get the digit size used in BV key switching."))
+        .def("GetStandardDeviation", &CCParams<T>::GetStandardDeviation,
+            py::doc("Get the standard deviation of the Gaussian error distribution."))
+        .def("GetSecretKeyDist", &CCParams<T>::GetSecretKeyDist,
+            py::doc("Get the secret key distribution."))
+        .def("GetMaxRelinSkDeg", &CCParams<T>::GetMaxRelinSkDeg,
+            py::doc("Get the maximum power of the secret key for which relinearization keys are generated."))
+        .def("GetPREMode", &CCParams<T>::GetPREMode,
+            py::doc("Get the proxy re-encryption security mode."))
+        .def("GetMultipartyMode", &CCParams<T>::GetMultipartyMode,
+            py::doc("Get the multiparty security mode."))
+        .def("GetExecutionMode", &CCParams<T>::GetExecutionMode,
+            py::doc("Get the execution mode (evaluation or noise estimation)."))
+        .def("GetDecryptionNoiseMode", &CCParams<T>::GetDecryptionNoiseMode,
+            py::doc("Get the decryption noise mode (fixed noise or noise flooding)."))
+        .def("GetNoiseEstimate", &CCParams<T>::GetNoiseEstimate,
+            py::doc("Get the noise estimate obtained in the noise-estimation execution mode."))
+        .def("GetDesiredPrecision", &CCParams<T>::GetDesiredPrecision,
+            py::doc("Get the desired precision for 128-bit CKKS."))
+        .def("GetStatisticalSecurity", &CCParams<T>::GetStatisticalSecurity,
+            py::doc("Get the statistical security parameter (bits) used for noise flooding."))
+        .def("GetNumAdversarialQueries", &CCParams<T>::GetNumAdversarialQueries,
+            py::doc("Get the assumed bound on the number of adversarial queries used for noise flooding."))
         .def("GetThresholdNumOfParties", &CCParams<T>::GetThresholdNumOfParties,
             py::doc(ccparams_GetThresholdNumOfParties_docs))
-        .def("GetKeySwitchTechnique", &CCParams<T>::GetKeySwitchTechnique)
-        .def("GetScalingTechnique", &CCParams<T>::GetScalingTechnique)
-        .def("GetBatchSize", &CCParams<T>::GetBatchSize)
-        .def("GetFirstModSize", &CCParams<T>::GetFirstModSize)
-        .def("GetNumLargeDigits", &CCParams<T>::GetNumLargeDigits)
-        .def("GetMultiplicativeDepth", &CCParams<T>::GetMultiplicativeDepth)
-        .def("GetScalingModSize", &CCParams<T>::GetScalingModSize)
-        .def("GetSecurityLevel", &CCParams<T>::GetSecurityLevel)
-        .def("GetRingDim", &CCParams<T>::GetRingDim)
-        .def("GetEvalAddCount", &CCParams<T>::GetEvalAddCount)
-        .def("GetKeySwitchCount", &CCParams<T>::GetKeySwitchCount)
-        .def("GetEncryptionTechnique", &CCParams<T>::GetEncryptionTechnique)
-        .def("GetMultiplicationTechnique", &CCParams<T>::GetMultiplicationTechnique)
-        .def("GetPRENumHops", &CCParams<T>::GetPRENumHops)
-        .def("GetInteractiveBootCompressionLevel", &CCParams<T>::GetInteractiveBootCompressionLevel)
-        .def("GetCompositeDegree", &CCParams<T>::GetCompositeDegree)
-        .def("GetRegisterWordSize", &CCParams<T>::GetRegisterWordSize)
-        .def("GetCKKSDataType", &CCParams<T>::GetCKKSDataType)
+        .def("GetKeySwitchTechnique", &CCParams<T>::GetKeySwitchTechnique,
+            py::doc("Get the key switching technique (BV or HYBRID)."))
+        .def("GetScalingTechnique", &CCParams<T>::GetScalingTechnique,
+            py::doc("Get the rescaling/modulus switching technique (CKKS/BGV)."))
+        .def("GetBatchSize", &CCParams<T>::GetBatchSize,
+            py::doc("Get the maximum batch size (number of packed slots)."))
+        .def("GetFirstModSize", &CCParams<T>::GetFirstModSize,
+            py::doc("Get the bit size of the first ciphertext prime."))
+        .def("GetNumLargeDigits", &CCParams<T>::GetNumLargeDigits,
+            py::doc("Get the number of digits used in HYBRID key switching."))
+        .def("GetMultiplicativeDepth", &CCParams<T>::GetMultiplicativeDepth,
+            py::doc("Get the multiplicative depth the parameters support."))
+        .def("GetScalingModSize", &CCParams<T>::GetScalingModSize,
+            py::doc("Get the bit size of the scaling ciphertext primes."))
+        .def("GetSecurityLevel", &CCParams<T>::GetSecurityLevel,
+            py::doc("Get the security level according to the HE standard."))
+        .def("GetRingDim", &CCParams<T>::GetRingDim,
+            py::doc("Get the polynomial ring dimension."))
+        .def("GetEvalAddCount", &CCParams<T>::GetEvalAddCount,
+            py::doc("Get the maximum number of additions assumed for BGV/BFV noise estimation."))
+        .def("GetKeySwitchCount", &CCParams<T>::GetKeySwitchCount,
+            py::doc("Get the maximum number of key switching operations assumed for BGV/BFV noise estimation."))
+        .def("GetEncryptionTechnique", &CCParams<T>::GetEncryptionTechnique,
+            py::doc("Get the encryption technique (BFV)."))
+        .def("GetMultiplicationTechnique", &CCParams<T>::GetMultiplicationTechnique,
+            py::doc("Get the multiplication technique (BFV)."))
+        .def("GetPRENumHops", &CCParams<T>::GetPRENumHops,
+            py::doc("Get the number of hops supported for proxy re-encryption."))
+        .def("GetInteractiveBootCompressionLevel", &CCParams<T>::GetInteractiveBootCompressionLevel,
+            py::doc("Get the compression level for interactive multiparty CKKS bootstrapping."))
+        .def("GetCompositeDegree", &CCParams<T>::GetCompositeDegree,
+            py::doc("Get the composite degree used by CKKS composite scaling."))
+        .def("GetRegisterWordSize", &CCParams<T>::GetRegisterWordSize,
+            py::doc("Get the target hardware register word size for CKKS composite scaling."))
+        .def("GetCKKSDataType", &CCParams<T>::GetCKKSDataType,
+            py::doc("Get the CKKS data type (real or complex)."))
         // setters
-        .def("SetPlaintextModulus", &CCParams<T>::SetPlaintextModulus, py::arg("plaintextModulus"))
-        .def("SetDigitSize", &CCParams<T>::SetDigitSize, py::arg("digitSize"))
-        .def("SetStandardDeviation", &CCParams<T>::SetStandardDeviation, py::arg("standardDeviation"))
-        .def("SetSecretKeyDist", &CCParams<T>::SetSecretKeyDist, py::arg("secretKeyDist"))
-        .def("SetMaxRelinSkDeg", &CCParams<T>::SetMaxRelinSkDeg, py::arg("maxRelinSkDeg"))
-        .def("SetPREMode", &CCParams<T>::SetPREMode, py::arg("PREMode"))
-        .def("SetMultipartyMode", &CCParams<T>::SetMultipartyMode, py::arg("multipartyMode"))
-        .def("SetExecutionMode", &CCParams<T>::SetExecutionMode, py::arg("executionMode"))
-        .def("SetDecryptionNoiseMode", &CCParams<T>::SetDecryptionNoiseMode, py::arg("decryptionNoiseMode"))
-        .def("SetNoiseEstimate", &CCParams<T>::SetNoiseEstimate, py::arg("noiseEstimate"))
-        .def("SetDesiredPrecision", &CCParams<T>::SetDesiredPrecision, py::arg("desiredPrecision"))
-        .def("SetStatisticalSecurity", &CCParams<T>::SetStatisticalSecurity, py::arg("statisticalSecurity"))
-        .def("SetNumAdversarialQueries", &CCParams<T>::SetNumAdversarialQueries, py::arg("numAdversarialQueries"))
-        .def("SetThresholdNumOfParties", &CCParams<T>::SetThresholdNumOfParties, py::arg("thresholdNumOfParties"))
-        .def("SetKeySwitchTechnique", &CCParams<T>::SetKeySwitchTechnique, py::arg("keySwitchTechnique"))
-        .def("SetScalingTechnique", &CCParams<T>::SetScalingTechnique, py::arg("scalingTechnique"))
-        .def("SetBatchSize", &CCParams<T>::SetBatchSize, py::arg("batchSize"))
-        .def("SetFirstModSize", &CCParams<T>::SetFirstModSize, py::arg("firstModSize"))
-        .def("SetNumLargeDigits", &CCParams<T>::SetNumLargeDigits, py::arg("numLargeDigits"))
-        .def("SetMultiplicativeDepth", &CCParams<T>::SetMultiplicativeDepth, py::arg("multiplicativeDepth"))
-        .def("SetScalingModSize", &CCParams<T>::SetScalingModSize, py::arg("scalingModSize"))
-        .def("SetSecurityLevel", &CCParams<T>::SetSecurityLevel, py::arg("securityLevel"))
-        .def("SetRingDim", &CCParams<T>::SetRingDim, py::arg("ringDim"))
-        .def("SetEvalAddCount", &CCParams<T>::SetEvalAddCount, py::arg("evalAddCount"))
-        .def("SetKeySwitchCount", &CCParams<T>::SetKeySwitchCount, py::arg("keySwitchCount"))
-        .def("SetEncryptionTechnique", &CCParams<T>::SetEncryptionTechnique, py::arg("encryptionTechnique"))
-        .def("SetMultiplicationTechnique", &CCParams<T>::SetMultiplicationTechnique, py::arg("multiplicationTechnique"))
-        .def("SetPRENumHops", &CCParams<T>::SetPRENumHops, py::arg("PRENumHops"))
-        .def("SetInteractiveBootCompressionLevel", &CCParams<T>::SetInteractiveBootCompressionLevel, py::arg("interactiveBootCompressionLevel"))
-        .def("SetCompositeDegree", &CCParams<T>::SetCompositeDegree, py::arg("compositeDegree"))
-        .def("SetRegisterWordSize", &CCParams<T>::SetRegisterWordSize, py::arg("registerWordSize"))
-        .def("SetCKKSDataType", &CCParams<T>::SetCKKSDataType, py::arg("ckksDataType"))
+        .def("SetPlaintextModulus", &CCParams<T>::SetPlaintextModulus, py::arg("plaintextModulus"),
+            py::doc("Set the plaintext modulus (used by BGV/BFV)."))
+        .def("SetDigitSize", &CCParams<T>::SetDigitSize, py::arg("digitSize"),
+            py::doc("Set the digit size used in BV key switching."))
+        .def("SetStandardDeviation", &CCParams<T>::SetStandardDeviation, py::arg("standardDeviation"),
+            py::doc("Set the standard deviation of the Gaussian error distribution."))
+        .def("SetSecretKeyDist", &CCParams<T>::SetSecretKeyDist, py::arg("secretKeyDist"),
+            py::doc("Set the secret key distribution."))
+        .def("SetMaxRelinSkDeg", &CCParams<T>::SetMaxRelinSkDeg, py::arg("maxRelinSkDeg"),
+            py::doc("Set the maximum power of the secret key for which relinearization keys are generated."))
+        .def("SetPREMode", &CCParams<T>::SetPREMode, py::arg("PREMode"),
+            py::doc("Set the proxy re-encryption security mode."))
+        .def("SetMultipartyMode", &CCParams<T>::SetMultipartyMode, py::arg("multipartyMode"),
+            py::doc("Set the multiparty security mode."))
+        .def("SetExecutionMode", &CCParams<T>::SetExecutionMode, py::arg("executionMode"),
+            py::doc("Set the execution mode (evaluation or noise estimation)."))
+        .def("SetDecryptionNoiseMode", &CCParams<T>::SetDecryptionNoiseMode, py::arg("decryptionNoiseMode"),
+            py::doc("Set the decryption noise mode (fixed noise or noise flooding)."))
+        .def("SetNoiseEstimate", &CCParams<T>::SetNoiseEstimate, py::arg("noiseEstimate"),
+            py::doc("Set the noise estimate obtained in the noise-estimation execution mode."))
+        .def("SetDesiredPrecision", &CCParams<T>::SetDesiredPrecision, py::arg("desiredPrecision"),
+            py::doc("Set the desired precision for 128-bit CKKS."))
+        .def("SetStatisticalSecurity", &CCParams<T>::SetStatisticalSecurity, py::arg("statisticalSecurity"),
+            py::doc("Set the statistical security parameter (bits) used for noise flooding."))
+        .def("SetNumAdversarialQueries", &CCParams<T>::SetNumAdversarialQueries, py::arg("numAdversarialQueries"),
+            py::doc("Set the assumed bound on the number of adversarial queries used for noise flooding."))
+        .def("SetThresholdNumOfParties", &CCParams<T>::SetThresholdNumOfParties, py::arg("thresholdNumOfParties"),
+            py::doc("Set the number of parties in a threshold application."))
+        .def("SetKeySwitchTechnique", &CCParams<T>::SetKeySwitchTechnique, py::arg("keySwitchTechnique"),
+            py::doc("Set the key switching technique (BV or HYBRID)."))
+        .def("SetScalingTechnique", &CCParams<T>::SetScalingTechnique, py::arg("scalingTechnique"),
+            py::doc("Set the rescaling/modulus switching technique (CKKS/BGV)."))
+        .def("SetBatchSize", &CCParams<T>::SetBatchSize, py::arg("batchSize"),
+            py::doc("Set the maximum batch size (number of packed slots)."))
+        .def("SetFirstModSize", &CCParams<T>::SetFirstModSize, py::arg("firstModSize"),
+            py::doc("Set the bit size of the first ciphertext prime."))
+        .def("SetNumLargeDigits", &CCParams<T>::SetNumLargeDigits, py::arg("numLargeDigits"),
+            py::doc("Set the number of digits used in HYBRID key switching."))
+        .def("SetMultiplicativeDepth", &CCParams<T>::SetMultiplicativeDepth, py::arg("multiplicativeDepth"),
+            py::doc("Set the multiplicative depth the parameters must support."))
+        .def("SetScalingModSize", &CCParams<T>::SetScalingModSize, py::arg("scalingModSize"),
+            py::doc("Set the bit size of the scaling ciphertext primes."))
+        .def("SetSecurityLevel", &CCParams<T>::SetSecurityLevel, py::arg("securityLevel"),
+            py::doc("Set the security level according to the HE standard."))
+        .def("SetRingDim", &CCParams<T>::SetRingDim, py::arg("ringDim"),
+            py::doc("Set the polynomial ring dimension."))
+        .def("SetEvalAddCount", &CCParams<T>::SetEvalAddCount, py::arg("evalAddCount"),
+            py::doc("Set the maximum number of additions assumed for BGV/BFV noise estimation."))
+        .def("SetKeySwitchCount", &CCParams<T>::SetKeySwitchCount, py::arg("keySwitchCount"),
+            py::doc("Set the maximum number of key switching operations assumed for BGV/BFV noise estimation."))
+        .def("SetEncryptionTechnique", &CCParams<T>::SetEncryptionTechnique, py::arg("encryptionTechnique"),
+            py::doc("Set the encryption technique (BFV)."))
+        .def("SetMultiplicationTechnique", &CCParams<T>::SetMultiplicationTechnique, py::arg("multiplicationTechnique"),
+            py::doc("Set the multiplication technique (BFV)."))
+        .def("SetPRENumHops", &CCParams<T>::SetPRENumHops, py::arg("PRENumHops"),
+            py::doc("Set the number of hops supported for proxy re-encryption."))
+        .def("SetInteractiveBootCompressionLevel", &CCParams<T>::SetInteractiveBootCompressionLevel, py::arg("interactiveBootCompressionLevel"),
+            py::doc("Set the compression level for interactive multiparty CKKS bootstrapping."))
+        .def("SetCompositeDegree", &CCParams<T>::SetCompositeDegree, py::arg("compositeDegree"),
+            py::doc("Set the composite degree used by CKKS composite scaling."))
+        .def("SetRegisterWordSize", &CCParams<T>::SetRegisterWordSize, py::arg("registerWordSize"),
+            py::doc("Set the target hardware register word size for CKKS composite scaling."))
+        .def("SetCKKSDataType", &CCParams<T>::SetCKKSDataType, py::arg("ckksDataType"),
+            py::doc("Set the CKKS data type (real or complex)."))
         .def("__str__",[](const CCParams<T> &params) {
             std::stringstream stream;
             stream << params;
@@ -262,7 +326,7 @@ void bind_eval_add_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CC::*)(Plaintext&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalAdd),
         py::arg("plaintext"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc(cc_EvalAddPlaintext_docs));
 }
 template <typename ScalarT>
 void bind_eval_add_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
@@ -273,7 +337,7 @@ void bind_eval_add_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalAdd", static_cast<Ciphertext<DCRTPoly> (CC::*)(ScalarT, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalAdd),
         py::arg("scalar"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc(cc_EvalAddfloat_docs));
 }
 
 void bind_eval_addinplace_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
@@ -288,18 +352,18 @@ void bind_eval_addinplace_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalAddInPlace", static_cast<void (CC::*)(Plaintext&, Ciphertext<DCRTPoly>&) const>(&CC::EvalAddInPlace),
         py::arg("plaintext"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc(cc_EvalAddInPlacePlaintext_docs));
 }
 template <typename ScalarT>
 void bind_eval_addinplace_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalAddInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalAddInPlace),
         py::arg("ciphertext"),
         py::arg("scalar"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc("In-place homomorphic addition of a scalar: ciphertext += scalar."));
     cls.def("EvalAddInPlace", static_cast<void (CC::*)(ScalarT, Ciphertext<DCRTPoly>&) const>(&CC::EvalAddInPlace),
         py::arg("scalar"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc("In-place homomorphic addition of a scalar: ciphertext += scalar."));
 }
 
 void bind_eval_sub_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
@@ -314,7 +378,7 @@ void bind_eval_sub_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CC::*)(Plaintext&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalSub),
         py::arg("plaintext"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc("Homomorphic subtraction of the ciphertext from the plaintext: plaintext - ciphertext."));
 }
 template <typename ScalarT>
 void bind_eval_sub_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
@@ -325,7 +389,7 @@ void bind_eval_sub_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalSub", static_cast<Ciphertext<DCRTPoly> (CC::*)(ScalarT, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalSub),
         py::arg("scalar"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc("Homomorphic subtraction of the ciphertext from a scalar: scalar - ciphertext."));
 }
 
 void bind_eval_subinplace_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
@@ -336,11 +400,11 @@ void bind_eval_subinplace_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalSubInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ConstPlaintext&) const>(&CC::EvalSubInPlace),
         py::arg("ciphertext"),
         py::arg("plaintext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc("In-place homomorphic subtraction of a plaintext: ciphertext -= plaintext."));
     cls.def("EvalSubInPlace", static_cast<void (CC::*)(Plaintext&, Ciphertext<DCRTPoly>&) const>(&CC::EvalSubInPlace),
         py::arg("plaintext"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc("In-place computation of plaintext - ciphertext; the result is stored in the ciphertext argument."));
 }
 template <typename ScalarT>
 void bind_eval_subinplace_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
@@ -351,7 +415,7 @@ void bind_eval_subinplace_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& 
     cls.def("EvalSubInPlace", static_cast<void (CC::*)(ScalarT, Ciphertext<DCRTPoly>&) const>(&CC::EvalSubInPlace),
         py::arg("scalar"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc("In-place computation of scalar - ciphertext; the result is stored in the ciphertext argument."));
 }
 
 void bind_eval_mult_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
@@ -366,7 +430,7 @@ void bind_eval_mult_family(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CC::*)(ConstPlaintext&, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalMult),
         py::arg("plaintext"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc(cc_EvalMultPlaintext_docs));
 }
 template <typename ScalarT>
 void bind_eval_mult_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
@@ -377,7 +441,7 @@ void bind_eval_mult_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>& cls) {
     cls.def("EvalMult", static_cast<Ciphertext<DCRTPoly> (CC::*)(ScalarT, ConstCiphertext<DCRTPoly>&) const>(&CC::EvalMult),
         py::arg("scalar"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc(cc_EvalMultfloat_docs));
 }
 
 template <typename ScalarT>
@@ -385,11 +449,11 @@ void bind_eval_multinplace_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>&
     cls.def("EvalMultInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalMultInPlace),
         py::arg("ciphertext"),
         py::arg("scalar"),
-        py::doc(""));
+        py::doc("In-place homomorphic multiplication by a scalar: ciphertext *= scalar."));
     cls.def("EvalMultInPlace", static_cast<void (CC::*)(ScalarT, Ciphertext<DCRTPoly>&) const>(&CC::EvalMultInPlace),
         py::arg("scalar"),
         py::arg("ciphertext"),
-        py::doc("")); // TODO (dsuponit): replace this with an actual docstring
+        py::doc("In-place homomorphic multiplication by a scalar: ciphertext *= scalar."));
 }
 
 void bind_crypto_context(py::module &m) {
@@ -707,7 +771,7 @@ void bind_crypto_context(py::module &m) {
         .def("EvalAddMutable", py::overload_cast<Plaintext&, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalAddMutable, py::const_),
             py::arg("plaintext"),
             py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
+            py::doc(cc_EvalAddMutablePlaintext_docs))
         .def("EvalAddMutableInPlace", &CryptoContextImpl<DCRTPoly>::EvalAddMutableInPlace,
             py::arg("ciphertext1"),
             py::arg("ciphertext2"),
@@ -726,7 +790,8 @@ void bind_crypto_context(py::module &m) {
             py::overload_cast<Plaintext&, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalSubMutable, py::const_),
             py::arg("plaintext"),
             py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
+            py::doc("Homomorphic subtraction of the ciphertext from the plaintext (plaintext - ciphertext) "
+                    "for mutable ciphertexts; scaling factors may be adjusted."))
         .def("EvalSubMutableInPlace", &CryptoContextImpl<DCRTPoly>::EvalSubMutableInPlace,
             py::arg("ciphertext1"),
             py::arg("ciphertext2"),
@@ -745,7 +810,7 @@ void bind_crypto_context(py::module &m) {
             py::overload_cast<Plaintext&, Ciphertext<DCRTPoly>&>(&CryptoContextImpl<DCRTPoly>::EvalMultMutable, py::const_),
             py::arg("plaintext"),
             py::arg("ciphertext"),
-            py::doc(""))  // TODO (dsuponit): replace this with an actual docstring
+            py::doc(cc_EvalMultMutablePlaintext_docs))
         .def("EvalMultMutableInPlace", &CryptoContextImpl<DCRTPoly>::EvalMultMutableInPlace,
             py::arg("ciphertext1"),
             py::arg("ciphertext2"),
@@ -1173,7 +1238,9 @@ void bind_crypto_context(py::module &m) {
         .def("Compress", &CryptoContextImpl<DCRTPoly>::Compress,
             py::arg("ciphertext"),
             py::arg("towersLeft") = 1,
-            py::arg("noiseScaleDeg") = 1)
+            py::arg("noiseScaleDeg") = 1,
+            py::doc("Compress the ciphertext down to the given number of RNS towers, "
+                    "reducing its size before storage or transmission."))
         .def("EvalMultMany", &CryptoContextImpl<DCRTPoly>::EvalMultMany,
             py::arg("ciphertextVec"))
         .def("EvalAddMany", &CryptoContextImpl<DCRTPoly>::EvalAddMany,
@@ -1821,7 +1888,8 @@ void bind_ciphertext(py::module &m) {
         .def("SetLevel", &CiphertextImpl<DCRTPoly>::SetLevel,
             py::arg("level"),
             py::doc(ctx_SetLevel_docs))
-        .def("Clone", &CiphertextImpl<DCRTPoly>::Clone)
+        .def("Clone", &CiphertextImpl<DCRTPoly>::Clone,
+            py::doc("Return a deep copy of the ciphertext."))
         .def("CloneEmpty", &CiphertextImpl<DCRTPoly>::CloneEmpty,
             py::doc(ctx_CloneEmpty_docs))
         .def("NumberCiphertextElements", &CiphertextImpl<DCRTPoly>::NumberCiphertextElements,
@@ -1836,8 +1904,10 @@ void bind_ciphertext(py::module &m) {
             py::doc(ctx_GetHopLevel_docs))
         .def("SetHopLevel", &CiphertextImpl<DCRTPoly>::SetHopLevel, py::arg("hopLevel"),
             py::doc(ctx_SetHopLevel_docs))
-        .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor)
-        .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor, py::arg("sf"))
+        .def("GetScalingFactor", &CiphertextImpl<DCRTPoly>::GetScalingFactor,
+            py::doc("Get the CKKS scaling factor of the ciphertext."))
+        .def("SetScalingFactor", &CiphertextImpl<DCRTPoly>::SetScalingFactor, py::arg("sf"),
+            py::doc("Set the CKKS scaling factor of the ciphertext."))
         .def("GetScalingFactorInt", [](const CiphertextImpl<DCRTPoly>& self) {
                 return openfhe_python::IntegerToPyInt(self.GetScalingFactorInt());
             },
@@ -1846,13 +1916,20 @@ void bind_ciphertext(py::module &m) {
                 self.SetScalingFactorInt(openfhe_python::PyIntToInteger<NativeInteger>(sf));
             }, py::arg("sf"),
             py::doc(ctx_SetScalingFactorInt_docs))
-        .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots)
-        .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots, py::arg("slots"))
-        .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg)
-        .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg, py::arg("noiseScaleDeg"))
-        .def("GetCryptoContext", &CiphertextImpl<DCRTPoly>::GetCryptoContext)
-        .def("GetKeyTag", &CiphertextImpl<DCRTPoly>::GetKeyTag)
-        .def("GetEncodingType", &CiphertextImpl<DCRTPoly>::GetEncodingType)
+        .def("GetSlots", &CiphertextImpl<DCRTPoly>::GetSlots,
+            py::doc("Get the number of packed slots."))
+        .def("SetSlots", &CiphertextImpl<DCRTPoly>::SetSlots, py::arg("slots"),
+            py::doc("Set the number of packed slots."))
+        .def("GetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::GetNoiseScaleDeg,
+            py::doc("Get the degree of the scaling factor for the encrypted message."))
+        .def("SetNoiseScaleDeg", &CiphertextImpl<DCRTPoly>::SetNoiseScaleDeg, py::arg("noiseScaleDeg"),
+            py::doc("Set the degree of the scaling factor for the encrypted message."))
+        .def("GetCryptoContext", &CiphertextImpl<DCRTPoly>::GetCryptoContext,
+            py::doc("Get the CryptoContext this ciphertext belongs to."))
+        .def("GetKeyTag", &CiphertextImpl<DCRTPoly>::GetKeyTag,
+            py::doc("Get the tag of the key the ciphertext was encrypted with."))
+        .def("GetEncodingType", &CiphertextImpl<DCRTPoly>::GetEncodingType,
+            py::doc("Get the plaintext encoding type the ciphertext carries."))
         .def("SetEncodingType", &CiphertextImpl<DCRTPoly>::SetEncodingType, py::arg("encodingType"),
             py::doc(ctx_SetEncodingType_docs))
         .def("SetKeyTag", &CiphertextImpl<DCRTPoly>::SetKeyTag, py::arg("keyTag"),
@@ -1860,62 +1937,115 @@ void bind_ciphertext(py::module &m) {
         .def("GetElements", [](const CiphertextImpl<DCRTPoly>& self) -> const std::vector<DCRTPoly>& {
                 return self.GetElements();
             },
-            py::return_value_policy::reference_internal)
+            py::return_value_policy::reference_internal,
+            py::doc("Return a copy of the ciphertext's ring elements."))
         .def("GetElementsMutable", [](CiphertextImpl<DCRTPoly>& self) -> std::vector<DCRTPoly>& {
                 return self.GetElements();
             },
-            py::return_value_policy::reference_internal)
+            py::return_value_policy::reference_internal,
+            py::doc("Return a mutable Python list copied from the ciphertext's ring elements; "
+                    "call SetElements to apply changes."))
         .def("SetElements", [](CiphertextImpl<DCRTPoly>& self, const std::vector<DCRTPoly>& elems) {
                 self.SetElements(elems);
             },
-            py::arg("elements"))
+            py::arg("elements"),
+            py::doc("Replace the ciphertext's ring elements with the given elements."))
         .def("SetElementsMove", [](CiphertextImpl<DCRTPoly>& self, std::vector<DCRTPoly>&& elems) {
                 self.SetElements(std::move(elems));
             },
-            py::arg("elements"));
+            py::arg("elements"),
+            py::doc("Replace the ciphertext's ring elements; the C++ vector converted from the "
+                    "given list is moved into the ciphertext, the Python list is not consumed."));
 }
 
 void bind_sch_swch_params(py::module &m) {
-    py::class_<SchSwchParams>(m, "SchSwchParams")
+    py::class_<SchSwchParams>(m, "SchSwchParams",
+        "Parameters for switching between CKKS and FHEW/TFHE.\n\n"
+        "The getters raise an exception until the object has been populated from a CKKS\n"
+        "cryptocontext (see CryptoContext.SetParamsFromCKKSCryptocontext). The initial CKKS\n"
+        "modulus, ring dimension, scaling modulus size and batch size are filled in\n"
+        "internally during that call and are not intended to be set by users.")
         .def(py::init<>())
-        .def("GetSecurityLevelCKKS", &SchSwchParams::GetSecurityLevelCKKS)
-        .def("GetSecurityLevelFHEW", &SchSwchParams::GetSecurityLevelFHEW)
-        .def("GetArbitraryFunctionEvaluation", &SchSwchParams::GetArbitraryFunctionEvaluation)
-        .def("GetUseDynamicModeFHEW", &SchSwchParams::GetUseDynamicModeFHEW)
-        .def("GetComputeArgmin", &SchSwchParams::GetComputeArgmin)
-        .def("GetOneHotEncoding", &SchSwchParams::GetOneHotEncoding)
-        .def("GetUseAltArgmin", &SchSwchParams::GetUseAltArgmin)
-        .def("GetNumSlotsCKKS", &SchSwchParams::GetNumSlotsCKKS)
-        .def("GetNumValues", &SchSwchParams::GetNumValues)
-        .def("GetCtxtModSizeFHEWLargePrec", &SchSwchParams::GetCtxtModSizeFHEWLargePrec)
-        .def("GetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::GetCtxtModSizeFHEWIntermedSwch)
-        .def("GetBStepLTrCKKStoFHEW", &SchSwchParams::GetBStepLTrCKKStoFHEW)
-        .def("GetBStepLTrFHEWtoCKKS", &SchSwchParams::GetBStepLTrFHEWtoCKKS)
-        .def("GetLevelLTrCKKStoFHEW", &SchSwchParams::GetLevelLTrCKKStoFHEW)
-        .def("GetLevelLTrFHEWtoCKKS", &SchSwchParams::GetLevelLTrFHEWtoCKKS)
-        .def("GetInitialCKKSModulus", &SchSwchParams::GetInitialCKKSModulus)
-        .def("GetRingDimension", &SchSwchParams::GetRingDimension)
-        .def("GetScalingModSize", &SchSwchParams::GetScalingModSize)
-        .def("GetBatchSize", &SchSwchParams::GetBatchSize)
-        .def("SetSecurityLevelCKKS", &SchSwchParams::SetSecurityLevelCKKS, py::arg("securityLevelCKKS"))
-        .def("SetSecurityLevelFHEW", &SchSwchParams::SetSecurityLevelFHEW, py::arg("securityLevelFHEW"))
-        .def("SetArbitraryFunctionEvaluation", &SchSwchParams::SetArbitraryFunctionEvaluation, py::arg("arbitraryFunctionEvaluation"))
-        .def("SetUseDynamicModeFHEW", &SchSwchParams::SetUseDynamicModeFHEW, py::arg("useDynamicModeFHEW"))
-        .def("SetComputeArgmin", &SchSwchParams::SetComputeArgmin, py::arg("computeArgmin"))
-        .def("SetOneHotEncoding", &SchSwchParams::SetOneHotEncoding, py::arg("oneHotEncoding"))
-        .def("SetUseAltArgmin", &SchSwchParams::SetUseAltArgmin, py::arg("useAltArgmin"))
-        .def("SetNumSlotsCKKS", &SchSwchParams::SetNumSlotsCKKS, py::arg("numSlotsCKKS"))
-        .def("SetNumValues", &SchSwchParams::SetNumValues, py::arg("numValues"))
-        .def("SetCtxtModSizeFHEWLargePrec", &SchSwchParams::SetCtxtModSizeFHEWLargePrec, py::arg("ctxtModSizeFHEWLargePrec"))
-        .def("SetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::SetCtxtModSizeFHEWIntermedSwch, py::arg("ctxtModSizeFHEWIntermedSwch"))
-        .def("SetBStepLTrCKKStoFHEW", &SchSwchParams::SetBStepLTrCKKStoFHEW, py::arg("bStepLTrCKKStoFHEW"))
-        .def("SetBStepLTrFHEWtoCKKS", &SchSwchParams::SetBStepLTrFHEWtoCKKS, py::arg("bStepLTrFHEWtoCKKS"))
-        .def("SetLevelLTrCKKStoFHEW", &SchSwchParams::SetLevelLTrCKKStoFHEW, py::arg("levelLTrCKKStoFHEW"))
-        .def("SetLevelLTrFHEWtoCKKS", &SchSwchParams::SetLevelLTrFHEWtoCKKS, py::arg("levelLTrFHEWtoCKKS"))
-        .def("SetInitialCKKSModulus", &SchSwchParams::SetInitialCKKSModulus, py::arg("initialCKKSModulus"))
-        .def("SetRingDimension", &SchSwchParams::SetRingDimension, py::arg("ringDimension"))
-        .def("SetScalingModSize", &SchSwchParams::SetScalingModSize, py::arg("scalingModSize"))
-        .def("SetBatchSize", &SchSwchParams::SetBatchSize, py::arg("batchSize"))
+        .def("GetSecurityLevelCKKS", &SchSwchParams::GetSecurityLevelCKKS,
+            py::doc("Get the security level of the CKKS cryptocontext."))
+        .def("GetSecurityLevelFHEW", &SchSwchParams::GetSecurityLevelFHEW,
+            py::doc("Get the security level of the FHEW cryptocontext."))
+        .def("GetArbitraryFunctionEvaluation", &SchSwchParams::GetArbitraryFunctionEvaluation,
+            py::doc("Get whether arbitrary function evaluation is needed in FHEW."))
+        .def("GetUseDynamicModeFHEW", &SchSwchParams::GetUseDynamicModeFHEW,
+            py::doc("Get whether the dynamic mode is used in FHEW."))
+        .def("GetComputeArgmin", &SchSwchParams::GetComputeArgmin,
+            py::doc("Get whether argmin is computed."))
+        .def("GetOneHotEncoding", &SchSwchParams::GetOneHotEncoding,
+            py::doc("Get whether the argmin result is one-hot encoded."))
+        .def("GetUseAltArgmin", &SchSwchParams::GetUseAltArgmin,
+            py::doc("Get whether the alternative argmin method is used."))
+        .def("GetNumSlotsCKKS", &SchSwchParams::GetNumSlotsCKKS,
+            py::doc("Get the number of CKKS slots to switch."))
+        .def("GetNumValues", &SchSwchParams::GetNumValues,
+            py::doc("Get the number of values used in argmin computations."))
+        .def("GetCtxtModSizeFHEWLargePrec", &SchSwchParams::GetCtxtModSizeFHEWLargePrec,
+            py::doc("Get the FHEW ciphertext modulus size for large-precision evaluation."))
+        .def("GetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::GetCtxtModSizeFHEWIntermedSwch,
+            py::doc("Get the FHEW ciphertext modulus size for the intermediate switching."))
+        .def("GetBStepLTrCKKStoFHEW", &SchSwchParams::GetBStepLTrCKKStoFHEW,
+            py::doc("Get the baby step of the CKKS-to-FHEW linear transform."))
+        .def("GetBStepLTrFHEWtoCKKS", &SchSwchParams::GetBStepLTrFHEWtoCKKS,
+            py::doc("Get the baby step of the FHEW-to-CKKS linear transform."))
+        .def("GetLevelLTrCKKStoFHEW", &SchSwchParams::GetLevelLTrCKKStoFHEW,
+            py::doc("Get the level of the CKKS-to-FHEW linear transform."))
+        .def("GetLevelLTrFHEWtoCKKS", &SchSwchParams::GetLevelLTrFHEWtoCKKS,
+            py::doc("Get the level of the FHEW-to-CKKS linear transform."))
+        .def("GetInitialCKKSModulus", &SchSwchParams::GetInitialCKKSModulus,
+            py::doc("Get the initial CKKS modulus (the value itself, not its bit size)."))
+        .def("GetRingDimension", &SchSwchParams::GetRingDimension,
+            py::doc("Get the CKKS ring dimension."))
+        .def("GetScalingModSize", &SchSwchParams::GetScalingModSize,
+            py::doc("Get the CKKS scaling modulus size."))
+        .def("GetBatchSize", &SchSwchParams::GetBatchSize,
+            py::doc("Get the CKKS batch size."))
+        .def("SetSecurityLevelCKKS", &SchSwchParams::SetSecurityLevelCKKS, py::arg("securityLevelCKKS"),
+            py::doc("Set the security level of the CKKS cryptocontext."))
+        .def("SetSecurityLevelFHEW", &SchSwchParams::SetSecurityLevelFHEW, py::arg("securityLevelFHEW"),
+            py::doc("Set the security level of the FHEW cryptocontext."))
+        .def("SetArbitraryFunctionEvaluation", &SchSwchParams::SetArbitraryFunctionEvaluation, py::arg("arbitraryFunctionEvaluation"),
+            py::doc("Set whether arbitrary function evaluation is needed in FHEW."))
+        .def("SetUseDynamicModeFHEW", &SchSwchParams::SetUseDynamicModeFHEW, py::arg("useDynamicModeFHEW"),
+            py::doc("Set whether the dynamic mode is used in FHEW."))
+        .def("SetComputeArgmin", &SchSwchParams::SetComputeArgmin, py::arg("computeArgmin"),
+            py::doc("Set whether argmin is computed."))
+        .def("SetOneHotEncoding", &SchSwchParams::SetOneHotEncoding, py::arg("oneHotEncoding"),
+            py::doc("Set whether the argmin result is one-hot encoded."))
+        .def("SetUseAltArgmin", &SchSwchParams::SetUseAltArgmin, py::arg("useAltArgmin"),
+            py::doc("Set whether the alternative argmin method is used."))
+        .def("SetNumSlotsCKKS", &SchSwchParams::SetNumSlotsCKKS, py::arg("numSlotsCKKS"),
+            py::doc("Set the number of CKKS slots to switch."))
+        .def("SetNumValues", &SchSwchParams::SetNumValues, py::arg("numValues"),
+            py::doc("Set the number of values used in argmin computations."))
+        .def("SetCtxtModSizeFHEWLargePrec", &SchSwchParams::SetCtxtModSizeFHEWLargePrec, py::arg("ctxtModSizeFHEWLargePrec"),
+            py::doc("Set the FHEW ciphertext modulus size for large-precision evaluation."))
+        .def("SetCtxtModSizeFHEWIntermedSwch", &SchSwchParams::SetCtxtModSizeFHEWIntermedSwch, py::arg("ctxtModSizeFHEWIntermedSwch"),
+            py::doc("Set the FHEW ciphertext modulus size for the intermediate switching."))
+        .def("SetBStepLTrCKKStoFHEW", &SchSwchParams::SetBStepLTrCKKStoFHEW, py::arg("bStepLTrCKKStoFHEW"),
+            py::doc("Set the baby step of the CKKS-to-FHEW linear transform."))
+        .def("SetBStepLTrFHEWtoCKKS", &SchSwchParams::SetBStepLTrFHEWtoCKKS, py::arg("bStepLTrFHEWtoCKKS"),
+            py::doc("Set the baby step of the FHEW-to-CKKS linear transform."))
+        .def("SetLevelLTrCKKStoFHEW", &SchSwchParams::SetLevelLTrCKKStoFHEW, py::arg("levelLTrCKKStoFHEW"),
+            py::doc("Set the level of the CKKS-to-FHEW linear transform."))
+        .def("SetLevelLTrFHEWtoCKKS", &SchSwchParams::SetLevelLTrFHEWtoCKKS, py::arg("levelLTrFHEWtoCKKS"),
+            py::doc("Set the level of the FHEW-to-CKKS linear transform."))
+        .def("SetInitialCKKSModulus", &SchSwchParams::SetInitialCKKSModulus, py::arg("initialCKKSModulus"),
+            py::doc("Set the initial CKKS modulus (populated internally from the CKKS cryptocontext; "
+                    "not intended for user configuration)."))
+        .def("SetRingDimension", &SchSwchParams::SetRingDimension, py::arg("ringDimension"),
+            py::doc("Set the CKKS ring dimension (populated internally from the CKKS cryptocontext; "
+                    "not intended for user configuration)."))
+        .def("SetScalingModSize", &SchSwchParams::SetScalingModSize, py::arg("scalingModSize"),
+            py::doc("Set the CKKS scaling modulus size (populated internally from the CKKS cryptocontext; "
+                    "not intended for user configuration)."))
+        .def("SetBatchSize", &SchSwchParams::SetBatchSize, py::arg("batchSize"),
+            py::doc("Set the CKKS batch size (populated internally from the CKKS cryptocontext; "
+                    "not intended for user configuration)."))
         .def("SetParamsFromCKKSCryptocontextCalled", &SchSwchParams::SetParamsFromCKKSCryptocontextCalled,
             py::doc(schswchparams_SetParamsFromCKKSCryptocontextCalled_docs))
         .def("__str__", [](const SchSwchParams &params) {
