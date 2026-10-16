@@ -47,6 +47,23 @@ def test_generate_lut_via_function_recovers_from_callback_errors():
     assert lut, "LUT generation must still work after a failed callback"
 
 
+def test_generate_lut_via_function_supports_nested_calls():
+    """The callback slot is saved and restored by a guard, so a callback may
+    itself generate a LUT without corrupting the outer generation."""
+    cc = fhe.BinFHEContext()
+    cc.GenerateBinFHEContext(fhe.TOY, False, 12)
+    p = 8
+    nested = {}
+
+    def outer(m, q):
+        if not nested:
+            nested["lut"] = cc.GenerateLUTviaFunction(lambda mi, qi: (mi + 1) % qi, p)
+        return (m * 3) % q
+
+    assert cc.GenerateLUTviaFunction(outer, p) == cc.GenerateLUTviaFunction(lambda m, q: (m * 3) % q, p)
+    assert nested["lut"] == cc.GenerateLUTviaFunction(lambda m, q: (m + 1) % q, p)
+
+
 def test_new_binfhe_bindings_round_trip():
     cc = fhe.BinFHEContext()
     cc.GenerateBinFHEContext(fhe.TOY, fhe.GINX)
@@ -117,12 +134,12 @@ def test_deserialized_private_keys_are_unaffected(tmp_path):
     assert cc.Decrypt(restored, ciphertext) == 1
 
 
-def test_failed_deserialization_yields_a_null_key():
+def test_failed_deserialization_yields_a_null_key(tmp_path):
     """A null key is caught by the C++ guard, unlike an empty-but-non-null one."""
     cc = fhe.BinFHEContext()
     cc.GenerateBinFHEContext(fhe.TOY, fhe.GINX)
 
-    key, ok = fhe.DeserializeLWEPrivateKey("/nonexistent-directory-for-openfhe-tests/sk", fhe.BINARY)
+    key, ok = fhe.DeserializeLWEPrivateKey(str(tmp_path / "missing-parent" / "sk"), fhe.BINARY)
     assert ok is False and key is None
     with pytest.raises(RuntimeError):
         cc.PubKeyGen(key)

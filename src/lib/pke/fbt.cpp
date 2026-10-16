@@ -284,6 +284,9 @@ void bind_fbt(py::module &m) {
         .def_static("ConvertRLWEToCKKS",
             [](const CryptoContext<DCRTPoly>& cc, const std::vector<Poly>& coeffs, const PublicKey<DCRTPoly>& pubKey,
                const py::int_& Bigq, uint32_t slots, uint32_t level) {
+                // cc is dereferenced below, so a None argument would segfault without this check
+                if (!cc)
+                    OPENFHE_THROW("cc is nullptr");
                 return SchemeletRLWEMP::ConvertRLWEToCKKS(
                     *cc, coeffs, pubKey, openfhe_python::PyIntToInteger<BigInteger>(Bigq), slots, level);
             },
@@ -303,7 +306,18 @@ void bind_fbt(py::module &m) {
 
     // Serializer/deserializer for all the data needed by CKKS <-> FHEW scheme switching
     py::class_<SchemeSwitchingDataSerializer>(m, "SchemeSwitchingDataSerializer")
-        .def(py::init<CryptoContext<DCRTPoly>, PublicKey<DCRTPoly>, Ciphertext<DCRTPoly>>(),
+        // the C++ constructor dereferences cryptoContext in its initializer list,
+        // so None arguments must be rejected here to avoid a segfault
+        .def(py::init([](const CryptoContext<DCRTPoly>& cryptoContext, const PublicKey<DCRTPoly>& publicKey,
+                         const Ciphertext<DCRTPoly>& RAWCiphertext) {
+                 if (!cryptoContext)
+                     OPENFHE_THROW("cryptoContext is nullptr");
+                 if (!publicKey)
+                     OPENFHE_THROW("publicKey is nullptr");
+                 if (!RAWCiphertext)
+                     OPENFHE_THROW("RAWCiphertext is nullptr");
+                 return SchemeSwitchingDataSerializer(cryptoContext, publicKey, RAWCiphertext);
+             }),
              py::arg("cryptoContext"), py::arg("publicKey"), py::arg("RAWCiphertext"))
         .def("SetDataDirectory", &SchemeSwitchingDataSerializer::SetDataDirectory, py::arg("dir"))
         .def("Serialize", &SchemeSwitchingDataSerializer::Serialize);

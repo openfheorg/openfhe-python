@@ -222,29 +222,65 @@ def test_eval_sum_key_serialization_round_trip(ckks_context, sertype, tmp_path):
     assert fhe.CryptoContext.SerializeEvalSumKey(by_tag, sertype, key_tag)
     assert fhe.CryptoContext.SerializeEvalSumKey(by_context, sertype, cc)
 
+    # clear the global key map first, otherwise the round trip cannot fail
+    fhe.ClearEvalSumKeys()
+    assert key_tag not in fhe.CryptoContext.GetAllEvalSumKeys()
+
     assert fhe.CryptoContext.DeserializeEvalSumKey(by_tag, sertype)
+    assert key_tag in fhe.CryptoContext.GetAllEvalSumKeys()
+
+    fhe.ClearEvalSumKeys()
     assert fhe.CryptoContext.DeserializeEvalSumKey(by_context, sertype)
     assert key_tag in fhe.CryptoContext.GetAllEvalSumKeys()
 
 
+@pytest.fixture
+def unusable_path(tmp_path):
+    """A path whose parent directory does not exist, so no stream can open it."""
+    return str(tmp_path / "missing-parent" / "keys")
+
+
 @pytest.mark.parametrize("sertype", [fhe.BINARY, fhe.JSON], ids=["binary", "json"])
-def test_eval_sum_key_serialization_reports_unusable_paths(ckks_context, sertype):
+def test_eval_sum_key_serialization_reports_unusable_paths(ckks_context, sertype, unusable_path):
     """An unopenable file returns False instead of surfacing a cereal stream error."""
     cc, keys = ckks_context
-    unusable = "/nonexistent-directory-for-openfhe-tests/keys"
 
-    assert fhe.CryptoContext.SerializeEvalSumKey(unusable, sertype, keys.secretKey.GetKeyTag()) is False
-    assert fhe.CryptoContext.SerializeEvalSumKey(unusable, sertype, cc) is False
-    assert fhe.CryptoContext.DeserializeEvalSumKey(unusable, sertype) is False
+    assert fhe.CryptoContext.SerializeEvalSumKey(unusable_path, sertype, keys.secretKey.GetKeyTag()) is False
+    assert fhe.CryptoContext.SerializeEvalSumKey(unusable_path, sertype, cc) is False
+    assert fhe.CryptoContext.DeserializeEvalSumKey(unusable_path, sertype) is False
 
 
 @pytest.mark.parametrize("sertype", [fhe.BINARY, fhe.JSON], ids=["binary", "json"])
-def test_mult_and_automorphism_key_deserialization_reports_unusable_paths(sertype):
+def test_mult_and_automorphism_key_deserialization_reports_unusable_paths(sertype, unusable_path):
     """An unopenable file returns False instead of deserializing from a closed stream."""
-    unusable = "/nonexistent-directory-for-openfhe-tests/keys"
+    assert fhe.CryptoContext.DeserializeEvalMultKey(unusable_path, sertype) is False
+    assert fhe.CryptoContext.DeserializeEvalAutomorphismKey(unusable_path, sertype) is False
 
-    assert fhe.CryptoContext.DeserializeEvalMultKey(unusable, sertype) is False
-    assert fhe.CryptoContext.DeserializeEvalAutomorphismKey(unusable, sertype) is False
+
+@pytest.mark.parametrize("sertype", [fhe.BINARY, fhe.JSON], ids=["binary", "json"])
+def test_key_serialization_reports_unwritable_paths(ckks_context, sertype, unusable_path):
+    """An unwritable file returns False instead of reporting a successful no-op write."""
+    cc, keys = ckks_context
+    key_tag = keys.secretKey.GetKeyTag()
+
+    assert fhe.CryptoContext.SerializeEvalMultKey(unusable_path, sertype, key_tag) is False
+    assert fhe.CryptoContext.SerializeEvalAutomorphismKey(unusable_path, sertype, key_tag) is False
+    assert fhe.SerializeEvalBootstrapKey(unusable_path, sertype, cc, key_tag, 8) is False
+
+
+def test_null_context_arguments_raise_instead_of_crashing(ckks_context):
+    """A None CryptoContext used to be dereferenced in C++ and segfault."""
+    cc, keys = ckks_context
+    ciphertext = cc.Encrypt(keys.publicKey, cc.MakeCKKSPackedPlaintext([0.5]))
+
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.ConvertRLWEToCKKS(None, fhe.PolyVector(), keys.publicKey, 1, 1, 0)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeSwitchingDataSerializer(None, keys.publicKey, ciphertext)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeSwitchingDataSerializer(cc, None, ciphertext)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeSwitchingDataSerializer(cc, keys.publicKey, None)
 
 
 def test_integer_conversions_reject_invalid_python_ints(ckks_context):

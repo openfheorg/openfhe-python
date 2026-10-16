@@ -102,18 +102,23 @@ def test_run_scripts(raw_modulename):
     run_example(EXAMPLES_SCRIPTS_PATH, raw_modulename, require_main=True)
 
 
-# The functional bootstrapping examples take too long for the regular CI runs
-# (FE-functional-bootstrapping-ckks uses ring dimension 2^16 with 2^15 slots),
-# so they are run only when RUN_SLOW_EXAMPLES is set in the environment.
-@pytest.mark.skipif(
-    not os.environ.get("RUN_SLOW_EXAMPLES"),
-    reason="set RUN_SLOW_EXAMPLES=1 to run the slow functional bootstrapping examples",
-)
+# The functional bootstrapping examples take too long for the regular CI runs,
+# so functional-bootstrapping-ckks uses the regular `long` marker (--run-long or
+# --run-all). FE-functional-bootstrapping-ckks additionally needs more than 16 GB
+# of RAM (ring dimension 2^16 with 2^15 slots) and gets OOM-killed on smaller
+# hosts, so it stays behind an explicit environment variable instead of a marker:
+# --run-all must not take down the machine.
 @pytest.mark.parametrize(
     "raw_modulename",
     [
-        "functional-bootstrapping-ckks.py",
-        "FE-functional-bootstrapping-ckks.py",
+        pytest.param("functional-bootstrapping-ckks.py", marks=pytest.mark.long),
+        pytest.param(
+            "FE-functional-bootstrapping-ckks.py",
+            marks=pytest.mark.skipif(
+                not os.environ.get("RUN_HIGH_MEMORY_EXAMPLES"),
+                reason="needs more than 16 GB of RAM; set RUN_HIGH_MEMORY_EXAMPLES=1 to run",
+            ),
+        ),
     ],
 )
 def test_run_slow_scripts(raw_modulename):
@@ -155,7 +160,8 @@ def test_run_binfhe_scripts(raw_modulename):
 def _parametrized_example_names(test_function):
     for mark in test_function.pytestmark:
         if mark.name == "parametrize" and mark.args[0] == "raw_modulename":
-            return set(mark.args[1])
+            # entries are either plain strings or pytest.param(...) wrappers
+            return {p.values[0] if hasattr(p, "values") else p for p in mark.args[1]}
     raise AssertionError(f"{test_function.__name__} has no raw_modulename parametrization")
 
 
