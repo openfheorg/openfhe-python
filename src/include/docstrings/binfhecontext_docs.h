@@ -97,6 +97,34 @@ const char* binfhe_Encrypt_docs = R"pbdoc(
     :rtype: LWECiphertext
 )pbdoc";
 
+// Encrypt with a public key
+const char* binfhe_EncryptPubKey_docs = R"pbdoc(
+    Encrypts a bit or integer using a public key (public key encryption).
+
+    :param pk: The public key.
+    :type pk: LWEPublicKey
+    :param m: The plaintext.
+    :type m: int
+    :param output: SMALL_DIM to key switch the fresh ciphertext to the secret-key dimension (default), LARGE_DIM to keep the public-key dimension.
+    :type output: BINFHE_OUTPUT
+    :param p: Plaintext modulus (default 4).
+    :type p: int
+    :param mod: Encrypt according to mod instead of m_q if mod != 0.
+    :type mod: int
+    :return: The ciphertext.
+    :rtype: LWECiphertext
+)pbdoc";
+
+// GetSwitchKey
+const char* binfhe_GetSwitchKey_docs = R"pbdoc(
+    Get the 64-bit key switching key.
+
+    With the default BTKeyGen(internal32=True) the keys are kept in their 32-bit
+    internal form and this returns None; use HasInternal32SwitchKey() to check for
+    them and GetBTKey() to access the generated keys. Run BTKeyGen(sk, internal32=False)
+    to populate the 64-bit key.
+)pbdoc";
+
 // Decrypt
 const char* binfhe_Decrypt_docs = R"pbdoc(
     Decrypts a ciphertext using a secret key.
@@ -260,7 +288,7 @@ const char* binfhe_LWEPrivateKeyGetModulus_docs = R"pbdoc(
 const char* binfhe_LWEPublicKeyGetModulus_docs = R"pbdoc(
     Get the modulus of the public key.
 
-    :return: the ciphertext modulus q (the modulus of the vector "a")
+    :return: the large ciphertext modulus Q (public keys are generated for the ring dimension N)
     :rtype: int
 )pbdoc";
 

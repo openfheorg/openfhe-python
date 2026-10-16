@@ -247,6 +247,23 @@ def test_mult_and_automorphism_key_deserialization_reports_unusable_paths(sertyp
     assert fhe.CryptoContext.DeserializeEvalAutomorphismKey(unusable, sertype) is False
 
 
+def test_integer_conversions_reject_invalid_python_ints(ckks_context):
+    """Arbitrary-size int conversion must reject what OpenFHE cannot represent:
+    negatives hang the OpenFHE string parser, oversized values silently wrap."""
+    cc, _ = ckks_context
+    plaintext = cc.MakeCKKSPackedPlaintext([0.5])
+
+    with pytest.raises(ValueError):
+        fhe.PolyVector().SwitchModulus(-1)
+    with pytest.raises(OverflowError):
+        plaintext.SetScalingFactorInt(3 * 10**19)
+    with pytest.raises(TypeError):
+        plaintext.SetScalingFactorInt(True)
+
+    plaintext.SetScalingFactorInt(2**50)
+    assert plaintext.GetScalingFactorInt() == 2**50
+
+
 def test_enum_members_are_exported_at_module_level():
     """Every pybind11 enum member must also be addressable as fhe.<MEMBER> (export_values)."""
     enum_types = [obj for obj in vars(fhe).values()

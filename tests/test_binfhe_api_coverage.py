@@ -23,6 +23,13 @@ def test_spreadsheet_add_apis_are_exposed():
     assert not {cls: names for cls, names in missing.items() if names}
 
 
+def test_lwe_public_key_cannot_be_default_constructed():
+    """An empty-but-non-null public key passes the C++ null check and Encrypt()
+    silently returns a length-0 ciphertext, so the default constructor is not exposed."""
+    with pytest.raises(TypeError):
+        fhe.LWEPublicKey()
+
+
 def test_generate_lut_via_function_recovers_from_callback_errors():
     """The LUT callback is routed through thread-local state; a raising callback
     must propagate its exception and leave the wrapper usable afterwards."""

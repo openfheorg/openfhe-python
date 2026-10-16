@@ -128,8 +128,9 @@ void bind_binfhe_keys(py::module &m) {
           .def(py::self == py::self)
           .def(py::self != py::self);
 
+     // No default constructor for the same reason as LWEPrivateKey: an empty-but-non-null
+     // public key passes the null check and Encrypt() silently produces a length-0 ciphertext.
      py::class_<LWEPublicKeyImpl, std::shared_ptr<LWEPublicKeyImpl>>(m, "LWEPublicKey")
-          .def(py::init<>())
           .def("GetLength", &LWEPublicKeyImpl::GetLength)
           .def("GetModulus",
                [](const LWEPublicKeyImpl& self) {
@@ -239,7 +240,7 @@ void bind_binfhe_context(py::module &m) {
                py::arg("output") = SMALL_DIM,
                py::arg("p") = 4,
                py::arg("mod") = 0,
-               py::doc(binfhe_Encrypt_docs))
+               py::doc(binfhe_EncryptPubKey_docs))
           .def("Decrypt",
                [](BinFHEContext& self, ConstLWEPrivateKey sk, ConstLWECiphertext ct, LWEPlaintextModulus p) {
                     LWEPlaintext result;
@@ -324,7 +325,8 @@ void bind_binfhe_context(py::module &m) {
           // GetParams are not bound: their argument/return types are not exposed to Python, so
           // the bindings could never be called successfully
           .def("GetPublicKey", &BinFHEContext::GetPublicKey)
-          .def("GetSwitchKey", &BinFHEContext::GetSwitchKey)
+          .def("GetSwitchKey", &BinFHEContext::GetSwitchKey,
+              py::doc(binfhe_GetSwitchKey_docs))
           .def("GetN",
                [](BinFHEContext& self) {
                     return self.GetParams()->GetLWEParams()->GetN();

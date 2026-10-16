@@ -50,6 +50,10 @@ template <typename ST>
 bool SerializeEvalBootstrapKeyWrapper(const std::string& filename, const ST& sertype, const CryptoContextDCRT& cc,
                                       const std::string& keyTag, uint32_t slots) {
     std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+    if (!outfile.is_open()) {
+        std::cerr << "I cannot write serialization to " << filename << std::endl;
+        return false;
+    }
     bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalBootstrapKey(outfile, sertype, cc, keyTag, slots);
     outfile.close();
     return res;

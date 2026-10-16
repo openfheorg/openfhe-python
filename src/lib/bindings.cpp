@@ -1315,6 +1315,10 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_SerializeEvalSumKeyByContext_docs))
         .def_static("SerializeEvalMultKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string keyTag = "") {
                 std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+                if (!outfile.is_open()) {
+                    std::cerr << "I cannot write serialization to " << filename << std::endl;
+                    return false;
+                }
                 bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERBINARY>(outfile, sertype, keyTag);
                 outfile.close();
                 return res;
@@ -1325,6 +1329,10 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_SerializeEvalMultKey_docs))
         .def_static("SerializeEvalMultKey", [](const std::string &filename, const SerType::SERJSON &sertype, std::string keyTag = "") {
                 std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+                if (!outfile.is_open()) {
+                    std::cerr << "I cannot write serialization to " << filename << std::endl;
+                    return false;
+                }
                 bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<SerType::SERJSON>(outfile, sertype, keyTag);
                 outfile.close();
                 return res;
@@ -1335,6 +1343,10 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_SerializeEvalMultKey_docs))
         .def_static("SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERBINARY &sertype, std::string keyTag = "") {
                 std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+                if (!outfile.is_open()) {
+                    std::cerr << "I cannot write serialization to " << filename << std::endl;
+                    return false;
+                }
                 bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<SerType::SERBINARY>(outfile, sertype, keyTag);
                 outfile.close();
                 return res;
@@ -1345,6 +1357,10 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_SerializeEvalAutomorphismKey_docs))
         .def_static("SerializeEvalAutomorphismKey", [](const std::string &filename, const SerType::SERJSON &sertype, std::string keyTag = "") {
                 std::ofstream outfile(filename, std::ios::out | std::ios::binary);
+                if (!outfile.is_open()) {
+                    std::cerr << "I cannot write serialization to " << filename << std::endl;
+                    return false;
+                }
                 bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<SerType::SERJSON>(outfile, sertype, keyTag);
                 outfile.close();
                 return res;

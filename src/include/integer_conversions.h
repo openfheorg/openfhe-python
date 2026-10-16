@@ -48,13 +48,29 @@ pybind11::int_ IntegerToPyInt(const Integer& value) {
 }
 
 // Convert an arbitrary-size Python integer through its decimal representation.
+// OpenFHE integers are unsigned: a negative input is rejected here because the
+// OpenFHE string parser hangs on a leading '-', and a value wider than the target
+// type is rejected because the constructor silently wraps it.
 template <typename Integer>
 Integer PyIntToInteger(const pybind11::int_& value) {
+    if (pybind11::isinstance<pybind11::bool_>(value))
+        throw pybind11::type_error("expected an int, got a bool");
+
     PyObject* result = PyObject_Str(value.ptr());
     if (result == nullptr)
         throw pybind11::error_already_set();
-    auto valueStr = pybind11::reinterpret_steal<pybind11::str>(result);
-    return Integer(valueStr.cast<std::string>());
+    auto valueStr = pybind11::reinterpret_steal<pybind11::str>(result).cast<std::string>();
+
+    if (!valueStr.empty() && valueStr[0] == '-')
+        throw pybind11::value_error("OpenFHE integers cannot be negative, got " + valueStr);
+
+    Integer converted(valueStr);
+    if (converted.ToString() != valueStr) {
+        PyErr_SetString(PyExc_OverflowError,
+                        ("value too large for the target OpenFHE integer type: " + valueStr).c_str());
+        throw pybind11::error_already_set();
+    }
+    return converted;
 }
 
 }  // namespace openfhe_python

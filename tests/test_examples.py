@@ -52,7 +52,8 @@ def run_example(scripts_path, raw_modulename, require_main):
             code = f"import {modulename}; getattr({modulename}, 'main', lambda: None)()"
         env = dict(os.environ)
         env["PYTHONPATH"] = td + os.pathsep + env.get("PYTHONPATH", "")
-        subprocess.run([sys.executable, "-c", code], cwd=td, env=env, check=True)
+        # timeout so a hung example fails the test instead of stalling CI indefinitely
+        subprocess.run([sys.executable, "-c", code], cwd=td, env=env, check=True, timeout=600)
 
 
 @pytest.mark.parametrize(
