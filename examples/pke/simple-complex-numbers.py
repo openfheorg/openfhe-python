@@ -146,10 +146,14 @@ def SimpleBootstrappingComplex():
     ringDim = 1 << 6
     parameters.SetRingDim(ringDim)
 
-    # In your C++ demo this depends on NATIVEINT. Here we pick the common 64-bit path.
-    rescaleTech = ScalingTechnique.FLEXIBLEAUTO
-    dcrtBits = 59
-    firstMod = 60
+    if get_native_int() == 128:
+        rescaleTech = ScalingTechnique.FIXEDAUTO
+        dcrtBits = 78
+        firstMod = 89
+    else:
+        rescaleTech = ScalingTechnique.FLEXIBLEAUTO
+        dcrtBits = 59
+        firstMod = 60
 
     parameters.SetScalingModSize(dcrtBits)
     parameters.SetScalingTechnique(rescaleTech)
@@ -162,7 +166,7 @@ def SimpleBootstrappingComplex():
 
     levelBudget = [2, 2]
     levelsAvailableAfterBootstrap = 10
-    depth = levelsAvailableAfterBootstrap + FHECKKSRNS.GetBootstrapDepth(levelBudget, secretKeyDist)
+    depth = levelsAvailableAfterBootstrap + CryptoContext.GetBootstrapDepth(levelBudget, secretKeyDist)
     parameters.SetMultiplicativeDepth(depth)
 
     cryptoContext = GenCryptoContext(parameters)
@@ -216,10 +220,14 @@ def SimpleBootstrappingStCFirstComplex():
     ringDim = 1 << 6
     parameters.SetRingDim(ringDim)
 
-    # Common 64-bit path
-    rescaleTech = ScalingTechnique.FLEXIBLEAUTO
-    dcrtBits = 59
-    firstMod = 60
+    if get_native_int() == 128:
+        rescaleTech = ScalingTechnique.FIXEDAUTO
+        dcrtBits = 78
+        firstMod = 89
+    else:
+        rescaleTech = ScalingTechnique.FLEXIBLEAUTO
+        dcrtBits = 59
+        firstMod = 60
 
     parameters.SetScalingModSize(dcrtBits)
     parameters.SetScalingTechnique(rescaleTech)
@@ -233,7 +241,7 @@ def SimpleBootstrappingStCFirstComplex():
     levelBudget = [2, 2]
 
     levelsAvailableAfterBootstrap = 10 + levelBudget[1]
-    depth = levelsAvailableAfterBootstrap + FHECKKSRNS.GetBootstrapDepth([levelBudget[0], 0], secretKeyDist)
+    depth = levelsAvailableAfterBootstrap + CryptoContext.GetBootstrapDepth([levelBudget[0], 0], secretKeyDist)
     parameters.SetMultiplicativeDepth(depth)
 
     cryptoContext = GenCryptoContext(parameters)

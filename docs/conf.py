@@ -20,13 +20,19 @@
 # -- Project information -----------------------------------------------------
 
 project = 'openfhe-python'
-copyright = '2023, Yuriy Polyakov, Ian Quah, Rener Oliveira, and Matthew Triplett.'
-author = 'Yuriy Polyakov, Ian Quah, Rener Oliveira, and Matthew Triplett.'
+copyright = '2023-2026, Yuriy Polyakov, Ian Quah, Rener Oliveira, Matthew Triplett, and Dmitriy Suponitskiy.'
+author = 'Yuriy Polyakov, Ian Quah, Rener Oliveira, Matthew Triplett, and Dmitriy Suponitskiy.'
 
+# The full version, including alpha/beta/rc tags. Taken from the built module
+# when it is importable; the fallback must match OPENFHE_PYTHON_VERSION in
+# CMakeLists.txt.
+try:
+    import openfhe
+    release = openfhe.__version__
+except Exception:
+    release = '1.6.1.0'
 # The short X.Y version
-version = ''
-# The full version, including alpha/beta/rc tags
-release = 'v1.5.1.0'
+version = '.'.join(release.split('.')[:2])
 
 
 # -- General configuration ---------------------------------------------------

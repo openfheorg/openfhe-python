@@ -72,6 +72,13 @@ def test_shift(n, final):
     assert shift(list(range(1, 9)), n) == final
 
 
+def test_make_coef_packed_plaintext_accepts_keywords(bgv_context):
+    """noiseScaleDeg was once bound with a trailing space, breaking keyword calls."""
+    _, crypto_context, _ = bgv_context
+    plaintext = crypto_context.MakeCoefPackedPlaintext([1, 2, 3], noiseScaleDeg=1, level=0)
+    assert plaintext.GetCoefPackedValue()[:3] == [1, 2, 3]
+
+
 def test_simple_integers(bgv_context):
     parameters, crypto_context, key_pair = bgv_context
     rng = random.Random(342342)

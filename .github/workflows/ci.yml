@@ -1,0 +1,40 @@
+# Automatic build-and-test. It reuses the same pipeline as the Manual workflow,
+# pinned to the supported OpenFHE version.
+#
+# The triggers below stay commented out until after the next release. Before
+# enabling them, note:
+# - push: safe to enable as-is (the downstream builder checks out
+#   ${{ github.ref_name }}, which exists in this repository for pushes).
+# - pull_request: NOT functional yet. For PR events github.ref_name is
+#   "<number>/merge", which the builder's fresh clone cannot check out, and fork
+#   branches do not exist in this repository. The reusable workflow must first be
+#   taught to fetch the PR merge/head SHA explicitly (or build the caller's
+#   checked-out workspace).
+# - runner policy: the pipeline runs on ${{ vars.RUNNER }}. If that is a
+#   self-hosted runner, do not run fork-PR code on it; also consider pinning the
+#   reusable workflow/action/packager references to commit SHAs instead of the
+#   mutable github-ci/main branches.
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
+  #     - dev
+  # pull_request:  # see the notes above before enabling
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    uses: ./.github/workflows/manual.yml
+    with:
+      compiler: 'CLANG-18'
+      native_backend: '64'
+      openfhe_development_branch: 'v1.6.1'

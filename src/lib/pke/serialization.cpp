@@ -28,8 +28,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //==================================================================================
-#include "serialization.h"
-
+#include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 // #include <pybind11/stl_bind.h> - not needed for now
 
@@ -38,6 +37,8 @@
 #include "ciphertext-ser.h"
 #include "cryptocontext-ser.h"
 #include "key/key-ser.h"
+
+#include "docstrings/serialization_docs.h"
 
 using namespace lbcrypto;
 using CryptoContextDCRT = CryptoContext<DCRTPoly>;
@@ -48,29 +49,38 @@ PYBIND11_MAKE_OPAQUE(std::map<uint32_t, EvalKey<DCRTPoly>>);
 
 
 template <typename ST>
-bool SerializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype, std::string keyTag) {
+bool SerializeEvalBootstrapKeyWrapper(const std::string& filename, const ST& sertype, const CryptoContextDCRT& cc,
+                                      const std::string& keyTag, uint32_t slots) {
     std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey<ST>(outfile, sertype, keyTag);
-    outfile.close();
-    return res;
-}
-
-template <typename ST>
-bool SerializeEvalAutomorphismKeyWrapper(const std::string& filename, const ST& sertype, std::string keyTag) {
-    std::ofstream outfile(filename, std::ios::out | std::ios::binary);
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey<ST>(outfile, sertype, keyTag);
-    outfile.close();
-    return res;
-}
-
-template <typename ST>
-bool DeserializeEvalMultKeyWrapper(const std::string& filename, const ST& sertype) {
-    std::ifstream emkeys(filename, std::ios::in | std::ios::binary);
-    if (!emkeys.is_open()) {
-        std::cerr << "I cannot read serialization from " << filename << std::endl;
+    if (!outfile.is_open()) {
+        std::cerr << "I cannot write serialization to " << filename << std::endl;
+        return false;
     }
-    bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<ST>(emkeys, sertype);
+    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalBootstrapKey(outfile, sertype, cc, keyTag, slots);
+    outfile.close();
     return res;
+}
+
+template <typename ST>
+bool DeserializeEvalBootstrapKeyWrapper(const std::string& filename, const ST& sertype, const CryptoContextDCRT& cc,
+                                        const std::string& keyTag, uint32_t slots) {
+    std::ifstream keyfile(filename, std::ios::in | std::ios::binary);
+    if (!keyfile.is_open()) {
+        std::cerr << "I cannot read serialization from " << filename << std::endl;
+        return false;
+    }
+    return CryptoContextImpl<DCRTPoly>::DeserializeEvalBootstrapKey(keyfile, sertype, cc, keyTag, slots);
+}
+
+template <typename ST>
+bool DeserializeEvalBootstrapKeyByIndexWrapper(const std::string& filename, const ST& sertype,
+                                               const std::string& keyTag, const std::vector<uint32_t>& indexList) {
+    std::ifstream keyfile(filename, std::ios::in | std::ios::binary);
+    if (!keyfile.is_open()) {
+        std::cerr << "I cannot read serialization from " << filename << std::endl;
+        return false;
+    }
+    return CryptoContextImpl<DCRTPoly>::DeserializeEvalBootstrapKey(keyfile, sertype, keyTag, indexList);
 }
 
 template <typename T, typename ST>
@@ -229,133 +239,211 @@ void DeserializeEvalAutomorphismKeyFromBytesWrapper(const py::bytes& bytes, cons
 }
 
 void bind_serialization(pybind11::module &m) {
+    // CKKS bootstrapping key (de)serialization
+    m.def("SerializeEvalBootstrapKey", &SerializeEvalBootstrapKeyWrapper<SerType::SERJSON>,
+          py::arg("filename"), py::arg("sertype"), py::arg("cc"), py::arg("keyTag"), py::arg("slots"),
+          py::doc(serial_SerializeEvalBootstrapKey_docs));
+    m.def("SerializeEvalBootstrapKey", &SerializeEvalBootstrapKeyWrapper<SerType::SERBINARY>,
+          py::arg("filename"), py::arg("sertype"), py::arg("cc"), py::arg("keyTag"), py::arg("slots"),
+          py::doc(serial_SerializeEvalBootstrapKey_docs));
+    m.def("DeserializeEvalBootstrapKey", &DeserializeEvalBootstrapKeyWrapper<SerType::SERJSON>,
+          py::arg("filename"), py::arg("sertype"), py::arg("cc"), py::arg("keyTag"), py::arg("slots"),
+          py::doc(serial_DeserializeEvalBootstrapKey_docs));
+    m.def("DeserializeEvalBootstrapKey", &DeserializeEvalBootstrapKeyWrapper<SerType::SERBINARY>,
+          py::arg("filename"), py::arg("sertype"), py::arg("cc"), py::arg("keyTag"), py::arg("slots"),
+          py::doc(serial_DeserializeEvalBootstrapKey_docs));
+    m.def("DeserializeEvalBootstrapKey", &DeserializeEvalBootstrapKeyByIndexWrapper<SerType::SERJSON>,
+          py::arg("filename"), py::arg("sertype"), py::arg("keyTag"), py::arg("indexList"),
+          py::doc(serial_DeserializeEvalBootstrapKeyIndex_docs));
+    m.def("DeserializeEvalBootstrapKey", &DeserializeEvalBootstrapKeyByIndexWrapper<SerType::SERBINARY>,
+          py::arg("filename"), py::arg("sertype"), py::arg("keyTag"), py::arg("indexList"),
+          py::doc(serial_DeserializeEvalBootstrapKeyIndex_docs));
+
     // Json Serialization
     m.def("SerializeToFile", static_cast<bool (*)(const std::string &, const CryptoContextDCRT &, const SerType::SERJSON &)>(&Serial::SerializeToFile<CryptoContextDCRT>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializeCryptoContext", static_cast<std::tuple<CryptoContextDCRT, bool> (*)(const std::string &, const SerType::SERJSON &)>(&DeserializeCCWrapper<SerType::SERJSON>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializeCryptoContext_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string &, const PublicKey<DCRTPoly> &, const SerType::SERJSON &)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializePublicKey", static_cast<std::tuple<PublicKey<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper<PublicKey<DCRTPoly>, SerType::SERJSON>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializePublicKey_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PrivateKey<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<PrivateKey<DCRTPoly>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializePrivateKey", static_cast<std::tuple<PrivateKey<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper<PrivateKey<DCRTPoly>, SerType::SERJSON>),
-            py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializePrivateKey_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const Ciphertext<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<Ciphertext<DCRTPoly>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializeCiphertext", static_cast<std::tuple<Ciphertext<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper<Ciphertext<DCRTPoly>, SerType::SERJSON>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializeCiphertext_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const EvalKey<DCRTPoly>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<EvalKey<DCRTPoly>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializeEvalKey", static_cast<std::tuple<EvalKey<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper<EvalKey<DCRTPoly>, SerType::SERJSON>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKey_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>&, const SerType::SERJSON&)>(&Serial::SerializeToFile<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializeEvalKeyMap", static_cast<std::tuple<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, bool> (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeFromFileWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERJSON>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKeyMap_docs));
 
     // JSON Serialization to string
     m.def("Serialize", &SerializeToStringWrapper<CryptoContextDCRT, SerType::SERJSON>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeCryptoContextString", &DeserializeCCFromStringWrapper<SerType::SERJSON>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeCryptoContextString_docs));
     m.def("Serialize", &SerializeToStringWrapper<PublicKey<DCRTPoly>, SerType::SERJSON>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializePublicKeyString", &DeserializeFromStringWrapper<PublicKey<DCRTPoly>, SerType::SERJSON>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializePublicKeyString_docs));
     m.def("Serialize", &SerializeToStringWrapper<PrivateKey<DCRTPoly>, SerType::SERJSON>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializePrivateKeyString", &DeserializeFromStringWrapper<PrivateKey<DCRTPoly>, SerType::SERJSON>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializePrivateKeyString_docs));
     m.def("Serialize", &SerializeToStringWrapper<Ciphertext<DCRTPoly>, SerType::SERJSON>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeCiphertextString", &DeserializeFromStringWrapper<Ciphertext<DCRTPoly>, SerType::SERJSON>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeCiphertextString_docs));
     m.def("Serialize", &SerializeToStringWrapper<EvalKey<DCRTPoly>, SerType::SERJSON>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeEvalKeyString", &DeserializeFromStringWrapper<EvalKey<DCRTPoly>, SerType::SERJSON>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKeyString_docs));
     m.def("Serialize", &SerializeToBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERJSON>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeEvalKeyMapString", &DeserializeFromBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERJSON>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKeyMapString_docs));
 
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToStringWrapper<SerType::SERJSON>,
-          py::arg("sertype"), py::arg("keyTag") = "");
+          py::arg("sertype"), py::arg("keyTag") = "",
+          py::doc(serial_SerializeEvalMultKeyString_docs));
     m.def("DeserializeEvalMultKeyString",
           static_cast<void (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeEvalMultKeyFromStringWrapper<SerType::SERJSON>),
-          py::arg("data"), py::arg("sertype"));
+          py::arg("data"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalMultKeyString_docs));
     m.def("SerializeEvalAutomorphismKeyString", &SerializeEvalAutomorphismKeyToStringWrapper<SerType::SERJSON>,
-          py::arg("sertype"), py::arg("keyTag") = "");
+          py::arg("sertype"), py::arg("keyTag") = "",
+          py::doc(serial_SerializeEvalAutomorphismKeyString_docs));
     m.def("DeserializeEvalAutomorphismKeyString",
           static_cast<void (*)(const std::string&, const SerType::SERJSON&)>(&DeserializeEvalAutomorphismKeyFromStringWrapper<SerType::SERJSON>),
-          py::arg("data"), py::arg("sertype"));
+          py::arg("data"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalAutomorphismKeyString_docs));
 
     // Binary Serialization
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&,const CryptoContextDCRT&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<CryptoContextDCRT>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializeCryptoContext", static_cast<std::tuple<CryptoContextDCRT,bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeCCWrapper<SerType::SERBINARY>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializeCryptoContext_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PublicKey<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<PublicKey<DCRTPoly>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializePublicKey", static_cast<std::tuple<PublicKey<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<PublicKey<DCRTPoly>, SerType::SERBINARY>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializePublicKey_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const PrivateKey<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<PrivateKey<DCRTPoly>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializePrivateKey", static_cast<std::tuple<PrivateKey<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<PrivateKey<DCRTPoly>, SerType::SERBINARY>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializePrivateKey_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const Ciphertext<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<Ciphertext<DCRTPoly>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializeCiphertext", static_cast<std::tuple<Ciphertext<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<Ciphertext<DCRTPoly>, SerType::SERBINARY>),
-            py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializeCiphertext_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const EvalKey<DCRTPoly>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<EvalKey<DCRTPoly>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializeEvalKey", static_cast<std::tuple<EvalKey<DCRTPoly>,bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKey_docs));
     m.def("SerializeToFile", static_cast<bool (*)(const std::string&, const std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>&, const SerType::SERBINARY&)>(&Serial::SerializeToFile<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>>),
-          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_SerializeToFile_docs));
     m.def("DeserializeEvalKeyMap", static_cast<std::tuple<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, bool> (*)(const std::string&, const SerType::SERBINARY&)>(&DeserializeFromFileWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERBINARY>),
-          py::arg("filename"), py::arg("sertype"));
+          py::arg("filename"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKeyMap_docs));
 
     // Binary Serialization to bytes
     m.def("Serialize", &SerializeToBytesWrapper<CryptoContextDCRT, SerType::SERBINARY>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeCryptoContextString", &DeserializeCCFromBytesWrapper<SerType::SERBINARY>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeCryptoContextString_docs));
     m.def("Serialize", &SerializeToBytesWrapper<PublicKey<DCRTPoly>, SerType::SERBINARY>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializePublicKeyString", &DeserializeFromBytesWrapper<PublicKey<DCRTPoly>, SerType::SERBINARY>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializePublicKeyString_docs));
     m.def("Serialize", &SerializeToBytesWrapper<PrivateKey<DCRTPoly>, SerType::SERBINARY>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializePrivateKeyString", &DeserializeFromBytesWrapper<PrivateKey<DCRTPoly>, SerType::SERBINARY>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializePrivateKeyString_docs));
     m.def("Serialize", &SerializeToBytesWrapper<Ciphertext<DCRTPoly>, SerType::SERBINARY>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeCiphertextString", &DeserializeFromBytesWrapper<Ciphertext<DCRTPoly>, SerType::SERBINARY>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeCiphertextString_docs));
     m.def("Serialize", &SerializeToBytesWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeEvalKeyString", &DeserializeFromBytesWrapper<EvalKey<DCRTPoly>, SerType::SERBINARY>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKeyString_docs));
     m.def("Serialize", &SerializeToBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERBINARY>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeEvalKeyMapString", &DeserializeFromBytesWrapper<std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>, SerType::SERBINARY>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKeyMapString_docs));
     m.def("Serialize", &SerializeToBytesWrapper<std::vector<EvalKey<DCRTPoly>>, SerType::SERBINARY>,
-          py::arg("obj"), py::arg("sertype"));
+          py::arg("obj"), py::arg("sertype"),
+          py::doc(serial_Serialize_docs));
     m.def("DeserializeEvalKeyMapVectorString", &DeserializeFromBytesWrapper<std::vector<EvalKey<DCRTPoly>>, SerType::SERBINARY>,
-          py::arg("str"), py::arg("sertype"));
+          py::arg("str"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalKeyMapVectorString_docs));
 
     m.def("SerializeEvalMultKeyString", &SerializeEvalMultKeyToBytesWrapper<SerType::SERBINARY>,
-          py::arg("sertype"), py::arg("keyTag") = "");
+          py::arg("sertype"), py::arg("keyTag") = "",
+          py::doc(serial_SerializeEvalMultKeyString_docs));
     m.def("DeserializeEvalMultKeyString",
           static_cast<void (*)(const py::bytes&, const SerType::SERBINARY&)>(&DeserializeEvalMultKeyFromBytesWrapper<SerType::SERBINARY>),
-          py::arg("bytes"), py::arg("sertype"));
+          py::arg("bytes"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalMultKeyString_docs));
     m.def("SerializeEvalAutomorphismKeyString", &SerializeEvalAutomorphismKeyToBytesWrapper<SerType::SERBINARY>,
-          py::arg("sertype"), py::arg("keyTag") = "");
+          py::arg("sertype"), py::arg("keyTag") = "",
+          py::doc(serial_SerializeEvalAutomorphismKeyString_docs));
     m.def("DeserializeEvalAutomorphismKeyString",
           static_cast<void (*)(const py::bytes&, const SerType::SERBINARY&)>(&DeserializeEvalAutomorphismKeyFromBytesWrapper<SerType::SERBINARY>),
-          py::arg("bytes"), py::arg("sertype"));
+          py::arg("bytes"), py::arg("sertype"),
+          py::doc(serial_DeserializeEvalAutomorphismKeyString_docs));
 }
