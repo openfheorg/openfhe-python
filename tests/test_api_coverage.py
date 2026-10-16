@@ -1,3 +1,6 @@
+import re
+from pathlib import Path
+
 import openfhe as fhe
 import pytest
 
@@ -305,6 +308,19 @@ def test_integer_conversions_reject_invalid_python_ints(ckks_context):
 
     # BigInteger is not limited to the configured native word size.
     fhe.PolyVector().SwitchModulus(2**220 + 123456789)
+
+
+def test_module_exposes_its_version():
+    """__version__ must match CMakeLists.txt, and the docs fallback must not drift."""
+    repo = Path(__file__).parent.parent
+    cmake = (repo / "CMakeLists.txt").read_text()
+    parts = dict(re.findall(r"set\(OPENFHE_PYTHON_VERSION_(MAJOR|MINOR|PATCH|TWEAK) (\d+)\)", cmake))
+    expected = ".".join(parts[k] for k in ("MAJOR", "MINOR", "PATCH", "TWEAK"))
+
+    assert fhe.__version__ == expected
+
+    fallback = re.search(r"release = '([0-9.]+)'", (repo / "docs" / "conf.py").read_text())
+    assert fallback and fallback.group(1) == expected
 
 
 def test_enum_members_are_exported_at_module_level():

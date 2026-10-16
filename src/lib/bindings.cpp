@@ -1946,9 +1946,14 @@ void bind_free_functions(py::module& m) {
           py::arg("degree"));
 }
 
+#ifndef OPENFHE_PYTHON_VERSION_STR
+    #define OPENFHE_PYTHON_VERSION_STR "unknown"
+#endif
+
 PYBIND11_MODULE(openfhe, m) {
     // sequence of function calls matters
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
+    m.attr("__version__") = OPENFHE_PYTHON_VERSION_STR;
     bind_DCRTPoly(m);
     // binfhe library
     bind_binfhe_enums(m);

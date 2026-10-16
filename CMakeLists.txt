@@ -75,6 +75,7 @@ endif()
 ### add_executable( test demo-simple-example.cpp )
 
 ### Pybind Modules
+add_compile_definitions(OPENFHE_PYTHON_VERSION_STR="${OPENFHE_PYTHON_VERSION}")
 pybind11_add_module(openfhe
                     src/lib/bindings.cpp
                     src/lib/binfhe_bindings.cpp
