@@ -33,9 +33,18 @@
 
 #include <pybind11/pybind11.h>
 
+#include <limits>
 #include <string>
+#include <type_traits>
 
 namespace openfhe_python {
+
+template <typename Integer, typename = void>
+struct IsNativeInteger : std::false_type {};
+
+template <typename Integer>
+struct IsNativeInteger<Integer, std::void_t<typename Integer::Integer, decltype(Integer::IsNativeInt())>>
+    : std::bool_constant<Integer::IsNativeInt()> {};
 
 // Convert an arbitrary-size OpenFHE integer to a Python integer without
 // narrowing through a native C++ integer type.
@@ -48,9 +57,11 @@ pybind11::int_ IntegerToPyInt(const Integer& value) {
 }
 
 // Convert an arbitrary-size Python integer through its decimal representation.
-// OpenFHE integers are unsigned: a negative input is rejected here because the
-// OpenFHE string parser hangs on a leading '-', and a value wider than the target
-// type is rejected because the constructor silently wraps it.
+// OpenFHE integers are unsigned: a negative input is rejected here because some
+// OpenFHE string parsers hang on a leading '-'. NativeInteger's parser does not
+// detect every overflow, so check its range before construction. BigInteger's
+// dynamic backend has no fixed-width overflow, and the fixed backend checks its
+// own bound; neither needs a costly integer-to-decimal round trip after parsing.
 template <typename Integer>
 Integer PyIntToInteger(const pybind11::int_& value) {
     if (pybind11::isinstance<pybind11::bool_>(value))
@@ -64,13 +75,18 @@ Integer PyIntToInteger(const pybind11::int_& value) {
     if (!valueStr.empty() && valueStr[0] == '-')
         throw pybind11::value_error("OpenFHE integers cannot be negative, got " + valueStr);
 
-    Integer converted(valueStr);
-    if (converted.ToString() != valueStr) {
-        PyErr_SetString(PyExc_OverflowError,
-                        ("value too large for the target OpenFHE integer type: " + valueStr).c_str());
-        throw pybind11::error_already_set();
+    if constexpr (IsNativeInteger<Integer>::value) {
+        using NativeType = typename Integer::Integer;
+        static const std::string maxValue = Integer(std::numeric_limits<NativeType>::max()).ToString();
+        if (valueStr.size() > maxValue.size() ||
+            (valueStr.size() == maxValue.size() && valueStr > maxValue)) {
+            PyErr_SetString(PyExc_OverflowError,
+                            ("value too large for the target OpenFHE integer type: " + valueStr).c_str());
+            throw pybind11::error_already_set();
+        }
     }
-    return converted;
+
+    return Integer(valueStr);
 }
 
 }  // namespace openfhe_python

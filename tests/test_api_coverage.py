@@ -288,16 +288,23 @@ def test_integer_conversions_reject_invalid_python_ints(ckks_context):
     negatives hang the OpenFHE string parser, oversized values silently wrap."""
     cc, _ = ckks_context
     plaintext = cc.MakeCKKSPackedPlaintext([0.5])
+    native_bits = fhe.get_native_int()
+    native_max = (1 << native_bits) - 1
 
     with pytest.raises(ValueError):
         fhe.PolyVector().SwitchModulus(-1)
     with pytest.raises(OverflowError):
         plaintext.SetScalingFactorInt(3 * 10**19)
+    with pytest.raises(OverflowError):
+        plaintext.SetScalingFactorInt(native_max + 1)
     with pytest.raises(TypeError):
         plaintext.SetScalingFactorInt(True)
 
-    plaintext.SetScalingFactorInt(2**50)
-    assert plaintext.GetScalingFactorInt() == 2**50
+    plaintext.SetScalingFactorInt(native_max)
+    assert plaintext.GetScalingFactorInt() == native_max
+
+    # BigInteger is not limited to the configured native word size.
+    fhe.PolyVector().SwitchModulus(2**220 + 123456789)
 
 
 def test_enum_members_are_exported_at_module_level():
