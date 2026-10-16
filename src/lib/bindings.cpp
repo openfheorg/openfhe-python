@@ -64,12 +64,15 @@ inline std::shared_ptr<CryptoParametersRNS> GetParamsRNSChecked(const CryptoCont
 }
 
 void bind_DCRTPoly(py::module &m) {
-  py::class_<DCRTPoly>(m, "DCRTPoly").def(py::init<>());
+  py::class_<DCRTPoly>(m, "DCRTPoly",
+      "Ring element in double-CRT (RNS) representation, the element type underlying the "
+      "DCRT-based schemes (BFV, BGV, CKKS); treated as an opaque object in Python.")
+      .def(py::init<>());
 }
 
 template <typename T>
 void bind_parameters(py::module &m, const std::string name) {
-    py::class_<CCParams<T>>(m, name.c_str())
+    py::class_<CCParams<T>>(m, name.c_str(), ccparams_doc)
         .def(py::init<>())
         // getters
         .def("GetPlaintextModulus", &CCParams<T>::GetPlaintextModulus,
@@ -461,15 +464,26 @@ void bind_crypto_context(py::module &m) {
     // TODO (Oliveira): If we expose Poly's and ParmType, this block will go somewhere else
     using ParmType = typename DCRTPoly::Params;
     using ParmTypePtr = std::shared_ptr<ParmType>;
-    py::class_<ParmType, ParmTypePtr>(m, "ParmType")
+    py::class_<ParmType, ParmTypePtr>(m, "ParmType",
+        "Element (ring) parameters of a DCRTPoly: the ciphertext modulus, ring dimension "
+        "and cyclotomic order.")
         .def("GetModulus",
-            [](const ParmType& self) { return openfhe_python::IntegerToPyInt(self.GetModulus()); })
-        .def("GetRingDimension", &ParmType::GetRingDimension)
-        .def("GetCyclotomicOrder", &ParmType::GetCyclotomicOrder);
+            [](const ParmType& self) { return openfhe_python::IntegerToPyInt(self.GetModulus()); },
+            py::doc("Get the ciphertext modulus (the product of all RNS moduli)."))
+        .def("GetRingDimension", &ParmType::GetRingDimension,
+            py::doc("Get the ring dimension N (the polynomials live in Z_Q[x]/(X^N+1))."))
+        .def("GetCyclotomicOrder", &ParmType::GetCyclotomicOrder,
+            py::doc("Get the cyclotomic order (2N for power-of-two cyclotomics)."));
 
-    py::class_<SchemeBase<DCRTPoly>, std::shared_ptr<SchemeBase<DCRTPoly>>>(m, "SchemeBase");
+    py::class_<SchemeBase<DCRTPoly>, std::shared_ptr<SchemeBase<DCRTPoly>>>(m, "SchemeBase",
+        "Scheme implementation object of a crypto context (returned by CryptoContext.GetScheme); "
+        "treated as an opaque object in Python.");
 
-    auto cc_class = py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext");
+    auto cc_class = py::class_<CryptoContextImpl<DCRTPoly>, std::shared_ptr<CryptoContextImpl<DCRTPoly>>>(m, "CryptoContext",
+        "Crypto context for the DCRTPoly-based schemes (BFV, BGV, CKKS): the main API object "
+        "holding the scheme implementation, crypto parameters and precomputations, with methods "
+        "for key generation, encoding, encryption and homomorphic evaluation. Create it with "
+        "GenCryptoContext(params).");
 
     cc_class.def(py::init<>())
         .def("ClearAllCKKSCaches", &CC::ClearAllCKKSCaches,
@@ -484,7 +498,8 @@ void bind_crypto_context(py::module &m) {
             py::arg("level"),
             py::doc(cc_SetKeyGenLevel_docs))
         .def("get_ptr",[](const CryptoContext<DCRTPoly> &self) {
-            std::cout << "CC shared ptr (python cc)" << self << std::endl; })
+            std::cout << "CC shared ptr (python cc)" << self << std::endl; },
+            py::doc("Debug helper: print the address held by the shared CryptoContext pointer."))
         .def("GetRingDimension", &CryptoContextImpl<DCRTPoly>::GetRingDimension, cc_GetRingDimension_docs)
         .def("GetPlaintextModulus",
             [](CryptoContext<DCRTPoly>& self) {
@@ -494,7 +509,8 @@ void bind_crypto_context(py::module &m) {
         .def("GetBatchSize",
             [](CryptoContext<DCRTPoly>& self) {
                 return self->GetCryptoParameters()->GetBatchSize();
-            })
+            },
+            py::doc("Get the maximum batch size (number of packed slots)."))
         .def("GetModulus",
             [](CryptoContext<DCRTPoly>& self) {
                 return self->GetCryptoParameters()
@@ -509,7 +525,8 @@ void bind_crypto_context(py::module &m) {
                 if (!cryptoParams)
                     OPENFHE_THROW("std::dynamic_pointer_cast<CryptoParametersCKKSRNS>() failed");
                 return cryptoParams->GetElementParams()->GetParams()[0]->GetModulus().ConvertToInt<uint64_t>();
-            })
+            },
+            py::doc("Get the first RNS modulus q_0 of a CKKS crypto context."))
         .def("GetScalingFactorReal",
             [](CryptoContext<DCRTPoly>& self, uint32_t level) {
                 auto cryptoParams = std::dynamic_pointer_cast<CryptoParametersRNS>(self->GetCryptoParameters());
@@ -525,11 +542,13 @@ void bind_crypto_context(py::module &m) {
                 if (!cryptoParams)
                     OPENFHE_THROW("std::dynamic_pointer_cast<CryptoParametersRNS>() failed");
                 return cryptoParams->GetScalingTechnique();
-            })
+            },
+            py::doc("Get the rescaling/modulus switching technique (CKKS/BGV)."))
         .def("GetDigitSize",
             [](CryptoContext<DCRTPoly>& self) {
                 return self->GetCryptoParameters()->GetDigitSize();
-            })
+            },
+            py::doc("Get the digit size used in BV key switching."))
         .def("GetCyclotomicOrder", &CryptoContextImpl<DCRTPoly>::GetCyclotomicOrder, cc_GetCyclotomicOrder_docs)
         .def("GetEncodingParams", &CC::GetEncodingParams,
             py::doc(cc_GetEncodingParams_docs))
@@ -548,53 +567,76 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_getSchemeId_docs))
         .def("setSchemeId", &CC::setSchemeId, py::arg("schemeTag"),
             py::doc(cc_setSchemeId_docs))
-        .def("GetCKKSDataType", &CryptoContextImpl<DCRTPoly>::GetCKKSDataType)
-        .def("GetCKKSBootCorrectionFactor", &CC::GetCKKSBootCorrectionFactor)
-        .def("SetCKKSBootCorrectionFactor", &CC::SetCKKSBootCorrectionFactor, py::arg("cf"))
+        .def("GetCKKSDataType", &CryptoContextImpl<DCRTPoly>::GetCKKSDataType,
+            py::doc("Get the CKKS data type (real or complex)."))
+        .def("GetCKKSBootCorrectionFactor", &CC::GetCKKSBootCorrectionFactor,
+            py::doc("Get the correction factor of CKKS bootstrapping (the number of bits the message "
+                    "is scaled down by in total before the approximate modular reduction to improve "
+                    "precision), as set by EvalBootstrapSetup. Supported only in CKKS."))
+        .def("SetCKKSBootCorrectionFactor", &CC::SetCKKSBootCorrectionFactor, py::arg("cf"),
+            py::doc("Set the correction factor of CKKS bootstrapping. Supported only in CKKS."))
         .def("GetNoiseEstimate", [](CryptoContext<DCRTPoly>& self) {
             return GetParamsRNSChecked(self, "GetNoiseEstimate")->GetNoiseEstimate();
-        })
+        },
+            py::doc("Get the noise estimate used for CKKS noise flooding (RNS schemes only)."))
         .def("SetNoiseEstimate", [](CryptoContext<DCRTPoly>& self, double noiseEstimate) {
             GetParamsRNSChecked(self, "SetNoiseEstimate")->SetNoiseEstimate(noiseEstimate);
             },
-            py::arg("noiseEstimate"))
+            py::arg("noiseEstimate"),
+            py::doc("Set the noise estimate used for CKKS noise flooding (RNS schemes only)."))
         .def("GetMultiplicativeDepth", [](CryptoContext<DCRTPoly>& self) {
             return GetParamsRNSChecked(self, "GetMultiplicativeDepth")->GetMultiplicativeDepth();
-        })
+        },
+            py::doc("Get the multiplicative depth supported by the crypto parameters (RNS schemes only)."))
         .def("SetMultiplicativeDepth", [](CryptoContext<DCRTPoly>& self, uint32_t multiplicativeDepth) {
             GetParamsRNSChecked(self, "SetMultiplicativeDepth")->SetMultiplicativeDepth(multiplicativeDepth);
             },
-            py::arg("multiplicativeDepth"))
+            py::arg("multiplicativeDepth"),
+            py::doc("Set the multiplicative depth recorded in the crypto parameters (RNS schemes only)."))
         .def("GetEvalAddCount", [](CryptoContext<DCRTPoly>& self) {
             return GetParamsRNSChecked(self, "GetEvalAddCount")->GetEvalAddCount();
-        })
+        },
+            py::doc("Get the maximum number of additions assumed for BGV/BFV noise estimation "
+                    "(RNS schemes only)."))
         .def("SetEvalAddCount", [](CryptoContext<DCRTPoly>& self, uint32_t evalAddCount) {
             GetParamsRNSChecked(self, "SetEvalAddCount")->SetEvalAddCount(evalAddCount);
             },
-            py::arg("evalAddCount"))
+            py::arg("evalAddCount"),
+            py::doc("Set the maximum number of additions assumed for BGV/BFV noise estimation "
+                    "(RNS schemes only)."))
         .def("GetKeySwitchCount", [](CryptoContext<DCRTPoly>& self) {
                 return GetParamsRNSChecked(self, "GetKeySwitchCount")->GetKeySwitchCount();
-            })
+            },
+            py::doc("Get the maximum number of key switching operations assumed for BGV/BFV noise "
+                    "estimation (RNS schemes only)."))
         .def("SetKeySwitchCount", [](CryptoContext<DCRTPoly>& self, uint32_t keySwitchCount) {
                 GetParamsRNSChecked(self, "SetKeySwitchCount")->SetKeySwitchCount(keySwitchCount);
             },
-            py::arg("keySwitchCount"))
+            py::arg("keySwitchCount"),
+            py::doc("Set the maximum number of key switching operations assumed for BGV/BFV noise "
+                    "estimation (RNS schemes only)."))
         .def("GetPRENumHops", [](CryptoContext<DCRTPoly>& self) {
                 return GetParamsRNSChecked(self, "GetPRENumHops")->GetPRENumHops();
-            })
+            },
+            py::doc("Get the number of hops supported for proxy re-encryption (RNS schemes only)."))
         .def("SetPRENumHops", [](CryptoContext<DCRTPoly>& self, uint32_t PRENumHops) {
                 GetParamsRNSChecked(self, "SetPRENumHops")->SetPRENumHops(PRENumHops);
             },
-            py::arg("PRENumHops"))
+            py::arg("PRENumHops"),
+            py::doc("Set the number of hops supported for proxy re-encryption (RNS schemes only)."))
         .def("GetRegisterWordSize", [](CryptoContext<DCRTPoly>& self) {
                 return GetParamsRNSChecked(self, "GetRegisterWordSize")->GetRegisterWordSize();
-            })
+            },
+            py::doc("Get the target hardware register word size for CKKS composite scaling "
+                    "(RNS schemes only)."))
         .def("GetCompositeDegree", [](CryptoContext<DCRTPoly>& self) {
                 return GetParamsRNSChecked(self, "GetCompositeDegree")->GetCompositeDegree();
-            })
+            },
+            py::doc("Get the composite degree used by CKKS composite scaling (RNS schemes only)."))
         .def("GetKeySwitchTechnique", [](CryptoContext<DCRTPoly>& self) {
                 return GetParamsRNSChecked(self, "GetKeySwitchTechnique")->GetKeySwitchTechnique();
-            })
+            },
+            py::doc("Get the key switching technique (BV or HYBRID; RNS schemes only)."))
         .def("Enable", py::overload_cast<PKESchemeFeature>(&CryptoContextImpl<DCRTPoly>::Enable),
             py::arg("feature"),
             py::doc(cc_Enable_docs))
@@ -1130,7 +1172,9 @@ void bind_crypto_context(py::module &m) {
         .def("EvalBootstrapStCFirst", &CC::EvalBootstrapStCFirst,
             py::arg("ciphertext"), py::arg("numIterations") = 1, py::arg("precision") = 0,
             py::doc(cc_EvalBootstrapStCFirst_docs))
-        .def_static("ClearStaticMapsAndVectors", &CryptoContextImpl<DCRTPoly>::ClearStaticMapsAndVectors)
+        .def_static("ClearStaticMapsAndVectors", &CryptoContextImpl<DCRTPoly>::ClearStaticMapsAndVectors,
+            py::doc("Clear various static caches within the library (evaluation-key maps and the "
+                    "context registry)."))
         .def("EvalCKKStoFHEWSetup", &CryptoContextImpl<DCRTPoly>::EvalCKKStoFHEWSetup,
             py::arg("schswchparams"),
             py::doc(cc_EvalCKKStoFHEWSetup_docs))
@@ -1242,11 +1286,19 @@ void bind_crypto_context(py::module &m) {
             py::doc("Compress the ciphertext down to the given number of RNS towers, "
                     "reducing its size before storage or transmission."))
         .def("EvalMultMany", &CryptoContextImpl<DCRTPoly>::EvalMultMany,
-            py::arg("ciphertextVec"))
+            py::arg("ciphertextVec"),
+            py::doc("Homomorphic multiplication of multiple ciphertexts using a binary tree approach, "
+                    "with relinearization to two elements after each multiplication. Assumes each "
+                    "multiplication stays within the supported ring size, and throws otherwise."))
         .def("EvalAddMany", &CryptoContextImpl<DCRTPoly>::EvalAddMany,
-            py::arg("ciphertextVec"))
+            py::arg("ciphertextVec"),
+            py::doc("Homomorphic addition of multiple ciphertexts (null entries are skipped). The "
+                    "result never aliases an input, so it is always safe to mutate."))
         .def("EvalAddManyInPlace", &CryptoContextImpl<DCRTPoly>::EvalAddManyInPlace,
-            py::arg("ciphertextVec"))
+            py::arg("ciphertextVec"),
+            py::doc("In-place homomorphic addition of multiple ciphertexts (null entries are skipped; "
+                    "the vector is modified to store intermediate results and the result is also left "
+                    "in slot 0)."))
         .def("FindAutomorphismIndex", [](const CryptoContextImpl<DCRTPoly>& self, int32_t idx) {
                 return self.FindAutomorphismIndex(static_cast<uint32_t>(idx));
             },
@@ -1264,7 +1316,8 @@ void bind_crypto_context(py::module &m) {
             },
             py::arg("keyTag"),
             py::doc(cc_GetEvalSumKeyMap_docs))
-        .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch)
+        .def("GetBinCCForSchemeSwitch", &CryptoContextImpl<DCRTPoly>::GetBinCCForSchemeSwitch,
+            py::doc("Get the BinFHE context used for CKKS <-> FHEW scheme switching."))
         .def_static("InsertEvalSumKey", &CryptoContextImpl<DCRTPoly>::InsertEvalSumKey,
             py::arg("evalKeyMap"),
             py::arg("keyTag") = "",
@@ -1530,18 +1583,26 @@ void bind_crypto_context(py::module &m) {
 
     // Generator Functions
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBFVRNS>,
-        py::arg("params"));
+        py::arg("params"),
+        py::doc("Generate a BFV RNS crypto context from the given CCParamsBFVRNS parameters."));
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextBGVRNS>,
-        py::arg("params"));
+        py::arg("params"),
+        py::doc("Generate a BGV RNS crypto context from the given CCParamsBGVRNS parameters."));
     m.def("GenCryptoContext", &GenCryptoContext<CryptoContextCKKSRNS>,
-        py::arg("params"));
+        py::arg("params"),
+        py::doc("Generate a CKKS RNS crypto context from the given CCParamsCKKSRNS parameters."));
 
-    m.def("GetAllContexts", &CryptoContextFactory<DCRTPoly>::GetAllContexts);
+    m.def("GetAllContexts", &CryptoContextFactory<DCRTPoly>::GetAllContexts,
+        py::doc("Return all crypto contexts registered in the library-wide context registry."));
 
-    m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts);
+    m.def("ReleaseAllContexts", &CryptoContextFactory<DCRTPoly>::ReleaseAllContexts,
+        py::doc("Release all registered crypto contexts: clears their CKKS caches and the static "
+                "evaluation-key maps, empties the registry and returns freed memory to the system."));
 
-    m.def("ClearEvalMultKeys", static_cast<void (*)()>(&CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys));
-    m.def("ClearEvalSumKeys", static_cast<void (*)()>(&CryptoContextImpl<DCRTPoly>::ClearEvalSumKeys));
+    m.def("ClearEvalMultKeys", static_cast<void (*)()>(&CryptoContextImpl<DCRTPoly>::ClearEvalMultKeys),
+        py::doc("Clear the entire static EvalMult key cache."));
+    m.def("ClearEvalSumKeys", static_cast<void (*)()>(&CryptoContextImpl<DCRTPoly>::ClearEvalSumKeys),
+        py::doc("Clear the entire static EvalSum key cache."));
 }
 
 int get_native_int() {
@@ -1589,8 +1650,12 @@ void bind_enums_and_constants(py::module &m) {
         .value("CKKS_PACKED_ENCODING", PlaintextEncodings::CKKS_PACKED_ENCODING)
         .export_values();
     // Serialization Types
-    py::class_<SerType::SERJSON>(m, "SERJSON");
-    py::class_<SerType::SERBINARY>(m, "SERBINARY");
+    py::class_<SerType::SERJSON>(m, "SERJSON",
+        "Serialization format tag for human-readable JSON; pass JSON (its instance) as the "
+        "sertype argument of the (de)serialization functions.");
+    py::class_<SerType::SERBINARY>(m, "SERBINARY",
+        "Serialization format tag for the compact binary format; pass BINARY (its instance) as "
+        "the sertype argument of the (de)serialization functions.");
     m.attr("JSON") = py::cast(SerType::JSON);
     m.attr("BINARY") = py::cast(SerType::BINARY);
 
@@ -1686,32 +1751,50 @@ void bind_enums_and_constants(py::module &m) {
         .export_values();
 
     //NATIVEINT function
-    m.def("get_native_int", &get_native_int);
+    m.def("get_native_int", &get_native_int,
+        py::doc("Return the native integer bit width the library was built with (64 or 128)."));
 }
 
 void bind_keys(py::module &m) {
-    py::class_<PublicKeyImpl<DCRTPoly>, std::shared_ptr<PublicKeyImpl<DCRTPoly>>>(m, "PublicKey")
+    py::class_<PublicKeyImpl<DCRTPoly>, std::shared_ptr<PublicKeyImpl<DCRTPoly>>>(m, "PublicKey",
+        "Public encryption key of a DCRTPoly-based scheme, generated by CryptoContext.KeyGen().")
         .def(py::init<>())
         .def("GetCryptoContext", &PublicKeyImpl<DCRTPoly>::GetCryptoContext,
             py::doc(key_GetCryptoContext_docs))
-        .def("GetKeyTag", &PublicKeyImpl<DCRTPoly>::GetKeyTag)
-        .def("SetKeyTag", &PublicKeyImpl<DCRTPoly>::SetKeyTag, py::arg("keyTag"));
-    py::class_<PrivateKeyImpl<DCRTPoly>, std::shared_ptr<PrivateKeyImpl<DCRTPoly>>>(m, "PrivateKey")
+        .def("GetKeyTag", &PublicKeyImpl<DCRTPoly>::GetKeyTag,
+            py::doc("Get the tag identifying the secret key this public key belongs to."))
+        .def("SetKeyTag", &PublicKeyImpl<DCRTPoly>::SetKeyTag, py::arg("keyTag"),
+            py::doc("Set the tag identifying the secret key this public key belongs to."));
+    py::class_<PrivateKeyImpl<DCRTPoly>, std::shared_ptr<PrivateKeyImpl<DCRTPoly>>>(m, "PrivateKey",
+        "Secret decryption key of a DCRTPoly-based scheme, generated by CryptoContext.KeyGen().")
         .def(py::init<>())
         // a key created without a CryptoContext cannot be passed to RecoverSharedKey()
         .def(py::init<const CryptoContext<DCRTPoly>&>(), py::arg("cryptoContext"))
-        .def("GetCryptoContext", &PrivateKeyImpl<DCRTPoly>::GetCryptoContext)
-        .def("GetKeyTag", &PrivateKeyImpl<DCRTPoly>::GetKeyTag)
-        .def("SetKeyTag", &PrivateKeyImpl<DCRTPoly>::SetKeyTag, py::arg("keyTag"));
-    py::class_<KeyPair<DCRTPoly>>(m, "KeyPair")
-        .def_readwrite("publicKey", &KeyPair<DCRTPoly>::publicKey)
-        .def_readwrite("secretKey", &KeyPair<DCRTPoly>::secretKey)
+        .def("GetCryptoContext", &PrivateKeyImpl<DCRTPoly>::GetCryptoContext,
+            py::doc("Get the CryptoContext this key was generated for."))
+        .def("GetKeyTag", &PrivateKeyImpl<DCRTPoly>::GetKeyTag,
+            py::doc("Get the tag identifying this secret key."))
+        .def("SetKeyTag", &PrivateKeyImpl<DCRTPoly>::SetKeyTag, py::arg("keyTag"),
+            py::doc("Set the tag identifying this secret key."));
+    py::class_<KeyPair<DCRTPoly>>(m, "KeyPair",
+        "Pair of a public key and the matching secret key, as returned by CryptoContext.KeyGen().")
+        .def_readwrite("publicKey", &KeyPair<DCRTPoly>::publicKey,
+            "The public key of the pair.")
+        .def_readwrite("secretKey", &KeyPair<DCRTPoly>::secretKey,
+            "The secret key of the pair.")
         .def("good", &KeyPair<DCRTPoly>::good,kp_good_docs);
-    py::class_<EvalKeyImpl<DCRTPoly>, std::shared_ptr<EvalKeyImpl<DCRTPoly>>>(m, "EvalKey")
+    py::class_<EvalKeyImpl<DCRTPoly>, std::shared_ptr<EvalKeyImpl<DCRTPoly>>>(m, "EvalKey",
+        "Evaluation key (for relinearization, rotation or key switching), generated by the "
+        "CryptoContext key-generation methods; treated as an opaque object in Python.")
         .def(py::init<>())
-        .def("GetKeyTag", &EvalKeyImpl<DCRTPoly>::GetKeyTag)
-        .def("SetKeyTag", &EvalKeyImpl<DCRTPoly>::SetKeyTag, py::arg("keyTag"));
-    py::class_<std::map<uint32_t, EvalKey<DCRTPoly>>, std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>>(m, "EvalKeyMap")
+        .def("GetKeyTag", &EvalKeyImpl<DCRTPoly>::GetKeyTag,
+            py::doc("Get the tag identifying the secret key this evaluation key belongs to."))
+        .def("SetKeyTag", &EvalKeyImpl<DCRTPoly>::SetKeyTag, py::arg("keyTag"),
+            py::doc("Set the tag identifying the secret key this evaluation key belongs to."));
+    py::class_<std::map<uint32_t, EvalKey<DCRTPoly>>, std::shared_ptr<std::map<uint32_t, EvalKey<DCRTPoly>>>>(m, "EvalKeyMap",
+        "Opaque map from automorphism indices to evaluation keys, as produced by the rotation "
+        "and summation key-generation methods and consumed by the key-insertion and "
+        "serialization functions.")
         .def(py::init<>());
 }
 
@@ -1794,7 +1877,9 @@ public:
 };
 
 void bind_encodings(py::module &m) {
-    py::class_<EncodingParamsImpl, EncodingParams>(m, "EncodingParams")
+    py::class_<EncodingParamsImpl, EncodingParams>(m, "EncodingParams",
+        "Parameters of the plaintext encoding: the plaintext modulus, batch size and plaintext "
+        "generator (returned by CryptoContext.GetEncodingParams).")
         .def("GetPlaintextModulus", &EncodingParamsImpl::GetPlaintextModulus,
             py::doc(encparams_GetPlaintextModulus_docs))
         .def("GetBatchSize", &EncodingParamsImpl::GetBatchSize,
@@ -1802,7 +1887,10 @@ void bind_encodings(py::module &m) {
         .def("GetPlaintextGenerator", &EncodingParamsImpl::GetPlaintextGenerator,
             py::doc(encparams_GetPlaintextGenerator_docs));
 
-    py::class_<PlaintextImpl, std::shared_ptr<PlaintextImpl>, PlaintextImpl_helper>(m, "Plaintext")
+    py::class_<PlaintextImpl, std::shared_ptr<PlaintextImpl>, PlaintextImpl_helper>(m, "Plaintext",
+        "Plaintext encoded for one of the DCRTPoly-based schemes, produced by the CryptoContext "
+        "Make*Plaintext methods and by decryption; holds the encoded values together with the "
+        "encoding metadata (level, scaling factor, number of slots, ...).")
         .def("GetScalingFactor", &PlaintextImpl::GetScalingFactor, ptx_GetScalingFactor_docs)
         .def("GetScalingFactorInt", [](const PlaintextImpl& self) {
                 return openfhe_python::IntegerToPyInt(self.GetScalingFactorInt());
@@ -1846,22 +1934,36 @@ void bind_encodings(py::module &m) {
         .def("SetFormat", &PlaintextImpl::SetFormat,
             py::arg("fmt"),
             py::doc(ptx_SetFormat_docs))
-        .def("GetCoefPackedValue", &PlaintextImpl::GetCoefPackedValue)
-        .def("GetPackedValue", &PlaintextImpl::GetPackedValue)
+        .def("GetCoefPackedValue", &PlaintextImpl::GetCoefPackedValue,
+            py::doc("Get the plaintext value as a list of signed integers (COEF_PACKED encoding)."))
+        .def("GetPackedValue", &PlaintextImpl::GetPackedValue,
+            py::doc("Get the plaintext value as a list of signed integers (PACKED encoding)."))
         .def("GetCKKSPackedValue", &PlaintextImpl::GetCKKSPackedValue, ptx_GetCKKSPackedValue_docs)
         .def("GetRealPackedValue", &PlaintextImpl::GetRealPackedValue, ptx_GetRealPackedValue_docs)
-        .def("GetLevel", &PlaintextImpl::GetLevel)
-        .def("SetLevel", &PlaintextImpl::SetLevel, py::arg("level"))
-        .def("GetNoiseScaleDeg", &PlaintextImpl::GetNoiseScaleDeg)
-        .def("SetNoiseScaleDeg", &PlaintextImpl::SetNoiseScaleDeg, py::arg("noiseScaleDeg"))
-        .def("GetSlots", &PlaintextImpl::GetSlots)
-        .def("SetSlots", &PlaintextImpl::SetSlots, py::arg("slots"))
-        .def("GetLogError", &PlaintextImpl::GetLogError)
+        .def("GetLevel", &PlaintextImpl::GetLevel,
+            py::doc("Get the level of the plaintext (the number of levels already consumed)."))
+        .def("SetLevel", &PlaintextImpl::SetLevel, py::arg("level"),
+            py::doc("Set the level of the plaintext (the number of levels already consumed)."))
+        .def("GetNoiseScaleDeg", &PlaintextImpl::GetNoiseScaleDeg,
+            py::doc("Get the degree of the scaling factor for the encoded message."))
+        .def("SetNoiseScaleDeg", &PlaintextImpl::SetNoiseScaleDeg, py::arg("noiseScaleDeg"),
+            py::doc("Set the degree of the scaling factor for the encoded message."))
+        .def("GetSlots", &PlaintextImpl::GetSlots,
+            py::doc("Get the number of packed slots."))
+        .def("SetSlots", &PlaintextImpl::SetSlots, py::arg("slots"),
+            py::doc("Set the number of packed slots."))
+        .def("GetLogError", &PlaintextImpl::GetLogError,
+            py::doc("Get log2 of the estimated standard deviation of the CKKS approximation error."))
         .def("GetLogPrecision", &PlaintextImpl::GetLogPrecision)
-        .def("GetStringValue", &PlaintextImpl::GetStringValue)
-        .def("SetStringValue", &PlaintextImpl::SetStringValue, py::arg("value"))
-        .def("SetIntVectorValue", &PlaintextImpl::SetIntVectorValue, py::arg("value"))
-        .def("GetFormattedValues", &PlaintextImpl::GetFormattedValues, py::arg("precision"))
+        .def("GetStringValue", &PlaintextImpl::GetStringValue,
+            py::doc("Get the plaintext value as a string (STRING encoding)."))
+        .def("SetStringValue", &PlaintextImpl::SetStringValue, py::arg("value"),
+            py::doc("Set the plaintext value from a string (STRING encoding)."))
+        .def("SetIntVectorValue", &PlaintextImpl::SetIntVectorValue, py::arg("value"),
+            py::doc("Set the plaintext value from a list of integers (COEF_PACKED or PACKED encoding)."))
+        .def("GetFormattedValues", &PlaintextImpl::GetFormattedValues, py::arg("precision"),
+            py::doc("Return the plaintext values as a string, with floating-point values printed "
+                    "at the given precision."))
         .def("__repr__", [](const PlaintextImpl &p) {
                 std::stringstream ss;
                 ss << "<Plaintext Object: " << p << ">";
@@ -1875,12 +1977,16 @@ void bind_encodings(py::module &m) {
 }
 
 void bind_ciphertext(py::module &m) {
-    py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext")
+    py::class_<CiphertextImpl<DCRTPoly>, std::shared_ptr<CiphertextImpl<DCRTPoly>>>(m, "Ciphertext",
+        "Ciphertext of one of the DCRTPoly-based schemes (BFV, BGV, CKKS), produced by "
+        "CryptoContext.Encrypt and the homomorphic evaluation methods.")
         .def(py::init<>())
         .def("__add__", [](const Ciphertext<DCRTPoly> &a, const Ciphertext<DCRTPoly> &b) {
                 return a + b;
             },
-            py::is_operator(), pybind11::keep_alive<0, 1>())
+            py::is_operator(), pybind11::keep_alive<0, 1>(),
+            py::doc("Homomorphic addition of two ciphertexts: returns a new ciphertext encrypting "
+                    "the element-wise sum."))
         // .def(py::self + py::self);
         // .def("GetDepth", &CiphertextImpl<DCRTPoly>::GetDepth)
         // .def("SetDepth", &CiphertextImpl<DCRTPoly>::SetDepth)
@@ -2067,13 +2173,20 @@ void bind_free_functions(py::module& m) {
           py::arg("func"),
           py::arg("a"),
           py::arg("b"),
-          py::arg("degree"));
+          py::arg("degree"),
+          py::doc("Compute the Chebyshev coefficients of the given degree approximating the function "
+                  "func over [a, b]: f(x) ~ coeffs[0]/2 + sum_{i>=1} coeffs[i]*T_i(x), where T_i are "
+                  "Chebyshev polynomials of the first kind (note that the first coefficient is "
+                  "divided by two). The coefficients are used by EvalChebyshevSeries."));
     m.def("EvalChebyshevFunctionPtxt", &EvalChebyshevFunctionPtxt,
           py::arg("func"),
           py::arg("ptxt"),
           py::arg("a"),
           py::arg("b"),
-          py::arg("degree"));
+          py::arg("degree"),
+          py::doc("Cleartext version of CryptoContext.EvalChebyshevFunction: evaluate the Chebyshev "
+                  "approximation of func of the given degree over [a, b] on each of the plaintext "
+                  "inputs and return the results."));
 }
 
 #ifndef OPENFHE_PYTHON_VERSION_STR

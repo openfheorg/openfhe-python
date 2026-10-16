@@ -72,10 +72,12 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
     // convert arbitrary-size Python ints to BigInteger.
     cls.def_static("GetBootstrapDepth",
             py::overload_cast<uint32_t, const std::vector<uint32_t>&, SecretKeyDist>(&FHECKKSRNS::GetBootstrapDepth),
-            py::arg("depth"), py::arg("levelBudget"), py::arg("keyDist"))
+            py::arg("depth"), py::arg("levelBudget"), py::arg("keyDist"),
+            py::doc(cc_GetBootstrapDepthApproxMod_docs))
         .def_static("GetBootstrapDepth",
             py::overload_cast<const std::vector<uint32_t>&, SecretKeyDist>(&FHECKKSRNS::GetBootstrapDepth),
-            py::arg("levelBudget"), py::arg("keyDist"))
+            py::arg("levelBudget"), py::arg("keyDist"),
+            py::doc(cc_GetBootstrapDepth_docs))
         .def_static("GetFBTDepth",
             [](const std::vector<uint32_t>& levelBudget, const std::vector<int64_t>& coefficients,
                const py::int_& PInput, size_t order, SecretKeyDist skd, uint32_t firstModSize) {
@@ -84,7 +86,8 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
                     firstModSize);
             },
             py::arg("levelBudget"), py::arg("coefficients"), py::arg("PInput"), py::arg("order"), py::arg("skd"),
-            py::arg("firstModSize") = 60)
+            py::arg("firstModSize") = 60,
+            py::doc(cc_GetFBTDepth_docs))
         .def_static("GetFBTDepth",
             [](const std::vector<uint32_t>& levelBudget, const std::vector<std::complex<double>>& coefficients,
                const py::int_& PInput, size_t order, SecretKeyDist skd, uint32_t firstModSize) {
@@ -93,10 +96,12 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
                     firstModSize);
             },
             py::arg("levelBudget"), py::arg("coefficients"), py::arg("PInput"), py::arg("order"), py::arg("skd"),
-            py::arg("firstModSize") = 60)
+            py::arg("firstModSize") = 60,
+            py::doc(cc_GetFBTDepth_docs))
         .def_static("GetFEFBTDepth", &FHECKKSRNS::GetFEFBTDepth<std::complex<double>>,
             py::arg("levelBudget"), py::arg("coefficients"), py::arg("skd") = SPARSE_TERNARY,
-            py::arg("firstModSize") = 60)
+            py::arg("firstModSize") = 60,
+            py::doc(cc_GetFEFBTDepth_docs))
         .def("EvalFBTSetup",
             [](CC& self, const std::vector<int64_t>& coeffs, uint32_t numSlots, const py::int_& PIn,
                const py::int_& POut, const py::int_& Bigq, const PublicKey<DCRTPoly>& pubKey,
@@ -109,7 +114,8 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
             },
             py::arg("coeffs"), py::arg("numSlots"), py::arg("PIn"), py::arg("POut"), py::arg("Bigq"),
             py::arg("pubKey"), py::arg("dim1"), py::arg("levelBudget"), py::arg("lvlsAfterBoot") = 0,
-            py::arg("depthLeveledComputation") = 0, py::arg("order") = (size_t)1)
+            py::arg("depthLeveledComputation") = 0, py::arg("order") = (size_t)1,
+            py::doc(cc_EvalFBTSetup_docs))
         .def("EvalFBTSetup",
             [](CC& self, const std::vector<std::complex<double>>& coeffs, uint32_t numSlots, const py::int_& PIn,
                const py::int_& POut, const py::int_& Bigq, const PublicKey<DCRTPoly>& pubKey,
@@ -122,7 +128,8 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
             },
             py::arg("coeffs"), py::arg("numSlots"), py::arg("PIn"), py::arg("POut"), py::arg("Bigq"),
             py::arg("pubKey"), py::arg("dim1"), py::arg("levelBudget"), py::arg("lvlsAfterBoot") = 0,
-            py::arg("depthLeveledComputation") = 0, py::arg("order") = (size_t)1)
+            py::arg("depthLeveledComputation") = 0, py::arg("order") = (size_t)1,
+            py::doc(cc_EvalFBTSetup_docs))
         .def("EvalFBT",
             [](CC& self, ConstCiphertext<DCRTPoly> ciphertext, const std::vector<int64_t>& coeffs,
                uint32_t digitBitSize, const py::int_& initialScaling, uint64_t postScaling, uint32_t levelToReduce,
@@ -132,7 +139,8 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
                                     levelToReduce, order);
             },
             py::arg("ciphertext"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("initialScaling"),
-            py::arg("postScaling"), py::arg("levelToReduce") = 0, py::arg("order") = (size_t)1)
+            py::arg("postScaling"), py::arg("levelToReduce") = 0, py::arg("order") = (size_t)1,
+            py::doc(cc_EvalFBT_docs))
         .def("EvalFBT",
             [](CC& self, ConstCiphertext<DCRTPoly> ciphertext, const std::vector<std::complex<double>>& coeffs,
                uint32_t digitBitSize, const py::int_& initialScaling, uint64_t postScaling, uint32_t levelToReduce,
@@ -142,7 +150,8 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
                                     levelToReduce, order);
             },
             py::arg("ciphertext"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("initialScaling"),
-            py::arg("postScaling"), py::arg("levelToReduce") = 0, py::arg("order") = (size_t)1)
+            py::arg("postScaling"), py::arg("levelToReduce") = 0, py::arg("order") = (size_t)1,
+            py::doc(cc_EvalFBT_docs))
         .def("EvalFBTNoDecoding",
             [](CC& self, ConstCiphertext<DCRTPoly> ciphertext, const std::vector<int64_t>& coeffs,
                uint32_t digitBitSize, const py::int_& initialScaling, size_t order) {
@@ -150,7 +159,8 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
                                               openfhe_python::PyIntToInteger<BigInteger>(initialScaling), order);
             },
             py::arg("ciphertext"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("initialScaling"),
-            py::arg("order") = (size_t)1)
+            py::arg("order") = (size_t)1,
+            py::doc(cc_EvalFBTNoDecoding_docs))
         .def("EvalFBTNoDecoding",
             [](CC& self, ConstCiphertext<DCRTPoly> ciphertext, const std::vector<std::complex<double>>& coeffs,
                uint32_t digitBitSize, const py::int_& initialScaling, size_t order) {
@@ -158,9 +168,11 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
                                               openfhe_python::PyIntToInteger<BigInteger>(initialScaling), order);
             },
             py::arg("ciphertext"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("initialScaling"),
-            py::arg("order") = (size_t)1)
+            py::arg("order") = (size_t)1,
+            py::doc(cc_EvalFBTNoDecoding_docs))
         .def("EvalHomDecoding", &CryptoContextImpl<DCRTPoly>::EvalHomDecoding,
-            py::arg("ciphertext"), py::arg("postScaling"), py::arg("levelToReduce") = 0)
+            py::arg("ciphertext"), py::arg("postScaling"), py::arg("levelToReduce") = 0,
+            py::doc(cc_EvalHomDecoding_docs))
         .def("EvalMVBPrecompute",
             [](CC& self, ConstCiphertext<DCRTPoly> ciphertext, const std::vector<int64_t>& coeffs,
                uint32_t digitBitSize, const py::int_& initialScaling, size_t order) {
@@ -168,7 +180,8 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
                                               openfhe_python::PyIntToInteger<BigInteger>(initialScaling), order);
             },
             py::arg("ciphertext"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("initialScaling"),
-            py::arg("order") = (size_t)1)
+            py::arg("order") = (size_t)1,
+            py::doc(cc_EvalMVBPrecompute_docs))
         .def("EvalMVBPrecompute",
             [](CC& self, ConstCiphertext<DCRTPoly> ciphertext, const std::vector<std::complex<double>>& coeffs,
                uint32_t digitBitSize, const py::int_& initialScaling, size_t order) {
@@ -176,17 +189,22 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
                                               openfhe_python::PyIntToInteger<BigInteger>(initialScaling), order);
             },
             py::arg("ciphertext"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("initialScaling"),
-            py::arg("order") = (size_t)1)
+            py::arg("order") = (size_t)1,
+            py::doc(cc_EvalMVBPrecompute_docs))
         .def("EvalMVB", &CryptoContextImpl<DCRTPoly>::EvalMVB<int64_t>,
             py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("postScaling"),
-            py::arg("levelToReduce") = 0, py::arg("order") = (size_t)1)
+            py::arg("levelToReduce") = 0, py::arg("order") = (size_t)1,
+            py::doc(cc_EvalMVB_docs))
         .def("EvalMVB", &CryptoContextImpl<DCRTPoly>::EvalMVB<std::complex<double>>,
             py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("postScaling"),
-            py::arg("levelToReduce") = 0, py::arg("order") = (size_t)1)
+            py::arg("levelToReduce") = 0, py::arg("order") = (size_t)1,
+            py::doc(cc_EvalMVB_docs))
         .def("EvalMVBNoDecoding", &CryptoContextImpl<DCRTPoly>::EvalMVBNoDecoding<int64_t>,
-            py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("order") = (size_t)1)
+            py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("order") = (size_t)1,
+            py::doc(cc_EvalMVBNoDecoding_docs))
         .def("EvalMVBNoDecoding", &CryptoContextImpl<DCRTPoly>::EvalMVBNoDecoding<std::complex<double>>,
-            py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("order") = (size_t)1)
+            py::arg("ciphertexts"), py::arg("coeffs"), py::arg("digitBitSize"), py::arg("order") = (size_t)1,
+            py::doc(cc_EvalMVBNoDecoding_docs))
         .def("EvalHermiteTrigSeries", &CryptoContextImpl<DCRTPoly>::EvalHermiteTrigSeries<int64_t>,
             py::arg("ciphertext"), py::arg("coefficientsCheb"), py::arg("a"), py::arg("b"),
             py::arg("coefficientsHerm"), py::arg("precomp") = (size_t)0,
@@ -199,26 +217,34 @@ void bind_fbt_crypto_context(DCRTCryptoContextClass &cls) {
         .def("EvalFEFuncBootstrapSetup", &CryptoContextImpl<DCRTPoly>::EvalFEFuncBootstrapSetup,
             py::arg("levelBudget") = std::vector<uint32_t>({5, 4}),
             py::arg("dim1") = std::vector<uint32_t>({0, 0}),
-            py::arg("slots") = 0)
+            py::arg("slots") = 0,
+            py::doc(cc_EvalFEFuncBootstrapSetup_docs))
         .def("EvalFEFuncBootstrap", &CryptoContextImpl<DCRTPoly>::EvalFEFuncBootstrap,
-            py::arg("ciphertext"), py::arg("coefficients"))
+            py::arg("ciphertext"), py::arg("coefficients"),
+            py::doc(cc_EvalFEFuncBootstrap_docs))
         .def("EvalFEFuncBootstrapPrecompute", &CryptoContextImpl<DCRTPoly>::EvalFEFuncBootstrapPrecompute,
-            py::arg("ciphertext"), py::arg("coefficients"))
+            py::arg("ciphertext"), py::arg("coefficients"),
+            py::doc(cc_EvalFEFuncBootstrapPrecompute_docs))
         .def("EvalFEFuncBootstrapWithPrecomp", &CryptoContextImpl<DCRTPoly>::EvalFEFuncBootstrapWithPrecomp,
-            py::arg("powers"), py::arg("coefficients"))
-        .def("ClearBootstrapPrecom", &CryptoContextImpl<DCRTPoly>::ClearBootstrapPrecom);
+            py::arg("powers"), py::arg("coefficients"),
+            py::doc(cc_EvalFEFuncBootstrapWithPrecomp_docs))
+        .def("ClearBootstrapPrecom", &CryptoContextImpl<DCRTPoly>::ClearBootstrapPrecom,
+            py::doc(cc_ClearBootstrapPrecom_docs));
 }
 
 void bind_fbt(py::module &m) {
     // opaque holder for the powers of the complex exponential precomputed by
     // EvalMVBPrecompute/EvalFEFuncBootstrapPrecompute
-    py::class_<seriesPowers<DCRTPoly>, std::shared_ptr<seriesPowers<DCRTPoly>>>(m, "SeriesPowers");
+    py::class_<seriesPowers<DCRTPoly>, std::shared_ptr<seriesPowers<DCRTPoly>>>(m, "SeriesPowers",
+        fbt_SeriesPowers_docs);
 
     // opaque holder for an RLWE ciphertext (a vector of Poly) used by SchemeletRLWEMP
-    py::class_<std::vector<Poly>>(m, "PolyVector")
+    py::class_<std::vector<Poly>>(m, "PolyVector", fbt_PolyVector_docs)
         .def(py::init<>())
-        .def("__len__", [](const std::vector<Poly>& self) { return self.size(); })
-        .def("Clone", [](const std::vector<Poly>& self) { return std::vector<Poly>(self); })
+        .def("__len__", [](const std::vector<Poly>& self) { return self.size(); },
+            py::doc(fbt_PolyVector_len_docs))
+        .def("Clone", [](const std::vector<Poly>& self) { return std::vector<Poly>(self); },
+            py::doc(fbt_PolyVector_Clone_docs))
         // switches every element of the RLWE ciphertext to the given modulus
         .def("SwitchModulus",
             [](std::vector<Poly>& self, const py::int_& modulus) {
@@ -226,7 +252,8 @@ void bind_fbt(py::module &m) {
                 for (auto& poly : self)
                     poly.SwitchModulus(mod, 1, 0, 0);
             },
-            py::arg("modulus"))
+            py::arg("modulus"),
+            py::doc(fbt_PolyVector_SwitchModulus_docs))
         // element-wise subtraction of two RLWE ciphertexts
         .def("__sub__",
             [](const std::vector<Poly>& self, const std::vector<Poly>& other) {
@@ -236,25 +263,30 @@ void bind_fbt(py::module &m) {
                 for (size_t i = 0; i < result.size(); ++i)
                     result[i] = result[i] - other[i];
                 return result;
-            });
+            },
+            py::doc(fbt_PolyVector_sub_docs));
 
     // Multiplicative depth needed to evaluate the series with the given coefficients
     m.def("GetMultiplicativeDepthByCoeffVector", &GetMultiplicativeDepthByCoeffVector<int64_t>,
-          py::arg("vec"), py::arg("isNormalized") = false);
+          py::arg("vec"), py::arg("isNormalized") = false,
+          py::doc(fbt_GetMultiplicativeDepthByCoeffVector_docs));
     m.def("GetMultiplicativeDepthByCoeffVector", &GetMultiplicativeDepthByCoeffVector<std::complex<double>>,
-          py::arg("vec"), py::arg("isNormalized") = false);
+          py::arg("vec"), py::arg("isNormalized") = false,
+          py::doc(fbt_GetMultiplicativeDepthByCoeffVector_docs));
 
     // note: the element parameters type (ILDCRTParams<DCRTPoly::Integer>) returned by
     // SchemeletRLWEMP::GetElementParams is already registered as "ParmType" in bind_crypto_context
 
     // Trigonometric Hermite interpolation coefficients of a look-up table given as a Python function
     m.def("GetHermiteTrigCoefficients", &GetHermiteTrigCoefficients,
-          py::arg("func"), py::arg("p"), py::arg("order"), py::arg("scale"));
+          py::arg("func"), py::arg("p"), py::arg("order"), py::arg("scale"),
+          py::doc(fbt_GetHermiteTrigCoefficients_docs));
 
     // Conversions between an RLWE scheme and CKKS sharing the same secret key
-    py::class_<SchemeletRLWEMP>(m, "SchemeletRLWEMP")
+    py::class_<SchemeletRLWEMP>(m, "SchemeletRLWEMP", fbt_SchemeletRLWEMP_docs)
         .def_static("GetElementParams", &SchemeletRLWEMP::GetElementParams,
-            py::arg("privateKey"), py::arg("level") = 0)
+            py::arg("privateKey"), py::arg("level") = 0,
+            py::doc(schemelet_GetElementParams_docs))
         .def_static("EncryptCoeff",
             [](const std::vector<int64_t>& input, const py::int_& Q, const py::int_& p,
                const PrivateKey<DCRTPoly>& privateKey, const std::shared_ptr<ElementParams>& elementParams,
@@ -264,7 +296,8 @@ void bind_fbt(py::module &m) {
                                                      elementParams, bitReverse);
             },
             py::arg("input"), py::arg("Q"), py::arg("p"), py::arg("privateKey"), py::arg("elementParams"),
-            py::arg("bitReverse") = false)
+            py::arg("bitReverse") = false,
+            py::doc(schemelet_EncryptCoeff_docs))
         .def_static("DecryptCoeff",
             [](const std::vector<Poly>& input, const py::int_& Q, const py::int_& p,
                const PrivateKey<DCRTPoly>& privateKey, const std::shared_ptr<ElementParams>& elementParams,
@@ -274,13 +307,15 @@ void bind_fbt(py::module &m) {
                                                      elementParams, numSlots, length, bitReverse);
             },
             py::arg("input"), py::arg("Q"), py::arg("p"), py::arg("privateKey"), py::arg("elementParams"),
-            py::arg("numSlots"), py::arg("length") = 0, py::arg("bitReverse") = false)
+            py::arg("numSlots"), py::arg("length") = 0, py::arg("bitReverse") = false,
+            py::doc(schemelet_DecryptCoeff_docs))
         .def_static("ModSwitch",
             [](std::vector<Poly>& input, const py::int_& Q1, const py::int_& Q2) {
                 SchemeletRLWEMP::ModSwitch(input, openfhe_python::PyIntToInteger<BigInteger>(Q1),
                                            openfhe_python::PyIntToInteger<BigInteger>(Q2));
             },
-            py::arg("input"), py::arg("Q1"), py::arg("Q2"))
+            py::arg("input"), py::arg("Q1"), py::arg("Q2"),
+            py::doc(schemelet_ModSwitch_docs))
         .def_static("ConvertRLWEToCKKS",
             [](const CryptoContext<DCRTPoly>& cc, const std::vector<Poly>& coeffs, const PublicKey<DCRTPoly>& pubKey,
                const py::int_& Bigq, uint32_t slots, uint32_t level) {
@@ -291,21 +326,25 @@ void bind_fbt(py::module &m) {
                     *cc, coeffs, pubKey, openfhe_python::PyIntToInteger<BigInteger>(Bigq), slots, level);
             },
             py::arg("cc"), py::arg("coeffs"), py::arg("pubKey"), py::arg("Bigq"), py::arg("slots"),
-            py::arg("level") = 0)
+            py::arg("level") = 0,
+            py::doc(schemelet_ConvertRLWEToCKKS_docs))
         .def_static("ConvertCKKSToRLWE",
             [](ConstCiphertext<DCRTPoly> ctxt, const py::int_& Q) {
                 return SchemeletRLWEMP::ConvertCKKSToRLWE(
                     ctxt, openfhe_python::PyIntToInteger<BigInteger>(Q));
             },
-            py::arg("ctxt"), py::arg("Q"))
+            py::arg("ctxt"), py::arg("Q"),
+            py::doc(schemelet_ConvertCKKSToRLWE_docs))
         .def_static("GetQPrime",
             [](const PublicKey<DCRTPoly>& pubKey, uint32_t lvls) {
                 return openfhe_python::IntegerToPyInt(SchemeletRLWEMP::GetQPrime(pubKey, lvls));
             },
-            py::arg("pubKey"), py::arg("lvls"));
+            py::arg("pubKey"), py::arg("lvls"),
+            py::doc(schemelet_GetQPrime_docs));
 
     // Serializer/deserializer for all the data needed by CKKS <-> FHEW scheme switching
-    py::class_<SchemeSwitchingDataSerializer>(m, "SchemeSwitchingDataSerializer")
+    py::class_<SchemeSwitchingDataSerializer>(m, "SchemeSwitchingDataSerializer",
+            fbt_SchemeSwitchingDataSerializer_docs)
         // the C++ constructor dereferences cryptoContext in its initializer list,
         // so None arguments must be rejected here to avoid a segfault
         .def(py::init([](const CryptoContext<DCRTPoly>& cryptoContext, const PublicKey<DCRTPoly>& publicKey,
@@ -318,15 +357,24 @@ void bind_fbt(py::module &m) {
                      OPENFHE_THROW("RAWCiphertext is nullptr");
                  return SchemeSwitchingDataSerializer(cryptoContext, publicKey, RAWCiphertext);
              }),
-             py::arg("cryptoContext"), py::arg("publicKey"), py::arg("RAWCiphertext"))
-        .def("SetDataDirectory", &SchemeSwitchingDataSerializer::SetDataDirectory, py::arg("dir"))
-        .def("Serialize", &SchemeSwitchingDataSerializer::Serialize);
+             py::arg("cryptoContext"), py::arg("publicKey"), py::arg("RAWCiphertext"),
+             py::doc(fbt_SchemeSwitchingDataSerializer_init_docs))
+        .def("SetDataDirectory", &SchemeSwitchingDataSerializer::SetDataDirectory, py::arg("dir"),
+            py::doc(fbt_SetDataDirectory_docs))
+        .def("Serialize", &SchemeSwitchingDataSerializer::Serialize,
+            py::doc(fbt_Serialize_docs));
 
-    py::class_<SchemeSwitchingDataDeserializer>(m, "SchemeSwitchingDataDeserializer")
+    py::class_<SchemeSwitchingDataDeserializer>(m, "SchemeSwitchingDataDeserializer",
+            fbt_SchemeSwitchingDataDeserializer_docs)
         .def(py::init<>())
-        .def("SetDataDirectory", &SchemeSwitchingDataDeserializer::SetDataDirectory, py::arg("dir"))
-        .def("getCryptoContext", &SchemeSwitchingDataDeserializer::getCryptoContext)
-        .def("getPublicKey", &SchemeSwitchingDataDeserializer::getPublicKey)
-        .def("getRAWCiphertext", &SchemeSwitchingDataDeserializer::getRAWCiphertext)
-        .def("Deserialize", &SchemeSwitchingDataDeserializer::Deserialize);
+        .def("SetDataDirectory", &SchemeSwitchingDataDeserializer::SetDataDirectory, py::arg("dir"),
+            py::doc(fbt_SetDataDirectory_docs))
+        .def("getCryptoContext", &SchemeSwitchingDataDeserializer::getCryptoContext,
+            py::doc(fbt_getCryptoContext_docs))
+        .def("getPublicKey", &SchemeSwitchingDataDeserializer::getPublicKey,
+            py::doc(fbt_getPublicKey_docs))
+        .def("getRAWCiphertext", &SchemeSwitchingDataDeserializer::getRAWCiphertext,
+            py::doc(fbt_getRAWCiphertext_docs))
+        .def("Deserialize", &SchemeSwitchingDataDeserializer::Deserialize,
+            py::doc(fbt_Deserialize_docs));
 }
