@@ -296,10 +296,13 @@ def test_integer_conversions_reject_invalid_python_ints(ckks_context):
 
     with pytest.raises(ValueError):
         fhe.PolyVector().SwitchModulus(-1)
-    with pytest.raises(OverflowError):
-        plaintext.SetScalingFactorInt(3 * 10**19)
+    # native_max + 1 == 2**native_bits has as many decimal digits as native_max,
+    # exercising the lexicographic branch of the overflow check; native_max * 10
+    # is one digit longer, exercising the string-length branch.
     with pytest.raises(OverflowError):
         plaintext.SetScalingFactorInt(native_max + 1)
+    with pytest.raises(OverflowError):
+        plaintext.SetScalingFactorInt(native_max * 10)
     with pytest.raises(TypeError):
         plaintext.SetScalingFactorInt(True)
 
