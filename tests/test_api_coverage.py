@@ -286,6 +286,35 @@ def test_null_context_arguments_raise_instead_of_crashing(ckks_context):
         fhe.SchemeSwitchingDataSerializer(cc, keys.publicKey, None)
 
 
+def test_schemelet_null_arguments_raise_instead_of_crashing(ckks_context):
+    """A None key/params/ciphertext, or an empty vector where C++ indexes the two RLWE
+    polynomials, used to be dereferenced in C++ and segfault."""
+    cc, keys = ckks_context
+    params = fhe.SchemeletRLWEMP.GetElementParams(keys.secretKey)
+
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.DecryptCoeff(fhe.PolyVector(), 65537, 17, keys.secretKey, params, 8)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.ConvertRLWEToCKKS(cc, fhe.PolyVector(), keys.publicKey, 1, 1, 0)
+
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.GetElementParams(None)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.EncryptCoeff([1], 65537, 17, None, params)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.EncryptCoeff([1], 65537, 17, keys.secretKey, None)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.DecryptCoeff(fhe.PolyVector(), 65537, 17, None, params, 8)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.DecryptCoeff(fhe.PolyVector(), 65537, 17, keys.secretKey, None, 8)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.ModSwitch(fhe.PolyVector(), 65537, 17)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.ConvertCKKSToRLWE(None, 65537)
+    with pytest.raises(RuntimeError):
+        fhe.SchemeletRLWEMP.GetQPrime(None, 1)
+
+
 def test_integer_conversions_reject_invalid_python_ints(ckks_context):
     """Arbitrary-size int conversion must reject what OpenFHE cannot represent:
     negatives hang the OpenFHE string parser, oversized values silently wrap."""
@@ -311,6 +340,14 @@ def test_integer_conversions_reject_invalid_python_ints(ckks_context):
 
     # BigInteger is not limited to the configured native word size.
     fhe.PolyVector().SwitchModulus(2**220 + 123456789)
+
+    # The fixed-size BigInteger backend (3500/8000 bits) must report overflow as
+    # OverflowError like the native path, not RuntimeError; the dynamic backend
+    # has no fixed capacity and accepts any size.
+    try:
+        fhe.PolyVector().SwitchModulus(2**8192)
+    except OverflowError:
+        pass
 
 
 def test_module_exposes_its_version():

@@ -284,13 +284,24 @@ void bind_fbt(py::module &m) {
 
     // Conversions between an RLWE scheme and CKKS sharing the same secret key
     py::class_<SchemeletRLWEMP>(m, "SchemeletRLWEMP", fbt_SchemeletRLWEMP_docs)
-        .def_static("GetElementParams", &SchemeletRLWEMP::GetElementParams,
+        .def_static("GetElementParams",
+            [](const PrivateKey<DCRTPoly>& privateKey, uint32_t level) {
+                // the key is dereferenced in C++, so a None argument would segfault without this check
+                if (!privateKey)
+                    OPENFHE_THROW("privateKey is nullptr");
+                return SchemeletRLWEMP::GetElementParams(privateKey, level);
+            },
             py::arg("privateKey"), py::arg("level") = 0,
             py::doc(schemelet_GetElementParams_docs))
         .def_static("EncryptCoeff",
             [](const std::vector<int64_t>& input, const py::int_& Q, const py::int_& p,
                const PrivateKey<DCRTPoly>& privateKey, const std::shared_ptr<ElementParams>& elementParams,
                bool bitReverse) {
+                // both pointers are dereferenced in C++, so None arguments would segfault without these checks
+                if (!privateKey)
+                    OPENFHE_THROW("privateKey is nullptr");
+                if (!elementParams)
+                    OPENFHE_THROW("elementParams is nullptr");
                 return SchemeletRLWEMP::EncryptCoeff(input, openfhe_python::PyIntToInteger<BigInteger>(Q),
                                                      openfhe_python::PyIntToInteger<BigInteger>(p), privateKey,
                                                      elementParams, bitReverse);
@@ -302,6 +313,14 @@ void bind_fbt(py::module &m) {
             [](const std::vector<Poly>& input, const py::int_& Q, const py::int_& p,
                const PrivateKey<DCRTPoly>& privateKey, const std::shared_ptr<ElementParams>& elementParams,
                uint32_t numSlots, uint32_t length, bool bitReverse) {
+                // the pointers are dereferenced and input[0]/input[1] are indexed in C++,
+                // so None arguments or a short vector would segfault without these checks
+                if (!privateKey)
+                    OPENFHE_THROW("privateKey is nullptr");
+                if (!elementParams)
+                    OPENFHE_THROW("elementParams is nullptr");
+                if (input.size() < 2)
+                    OPENFHE_THROW("input must hold the 2 RLWE ciphertext polynomials {b, a}");
                 return SchemeletRLWEMP::DecryptCoeff(input, openfhe_python::PyIntToInteger<BigInteger>(Q),
                                                      openfhe_python::PyIntToInteger<BigInteger>(p), privateKey,
                                                      elementParams, numSlots, length, bitReverse);
@@ -311,6 +330,10 @@ void bind_fbt(py::module &m) {
             py::doc(schemelet_DecryptCoeff_docs))
         .def_static("ModSwitch",
             [](std::vector<Poly>& input, const py::int_& Q1, const py::int_& Q2) {
+                // the C++ implementation indexes input[0] and input[1], so a short vector
+                // would segfault without this check
+                if (input.size() < 2)
+                    OPENFHE_THROW("input must hold the 2 RLWE ciphertext polynomials {b, a}");
                 SchemeletRLWEMP::ModSwitch(input, openfhe_python::PyIntToInteger<BigInteger>(Q1),
                                            openfhe_python::PyIntToInteger<BigInteger>(Q2));
             },
@@ -319,9 +342,12 @@ void bind_fbt(py::module &m) {
         .def_static("ConvertRLWEToCKKS",
             [](const CryptoContext<DCRTPoly>& cc, const std::vector<Poly>& coeffs, const PublicKey<DCRTPoly>& pubKey,
                const py::int_& Bigq, uint32_t slots, uint32_t level) {
-                // cc is dereferenced below, so a None argument would segfault without this check
+                // cc is dereferenced and coeffs[0]/coeffs[1] are indexed in C++, so a None
+                // context or a short vector would segfault without these checks
                 if (!cc)
                     OPENFHE_THROW("cc is nullptr");
+                if (coeffs.size() < 2)
+                    OPENFHE_THROW("coeffs must hold the 2 RLWE ciphertext polynomials {b, a}");
                 return SchemeletRLWEMP::ConvertRLWEToCKKS(
                     *cc, coeffs, pubKey, openfhe_python::PyIntToInteger<BigInteger>(Bigq), slots, level);
             },
@@ -330,6 +356,9 @@ void bind_fbt(py::module &m) {
             py::doc(schemelet_ConvertRLWEToCKKS_docs))
         .def_static("ConvertCKKSToRLWE",
             [](ConstCiphertext<DCRTPoly> ctxt, const py::int_& Q) {
+                // the ciphertext is dereferenced in C++, so a None argument would segfault without this check
+                if (!ctxt)
+                    OPENFHE_THROW("ctxt is nullptr");
                 return SchemeletRLWEMP::ConvertCKKSToRLWE(
                     ctxt, openfhe_python::PyIntToInteger<BigInteger>(Q));
             },
@@ -337,6 +366,9 @@ void bind_fbt(py::module &m) {
             py::doc(schemelet_ConvertCKKSToRLWE_docs))
         .def_static("GetQPrime",
             [](const PublicKey<DCRTPoly>& pubKey, uint32_t lvls) {
+                // the key is dereferenced in C++, so a None argument would segfault without this check
+                if (!pubKey)
+                    OPENFHE_THROW("pubKey is nullptr");
                 return openfhe_python::IntegerToPyInt(SchemeletRLWEMP::GetQPrime(pubKey, lvls));
             },
             py::arg("pubKey"), py::arg("lvls"),

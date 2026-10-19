@@ -8,6 +8,7 @@ Python wrapper for the main cryptographic capabilities of the OpenFHE C++ librar
 
 ## Table of Contents
 
+- [Breaking changes in v1.6](#breaking-changes-in-v16)
 - [Installing using pip](#installing-using-pip)
 - [Running from Docker](#running-from-docker)
 - [Building from Source](#building-from-source)
@@ -18,6 +19,11 @@ Python wrapper for the main cryptographic capabilities of the OpenFHE C++ librar
 - [Running Examples](#code-examples)
 - [OpenFHE Python Wrapper Documentation](#openfhe-python-wrapper-documentation)
 - [Contributing Guide](#contributing-guide)
+
+## Breaking changes in v1.6
+
+- The `FHECKKSRNS` class is no longer exposed to Python. Its static depth helpers are now static methods of `CryptoContext`: replace `FHECKKSRNS.GetBootstrapDepth(...)` with `CryptoContext.GetBootstrapDepth(...)` (both overloads keep their signatures).
+- The `BinFHEContext` attributes `SaveJSON`, `LoadJSON`, `SaveBinary`, `LoadBinary`, `SavePortableBinary`, `LoadPortableBinary`, `GetParams`, `GetLWEScheme`, `GetBinFHEScheme`, and `GetRefreshKey` were removed. They could never be called successfully in v1.5.1 (their argument or return types were not exposed to Python), but `hasattr` checks on them now return `False`. Use the module-level `SerializeToFile`/`Deserialize*` functions for serialization, and `GetN()`/`GetQ()` for the common parameter queries.
 
 ## Installing using pip (for Ubuntu)
 
@@ -63,19 +69,16 @@ make
 make install  # You may have to run sudo make install
 ```
 
-At this point the `.so` file has been built. Your exact installation process will depend on your virtual environment.
+With the default install prefix, `make install` copies the module directly into the site-packages directory of the Python interpreter cmake found (this also works inside virtual environments), so `import openfhe` works with no further setup.
 Cmake will automatically find the python installation path, if unwanted, you can specify the python path by adding `-DPYTHON_EXECUTABLE_PATH=/path/to/python` to the cmake command.
 
-If you see an error saying that one of OpenFHE .so files cannot be found when running a Python example (occurs only for some environments), 
-add the path where the .so files reside to the `PYTHONPATH` environment variable:
+If you install to a custom location instead (`cmake .. -DCMAKE_INSTALL_PREFIX=/your/path`), add that location to the `PYTHONPATH` environment variable so Python can find the module:
 
 ```
-export PYTHONPATH=(/path/to/installed/openfhe):$PYTHONPATH
+export PYTHONPATH=/your/path:$PYTHONPATH
 ```
 
-In some environments (this happens rarely), it may also be necessary to add the OpenFHE libraries path to `LD_LIBRARY_PATH`.
-
-If OpenFHE is not installed in the default location, then both `PYTHONPATH and LD_LIBRARY_PATH` must be set before running any Python example.
+Independently of where the Python module is installed, if you see an error saying that one of the OpenFHE .so libraries cannot be found when running a Python example, add the directory containing the OpenFHE C++ libraries to `LD_LIBRARY_PATH`. This is only needed when OpenFHE itself was installed somewhere the dynamic linker does not search by default.
 
 #### Conda
 

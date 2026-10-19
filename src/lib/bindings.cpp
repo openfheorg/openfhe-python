@@ -53,6 +53,12 @@ using namespace lbcrypto;
 using CC = CryptoContextImpl<DCRTPoly>;
 namespace py = pybind11;
 
+// PyIntToInteger only range-checks types the IsNativeInteger trait recognizes; if an
+// OpenFHE change stops NativeInteger from matching it, oversized Python ints would
+// silently wrap again, so turn that into a build error instead.
+static_assert(openfhe_python::IsNativeInteger<NativeInteger>::value,
+              "IsNativeInteger does not detect NativeInteger; PyIntToInteger would lose its overflow check");
+
 // disable the PYBIND11 template-based conversion for this type
 PYBIND11_MAKE_OPAQUE(std::map<uint32_t, EvalKey<DCRTPoly>>);
 

@@ -56,12 +56,19 @@ pybind11::int_ IntegerToPyInt(const Integer& value) {
     return pybind11::reinterpret_steal<pybind11::int_>(result);
 }
 
+[[noreturn]] inline void ThrowOverflowError(const std::string& valueStr) {
+    PyErr_SetString(PyExc_OverflowError,
+                    ("value too large for the target OpenFHE integer type: " + valueStr).c_str());
+    throw pybind11::error_already_set();
+}
+
 // Convert an arbitrary-size Python integer through its decimal representation.
 // OpenFHE integers are unsigned: a negative input is rejected here because some
 // OpenFHE string parsers hang on a leading '-'. NativeInteger's parser does not
 // detect every overflow, so check its range before construction. BigInteger's
-// dynamic backend has no fixed-width overflow, and the fixed backend checks its
-// own bound; neither needs a costly integer-to-decimal round trip after parsing.
+// dynamic backend has no fixed-width overflow, and the fixed backend enforces its
+// bound by throwing from the constructor; that throw is remapped below so every
+// oversized value surfaces as the same Python OverflowError.
 template <typename Integer>
 Integer PyIntToInteger(const pybind11::int_& value) {
     if (pybind11::isinstance<pybind11::bool_>(value))
@@ -80,13 +87,18 @@ Integer PyIntToInteger(const pybind11::int_& value) {
         static const std::string maxValue = Integer(std::numeric_limits<NativeType>::max()).ToString();
         if (valueStr.size() > maxValue.size() ||
             (valueStr.size() == maxValue.size() && valueStr > maxValue)) {
-            PyErr_SetString(PyExc_OverflowError,
-                            ("value too large for the target OpenFHE integer type: " + valueStr).c_str());
-            throw pybind11::error_already_set();
+            ThrowOverflowError(valueStr);
+        }
+        return Integer(valueStr);
+    } else {
+        // the string is digits-only at this point, so running out of capacity is the
+        // only way the fixed-size BigInteger constructor can throw
+        try {
+            return Integer(valueStr);
+        } catch (const std::exception&) {
+            ThrowOverflowError(valueStr);
         }
     }
-
-    return Integer(valueStr);
 }
 
 }  // namespace openfhe_python
