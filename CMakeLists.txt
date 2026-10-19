@@ -126,4 +126,7 @@ else()
 endif()
 message("***** INSTALL IS AT ${Python_Install_Location}; to change, run cmake with -DCMAKE_INSTALL_PREFIX=/your/path")
 install(TARGETS openfhe LIBRARY DESTINATION ${Python_Install_Location})
+# openfhe-python-packager composes the pip wheel as an openfhe/ package from this
+# install tree: without __init__.py setuptools packages nothing and the wheel is empty
+install(FILES ${CMAKE_SOURCE_DIR}/src/__init__.py DESTINATION ${Python_Install_Location})
 
