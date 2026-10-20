@@ -41,6 +41,21 @@ using DCRTCryptoContextClass = pybind11::class_<
     lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>,
     std::shared_ptr<lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>>>;
 
+// Releases the GIL for the duration of the bound C++ call, so other Python threads can
+// run (and call into OpenFHE) while heavy native work -- lattice arithmetic, key
+// generation, (de)serialization -- is in progress. Only attach it to bindings whose C++
+// body never touches Python objects: pybind11 converts the arguments and the return
+// value while still holding the GIL, and virtual PlaintextImpl overrides re-acquire it
+// inside PYBIND11_OVERRIDE. Wrappers that must touch Python objects mid-body (e.g. the
+// py::bytes serialization wrappers) use a scoped pybind11::gil_scoped_release around
+// their pure-C++ section instead.
+//
+// Thread-safety contract (unchanged from the OpenFHE C++ API, but now observable from
+// Python): the static evaluation-key maps are not synchronized, so concurrent reads
+// (evaluation calls) are safe, but keys must not be generated/inserted/deserialized in
+// one thread while another thread uses them.
+inline constexpr auto release_gil = pybind11::call_guard<pybind11::gil_scoped_release>();
+
 void bind_crypto_context(pybind11::module &m);
 void bind_enums_and_constants(pybind11::module &m);
 void bind_keys(pybind11::module &m);
