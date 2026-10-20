@@ -70,6 +70,15 @@ inline std::shared_ptr<CryptoParametersRNS> GetParamsRNSChecked(const CryptoCont
     return ptr;
 }
 
+// The C++ fast-rotation API takes the digit decomposition as a shared_ptr to a vector
+// of ring elements, while the Python API carries it inside the Ciphertext returned by
+// EvalFastRotationPrecompute. Alias that ciphertext's element vector instead of
+// deep-copying it on every rotation; the aliasing shared_ptr keeps the carrier
+// ciphertext alive for as long as the vector is referenced.
+inline std::shared_ptr<std::vector<DCRTPoly>> AliasDigits(const Ciphertext<DCRTPoly>& digits) {
+    return std::shared_ptr<std::vector<DCRTPoly>>(digits, &digits->GetElements());
+}
+
 
 void bind_DCRTPoly(py::module &m) {
   py::class_<DCRTPoly>(m, "DCRTPoly",
@@ -809,7 +818,9 @@ void bind_crypto_context(py::module &m) {
             [](CryptoContext<DCRTPoly>& self, ConstCiphertext<DCRTPoly> ciphertext) {
                 auto precomp = self->EvalFastRotationPrecompute(ciphertext);
                 auto cipherdigits = std::make_shared<CiphertextImpl<DCRTPoly>>(self);
-                cipherdigits->SetElements(*precomp);
+                // move the freshly computed decomposition into the carrier
+                // ciphertext instead of deep-copying it
+                cipherdigits->SetElements(std::move(*precomp));
                 return cipherdigits;
             },
             py::arg("ciphertext"),
@@ -817,10 +828,12 @@ void bind_crypto_context(py::module &m) {
         .def("EvalFastRotation",
             [](CryptoContext<DCRTPoly>& self,
                 ConstCiphertext<DCRTPoly> ciphertext,
-                uint32_t index,
+                int32_t index,
                 uint32_t m,
-                ConstCiphertext<DCRTPoly> digits) {
-                return self->EvalFastRotation(ciphertext, index, m, std::make_shared<std::vector<DCRTPoly>>(digits->GetElements()));
+                const Ciphertext<DCRTPoly>& digits) {
+                // like EvalRotate, the rotation offset is signed; the C++ API carries
+                // signed offsets in uint32_t values
+                return self->EvalFastRotation(ciphertext, static_cast<uint32_t>(index), m, AliasDigits(digits));
             },
             py::arg("ciphertext"),
             py::arg("index"),
@@ -830,9 +843,11 @@ void bind_crypto_context(py::module &m) {
         .def("EvalFastRotation",
             [](CryptoContext<DCRTPoly>& self,
                 ConstCiphertext<DCRTPoly> ciphertext,
-                uint32_t index,
-                ConstCiphertext<DCRTPoly> digits) {
-                return self->EvalFastRotation(ciphertext, index, std::make_shared<std::vector<DCRTPoly>>(digits->GetElements()));
+                int32_t index,
+                const Ciphertext<DCRTPoly>& digits) {
+                // like EvalRotate, the rotation offset is signed; the C++ API carries
+                // signed offsets in uint32_t values
+                return self->EvalFastRotation(ciphertext, static_cast<uint32_t>(index), AliasDigits(digits));
             },
             py::arg("ciphertext"),
             py::arg("index"),
@@ -841,16 +856,18 @@ void bind_crypto_context(py::module &m) {
         .def("EvalFastRotationExt",
             [](CryptoContext<DCRTPoly>& self,
                 ConstCiphertext<DCRTPoly> ciphertext,
-                uint32_t index,
-                ConstCiphertext<DCRTPoly> digits,
+                int32_t index,
+                const Ciphertext<DCRTPoly>& digits,
                 bool addFirst) {
-                return self->EvalFastRotationExt(ciphertext, index, std::make_shared<std::vector<DCRTPoly>>(digits->GetElements()), addFirst);
+                // like EvalRotate, the rotation offset is signed; the C++ API carries
+                // signed offsets in uint32_t values
+                return self->EvalFastRotationExt(ciphertext, static_cast<uint32_t>(index), AliasDigits(digits), addFirst);
             },
             py::arg("ciphertext"),
             py::arg("index"),
             py::arg("digits"),
             py::arg("addFirst"),
-            py::doc(cc_EvalFastRotationExt_docs))
+            py::doc(cc_EvalFastRotationExt_docs), release_gil)
         .def("EvalAtIndexKeyGen", &CryptoContextImpl<DCRTPoly>::EvalAtIndexKeyGen,
             py::arg("privateKey"),
             py::arg("indexList"),

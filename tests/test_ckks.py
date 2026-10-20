@@ -166,3 +166,22 @@ def test_numpy_encode_decode_fast_paths(ckks_context):
 
     with pytest.raises((ValueError, TypeError)):
         cc.MakeCKKSPackedPlaintext(raw.reshape(2, batch_size // 2))
+
+
+def test_eval_fast_rotation_matches_eval_rotate(ckks_context):
+    """Hoisted rotations: one precompute reused across rotations (the digit
+    decomposition is aliased, not copied, so reuse must not corrupt it)."""
+    params, cc, keys = ckks_context
+    batch_size = params.GetBatchSize()
+    rng = random.Random(7)
+    raw = [rng.uniform(-1, 1) for _ in range(batch_size)]
+    ct = cc.Encrypt(keys.publicKey, cc.MakeCKKSPackedPlaintext(raw))
+    digits = cc.EvalFastRotationPrecompute(ct)
+    m = 2 * cc.GetRingDimension()
+    for index in (1, -2, 1):  # repeat an index: the reused digits must stay intact
+        plain = cc.Decrypt(cc.EvalRotate(ct, index), keys.secretKey)
+        plain.SetLength(batch_size)
+        fast = cc.Decrypt(cc.EvalFastRotation(ct, index, m, digits), keys.secretKey)
+        fast.SetLength(batch_size)
+        assert fast.GetRealPackedValueArray() == pytest.approx(
+            plain.GetRealPackedValueArray(), abs=1e-3)
