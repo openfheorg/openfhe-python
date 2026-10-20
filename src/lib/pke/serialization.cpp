@@ -41,12 +41,64 @@
 
 #include "docstrings/serialization_docs.h"
 
+#include <istream>
+#include <ostream>
+#include <streambuf>
+#include <string>
+#include <utility>
+
 using namespace lbcrypto;
 using CryptoContextDCRT = CryptoContext<DCRTPoly>;
 namespace py = pybind11;
 
 // disable the PYBIND11 template-based conversion for this type
 PYBIND11_MAKE_OPAQUE(std::map<uint32_t, EvalKey<DCRTPoly>>);
+
+namespace {
+
+// Read-only streambuf over an existing buffer: deserialization reads straight from a
+// py::bytes' (or std::string's) storage instead of copying it into a stringstream.
+// The caller must keep the underlying buffer alive for the streambuf's lifetime.
+class MemoryStreamBuf final : public std::streambuf {
+public:
+    MemoryStreamBuf(const char* data, size_t size) {
+        char* p = const_cast<char*>(data);  // only ever read through the get area
+        setg(p, p, p + size);
+    }
+};
+
+// Output streambuf appending to a caller-owned std::string, so a serialized payload
+// is produced in a single owned buffer instead of being copied out of a stringbuf.
+class StringStreamBuf final : public std::streambuf {
+public:
+    explicit StringStreamBuf(std::string& out) : out_(out) {}
+
+protected:
+    int_type overflow(int_type ch) override {
+        if (!traits_type::eq_int_type(ch, traits_type::eof()))
+            out_.push_back(traits_type::to_char_type(ch));
+        return traits_type::not_eof(ch);
+    }
+    std::streamsize xsputn(const char* s, std::streamsize count) override {
+        out_.append(s, static_cast<size_t>(count));
+        return count;
+    }
+
+private:
+    std::string& out_;
+};
+
+// Borrow the internal buffer of a bytes object without copying it; the py::bytes
+// reference held by the caller keeps the buffer alive and immutable.
+std::pair<const char*, size_t> BytesView(const py::bytes& bytes) {
+    char* data = nullptr;
+    Py_ssize_t size = 0;
+    if (PYBIND11_BYTES_AS_STRING_AND_SIZE(bytes.ptr(), &data, &size) != 0)
+        throw py::error_already_set();
+    return {data, static_cast<size_t>(size)};
+}
+
+}  // namespace
 
 
 template <typename ST>
@@ -99,48 +151,52 @@ std::tuple<CryptoContextDCRT, bool> DeserializeCCWrapper(const std::string& file
 
 template <typename T, typename ST>
 std::string SerializeToStringWrapper(const T& obj, const ST& sertype) {
-    std::ostringstream oss;
+    std::string payload;
+    StringStreamBuf buf(payload);
+    std::ostream oss(&buf);
     Serial::Serialize<T>(obj, oss, sertype);
-    return oss.str();
+    return payload;
 }
 
 template <typename T, typename ST>
 py::bytes SerializeToBytesWrapper(const T& obj, const ST& sertype) {
-    // let strbuf be dynamically allocated as we may be dealing with large keys
-    auto strbuf = std::make_unique<std::stringbuf>(std::ios::out | std::ios::binary);
+    std::string payload;
     {
         // only the py::bytes construction below needs the GIL
         py::gil_scoped_release release;
-        std::ostream oss(strbuf.get());
+        StringStreamBuf buf(payload);
+        std::ostream oss(&buf);
         Serial::Serialize<T>(obj, oss, sertype);
     }
-    const std::string& str = strbuf->str();
-    return py::bytes(str.data(), str.size());
+    return py::bytes(payload.data(), payload.size());
 }
 
 template <typename T, typename ST>
 T DeserializeFromStringWrapper(const std::string& str, const ST& sertype) {
+    MemoryStreamBuf buf(str.data(), str.size());
+    std::istream iss(&buf);
     T obj;
-    std::istringstream iss(str);
     Serial::Deserialize<T>(obj, iss, sertype);
     return obj;
 }
 
 template <typename ST>
 CryptoContextDCRT DeserializeCCFromStringWrapper(const std::string& str, const ST& sertype) {
+    MemoryStreamBuf buf(str.data(), str.size());
+    std::istream iss(&buf);
     CryptoContextDCRT obj;
-    std::istringstream iss(str);
     Serial::Deserialize<DCRTPoly>(obj, iss, sertype);
     return obj;
 }
 
 template <typename T, typename ST>
 T DeserializeFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
-    std::string str{static_cast<std::string>(bytes)};
-    // the py::bytes argument was copied out above; nothing below touches Python
+    const auto [data, size] = BytesView(bytes);
+    // deserialize straight from the bytes' internal buffer, which the `bytes`
+    // argument keeps alive and immutable; nothing below touches Python
     py::gil_scoped_release release;
-    std::istringstream iss(str, std::ios::binary);
-
+    MemoryStreamBuf buf(data, size);
+    std::istream iss(&buf);
     T obj;
     Serial::Deserialize<T>(obj, iss, sertype);
     return obj;
@@ -148,11 +204,12 @@ T DeserializeFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
 
 template <typename ST>
 CryptoContextDCRT DeserializeCCFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
-    std::string str{static_cast<std::string>(bytes)};
-    // the py::bytes argument was copied out above; nothing below touches Python
+    const auto [data, size] = BytesView(bytes);
+    // deserialize straight from the bytes' internal buffer, which the `bytes`
+    // argument keeps alive and immutable; nothing below touches Python
     py::gil_scoped_release release;
-    std::istringstream iss(str, std::ios::binary);
-
+    MemoryStreamBuf buf(data, size);
+    std::istream iss(&buf);
     CryptoContextDCRT obj;
     Serial::Deserialize<DCRTPoly>(obj, iss, sertype);
     return obj;
@@ -160,72 +217,73 @@ CryptoContextDCRT DeserializeCCFromBytesWrapper(const py::bytes& bytes, const ST
 
 template <typename ST>
 std::string SerializeEvalMultKeyToStringWrapper(const ST& sertype, const std::string& keyTag) {
-    std::ostringstream oss;
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, sertype, keyTag);
-    if (!res) {
+    std::string payload;
+    StringStreamBuf buf(payload);
+    std::ostream oss(&buf);
+    if (!CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, sertype, keyTag)) {
         throw std::runtime_error("Failed to serialize EvalMultKey");
     }
-    return oss.str();
+    return payload;
 }
 
 template <typename ST>
 py::bytes SerializeEvalMultKeyToBytesWrapper(const ST& sertype, const std::string& keyTag) {
-    // let strbuf be dynamically allocated as we may be dealing with large keys
-    auto strbuf = std::make_unique<std::stringbuf>(std::ios::out | std::ios::binary);
+    std::string payload;
     {
         // only the py::bytes construction below needs the GIL
         py::gil_scoped_release release;
-        std::ostream oss(strbuf.get());
+        StringStreamBuf buf(payload);
+        std::ostream oss(&buf);
         if (!CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, sertype, keyTag)) {
             throw std::runtime_error("Failed to serialize EvalMultKey");
         }
     }
-    const std::string& str = strbuf->str();
-    return py::bytes(str.data(), str.size());
+    return py::bytes(payload.data(), payload.size());
 }
 
 template <typename ST>
 std::string SerializeEvalAutomorphismKeyToStringWrapper(const ST& sertype, const std::string& keyTag) {
-    std::ostringstream oss;
-    bool res = CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, sertype, keyTag);
-    if (!res) {
+    std::string payload;
+    StringStreamBuf buf(payload);
+    std::ostream oss(&buf);
+    if (!CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, sertype, keyTag)) {
         throw std::runtime_error("Failed to serialize EvalAutomorphismKey");
     }
-    return oss.str();
+    return payload;
 }
 
 template <typename ST>
 py::bytes SerializeEvalAutomorphismKeyToBytesWrapper(const ST& sertype, const std::string& keyTag) {
-    // let strbuf be dynamically allocated as we may be dealing with large keys
-    auto strbuf = std::make_unique<std::stringbuf>(std::ios::out | std::ios::binary);
+    std::string payload;
     {
         // only the py::bytes construction below needs the GIL
         py::gil_scoped_release release;
-        std::ostream oss(strbuf.get());
+        StringStreamBuf buf(payload);
+        std::ostream oss(&buf);
         if (!CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, sertype, keyTag)) {
             throw std::runtime_error("Failed to serialize EvalAutomorphismKey");
         }
     }
-    const std::string& str = strbuf->str();
-    return py::bytes(str.data(), str.size());
+    return py::bytes(payload.data(), payload.size());
 }
 
 template <typename ST>
 void DeserializeEvalMultKeyFromStringWrapper(const std::string& data, const ST& sertype) {
-    std::istringstream iss(data);
-    bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<ST>(iss, sertype);
-    if (!res) {
+    MemoryStreamBuf buf(data.data(), data.size());
+    std::istream iss(&buf);
+    if (!CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<ST>(iss, sertype)) {
         throw std::runtime_error("Failed to deserialize EvalMultKey");
     }
 }
 
 template <typename ST>
 void DeserializeEvalMultKeyFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
-    std::string str{static_cast<std::string>(bytes)};
-    // the py::bytes argument was copied out above; nothing below touches Python
+    const auto [data, size] = BytesView(bytes);
+    // deserialize straight from the bytes' internal buffer, which the `bytes`
+    // argument keeps alive and immutable; nothing below touches Python
     py::gil_scoped_release release;
-    std::istringstream iss(str, std::ios::binary);
-
+    MemoryStreamBuf buf(data, size);
+    std::istream iss(&buf);
     if (!CryptoContextImpl<DCRTPoly>::DeserializeEvalMultKey<ST>(iss, sertype)) {
         throw std::runtime_error("Failed to deserialize EvalMultKey");
     }
@@ -233,20 +291,21 @@ void DeserializeEvalMultKeyFromBytesWrapper(const py::bytes& bytes, const ST& se
 
 template <typename ST>
 void DeserializeEvalAutomorphismKeyFromStringWrapper(const std::string& data, const ST& sertype) {
-    std::istringstream iss(data);
-    bool res = CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<ST>(iss, sertype);
-    if (!res) {
+    MemoryStreamBuf buf(data.data(), data.size());
+    std::istream iss(&buf);
+    if (!CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<ST>(iss, sertype)) {
         throw std::runtime_error("Failed to deserialize EvalAutomorphismKey");
     }
 }
 
 template <typename ST>
 void DeserializeEvalAutomorphismKeyFromBytesWrapper(const py::bytes& bytes, const ST& sertype) {
-    std::string str{static_cast<std::string>(bytes)};
-    // the py::bytes argument was copied out above; nothing below touches Python
+    const auto [data, size] = BytesView(bytes);
+    // deserialize straight from the bytes' internal buffer, which the `bytes`
+    // argument keeps alive and immutable; nothing below touches Python
     py::gil_scoped_release release;
-    std::istringstream iss(str, std::ios::binary);
-
+    MemoryStreamBuf buf(data, size);
+    std::istream iss(&buf);
     if (!CryptoContextImpl<DCRTPoly>::DeserializeEvalAutomorphismKey<ST>(iss, sertype)) {
         throw std::runtime_error("Failed to deserialize EvalAutomorphismKey");
     }
