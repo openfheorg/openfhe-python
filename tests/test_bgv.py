@@ -1,6 +1,7 @@
 import logging
 import random
 
+import numpy as np
 import pytest
 import openfhe as fhe
 
@@ -109,3 +110,31 @@ def test_simple_integers(bgv_context):
         ciphertext_rot1 = crypto_context.EvalRotate(ciphertext[0], rotation)
         # This is a rotation with infill of 0, NOT a circular rotation.
         assert bgv_equal(shift(raw[0], -rotation), ciphertext_rot1, crypto_context, key_pair)
+
+
+def test_numpy_int64_encode_decode_fast_paths(bgv_context):
+    """numpy int64 arrays encode through the buffer fast path and the *Array
+    accessors return numpy arrays that match the list API."""
+    _, cc, keys = bgv_context
+    rng = np.random.default_rng(42429842)
+    raw = rng.integers(0, 1000, 32, dtype=np.int64)
+
+    pt_arr = cc.MakePackedPlaintext(raw)
+    pt_list = cc.MakePackedPlaintext(raw.tolist())
+    assert pt_arr.GetPackedValue() == pt_list.GetPackedValue()
+
+    values = pt_arr.GetPackedValueArray()
+    assert isinstance(values, np.ndarray) and values.dtype == np.int64
+    assert values.tolist() == pt_arr.GetPackedValue()
+
+    pt_coef = cc.MakeCoefPackedPlaintext(raw, level=1)
+    assert pt_coef.GetLevel() == 1
+    assert pt_coef.GetCoefPackedValueArray()[:32].tolist() == raw.tolist()
+
+    ct = cc.Encrypt(keys.publicKey, pt_arr)
+    decrypted = cc.Decrypt(ct, keys.secretKey)
+    decrypted.SetLength(32)
+    assert decrypted.GetPackedValueArray().tolist() == raw.tolist()
+
+    with pytest.raises((ValueError, TypeError)):
+        cc.MakePackedPlaintext(raw.reshape(4, 8))

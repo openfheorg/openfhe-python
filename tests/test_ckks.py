@@ -1,5 +1,6 @@
 import random
 
+import numpy as np
 import pytest
 import openfhe as fhe
 
@@ -137,3 +138,31 @@ def test_existing_bootstrap_key_indices():
     assert indices == sorted(set(indices))
     assert len(indices) > 1
     assert 2 * cc.GetRingDimension() - 1 in indices  # Conjugation key.
+
+
+def test_numpy_encode_decode_fast_paths(ckks_context):
+    """numpy is a required dependency: arrays encode through the buffer fast path
+    and the *Array accessors return numpy arrays that match the list API."""
+    params, cc, keys = ckks_context
+    batch_size = params.GetBatchSize()
+    rng = np.random.default_rng(42429842)
+    raw = rng.uniform(-1, 1, batch_size)
+
+    pt_arr = cc.MakeCKKSPackedPlaintext(raw)
+    pt_list = cc.MakeCKKSPackedPlaintext(raw.tolist())
+    assert pt_arr.GetRealPackedValue() == pytest.approx(pt_list.GetRealPackedValue())
+
+    values = pt_arr.GetRealPackedValueArray()
+    assert isinstance(values, np.ndarray) and values.dtype == np.float64
+    assert values == pytest.approx(pt_arr.GetRealPackedValue())
+    complex_values = pt_arr.GetCKKSPackedValueArray()
+    assert complex_values.dtype == np.complex128
+    assert complex_values.real == pytest.approx(values)
+
+    ct = cc.Encrypt(keys.publicKey, pt_arr)
+    decrypted = cc.Decrypt(ct, keys.secretKey)
+    decrypted.SetLength(batch_size)
+    assert decrypted.GetRealPackedValueArray() == pytest.approx(raw, abs=1e-3)
+
+    with pytest.raises((ValueError, TypeError)):
+        cc.MakeCKKSPackedPlaintext(raw.reshape(2, batch_size // 2))

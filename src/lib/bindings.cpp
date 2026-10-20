@@ -42,6 +42,7 @@
 #include <pybind11/complex.h>
 #include <pybind11/functional.h>
 #include <pybind11/iostream.h>
+#include <pybind11/numpy.h>
 
 
 #include "cryptocontext_docs.h"
@@ -68,6 +69,7 @@ inline std::shared_ptr<CryptoParametersRNS> GetParamsRNSChecked(const CryptoCont
         OPENFHE_THROW("Failed to cast to CryptoParametersRNS in " + func + "()");
     return ptr;
 }
+
 
 void bind_DCRTPoly(py::module &m) {
   py::class_<DCRTPoly>(m, "DCRTPoly",
@@ -491,6 +493,93 @@ void bind_crypto_context(py::module &m) {
         "for key generation, encoding, encryption and homomorphic evaluation. Create it with "
         "GenCryptoContext(params).");
 
+    // numpy fast paths, registered before the std::vector overloads so that float64 and
+    // complex128 arrays are encoded from their buffers instead of converting every
+    // element through a Python object. The double overload comes first: on the
+    // converting pass it claims every real-valued input via a safe cast, while complex
+    // values fail that cast and fall through to the complex overload.
+    cc_class.def("MakeCKKSPackedPlaintext",
+        [](const CC& self, const py::array_t<double, py::array::c_style>& value,
+           size_t noiseScaleDeg, uint32_t level, const py::object& params,
+           uint32_t slots) {
+            if (value.ndim() != 1)
+                throw py::value_error("MakeCKKSPackedPlaintext expects a one-dimensional array");
+            // params is taken as py::object and converted by hand: pybind11 only
+            // loads None into a holder type on its converting second overload pass,
+            // so a shared_ptr parameter with a None default would force every call
+            // through two dispatch passes (converting the value argument twice).
+            auto parms = params.is_none() ? nullptr : params.cast<std::shared_ptr<ParmType>>();
+            const double* data = value.data();
+            const auto n = static_cast<size_t>(value.shape(0));
+            py::gil_scoped_release release;
+            return self.MakeCKKSPackedPlaintext(std::vector<double>(data, data + n),
+                                                noiseScaleDeg, level, parms, slots);
+        },
+        py::arg("value"),
+        py::arg("noiseScaleDeg") = 1,
+        py::arg("level") = 0,
+        py::arg("params") = py::none(),
+        py::arg("slots") = 0,
+        py::doc("Encode a 1-D numpy array of real numbers into a CKKS packed plaintext "
+                "(fast path: the values are read from the array buffer instead of "
+                "element-wise Python conversion)."));
+    cc_class.def("MakeCKKSPackedPlaintext",
+        [](const CC& self, const py::array_t<std::complex<double>, py::array::c_style>& value,
+           size_t noiseScaleDeg, uint32_t level, const py::object& params,
+           uint32_t slots) {
+            if (value.ndim() != 1)
+                throw py::value_error("MakeCKKSPackedPlaintext expects a one-dimensional array");
+            // see the real-valued overload above for why params is a py::object
+            auto parms = params.is_none() ? nullptr : params.cast<std::shared_ptr<ParmType>>();
+            const std::complex<double>* data = value.data();
+            const auto n = static_cast<size_t>(value.shape(0));
+            py::gil_scoped_release release;
+            return self.MakeCKKSPackedPlaintext(std::vector<std::complex<double>>(data, data + n),
+                                                noiseScaleDeg, level, parms, slots);
+        },
+        py::arg("value"),
+        py::arg("noiseScaleDeg") = 1,
+        py::arg("level") = 0,
+        py::arg("params") = py::none(),
+        py::arg("slots") = 0,
+        py::doc("Encode a 1-D numpy array of complex numbers into a CKKS packed plaintext "
+                "(fast path: the values are read from the array buffer instead of "
+                "element-wise Python conversion)."));
+    cc_class.def("MakePackedPlaintext",
+        [](const CC& self, const py::array_t<int64_t, py::array::c_style>& value,
+           size_t noiseScaleDeg, uint32_t level) {
+            if (value.ndim() != 1)
+                throw py::value_error("MakePackedPlaintext expects a one-dimensional array");
+            const int64_t* data = value.data();
+            const auto n = static_cast<size_t>(value.shape(0));
+            py::gil_scoped_release release;
+            return self.MakePackedPlaintext(std::vector<int64_t>(data, data + n),
+                                            noiseScaleDeg, level);
+        },
+        py::arg("value"),
+        py::arg("noiseScaleDeg") = 1,
+        py::arg("level") = 0,
+        py::doc("Encode a 1-D numpy array of integers into a packed plaintext "
+                "(fast path: the values are read from the array buffer instead of "
+                "element-wise Python conversion)."));
+    cc_class.def("MakeCoefPackedPlaintext",
+        [](const CC& self, const py::array_t<int64_t, py::array::c_style>& value,
+           size_t noiseScaleDeg, uint32_t level) {
+            if (value.ndim() != 1)
+                throw py::value_error("MakeCoefPackedPlaintext expects a one-dimensional array");
+            const int64_t* data = value.data();
+            const auto n = static_cast<size_t>(value.shape(0));
+            py::gil_scoped_release release;
+            return self.MakeCoefPackedPlaintext(std::vector<int64_t>(data, data + n),
+                                                noiseScaleDeg, level);
+        },
+        py::arg("value"),
+        py::arg("noiseScaleDeg") = 1,
+        py::arg("level") = 0,
+        py::doc("Encode a 1-D numpy array of integers into a coefficient-packed plaintext "
+                "(fast path: the values are read from the array buffer instead of "
+                "element-wise Python conversion)."));
+
     cc_class.def(py::init<>())
         .def("ClearAllCKKSCaches", &CC::ClearAllCKKSCaches,
             py::doc(cc_ClearAllCKKSCaches_docs))
@@ -674,27 +763,33 @@ void bind_crypto_context(py::module &m) {
             py::doc(cc_MakeCoefPackedPlaintext_docs), release_gil)
         // TODO (Oliveira): allow user to specify different params values
         .def("MakeCKKSPackedPlaintext",
-            py::overload_cast<
-                const std::vector<std::complex<double>>&, size_t, uint32_t,
-                const std::shared_ptr<ParmType>, uint32_t
-            >(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext, py::const_),
+            [](const CC& self, const std::vector<std::complex<double>>& value, size_t noiseScaleDeg,
+               uint32_t level, const py::object& params, uint32_t slots) {
+                // see the numpy overload above for why params is a py::object
+                auto parms = params.is_none() ? nullptr : params.cast<std::shared_ptr<ParmType>>();
+                py::gil_scoped_release release;
+                return self.MakeCKKSPackedPlaintext(value, noiseScaleDeg, level, parms, slots);
+            },
             py::arg("value"),
             py::arg("noiseScaleDeg") = 1,
             py::arg("level") = 0,
             py::arg("params") = py::none(),
             py::arg("slots") = 0,
-            py::doc(cc_MakeCKKSPackedPlaintextComplex_docs), release_gil)
+            py::doc(cc_MakeCKKSPackedPlaintextComplex_docs))
         .def("MakeCKKSPackedPlaintext",
-            py::overload_cast<
-                const std::vector<double>&, size_t, uint32_t,
-                const std::shared_ptr<ParmType>, uint32_t
-            >(&CryptoContextImpl<DCRTPoly>::MakeCKKSPackedPlaintext, py::const_),
+            [](const CC& self, const std::vector<double>& value, size_t noiseScaleDeg,
+               uint32_t level, const py::object& params, uint32_t slots) {
+                // see the numpy overload above for why params is a py::object
+                auto parms = params.is_none() ? nullptr : params.cast<std::shared_ptr<ParmType>>();
+                py::gil_scoped_release release;
+                return self.MakeCKKSPackedPlaintext(value, noiseScaleDeg, level, parms, slots);
+            },
             py::arg("value"),
             py::arg("noiseScaleDeg") = 1,
             py::arg("level") = 0,
             py::arg("params") = py::none(),
             py::arg("slots") = 0,
-            py::doc(cc_MakeCKKSPlaintextReal_docs), release_gil)
+            py::doc(cc_MakeCKKSPlaintextReal_docs))
         .def("EvalAutomorphism",
             [](const CC& self,
                ConstCiphertext<DCRTPoly>& ciphertext,
@@ -1894,10 +1989,11 @@ void bind_encodings(py::module &m) {
         .def("GetPlaintextGenerator", &EncodingParamsImpl::GetPlaintextGenerator,
             py::doc(encparams_GetPlaintextGenerator_docs));
 
-    py::class_<PlaintextImpl, std::shared_ptr<PlaintextImpl>, PlaintextImpl_helper>(m, "Plaintext",
+    auto ptx_class = py::class_<PlaintextImpl, std::shared_ptr<PlaintextImpl>, PlaintextImpl_helper>(m, "Plaintext",
         "Plaintext encoded for one of the DCRTPoly-based schemes, produced by the CryptoContext "
         "Make*Plaintext methods and by decryption; holds the encoded values together with the "
-        "encoding metadata (level, scaling factor, number of slots, ...).")
+        "encoding metadata (level, scaling factor, number of slots, ...).");
+    ptx_class
         .def("GetScalingFactor", &PlaintextImpl::GetScalingFactor, ptx_GetScalingFactor_docs)
         .def("GetScalingFactorInt", [](const PlaintextImpl& self) {
                 return openfhe_python::IntegerToPyInt(self.GetScalingFactorInt());
@@ -1981,6 +2077,44 @@ void bind_encodings(py::module &m) {
                 ss << p;
                 return ss.str();
             });
+
+    // numpy fast paths for decoding
+    ptx_class.def("GetRealPackedValueArray",
+        [](const PlaintextImpl& self) {
+            auto* values = new std::vector<double>(self.GetRealPackedValue());
+            py::capsule owner(values, [](void* p) { delete static_cast<std::vector<double>*>(p); });
+            return py::array_t<double>(static_cast<py::ssize_t>(values->size()), values->data(), owner);
+        },
+        py::doc("Get the plaintext value as a 1-D numpy float64 array (CKKS_PACKED encoding). "
+                "Equivalent to GetRealPackedValue, but hands the values to numpy without "
+                "materializing a Python list."));
+    ptx_class.def("GetCKKSPackedValueArray",
+        [](const PlaintextImpl& self) {
+            auto* values = new std::vector<std::complex<double>>(self.GetCKKSPackedValue());
+            py::capsule owner(values, [](void* p) { delete static_cast<std::vector<std::complex<double>>*>(p); });
+            return py::array_t<std::complex<double>>(static_cast<py::ssize_t>(values->size()), values->data(), owner);
+        },
+        py::doc("Get the plaintext value as a 1-D numpy complex128 array (CKKS_PACKED encoding). "
+                "Equivalent to GetCKKSPackedValue, but hands the values to numpy without "
+                "materializing a Python list."));
+    ptx_class.def("GetPackedValueArray",
+        [](const PlaintextImpl& self) {
+            auto* values = new std::vector<int64_t>(self.GetPackedValue());
+            py::capsule owner(values, [](void* p) { delete static_cast<std::vector<int64_t>*>(p); });
+            return py::array_t<int64_t>(static_cast<py::ssize_t>(values->size()), values->data(), owner);
+        },
+        py::doc("Get the plaintext value as a 1-D numpy int64 array (PACKED encoding). "
+                "Equivalent to GetPackedValue, but hands the values to numpy without "
+                "materializing a Python list."));
+    ptx_class.def("GetCoefPackedValueArray",
+        [](const PlaintextImpl& self) {
+            auto* values = new std::vector<int64_t>(self.GetCoefPackedValue());
+            py::capsule owner(values, [](void* p) { delete static_cast<std::vector<int64_t>*>(p); });
+            return py::array_t<int64_t>(static_cast<py::ssize_t>(values->size()), values->data(), owner);
+        },
+        py::doc("Get the plaintext value as a 1-D numpy int64 array (COEF_PACKED encoding). "
+                "Equivalent to GetCoefPackedValue, but hands the values to numpy without "
+                "materializing a Python list."));
 }
 
 void bind_ciphertext(py::module &m) {
@@ -2201,6 +2335,16 @@ void bind_free_functions(py::module& m) {
 #endif
 
 PYBIND11_MODULE(openfhe, m) {
+    // numpy is a required runtime dependency (see requirements.txt): the numpy
+    // bindings load it lazily on first use, which would surface a missing install
+    // as a confusing mid-computation error. Import it eagerly so the failure
+    // happens here, with a message that names the fix.
+    try {
+        py::module_::import("numpy");
+    } catch (const py::error_already_set&) {
+        throw py::import_error(
+            "the openfhe module requires numpy (see requirements.txt): pip install numpy");
+    }
     // sequence of function calls matters
     m.doc() = "Open-Source Fully Homomorphic Encryption Library";
     m.attr("__version__") = OPENFHE_PYTHON_VERSION_STR;

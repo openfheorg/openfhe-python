@@ -51,6 +51,7 @@ Before building, make sure you have the following dependencies installed:
 - [OpenFHE 1.6.1+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.10+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
+- [numpy](https://numpy.org/) (runtime): the module imports numpy at load time and uses it for the array fast paths — encoding CKKS plaintexts directly from 1-D numpy arrays and returning decoded values as numpy arrays (`Plaintext.GetRealPackedValueArray`/`GetCKKSPackedValueArray`). Runtime dependencies are listed in [requirements.txt](requirements.txt) (`pip install -r requirements.txt`); wheels built by the packager declare them automatically.
 
 We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then getting back to this repo. See notes on installing `pybind11` below
 
@@ -62,6 +63,7 @@ To install OpenFHE-python directly to your system, ensure the dependencies are s
 
 ```bash
 pip install "pybind11[global]" 
+pip install -r requirements.txt  # runtime dependencies of the module (numpy)
 mkdir build
 cd build
 cmake ..  # Alternatively, cmake .. -DCMAKE_PREFIX_PATH=/path/to/installed/openfhe if you installed OpenFHE elsewhere
@@ -93,6 +95,8 @@ conda create -n openfhe_python python=3.9 anaconda`. Now, you would install `pyb
 
 `pip install "pybind11[global]"` or via `conda install -c conda-forge pybind11`, but for now we recommend using the first method, with pip. Some users have reported issues when using the conda pybind11
 
+Also install the module's runtime dependencies into the environment: `pip install -r requirements.txt` (or `conda install numpy`). The module imports them at load time, so `import openfhe` fails without them.
+
 Now, you would clone the repository, and run the following commands to install :
 
 ```bash
@@ -118,7 +122,7 @@ which creates a lib folder, moves the built `.so` file into that lib folder, and
 
 ## Running Tests
 
-Run tests with [pytest](https://docs.pytest.org), which may be called `pytest-3` on your system. See the [testing readme](tests/README.md) for more information.
+Run tests with [pytest](https://docs.pytest.org), which may be called `pytest-3` on your system. The tests import the module, so the runtime dependencies must be installed (`pip install -r requirements.txt`; already satisfied if you installed the wheel with pip). See the [testing readme](tests/README.md) for more information.
 
 ```bash
 pytest [--run-long]
