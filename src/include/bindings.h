@@ -50,10 +50,11 @@ using DCRTCryptoContextClass = pybind11::class_<
 // py::bytes serialization wrappers) use a scoped pybind11::gil_scoped_release around
 // their pure-C++ section instead.
 //
-// Thread-safety contract (unchanged from the OpenFHE C++ API, but now observable from
-// Python): the static evaluation-key maps are not synchronized, so concurrent reads
-// (evaluation calls) are safe, but keys must not be generated/inserted/deserialized in
-// one thread while another thread uses them.
+// Thread-safety contract (the same one the OpenFHE C++ API has; Python threads are
+// subject to it because these bindings run concurrently): the static evaluation-key
+// maps are not synchronized, so concurrent reads (evaluation calls) are safe, but keys
+// must not be generated/inserted/deserialized in one thread while another thread uses
+// them.
 inline constexpr auto release_gil = pybind11::call_guard<pybind11::gil_scoped_release>();
 
 void bind_crypto_context(pybind11::module &m);

@@ -57,8 +57,8 @@ PYBIND11_MAKE_OPAQUE(std::map<uint32_t, EvalKey<DCRTPoly>>);
 namespace {
 
 // Read-only streambuf over an existing buffer: deserialization reads straight from a
-// py::bytes' (or std::string's) storage instead of copying it into a stringstream.
-// The caller must keep the underlying buffer alive for the streambuf's lifetime.
+// py::bytes' (or std::string's) storage, with no copy of the payload. The caller must
+// keep the underlying buffer alive for the streambuf's lifetime.
 class MemoryStreamBuf final : public std::streambuf {
 public:
     MemoryStreamBuf(const char* data, size_t size) {
@@ -67,8 +67,9 @@ public:
     }
 };
 
-// Output streambuf appending to a caller-owned std::string, so a serialized payload
-// is produced in a single owned buffer instead of being copied out of a stringbuf.
+// Output streambuf appending to a caller-owned std::string: a serialized payload is
+// produced directly in a single owned buffer, whose only remaining copy is into the
+// returned py::bytes.
 class StringStreamBuf final : public std::streambuf {
 public:
     explicit StringStreamBuf(std::string& out) : out_(out) {}

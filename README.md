@@ -51,7 +51,7 @@ Before building, make sure you have the following dependencies installed:
 - [OpenFHE 1.6.1+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.10+](https://www.python.org/)
 - [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
-- [numpy](https://numpy.org/) (runtime): the module imports numpy at load time and uses it for the array fast paths — encoding CKKS plaintexts directly from 1-D numpy arrays and returning decoded values as numpy arrays (`Plaintext.GetRealPackedValueArray`/`GetCKKSPackedValueArray`). Runtime dependencies are listed in [requirements.txt](requirements.txt) (`pip install -r requirements.txt`); wheels built by the packager declare them automatically.
+- [numpy](https://numpy.org/) (runtime): the module imports numpy at load time and uses it for the array fast paths — encoding plaintexts directly from 1-D numpy arrays (`MakeCKKSPackedPlaintext`, `MakePackedPlaintext`, `MakeCoefPackedPlaintext`) and returning decoded values as numpy arrays (`Plaintext.GetRealPackedValueArray`, `GetCKKSPackedValueArray`, `GetPackedValueArray`, `GetCoefPackedValueArray`). Runtime dependencies are listed in [requirements.txt](requirements.txt) (`pip install -r requirements.txt`); wheels built by the packager declare them automatically. Building requires pybind11 2.12+ (enforced by cmake; older pybind11 silently corrupts numpy-2 arrays).
 
 We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then getting back to this repo. See notes on installing `pybind11` below
 
@@ -90,8 +90,8 @@ Alternatively you can install the library and handle the linking via Conda. Clon
 conda create -n ${ENV_NAME} python=3.{X} anaconda
 ```
 
-where `${ENV_NAME}` should be replaced with the name of your environment, and `{X}` should be replaced with your desired python version. For example you might have `
-conda create -n openfhe_python python=3.9 anaconda`. Now, you would install `pybind11` either via:
+where `${ENV_NAME}` should be replaced with the name of your environment, and `{X}` should be replaced with your desired python version (3.10 or newer). For example you might have `
+conda create -n openfhe_python python=3.12 anaconda`. Now, you would install `pybind11` either via:
 
 `pip install "pybind11[global]"` or via `conda install -c conda-forge pybind11`, but for now we recommend using the first method, with pip. Some users have reported issues when using the conda pybind11
 
@@ -107,18 +107,7 @@ make
 make install  # You may have to run sudo make install
 ```
 
-Then, you can develop the library to link
-
-```
-cd ..
-mkdir lib
-mv *.so lib
-conda develop lib
-```
-
-which creates a lib folder, moves the built `.so` file into that lib folder, and tells conda where to look for external libraries.
-
-**Note** You may wish to copy the `.so` file to any projects of your own, or add it to your system path to source from.
+With the conda environment active, `make install` places the module directly into that environment's site-packages, so `import openfhe` works without further setup. If cmake picked up a different Python, pass `-DPYTHON_EXECUTABLE_PATH=$(which python)` to the cmake command and rebuild.
 
 ## Running Tests
 
@@ -202,6 +191,12 @@ To get familiar with the OpenFHE Python API, check out the examples:
   - [2-party Interactive Bootstrapping Examples](examples/pke/interactive-bootstrapping.py)
   - [Simple n-party Interactive Bootstrapping Example](examples/pke/tckks-interactive-mp-bootstrapping.py)
   - [n-party Interactive Bootstrapping after Chebyshev Approximation](examples/pke/tckks-interactive-mp-bootstrapping-Chebyshev.py)
+
+## Multithreading
+
+The compute-heavy bindings — evaluation, key generation, encryption/decryption, encoding, and (de)serialization — release the Python GIL for the duration of the native call, so Python threads (e.g. a `concurrent.futures.ThreadPoolExecutor`) run OpenFHE operations genuinely in parallel and can share one in-memory `CryptoContext`.
+
+The thread-safety contract is the same as the OpenFHE C++ library's: concurrent *evaluation* calls are safe (they only read the evaluation keys), but the library's static evaluation-key maps are not synchronized. Keys must not be generated, inserted, or deserialized (`EvalMultKeyGen`, `EvalRotateKeyGen`, `InsertEvalMultKey`, `DeserializeEvalMultKeyString`, ...) while another thread evaluates or serializes with them — set up the context and all evaluation keys first, then fan out to worker threads. Note that OpenFHE also parallelizes single operations internally with OpenMP; when running many operations across Python threads, consider reducing `OMP_NUM_THREADS` to avoid oversubscription.
 
 ## OpenFHE Python Wrapper Documentation
 

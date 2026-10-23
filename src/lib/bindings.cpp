@@ -72,9 +72,10 @@ inline std::shared_ptr<CryptoParametersRNS> GetParamsRNSChecked(const CryptoCont
 
 // The C++ fast-rotation API takes the digit decomposition as a shared_ptr to a vector
 // of ring elements, while the Python API carries it inside the Ciphertext returned by
-// EvalFastRotationPrecompute. Alias that ciphertext's element vector instead of
-// deep-copying it on every rotation; the aliasing shared_ptr keeps the carrier
-// ciphertext alive for as long as the vector is referenced.
+// EvalFastRotationPrecompute. The aliasing shared_ptr hands the C++ API that
+// ciphertext's element vector without copying it (the decomposition spans several
+// ring elements) and keeps the carrier ciphertext alive for as long as the vector
+// is referenced.
 inline std::shared_ptr<std::vector<DCRTPoly>> AliasDigits(const Ciphertext<DCRTPoly>& digits) {
     return std::shared_ptr<std::vector<DCRTPoly>>(digits, &digits->GetElements());
 }
@@ -469,11 +470,11 @@ void bind_eval_multinplace_scalar_overloads(py::class_<CC, std::shared_ptr<CC>>&
     cls.def("EvalMultInPlace", static_cast<void (CC::*)(Ciphertext<DCRTPoly>&, ScalarT) const>(&CC::EvalMultInPlace),
         py::arg("ciphertext"),
         py::arg("scalar"),
-        py::doc("In-place homomorphic multiplication by a scalar: ciphertext *= scalar."), release_gil);
+        py::doc("In-place homomorphic multiplication by a scalar: ciphertext ``*=`` scalar."), release_gil);
     cls.def("EvalMultInPlace", static_cast<void (CC::*)(ScalarT, Ciphertext<DCRTPoly>&) const>(&CC::EvalMultInPlace),
         py::arg("scalar"),
         py::arg("ciphertext"),
-        py::doc("In-place homomorphic multiplication by a scalar: ciphertext *= scalar."), release_gil);
+        py::doc("In-place homomorphic multiplication by a scalar: ciphertext ``*=`` scalar."), release_gil);
 }
 
 void bind_crypto_context(py::module &m) {
@@ -818,8 +819,8 @@ void bind_crypto_context(py::module &m) {
             [](CryptoContext<DCRTPoly>& self, ConstCiphertext<DCRTPoly> ciphertext) {
                 auto precomp = self->EvalFastRotationPrecompute(ciphertext);
                 auto cipherdigits = std::make_shared<CiphertextImpl<DCRTPoly>>(self);
-                // move the freshly computed decomposition into the carrier
-                // ciphertext instead of deep-copying it
+                // precomp is freshly computed and exclusively owned here, so its
+                // vector can be moved into the carrier ciphertext
                 cipherdigits->SetElements(std::move(*precomp));
                 return cipherdigits;
             },

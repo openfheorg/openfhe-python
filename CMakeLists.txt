@@ -36,7 +36,11 @@ endif()
 find_package(Python REQUIRED COMPONENTS Interpreter Development)
 
 set(PYBIND11_FINDPYTHON ON)
-find_package(pybind11 REQUIRED)
+# pybind11 2.12 is the first release that supports the numpy 2 ABI. Building with an
+# older pybind11 and running against numpy 2 makes the array bindings silently
+# misread the dtype itemsize (zero-stride arrays whose entries all alias element 0),
+# so enforce the floor here instead.
+find_package(pybind11 2.12 REQUIRED)
 
 # "CMAKE_INTERPROCEDURAL_OPTIMIZATION ON" (ON is the default value) causes link failure. see
 # https://github.com/openfheorg/openfhe-python/actions/runs/11492843373/job/31987579944
