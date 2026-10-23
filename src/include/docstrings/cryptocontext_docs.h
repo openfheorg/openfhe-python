@@ -197,7 +197,7 @@ const char* cc_MakeCKKSPackedPlaintextComplex_docs = R"pbdoc(
 )pbdoc";
 
 const char* cc_MakeCKKSPlaintextReal_docs = R"pbdoc(
-    MakeCKKSPlaintext constructs a CKKSPackedEncoding in this context from a vector of real numbers
+    MakeCKKSPackedPlaintext constructs a CKKSPackedEncoding in this context from a vector of real numbers
 
     :param value: input vector (of floats)
     :type value: list
@@ -205,7 +205,7 @@ const char* cc_MakeCKKSPlaintextReal_docs = R"pbdoc(
     :type noiseScaleDeg: int
     :param level: level at each the vector will get encrypted
     :type level: int
-    :param params: parameters to be used for the ciphertext (Only accepting params = None in this version)
+    :param params: parameters to be used for the ciphertext
     :type params: openfhe.ParmType
     :param slots: number of slots
     :type slots: int

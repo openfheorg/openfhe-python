@@ -123,7 +123,16 @@ execute_process(
 )
 
 message(STATUS "Python site packages directory: ${PYTHON_SITE_PACKAGES}")
+# CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT is true only on the very first configure
+# of a build directory, so the default-ness of the prefix must be remembered in the
+# cache: re-deriving it on a reconfigure would silently flip the install destination
+# from site-packages to ${CMAKE_INSTALL_PREFIX}.
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(_OPENFHE_PY_DEFAULT_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE INTERNAL
+        "CMAKE_INSTALL_PREFIX value that means 'install to site-packages'")
+endif()
+if(DEFINED _OPENFHE_PY_DEFAULT_INSTALL_PREFIX AND
+        CMAKE_INSTALL_PREFIX STREQUAL _OPENFHE_PY_DEFAULT_INSTALL_PREFIX)
     set(Python_Install_Location "${PYTHON_SITE_PACKAGES}")
 else()
     set(Python_Install_Location "${CMAKE_INSTALL_PREFIX}")

@@ -50,8 +50,8 @@ Before building, make sure you have the following dependencies installed:
 
 - [OpenFHE 1.6.1+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
 - [Python 3.10+](https://www.python.org/)
-- [pybind11](https://pybind11.readthedocs.io/en/stable/installing.html)
-- [numpy](https://numpy.org/) (runtime): the module imports numpy at load time and uses it for the array fast paths — encoding plaintexts directly from 1-D numpy arrays (`MakeCKKSPackedPlaintext`, `MakePackedPlaintext`, `MakeCoefPackedPlaintext`) and returning decoded values as numpy arrays (`Plaintext.GetRealPackedValueArray`, `GetCKKSPackedValueArray`, `GetPackedValueArray`, `GetCoefPackedValueArray`). Runtime dependencies are listed in [requirements.txt](requirements.txt) (`pip install -r requirements.txt`); wheels built by the packager declare them automatically. Building requires pybind11 2.12+ (enforced by cmake; older pybind11 silently corrupts numpy-2 arrays).
+- [pybind11 2.12+](https://pybind11.readthedocs.io/en/stable/installing.html) (minimum enforced by cmake)
+- [numpy](https://numpy.org/) (runtime): the module imports numpy at load time and uses it for the array fast paths — encoding plaintexts directly from 1-D numpy arrays (`MakeCKKSPackedPlaintext`, `MakePackedPlaintext`, `MakeCoefPackedPlaintext`) and returning decoded values as numpy arrays (`Plaintext.GetRealPackedValueArray`, `GetCKKSPackedValueArray`, `GetPackedValueArray`, `GetCoefPackedValueArray`). Runtime dependencies are listed in [requirements.txt](requirements.txt) (`pip install -r requirements.txt`); wheels built by the packager declare them automatically. pybind11 older than 2.12 silently corrupts numpy-2 arrays, which is why cmake enforces that minimum.
 
 We recommend following OpenFHE C++ installation instructions first (which covers Linux, Windows and MacOS) and then getting back to this repo. See notes on installing `pybind11` below
 
@@ -107,7 +107,7 @@ make
 make install  # You may have to run sudo make install
 ```
 
-With the conda environment active, `make install` places the module directly into that environment's site-packages, so `import openfhe` works without further setup. If cmake picked up a different Python, pass `-DPYTHON_EXECUTABLE_PATH=$(which python)` to the cmake command and rebuild.
+With the conda environment active, `make install` places the module directly into that environment's site-packages, so `import openfhe` works without further setup. If cmake picked up a different Python, re-run cmake in a fresh build directory and pass `-DPYTHON_EXECUTABLE_PATH=$(which python)`.
 
 ## Running Tests
 

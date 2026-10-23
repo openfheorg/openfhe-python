@@ -68,8 +68,9 @@ public:
 };
 
 // Output streambuf appending to a caller-owned std::string: a serialized payload is
-// produced directly in a single owned buffer, whose only remaining copy is into the
-// returned py::bytes.
+// produced directly in a single owned buffer. The only remaining copy is the
+// conversion into the returned Python object (py::bytes, or str for the JSON
+// string wrappers).
 class StringStreamBuf final : public std::streambuf {
 public:
     explicit StringStreamBuf(std::string& out) : out_(out) {}

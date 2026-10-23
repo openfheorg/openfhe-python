@@ -771,7 +771,6 @@ void bind_crypto_context(py::module &m) {
             py::arg("noiseScaleDeg") = 1,
             py::arg("level") = 0,
             py::doc(cc_MakeCoefPackedPlaintext_docs), release_gil)
-        // TODO (Oliveira): allow user to specify different params values
         .def("MakeCKKSPackedPlaintext",
             [](const CC& self, const std::vector<std::complex<double>>& value, size_t noiseScaleDeg,
                uint32_t level, const py::object& params, uint32_t slots) {
