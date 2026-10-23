@@ -1,0 +1,10 @@
+# Runtime dependencies of the openfhe Python module. openfhe-python-packager
+# reads this file into the wheel's install_requires, so runtime-dependency
+# changes are made here, not in the packager. Build-time dependencies
+# (OpenFHE, pybind11) are documented in README.md and are not listed here.
+#
+# numpy is imported when the module loads and powers the array fast paths:
+# the MakeCKKSPackedPlaintext array overloads and
+# Plaintext.GetRealPackedValueArray / GetCKKSPackedValueArray. It is bound
+# through pybind11's runtime numpy API, so no version pin is needed.
+numpy

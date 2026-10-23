@@ -1,9 +1,19 @@
 import random
 
+import numpy as np
 import pytest
 import openfhe as fhe
 
 pytestmark = pytest.mark.skipif(fhe.get_native_int() == 32, reason="Doesn't work for NATIVE_INT=32")
+
+
+def test_ckks_depth_helpers_are_on_crypto_context():
+    assert fhe.CryptoContext.GetBootstrapDepth([2, 2], fhe.UNIFORM_TERNARY) > 0
+    assert fhe.CryptoContext.GetBootstrapDepth(9, [2, 2], fhe.UNIFORM_TERNARY) > 0
+    assert fhe.CryptoContext.GetFBTDepth([3, 3], [1, -1], 2, 1, fhe.SPARSE_ENCAPSULATED) > 0
+    assert fhe.CryptoContext.GetFBTDepth([3, 3], [1 + 0j, -1 + 0j], 4, 1, fhe.SPARSE_ENCAPSULATED) > 0
+    assert fhe.CryptoContext.GetFEFBTDepth([3, 2], [1 + 0j, -1 + 0j], fhe.SPARSE_ENCAPSULATED) > 0
+
 
 @pytest.fixture(scope="module")
 def ckks_context():
@@ -108,7 +118,7 @@ def test_existing_bootstrap_key_indices():
     parameters.SetRingDim(512)
     parameters.SetSecretKeyDist(fhe.UNIFORM_TERNARY)
     level_budget = [2, 2]
-    depth = fhe.FHECKKSRNS.GetBootstrapDepth(level_budget, fhe.UNIFORM_TERNARY)
+    depth = fhe.CryptoContext.GetBootstrapDepth(level_budget, fhe.UNIFORM_TERNARY)
     parameters.SetMultiplicativeDepth(depth + 2)
     parameters.SetScalingTechnique(fhe.FIXEDAUTO)
     parameters.SetScalingModSize(78 if fhe.get_native_int() == 128 else 59)
@@ -128,3 +138,50 @@ def test_existing_bootstrap_key_indices():
     assert indices == sorted(set(indices))
     assert len(indices) > 1
     assert 2 * cc.GetRingDimension() - 1 in indices  # Conjugation key.
+
+
+def test_numpy_encode_decode_fast_paths(ckks_context):
+    """numpy is a required dependency: arrays encode through the buffer fast path
+    and the *Array accessors return numpy arrays that match the list API."""
+    params, cc, keys = ckks_context
+    batch_size = params.GetBatchSize()
+    rng = np.random.default_rng(42429842)
+    raw = rng.uniform(-1, 1, batch_size)
+
+    pt_arr = cc.MakeCKKSPackedPlaintext(raw)
+    pt_list = cc.MakeCKKSPackedPlaintext(raw.tolist())
+    assert pt_arr.GetRealPackedValue() == pytest.approx(pt_list.GetRealPackedValue())
+
+    values = pt_arr.GetRealPackedValueArray()
+    assert isinstance(values, np.ndarray) and values.dtype == np.float64
+    assert values == pytest.approx(pt_arr.GetRealPackedValue())
+    complex_values = pt_arr.GetCKKSPackedValueArray()
+    assert complex_values.dtype == np.complex128
+    assert complex_values.real == pytest.approx(values)
+
+    ct = cc.Encrypt(keys.publicKey, pt_arr)
+    decrypted = cc.Decrypt(ct, keys.secretKey)
+    decrypted.SetLength(batch_size)
+    assert decrypted.GetRealPackedValueArray() == pytest.approx(raw, abs=1e-3)
+
+    with pytest.raises((ValueError, TypeError)):
+        cc.MakeCKKSPackedPlaintext(raw.reshape(2, batch_size // 2))
+
+
+def test_eval_fast_rotation_matches_eval_rotate(ckks_context):
+    """Hoisted rotations: one precompute reused across rotations (the digit
+    decomposition is aliased, not copied, so reuse must not corrupt it)."""
+    params, cc, keys = ckks_context
+    batch_size = params.GetBatchSize()
+    rng = random.Random(7)
+    raw = [rng.uniform(-1, 1) for _ in range(batch_size)]
+    ct = cc.Encrypt(keys.publicKey, cc.MakeCKKSPackedPlaintext(raw))
+    digits = cc.EvalFastRotationPrecompute(ct)
+    m = 2 * cc.GetRingDimension()
+    for index in (1, -2, 1):  # repeat an index: the reused digits must stay intact
+        plain = cc.Decrypt(cc.EvalRotate(ct, index), keys.secretKey)
+        plain.SetLength(batch_size)
+        fast = cc.Decrypt(cc.EvalFastRotation(ct, index, m, digits), keys.secretKey)
+        fast.SetLength(batch_size)
+        assert fast.GetRealPackedValueArray() == pytest.approx(
+            plain.GetRealPackedValueArray(), abs=1e-3)

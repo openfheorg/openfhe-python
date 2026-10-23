@@ -61,4 +61,67 @@ const char* cc_RemoveElement_docs = R"pbdoc(
     :param index: The index of the element to remove.
     :type index: int
 )pbdoc";
+const char* ctx_CloneEmpty_docs = R"pbdoc(
+    Copy the ciphertext metadata, skipping the encrypted elements.
+
+    :return: a new ciphertext with the same context, key tag, level/scaling data and metadata but no elements
+    :rtype: Ciphertext
+)pbdoc";
+
+const char* ctx_GetHopLevel_docs = R"pbdoc(
+    Get the re-encryption (hop) level of the ciphertext.
+
+    :return: the number of times the ciphertext has been re-encrypted (proxy re-encryption hops)
+    :rtype: int
+)pbdoc";
+
+const char* ctx_GetScalingFactorInt_docs = R"pbdoc(
+    Get the integer scaling factor of the ciphertext.
+
+    :return: the exact integer scaling factor of the encrypted message (used by BGV)
+    :rtype: int
+)pbdoc";
+
+const char* ctx_NumberCiphertextElements_docs = R"pbdoc(
+    Get the number of ring elements: 2 for a fresh encryption, 3 after a multiplication.
+
+    :return: the number of ring elements
+    :rtype: int
+)pbdoc";
+
+const char* ctx_SetEncodingType_docs = R"pbdoc(
+    Set the encoding type of the ciphertext.
+
+    :param encodingType: the encoding type
+    :type encodingType: PlaintextEncodings
+)pbdoc";
+
+const char* ctx_SetHopLevel_docs = R"pbdoc(
+    Set the re-encryption (hop) level of the ciphertext.
+
+    :param hopLevel: the re-encryption level
+    :type hopLevel: int
+)pbdoc";
+
+const char* ctx_SetKeyTag_docs = R"pbdoc(
+    Set the tag of the key used to create the ciphertext.
+
+    :param keyTag: secret key identifier
+    :type keyTag: str
+)pbdoc";
+
+const char* ctx_SetScalingFactorInt_docs = R"pbdoc(
+    Set the integer scaling factor of the ciphertext.
+
+    :param sf: the integer scaling factor
+    :type sf: int
+)pbdoc";
+
+const char* key_GetCryptoContext_docs = R"pbdoc(
+    Get the crypto context this key belongs to.
+
+    :return: the crypto context (may be null for a default-constructed object)
+    :rtype: CryptoContext
+)pbdoc";
+
 #endif // __CIPHERTEXT_DOCS_H__

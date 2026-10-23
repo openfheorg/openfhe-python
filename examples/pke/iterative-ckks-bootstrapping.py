@@ -45,7 +45,7 @@ def iterative_bootstrap_example():
     bsgs_dim = [0,0]
 
     levels_available_after_bootstrap = 10
-    depth = levels_available_after_bootstrap = 10 + FHECKKSRNS.GetBootstrapDepth(level_budget, secret_key_dist) + (num_iterations - 1)
+    depth = levels_available_after_bootstrap = 10 + CryptoContext.GetBootstrapDepth(level_budget, secret_key_dist) + (num_iterations - 1)
     parameters.SetMultiplicativeDepth(depth)
 
     # Generate crypto context
@@ -146,7 +146,7 @@ def iterative_bootstrap_stc_example():
     bsgs_dim = [0,0]
 
     levels_available_after_bootstrap = 10 + level_budget[1]
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetBootstrapDepth(9, level_budget, secret_key_dist)
+    depth = levels_available_after_bootstrap + CryptoContext.GetBootstrapDepth(9, level_budget, secret_key_dist)
     parameters.SetMultiplicativeDepth(depth)
 
     # Generate crypto context

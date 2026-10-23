@@ -3,14 +3,14 @@ cmake_minimum_required (VERSION 3.16.3)
 project (OpenFHE-Python)
 
 set(OPENFHE_PYTHON_VERSION_MAJOR 1)
-set(OPENFHE_PYTHON_VERSION_MINOR 5)
+set(OPENFHE_PYTHON_VERSION_MINOR 6)
 set(OPENFHE_PYTHON_VERSION_PATCH 1)
 set(OPENFHE_PYTHON_VERSION_TWEAK 0)
 set(OPENFHE_PYTHON_VERSION ${OPENFHE_PYTHON_VERSION_MAJOR}.${OPENFHE_PYTHON_VERSION_MINOR}.${OPENFHE_PYTHON_VERSION_PATCH}.${OPENFHE_PYTHON_VERSION_TWEAK})
 
-# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.5.1)
+# OpenFHE version can be specified externally (-DOPENFHE_REQUIRED_VERSION=1.6.1)
 if(NOT DEFINED OPENFHE_REQUIRED_VERSION)
-    set(OPENFHE_REQUIRED_VERSION "1.5.1" CACHE STRING "Required OpenFHE version")
+    set(OPENFHE_REQUIRED_VERSION "1.6.1" CACHE STRING "Required OpenFHE version")
 else()
     # User provided OPENFHE_REQUIRED_VERSION via -D
     message(STATUS "Using user-specified OpenFHE version: ${OPENFHE_REQUIRED_VERSION}")
@@ -26,8 +26,21 @@ endif()
 find_package(OpenFHE ${OPENFHE_REQUIRED_VERSION} REQUIRED)
 message(STATUS "Building with OpenFHE version: ${OPENFHE_REQUIRED_VERSION}")
 
+# Allow the user to specify the path to the Python executable (if not provided, find it).
+# Python must be selected before pybind11 is found: pybind11 locks in the first Python
+# that CMake discovers, and a later find_package(Python) with a different interpreter fails.
+set(PYTHON_EXECUTABLE_PATH "" CACHE FILEPATH "Path to Python executable")
+if(PYTHON_EXECUTABLE_PATH)
+    set(Python_EXECUTABLE "${PYTHON_EXECUTABLE_PATH}")
+endif()
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
+
 set(PYBIND11_FINDPYTHON ON)
-find_package(pybind11 REQUIRED)
+# pybind11 2.12 is the first release that supports the numpy 2 ABI. Building with an
+# older pybind11 and running against numpy 2 makes the array bindings silently
+# misread the dtype itemsize (zero-stride arrays whose entries all alias element 0),
+# so enforce the floor here instead.
+find_package(pybind11 2.12 REQUIRED)
 
 # "CMAKE_INTERPROCEDURAL_OPTIMIZATION ON" (ON is the default value) causes link failure. see
 # https://github.com/openfheorg/openfhe-python/actions/runs/11492843373/job/31987579944
@@ -66,11 +79,14 @@ endif()
 ### add_executable( test demo-simple-example.cpp )
 
 ### Pybind Modules
-pybind11_add_module(openfhe 
-                    src/lib/bindings.cpp 
+add_compile_definitions(OPENFHE_PYTHON_VERSION_STR="${OPENFHE_PYTHON_VERSION}")
+pybind11_add_module(openfhe
+                    src/lib/bindings.cpp
                     src/lib/binfhe_bindings.cpp
                     src/lib/binfhe/binfhecontext_wrapper.cpp
-                    src/lib/pke/serialization.cpp 
+                    src/lib/pke/serialization.cpp
+                    src/lib/pke/fbt.cpp
+                    src/lib/pke/schemeswitching_data_serializer.cpp
                     )
 # The next line ensures that the installed openfhe module can find its shared library dependencies
 # in the 'lib/' subdirectory relative to itself without requiring LD_LIBRARY_PATH.
@@ -97,36 +113,44 @@ elseif(APPLE)
 endif()
 
 
-### Python installation 
-# Allow the user to specify the path to Python executable (if not provided, find it)
-option(PYTHON_EXECUTABLE_PATH "Path to Python executable" "")
-if(PYTHON_EXECUTABLE_PATH)
-    set(Python_EXECUTABLE "${PYTHON_EXECUTABLE_PATH}")
-endif()
-find_package(Python REQUIRED COMPONENTS Interpreter Development)
-
-# Check Python version
-if(${Python_VERSION_MAJOR} EQUAL 3 AND ${Python_VERSION_MINOR} GREATER_EQUAL 10)
-    execute_process(
-        COMMAND "${Python_EXECUTABLE}" -c "from sys import exec_prefix; print(exec_prefix)"
-        OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-else()
-    execute_process(
-        COMMAND "${Python_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-        OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-endif()
+### Python installation
+# sysconfig's platlib is the platform-specific site-packages directory (also inside venvs);
+# sys.exec_prefix used here previously is the installation root, not site-packages.
+execute_process(
+    COMMAND "${Python_EXECUTABLE}" -c "import sysconfig; print(sysconfig.get_path('platlib'))"
+    OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
 message(STATUS "Python site packages directory: ${PYTHON_SITE_PACKAGES}")
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT is true only on the very first configure
+# of a build directory, so the default-ness of the prefix must be remembered in the
+# cache: re-deriving it on a reconfigure would silently flip the install destination
+# from site-packages to ${CMAKE_INSTALL_PREFIX}.
+# CMAKE_CACHE_MAJOR_VERSION enters the cache only when an existing CMakeCache.txt is
+# loaded, so its absence identifies the first configure of this build directory.
+if(NOT DEFINED CACHE{CMAKE_CACHE_MAJOR_VERSION})
+    if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+        set(_OPENFHE_PY_DEFAULT_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE INTERNAL
+            "CMAKE_INSTALL_PREFIX value that means 'install to site-packages'")
+    else()
+        set(_OPENFHE_PY_DEFAULT_INSTALL_PREFIX "" CACHE INTERNAL
+            "CMAKE_INSTALL_PREFIX value that means 'install to site-packages'")
+    endif()
+elseif(NOT DEFINED _OPENFHE_PY_DEFAULT_INSTALL_PREFIX)
+    message(WARNING "This build directory predates the install-prefix fix, so the default-prefix "
+        "choice was never recorded and the module will be installed to ${CMAKE_INSTALL_PREFIX}. "
+        "Recreate the build directory, or pass -DCMAKE_INSTALL_PREFIX explicitly.")
+endif()
+if(DEFINED _OPENFHE_PY_DEFAULT_INSTALL_PREFIX AND
+        CMAKE_INSTALL_PREFIX STREQUAL _OPENFHE_PY_DEFAULT_INSTALL_PREFIX)
     set(Python_Install_Location "${PYTHON_SITE_PACKAGES}")
 else()
     set(Python_Install_Location "${CMAKE_INSTALL_PREFIX}")
 endif()
 message("***** INSTALL IS AT ${Python_Install_Location}; to change, run cmake with -DCMAKE_INSTALL_PREFIX=/your/path")
 install(TARGETS openfhe LIBRARY DESTINATION ${Python_Install_Location})
+# openfhe-python-packager composes the pip wheel as an openfhe/ package from this
+# install tree: without __init__.py setuptools packages nothing and the wheel is empty
 install(FILES ${CMAKE_SOURCE_DIR}/src/__init__.py DESTINATION ${Python_Install_Location})
 

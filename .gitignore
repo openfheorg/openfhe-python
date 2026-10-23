@@ -4,6 +4,7 @@ build/
 .png
 *.json
 *.txt
+!requirements.txt
 .cproject
 .project
 .html

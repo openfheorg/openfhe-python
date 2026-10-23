@@ -52,8 +52,8 @@ const char* ccparams_doc = R"doc(
     :ivar float statisticalSecurity: Statistical security of CKKS in NOISE_FLOODING_DECRYPT mode. This is the bound on the probability of success that any adversary can have. Specifically, they a probability of success of at most 2^(-statisticalSecurity).
     :ivar float numAdversarialQueries: This is the number of adversarial queries a user is expecting for their application, which we use to ensure security of CKKS in NOISE_FLOODING_DECRYPT mode.
     :ivar int thresholdNumOfParties: This is the number of parties in a threshold application, which is used for bound on the joint secret key
-    :ivar int firstModSize: firstModSize and scalingModSize are used to calculate ciphertext modulus. The ciphertext modulus should be seen as: Q = q_0 * q_1 * ... * q_n * q' where q_0 is first prime, and it's number of bits is firstModSize other q_i have same number of bits and is equal to scalingModSize the prime q' is not explicitly given, but it is used internally in CKKS and BGV schemes (in *EXT scaling methods)
-    :ivar int scalingModSize: firstModSize and scalingModSize are used to calculate ciphertext modulus. The ciphertext modulus should be seen as: Q = q_0 * q_1 * ... * q_n * q' where q_0 is first prime, and it's number of bits is firstModSize other q_i have same number of bits and is equal to scalingModSize the prime q' is not explicitly given, but it is used internally in CKKS and BGV schemes (in *EXT scaling methods)
+    :ivar int firstModSize: firstModSize and scalingModSize are used to calculate ciphertext modulus. The ciphertext modulus should be seen as: Q = q_0 * q_1 * ... * q_n * q' where q_0 is first prime, and it's number of bits is firstModSize other q_i have same number of bits and is equal to scalingModSize the prime q' is not explicitly given, but it is used internally in CKKS and BGV schemes (in ``*EXT`` scaling methods)
+    :ivar int scalingModSize: firstModSize and scalingModSize are used to calculate ciphertext modulus. The ciphertext modulus should be seen as: Q = q_0 * q_1 * ... * q_n * q' where q_0 is first prime, and it's number of bits is firstModSize other q_i have same number of bits and is equal to scalingModSize the prime q' is not explicitly given, but it is used internally in CKKS and BGV schemes (in ``*EXT`` scaling methods)
     :ivar int numLargeDigits: see KeySwitchTechnique - number of digits in HYBRID key switching
     :ivar int multiplicativeDepth: multiplicative depth
     :ivar SecurityLevel securityLevel: security level: We use the values from the security standard  at http://homomorphicencryption.org/wp-content/uploads/2018/11/HomomorphicEncryptionStandardv1.1.pdf For given ring dimension and security level we have upper bound of possible highest modulus (Q for BV or P*Q for HYBRID)
@@ -71,11 +71,22 @@ const char* ccparams_doc = R"doc(
 const char* cc_GetScalingFactorReal_docs = R"pbdoc(
     Method to retrieve the scaling factor of level l. For FIXEDMANUAL scaling technique method always returns 2^p, where p corresponds to plaintext modulus
 
-    :param l:  For FLEXIBLEAUTO scaling technique the level whose scaling factor we want to learn. Levels start from 0 (no scaling done - all towers) and go up to K-1, where K is the number of towers supported.
-    :type l: int
+    :param level:  For FLEXIBLEAUTO scaling technique the level whose scaling factor we want to learn. Levels start from 0 (no scaling done - all towers) and go up to K-1, where K is the number of towers supported.
+    :type level: int
     :return: the scaling factor.
     :rtype: float
 )pbdoc";
 
+
+const char* ccparams_GetThresholdNumOfParties_docs = R"pbdoc(
+    Get the number of parties in threshold FHE.
+
+    :return: number of parties
+    :rtype: int
+)pbdoc";
+
+const char* schswchparams_SetParamsFromCKKSCryptocontextCalled_docs = R"pbdoc(
+    Mark the parameters as populated from a CKKS crypto context, which unlocks the getters.
+)pbdoc";
 
 #endif // __CRYPTOPARAMETERS_DOCS_H__
