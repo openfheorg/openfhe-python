@@ -188,7 +188,7 @@ const char* cc_MakeCKKSPackedPlaintextComplex_docs = R"pbdoc(
     :type noiseScaleDeg: int
     :param level: level at each the vector will get encrypted
     :type level: int
-    :param params: parameters to be used for the ciphertext
+    :param params: ring-element parameters used to encode the plaintext; None derives them from the context at the given level
     :type params: openfhe.ParmType
     :param slots: number of slots
     :type slots: int
@@ -205,7 +205,7 @@ const char* cc_MakeCKKSPlaintextReal_docs = R"pbdoc(
     :type noiseScaleDeg: int
     :param level: level at each the vector will get encrypted
     :type level: int
-    :param params: parameters to be used for the ciphertext
+    :param params: ring-element parameters used to encode the plaintext; None derives them from the context at the given level
     :type params: openfhe.ParmType
     :param slots: number of slots
     :type slots: int

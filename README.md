@@ -73,6 +73,7 @@ make install  # You may have to run sudo make install
 
 With the default install prefix, `make install` copies the module directly into the site-packages directory of the Python interpreter cmake found (this also works inside virtual environments), so `import openfhe` works with no further setup.
 Cmake will automatically find the python installation path, if unwanted, you can specify the python path by adding `-DPYTHON_EXECUTABLE_PATH=/path/to/python` to the cmake command.
+Build directories created with an older version of this repository should be deleted and recreated: cmake records the default-prefix choice only on a build directory's first configure, so a stale directory installs to `/usr/local` instead of site-packages (cmake prints a warning when this happens).
 
 If you install to a custom location instead (`cmake .. -DCMAKE_INSTALL_PREFIX=/your/path`), add that location to the `PYTHONPATH` environment variable so Python can find the module:
 

@@ -127,9 +127,20 @@ message(STATUS "Python site packages directory: ${PYTHON_SITE_PACKAGES}")
 # of a build directory, so the default-ness of the prefix must be remembered in the
 # cache: re-deriving it on a reconfigure would silently flip the install destination
 # from site-packages to ${CMAKE_INSTALL_PREFIX}.
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(_OPENFHE_PY_DEFAULT_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE INTERNAL
-        "CMAKE_INSTALL_PREFIX value that means 'install to site-packages'")
+# CMAKE_CACHE_MAJOR_VERSION enters the cache only when an existing CMakeCache.txt is
+# loaded, so its absence identifies the first configure of this build directory.
+if(NOT DEFINED CACHE{CMAKE_CACHE_MAJOR_VERSION})
+    if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+        set(_OPENFHE_PY_DEFAULT_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}" CACHE INTERNAL
+            "CMAKE_INSTALL_PREFIX value that means 'install to site-packages'")
+    else()
+        set(_OPENFHE_PY_DEFAULT_INSTALL_PREFIX "" CACHE INTERNAL
+            "CMAKE_INSTALL_PREFIX value that means 'install to site-packages'")
+    endif()
+elseif(NOT DEFINED _OPENFHE_PY_DEFAULT_INSTALL_PREFIX)
+    message(WARNING "This build directory predates the install-prefix fix, so the default-prefix "
+        "choice was never recorded and the module will be installed to ${CMAKE_INSTALL_PREFIX}. "
+        "Recreate the build directory, or pass -DCMAKE_INSTALL_PREFIX explicitly.")
 endif()
 if(DEFINED _OPENFHE_PY_DEFAULT_INSTALL_PREFIX AND
         CMAKE_INSTALL_PREFIX STREQUAL _OPENFHE_PY_DEFAULT_INSTALL_PREFIX)
