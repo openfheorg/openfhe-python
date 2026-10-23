@@ -42,14 +42,14 @@ if [[ ! -d "$WHEEL_DIR" ]]; then
   exit 3
 fi
 
-mapfile -t matches < <(cd "$WHEEL_DIR" && ls -1 *.whl 2>/dev/null || true)
-# cd build/dist/
-# matches=( *.whl )
+# match the openfhe wheel by name: the directory may also hold wheels of the
+# dependencies openfhe declares
+mapfile -t matches < <(cd "$WHEEL_DIR" && ls -1 openfhe-*.whl 2>/dev/null || true)
 if (( ${#matches[@]} == 0 )); then
-    echo "No .whl file generated" >&2
+    echo "No openfhe .whl file generated" >&2
     exit 4
 elif (( ${#matches[@]} > 1 )); then
-    echo "Multiple .whl files generated:" >&2
+    echo "Multiple openfhe .whl files generated:" >&2
     printf '  %s\n' "${matches[@]}" >&2
     exit 5
 fi
