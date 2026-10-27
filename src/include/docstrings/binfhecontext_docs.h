@@ -39,8 +39,6 @@ const char* binfhe_GenerateBinFHEContext_parset_docs = R"pbdoc(
     :type set: BINFHE_PARAMSET
     :param method: the bootstrapping method (DM or CGGI or LMKCDEY)
     :type method: BINFHE_METHOD
-    :return: The created crypto context.
-    :rtype: BinFHEContext
 )pbdoc";
 
 ////void GenerateBinFHEContext(BINFHE_PARAMSET set, bool arbFunc, uint32_t logQ = 11, int64_t N = 0, BINFHE_METHOD method = GINX, bool timeOptimization = false)
@@ -59,8 +57,6 @@ const char* binfhe_GenerateBinFHEContext_docs  = R"pbdoc(
     :type method: BINFHE_METHOD
     :param timeOptimization:  whether to use dynamic bootstrapping technique
     :type timeOptimization: bool
-    :return: creates the cryptocontext.
-    :rtype: BinFHEContext
 )pbdoc";
 
 // KeyGen
@@ -77,6 +73,10 @@ const char* binfhe_BTKeyGen_docs = R"pbdoc(
 
     :param sk: The secret key.
     :type sk: LWEPrivateKey
+    :param keygenMode: SYM_ENCRYPT for symmetric-key or PUB_ENCRYPT for public-key bootstrapping keys
+    :type keygenMode: KEYGEN_MODE
+    :param internal32: whether to keep the keys in their 32-bit internal form
+    :type internal32: bool
 )pbdoc";
 
 // Encrypt
@@ -95,6 +95,34 @@ const char* binfhe_Encrypt_docs = R"pbdoc(
     :type mod: int
     :return: The ciphertext.
     :rtype: LWECiphertext
+)pbdoc";
+
+// Encrypt with a public key
+const char* binfhe_EncryptPubKey_docs = R"pbdoc(
+    Encrypts a bit or integer using a public key (public key encryption).
+
+    :param pk: The public key.
+    :type pk: LWEPublicKey
+    :param m: The plaintext.
+    :type m: int
+    :param output: SMALL_DIM to key switch the fresh ciphertext to the secret-key dimension (default), LARGE_DIM to keep the public-key dimension.
+    :type output: BINFHE_OUTPUT
+    :param p: Plaintext modulus (default 4).
+    :type p: int
+    :param mod: Encrypt according to mod instead of m_q if mod != 0.
+    :type mod: int
+    :return: The ciphertext.
+    :rtype: LWECiphertext
+)pbdoc";
+
+// GetSwitchKey
+const char* binfhe_GetSwitchKey_docs = R"pbdoc(
+    Get the 64-bit key switching key.
+
+    With the default BTKeyGen(internal32=True) the keys are kept in their 32-bit
+    internal form and this returns None; use HasInternal32SwitchKey() to check for
+    them and GetBTKey() to access the generated keys. Run BTKeyGen(sk, internal32=False)
+    to populate the 64-bit key.
 )pbdoc";
 
 // Decrypt
@@ -123,6 +151,8 @@ const char* binfhe_EvalBinGate_docs = R"pbdoc(
     :type ct2: LWECiphertext
     :return: The resulting ciphertext.
     :rtype: LWECiphertext
+    :param extended: whether to use the extended variant of the gate evaluation
+    :type extended: bool
 )pbdoc";
 
 // EvalNOT
@@ -202,4 +232,84 @@ const char* binfhe_SerializedObjectName_docs = R"pbdoc(
    :return: object name
    :rtype: std::string
 )pbdoc";
+const char* binfhe_HasInternal32RefreshKey_docs = R"pbdoc(
+    Check whether the refreshing key is held in its 32-bit internal form.
+
+    :return: true if the resident refreshing key is the 32-bit one; always false in a 32-bit NATIVEINT build
+    :rtype: bool
+)pbdoc";
+
+const char* binfhe_HasInternal32SwitchKey_docs = R"pbdoc(
+    Check whether the key switching key is held in its 32-bit internal form.
+
+    :return: true if the resident switching key is the 32-bit one; always false in a 32-bit NATIVEINT build
+    :rtype: bool
+)pbdoc";
+
+const char* binfhe_KeySwitchGen_docs = R"pbdoc(
+    Generate a key switching key from a secret key with (Q,N) to one with (q,n).
+
+    :param sk: new secret key
+    :type sk: LWEPrivateKey
+    :param skN: old secret key
+    :type skN: LWEPrivateKey
+    :return: the switching key
+    :rtype: LWESwitchingKey
+)pbdoc";
+
+const char* binfhe_LWECiphertextGetptModulus_docs = R"pbdoc(
+    Get the plaintext modulus of the ciphertext.
+
+    :return: the plaintext modulus
+    :rtype: int
+)pbdoc";
+
+const char* binfhe_LWECiphertextSetModulus_docs = R"pbdoc(
+    Set the ciphertext modulus and reduce the ciphertext modulo it.
+
+    :param modulus: the ciphertext modulus
+    :type modulus: int
+)pbdoc";
+
+const char* binfhe_LWECiphertextSetptModulus_docs = R"pbdoc(
+    Set the plaintext modulus of the ciphertext.
+
+    :param plaintextModulus: the plaintext modulus
+    :type plaintextModulus: int
+)pbdoc";
+
+const char* binfhe_LWEPrivateKeyGetModulus_docs = R"pbdoc(
+    Get the modulus of the secret key.
+
+    :return: the ciphertext modulus q (the modulus of the vector "a")
+    :rtype: int
+)pbdoc";
+
+const char* binfhe_LWEPublicKeyGetModulus_docs = R"pbdoc(
+    Get the modulus of the public key.
+
+    :return: the large ciphertext modulus Q (public keys are generated for the ring dimension N)
+    :rtype: int
+)pbdoc";
+
+const char* binfhe_PubKeyGen_docs = R"pbdoc(
+    Generate a public key for the given LWE secret key.
+
+    :param sk: the secret key
+    :type sk: LWEPrivateKey
+    :return: the public key
+    :rtype: LWEPublicKey
+)pbdoc";
+
+const char* binfhe_SwitchCTtoqn_docs = R"pbdoc(
+    Convert a ciphertext with modulus Q and dimension N to one with q and n.
+
+    :param ksk: the key switching key from secret key of dimension N to secret key of dimension n
+    :type ksk: LWESwitchingKey
+    :param ct: the ciphertext to convert
+    :type ct: LWECiphertext
+    :return: the ciphertext
+    :rtype: LWECiphertext
+)pbdoc";
+
 #endif // __BINFHECONTEXT_DOCS_H

@@ -29,16 +29,21 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //==================================================================================
 #include "binfhe_bindings.h"
+#include "integer_conversions.h"
 
 #include "openfhe.h"
 #include "binfhecontext.h"
+#include "binfhecontext-ser.h"
 #include "binfhecontext_docs.h"
 #include "binfhecontext_wrapper.h"
+#include "lwe-keyswitchkey.h"
 
 #include <pybind11/stl.h>
 #include <pybind11/operators.h>
 
-#include "cereal/archives/binary.hpp"
+#include <map>
+#include <string>
+#include <tuple>
 
 using namespace lbcrypto;
 namespace py = pybind11;
@@ -68,59 +73,28 @@ void bind_binfhe_enums(py::module &m) {
           .value("STD128Q_4_LMKCDEY", BINFHE_PARAMSET::STD128Q_4_LMKCDEY)
           .value("STD192Q_4", BINFHE_PARAMSET::STD192Q_4)
           .value("STD256Q_4", BINFHE_PARAMSET::STD256Q_4)
-          .value("SIGNED_MOD_TEST", BINFHE_PARAMSET::SIGNED_MOD_TEST);
-     m.attr("TOY") = py::cast(BINFHE_PARAMSET::TOY);
-     m.attr("MEDIUM") = py::cast(BINFHE_PARAMSET::MEDIUM);
-     m.attr("STD128_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_LMKCDEY);
-     m.attr("STD128_AP") = py::cast(BINFHE_PARAMSET::STD128_AP);
-     m.attr("STD128") = py::cast(BINFHE_PARAMSET::STD128);
-     m.attr("STD192") = py::cast(BINFHE_PARAMSET::STD192);
-     m.attr("STD256") = py::cast(BINFHE_PARAMSET::STD256);
-     m.attr("STD128Q") = py::cast(BINFHE_PARAMSET::STD128Q);
-     m.attr("STD128Q_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_LMKCDEY);
-     m.attr("STD192Q") = py::cast(BINFHE_PARAMSET::STD192Q);
-     m.attr("STD256Q") = py::cast(BINFHE_PARAMSET::STD256Q);
-     m.attr("STD128_3") = py::cast(BINFHE_PARAMSET::STD128_3);
-     m.attr("STD128_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_3_LMKCDEY);
-     m.attr("STD128Q_3") = py::cast(BINFHE_PARAMSET::STD128Q_3);
-     m.attr("STD128Q_3_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_3_LMKCDEY);
-     m.attr("STD192Q_3") = py::cast(BINFHE_PARAMSET::STD192Q_3);
-     m.attr("STD256Q_3") = py::cast(BINFHE_PARAMSET::STD256Q_3);
-     m.attr("STD128_4") = py::cast(BINFHE_PARAMSET::STD128_4);
-     m.attr("STD128_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128_4_LMKCDEY);
-     m.attr("STD128Q_4") = py::cast(BINFHE_PARAMSET::STD128Q_4);
-     m.attr("STD128Q_4_LMKCDEY") = py::cast(BINFHE_PARAMSET::STD128Q_4_LMKCDEY);
-     m.attr("STD192Q_4") = py::cast(BINFHE_PARAMSET::STD192Q_4);
-     m.attr("STD256Q_4") = py::cast(BINFHE_PARAMSET::STD256Q_4);
-     m.attr("SIGNED_MOD_TEST") = py::cast(BINFHE_PARAMSET::SIGNED_MOD_TEST);
+          .value("SIGNED_MOD_TEST", BINFHE_PARAMSET::SIGNED_MOD_TEST)
+          .export_values();
 
      py::enum_<BINFHE_METHOD>(m, "BINFHE_METHOD")
           .value("INVALID_METHOD", BINFHE_METHOD::INVALID_METHOD)
           .value("AP", BINFHE_METHOD::AP)
           .value("GINX", BINFHE_METHOD::GINX)
-          .value("LMKCDEY", BINFHE_METHOD::LMKCDEY);
-     m.attr("INVALID_METHOD") = py::cast(BINFHE_METHOD::INVALID_METHOD);
-     m.attr("GINX") = py::cast(BINFHE_METHOD::GINX);
-     m.attr("AP") = py::cast(BINFHE_METHOD::AP);
-     m.attr("LMKCDEY") = py::cast(BINFHE_METHOD::LMKCDEY);
+          .value("LMKCDEY", BINFHE_METHOD::LMKCDEY)
+          .export_values();
 
      py::enum_<KEYGEN_MODE>(m, "KEYGEN_MODE")
           .value("SYM_ENCRYPT", KEYGEN_MODE::SYM_ENCRYPT)
-          .value("PUB_ENCRYPT", KEYGEN_MODE::PUB_ENCRYPT);
-     m.attr("SYM_ENCRYPT") = py::cast(KEYGEN_MODE::SYM_ENCRYPT);
-     m.attr("PUB_ENCRYPT") = py::cast(KEYGEN_MODE::PUB_ENCRYPT);
+          .value("PUB_ENCRYPT", KEYGEN_MODE::PUB_ENCRYPT)
+          .export_values();
 
      py::enum_<BINFHE_OUTPUT>(m, "BINFHE_OUTPUT")
           .value("INVALID_OUTPUT", BINFHE_OUTPUT::INVALID_OUTPUT)
           .value("FRESH", BINFHE_OUTPUT::FRESH)
           .value("BOOTSTRAPPED", BINFHE_OUTPUT::BOOTSTRAPPED)
           .value("LARGE_DIM", BINFHE_OUTPUT::LARGE_DIM)
-          .value("SMALL_DIM", BINFHE_OUTPUT::SMALL_DIM);
-     m.attr("INVALID_OUTPUT") = py::cast(BINFHE_OUTPUT::INVALID_OUTPUT);
-     m.attr("FRESH") = py::cast(BINFHE_OUTPUT::FRESH);
-     m.attr("BOOTSTRAPPED") = py::cast(BINFHE_OUTPUT::BOOTSTRAPPED);
-     m.attr("LARGE_DIM") = py::cast(BINFHE_OUTPUT::LARGE_DIM);
-     m.attr("SMALL_DIM") = py::cast(BINFHE_OUTPUT::SMALL_DIM);
+          .value("SMALL_DIM", BINFHE_OUTPUT::SMALL_DIM)
+          .export_values();
 
      py::enum_<BINGATE>(m, "BINGATE")
           .value("OR", BINGATE::OR)
@@ -130,38 +104,108 @@ void bind_binfhe_enums(py::module &m) {
           .value("XOR_FAST", BINGATE::XOR_FAST)
           .value("XNOR_FAST", BINGATE::XNOR_FAST)
           .value("XOR", BINGATE::XOR)
-          .value("XNOR", BINGATE::XNOR);
-     m.attr("OR") = py::cast(BINGATE::OR);
-     m.attr("AND") = py::cast(BINGATE::AND);
-     m.attr("NOR") = py::cast(BINGATE::NOR);
-     m.attr("NAND") = py::cast(BINGATE::NAND);
-     m.attr("XOR_FAST") = py::cast(BINGATE::XOR_FAST);
-     m.attr("XNOR_FAST") = py::cast(BINGATE::XNOR_FAST);
-     m.attr("XOR") = py::cast(BINGATE::XOR);
-     m.attr("XNOR") = py::cast(BINGATE::XNOR);
+          .value("XNOR", BINGATE::XNOR)
+          .value("MAJORITY", BINGATE::MAJORITY)
+          .value("AND3", BINGATE::AND3)
+          .value("OR3", BINGATE::OR3)
+          .value("AND4", BINGATE::AND4)
+          .value("OR4", BINGATE::OR4)
+          .value("CMUX", BINGATE::CMUX)
+          .export_values();
 }
 
 void bind_binfhe_keys(py::module &m) {
-     py::class_<LWEPrivateKeyImpl, std::shared_ptr<LWEPrivateKeyImpl>>(m, "LWEPrivateKey")
-          .def(py::init<>())
-          .def("GetLength", &LWEPrivateKeyImpl::GetLength)
+     // No default constructor: Python cannot populate the key, and BinFHEContext guards only
+     // against a null pointer, so an empty-but-non-null key segfaults BTKeyGen/PubKeyGen/
+     // KeySwitchGen. Keys come from KeyGen(), KeyGenN(), KeyGenPair() or deserialization.
+     py::class_<LWEPrivateKeyImpl, std::shared_ptr<LWEPrivateKeyImpl>>(m, "LWEPrivateKey",
+          "LWE secret key of the FHEW/TFHE scheme, generated by BinFHEContext.KeyGen() or "
+          "KeyGenN(), or loaded by deserialization.")
+          .def("GetLength", &LWEPrivateKeyImpl::GetLength,
+               py::doc("Get the length (lattice dimension) of the secret key vector."))
+          .def("GetModulus",
+               [](const LWEPrivateKeyImpl& self) {
+                    return openfhe_python::IntegerToPyInt(self.GetModulus());
+               },
+              py::doc(binfhe_LWEPrivateKeyGetModulus_docs))
           .def(py::self == py::self)
           .def(py::self != py::self);
+
+     // No default constructor for the same reason as LWEPrivateKey: an empty-but-non-null
+     // public key passes the null check and Encrypt() silently produces a length-0 ciphertext.
+     py::class_<LWEPublicKeyImpl, std::shared_ptr<LWEPublicKeyImpl>>(m, "LWEPublicKey",
+          "LWE public key of the FHEW/TFHE scheme, generated by BinFHEContext.KeyGenPair() or "
+          "PubKeyGen(), or loaded by deserialization.")
+          .def("GetLength", &LWEPublicKeyImpl::GetLength,
+               py::doc("Get the length (lattice dimension) of the public key."))
+          .def("GetModulus",
+               [](const LWEPublicKeyImpl& self) {
+                    return openfhe_python::IntegerToPyInt(self.GetModulus());
+               },
+              py::doc(binfhe_LWEPublicKeyGetModulus_docs))
+          .def(py::self == py::self)
+          .def(py::self != py::self);
+
+     py::class_<LWESwitchingKeyImpl, std::shared_ptr<LWESwitchingKeyImpl>>(m, "LWESwitchingKey",
+          "LWE key switching key, generated by BinFHEContext.KeySwitchGen(); treated as an "
+          "opaque object in Python.")
+          .def(py::init<>());
+
+     py::class_<LWEKeyPairImpl, std::shared_ptr<LWEKeyPairImpl>>(m, "LWEKeyPair",
+          "Pair of an LWE public key and the matching secret key, as returned by "
+          "BinFHEContext.KeyGenPair().")
+          .def_readonly("publicKey", &LWEKeyPairImpl::publicKey,
+               "The LWE public key of the pair.")
+          .def_readonly("secretKey", &LWEKeyPairImpl::secretKey,
+               "The LWE secret key of the pair.")
+          .def("good", &LWEKeyPairImpl::good,
+               py::doc("Return true if both the public key and the secret key are set (non-null)."));
+
+     // struct holding the refreshing, key switching and public keys generated by BTKeyGen
+     // (treated as an opaque object in Python: generate, serialize and load it)
+     py::class_<RingGSWBTKey>(m, "RingGSWBTKey",
+          "Opaque holder for the refreshing, key switching and public keys generated by "
+          "BinFHEContext.BTKeyGen(); generate, serialize and load it as a unit.")
+          .def(py::init<>());
 }
 void bind_binfhe_ciphertext(py::module &m) {
-     py::class_<LWECiphertextImpl, std::shared_ptr<LWECiphertextImpl>>(m, "LWECiphertext")
+     py::class_<LWECiphertextImpl, std::shared_ptr<LWECiphertextImpl>>(m, "LWECiphertext",
+          "LWE ciphertext of the FHEW/TFHE scheme (the vector a together with the scalar b), "
+          "encrypting a small integer message.")
           .def(py::init<>())
-          .def("GetLength", &LWECiphertextImpl::GetLength)
+          .def("GetLength", &LWECiphertextImpl::GetLength,
+               py::doc("Get the length (lattice dimension) of the ciphertext vector a."))
           .def("GetModulus",
-               [](LWECiphertext& self) {
-                    return self->GetModulus().ConvertToInt<uint64_t>();
-               })
+               [](const LWECiphertextImpl& self) {
+                    return openfhe_python::IntegerToPyInt(self.GetModulus());
+               },
+               py::doc("Get the ciphertext modulus q."))
+          .def("GetptModulus",
+               [](const LWECiphertextImpl& self) {
+                    return openfhe_python::IntegerToPyInt(self.GetptModulus());
+               },
+              py::doc(binfhe_LWECiphertextGetptModulus_docs))
+          .def("SetModulus",
+               [](LWECiphertextImpl& self, const py::int_& modulus) {
+                    self.SetModulus(openfhe_python::PyIntToInteger<NativeInteger>(modulus));
+               },
+               py::arg("modulus"),
+              py::doc(binfhe_LWECiphertextSetModulus_docs))
+          .def("SetptModulus",
+               [](LWECiphertextImpl& self, const py::int_& plaintextModulus) {
+                    self.SetptModulus(openfhe_python::PyIntToInteger<NativeInteger>(plaintextModulus));
+               },
+               py::arg("plaintextModulus"),
+              py::doc(binfhe_LWECiphertextSetptModulus_docs))
           .def(py::self == py::self)
           .def(py::self != py::self);
 }
 
 void bind_binfhe_context(py::module &m) {
-     py::class_<BinFHEContext, std::shared_ptr<BinFHEContext>>(m, "BinFHEContext")
+     py::class_<BinFHEContext, std::shared_ptr<BinFHEContext>>(m, "BinFHEContext",
+          "Crypto context for the FHEW/TFHE Boolean scheme: holds the LWE scheme parameters and "
+          "keys and provides key generation, encryption, Boolean gate evaluation, arbitrary "
+          "function evaluation and bootstrapping. Initialize it with GenerateBinFHEContext.")
           .def(py::init<>())
           .def("GenerateBinFHEContext",
                py::overload_cast<BINFHE_PARAMSET, BINFHE_METHOD>(&BinFHEContext::GenerateBinFHEContext),
@@ -181,12 +225,26 @@ void bind_binfhe_context(py::module &m) {
                py::arg("method") = GINX,
                py::arg("timeOptimization") = false)
           .def("KeyGen", &BinFHEContext::KeyGen, binfhe_KeyGen_docs)
-          .def("KeyGenN", &BinFHEContext::KeyGenN)
-          .def("KeyGenPair", &BinFHEContext::KeyGenPair)
+          .def("KeyGenN", &BinFHEContext::KeyGenN,
+              py::doc("Generate an LWE secret key for the ring dimension N (used with key switching)."))
+          .def("KeyGenPair", &BinFHEContext::KeyGenPair,
+              py::doc("Generate an LWE secret/public key pair for public-key encryption."))
+          .def("KeySwitchGen", &BinFHEContext::KeySwitchGen,
+               py::arg("sk"),
+               py::arg("skN"),
+               py::doc(binfhe_KeySwitchGen_docs))
+          .def("PubKeyGen", &BinFHEContext::PubKeyGen,
+               py::arg("sk"),
+               py::doc(binfhe_PubKeyGen_docs))
+          .def("SwitchCTtoqn", &BinFHEContext::SwitchCTtoqn,
+               py::arg("ksk"),
+               py::arg("ct"),
+               py::doc(binfhe_SwitchCTtoqn_docs))
           .def("BTKeyGen", &BinFHEContext::BTKeyGen,
                binfhe_BTKeyGen_docs,
                py::arg("sk"),
-               py::arg("keygenMode") = SYM_ENCRYPT)
+               py::arg("keygenMode") = SYM_ENCRYPT,
+               py::arg("internal32") = true)
           .def("Encrypt",
                [](BinFHEContext& self, ConstLWEPrivateKey sk, const LWEPlaintext& m, BINFHE_OUTPUT output, LWEPlaintextModulus p, uint64_t mod) {
                     return self.Encrypt(sk, m, output, p, NativeInteger(mod));
@@ -197,6 +255,16 @@ void bind_binfhe_context(py::module &m) {
                py::arg("p") = 4,
                py::arg("mod") = 0,
                py::doc(binfhe_Encrypt_docs))
+          .def("Encrypt",
+               [](BinFHEContext& self, ConstLWEPublicKey pk, const LWEPlaintext& m, BINFHE_OUTPUT output, LWEPlaintextModulus p, uint64_t mod) {
+                    return self.Encrypt(pk, m, output, p, NativeInteger(mod));
+               },
+               py::arg("pk"),
+               py::arg("m"),
+               py::arg("output") = SMALL_DIM,
+               py::arg("p") = 4,
+               py::arg("mod") = 0,
+               py::doc(binfhe_EncryptPubKey_docs))
           .def("Decrypt",
                [](BinFHEContext& self, ConstLWEPrivateKey sk, ConstLWECiphertext ct, LWEPlaintextModulus p) {
                     LWEPlaintext result;
@@ -225,19 +293,23 @@ void bind_binfhe_context(py::module &m) {
           .def("Getn",
                [](BinFHEContext& self) {
                     return self.GetParams()->GetLWEParams()->Getn();
-               })
+               },
+               py::doc("Get the LWE lattice parameter n (the small dimension)."))
           .def("Getq",
                [](BinFHEContext& self) {
                     return self.GetParams()->GetLWEParams()->Getq().ConvertToInt<uint64_t>();
-               })
+               },
+               py::doc("Get the small LWE ciphertext modulus q."))
           .def("GetMaxPlaintextSpace",
                [](BinFHEContext& self) {
                     return self.GetMaxPlaintextSpace().ConvertToInt<uint64_t>();
-               })
+               },
+               py::doc("Get the maximum plaintext space supported by one bootstrapping invocation."))
           .def("GetBeta",
                [](BinFHEContext& self) {
                     return self.GetBeta().ConvertToInt<uint64_t>();
-               })
+               },
+               py::doc("Get the noise bound beta used in decryption and function evaluation."))
           .def("EvalDecomp", &BinFHEContext::EvalDecomp,
                binfhe_EvalDecomp_docs,
                py::arg("ct"))
@@ -265,23 +337,110 @@ void bind_binfhe_context(py::module &m) {
                binfhe_EvalSign_docs,
                py::arg("ct"),
                py::arg("schemeSwitch") = false)
-          .def("EvalConstant", &BinFHEContext::EvalConstant)
-          .def("ClearBTKeys", &BinFHEContext::ClearBTKeys)
-          .def("Bootstrap", &BinFHEContext::Bootstrap, py::arg("ct"), py::arg("extended") = false)
+          .def("EvalConstant", &BinFHEContext::EvalConstant,
+               py::arg("value"),
+               py::doc("Create a trivial (noiseless) encryption of the given bit."))
+          .def("ClearBTKeys", &BinFHEContext::ClearBTKeys,
+              py::doc("Clear the bootstrapping keys held by the context."))
+          .def("HasInternal32RefreshKey", &BinFHEContext::HasInternal32RefreshKey,
+              py::doc(binfhe_HasInternal32RefreshKey_docs))
+          .def("HasInternal32SwitchKey", &BinFHEContext::HasInternal32SwitchKey,
+              py::doc(binfhe_HasInternal32SwitchKey_docs))
+          .def("Bootstrap", &BinFHEContext::Bootstrap, py::arg("ct"), py::arg("extended") = false,
+              py::doc("Refresh a noisy ciphertext without evaluating a gate, producing a fresh ciphertext."))
           .def("SerializedVersion", &BinFHEContext::SerializedVersion,
                binfhe_SerializedVersion_docs)
           .def("SerializedObjectName", &BinFHEContext::SerializedObjectName,
                binfhe_SerializedObjectName_docs)
-          .def("SaveJSON", &BinFHEContext::save<cereal::JSONOutputArchive>)
-          .def("LoadJSON", &BinFHEContext::load<cereal::JSONInputArchive>)
-          .def("SaveBinary", &BinFHEContext::save<cereal::BinaryOutputArchive>)
-          .def("LoadBinary", &BinFHEContext::load<cereal::BinaryInputArchive>)
-          .def("SavePortableBinary", &BinFHEContext::save<cereal::PortableBinaryOutputArchive>)
-          .def("LoadPortableBinary", &BinFHEContext::load<cereal::PortableBinaryInputArchive>)
-          .def("GetPublicKey", &BinFHEContext::GetPublicKey)
-          .def("GetSwitchKey", &BinFHEContext::GetSwitchKey)
-          .def("GetRefreshKey", &BinFHEContext::GetRefreshKey)
-          .def("GetBinFHEScheme", &BinFHEContext::GetBinFHEScheme)
-          .def("GetLWEScheme", &BinFHEContext::GetLWEScheme)
-          .def("GetParams", &BinFHEContext::GetParams);
+          // note: save/load (cereal archives), GetRefreshKey, GetBinFHEScheme, GetLWEScheme and
+          // GetParams are not bound: their argument/return types are not exposed to Python, so
+          // the bindings could never be called successfully
+          .def("GetPublicKey", &BinFHEContext::GetPublicKey,
+              py::doc("Get the LWE public key held by the context, populated only by BTKeyGen with PUB_ENCRYPT "
+                      "(PubKeyGen returns a key without storing it in the context, leaving this None)."))
+          .def("GetSwitchKey", &BinFHEContext::GetSwitchKey,
+              py::doc(binfhe_GetSwitchKey_docs))
+          .def("GetN",
+               [](BinFHEContext& self) {
+                    return self.GetParams()->GetLWEParams()->GetN();
+               },
+               py::doc("Get the ring dimension N used for bootstrapping."))
+          .def("GetQ",
+               [](BinFHEContext& self) {
+                    return self.GetParams()->GetLWEParams()->GetQ().ConvertToInt<uint64_t>();
+               },
+               py::doc("Get the large ciphertext modulus Q used for bootstrapping."))
+          .def("GetBTKey", &BinFHEContext::GetBTKey,
+              py::doc("Get the bootstrapping key set (refreshing, key switching and public keys) generated by BTKeyGen."))
+          .def("BTKeyLoad", &BinFHEContext::BTKeyLoad,
+               py::arg("key"),
+               py::arg("internal32") = true,
+               py::doc("Load a previously generated or deserialized bootstrapping key set into the context."))
+          .def("GetBTKeyMap",
+               [](BinFHEContext& self) {
+                    return *self.GetBTKeyMap();
+               },
+               py::doc("Get the map of bootstrapping key sets indexed by the gadget base baseG."))
+          .def("BTKeyMapLoadSingleElement", &BinFHEContext::BTKeyMapLoadSingleElement,
+               py::arg("baseG"),
+               py::arg("key"),
+               py::doc("Insert one bootstrapping key set into the key map under the given gadget base."));
+}
+
+// binfhe serialization helpers, following the same patterns as src/lib/pke/serialization.cpp
+
+template <typename T, typename ST>
+static std::tuple<T, bool> BinFHEDeserializeFromFileWrapper(const std::string& filename, const ST& sertype) {
+    T newob;
+    bool result = Serial::DeserializeFromFile<T>(filename, newob, sertype);
+    return std::make_tuple(newob, result);
+}
+
+template <typename ST>
+static void bind_binfhe_serialization_for_sertype(py::module &m) {
+    m.def("SerializeToFile",
+          static_cast<bool (*)(const std::string&, const BinFHEContext&, const ST&)>(
+              &Serial::SerializeToFile<BinFHEContext>),
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeBinFHECryptoContext", &BinFHEDeserializeFromFileWrapper<BinFHEContext, ST>,
+          py::arg("filename"), py::arg("sertype"),
+          py::doc("Deserialize a BinFHEContext from a file written by SerializeToFile; returns the "
+                  "deserialized object and a success flag."));
+    m.def("SerializeToFile",
+          static_cast<bool (*)(const std::string&, const LWECiphertext&, const ST&)>(
+              &Serial::SerializeToFile<LWECiphertext>),
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeLWECiphertext", &BinFHEDeserializeFromFileWrapper<LWECiphertext, ST>,
+          py::arg("filename"), py::arg("sertype"),
+          py::doc("Deserialize an LWECiphertext from a file written by SerializeToFile; returns the "
+                  "deserialized object and a success flag."));
+    m.def("SerializeToFile",
+          static_cast<bool (*)(const std::string&, const LWEPrivateKey&, const ST&)>(
+              &Serial::SerializeToFile<LWEPrivateKey>),
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeLWEPrivateKey", &BinFHEDeserializeFromFileWrapper<LWEPrivateKey, ST>,
+          py::arg("filename"), py::arg("sertype"),
+          py::doc("Deserialize an LWEPrivateKey from a file written by SerializeToFile; returns the "
+                  "deserialized object and a success flag."));
+    m.def("SerializeToFile",
+          static_cast<bool (*)(const std::string&, const LWEPublicKey&, const ST&)>(
+              &Serial::SerializeToFile<LWEPublicKey>),
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeLWEPublicKey", &BinFHEDeserializeFromFileWrapper<LWEPublicKey, ST>,
+          py::arg("filename"), py::arg("sertype"),
+          py::doc("Deserialize an LWEPublicKey from a file written by SerializeToFile; returns the "
+                  "deserialized object and a success flag."));
+    m.def("SerializeToFile",
+          static_cast<bool (*)(const std::string&, const RingGSWBTKey&, const ST&)>(
+              &Serial::SerializeToFile<RingGSWBTKey>),
+          py::arg("filename"), py::arg("obj"), py::arg("sertype"));
+    m.def("DeserializeBinFHEBTKey", &BinFHEDeserializeFromFileWrapper<RingGSWBTKey, ST>,
+          py::arg("filename"), py::arg("sertype"),
+          py::doc("Deserialize a RingGSWBTKey (the FHEW bootstrapping keys) from a file written by "
+                  "SerializeToFile; returns the deserialized object and a success flag."));
+}
+
+void bind_binfhe_serialization(py::module &m) {
+    bind_binfhe_serialization_for_sertype<SerType::SERJSON>(m);
+    bind_binfhe_serialization_for_sertype<SerType::SERBINARY>(m);
 }

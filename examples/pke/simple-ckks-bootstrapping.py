@@ -2,6 +2,7 @@ from openfhe import *
 
 def main():
     simple_bootstrap_example()
+    simple_bootstrap_stc_example()
 
 def simple_bootstrap_example():
     parameters = CCParamsCKKSRNS()
@@ -29,7 +30,7 @@ def simple_bootstrap_example():
 
     levels_available_after_bootstrap = 10
 
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetBootstrapDepth(level_budget, secret_key_dist)
+    depth = levels_available_after_bootstrap + CryptoContext.GetBootstrapDepth(level_budget, secret_key_dist)
 
     parameters.SetMultiplicativeDepth(depth)
 
@@ -51,6 +52,9 @@ def simple_bootstrap_example():
     key_pair = cryptocontext.KeyGen()
     cryptocontext.EvalMultKeyGen(key_pair.secretKey)
     cryptocontext.EvalBootstrapKeyGen(key_pair.secretKey, num_slots)
+
+    key_indices = cryptocontext.GetExistingEvalAutomorphismKeyIndices(key_pair.secretKey.GetKeyTag())
+    print(f"Number of bootstrapping automorphism keys: {len(key_indices)}")
 
     x = [0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0, 5.0]
     encoded_length = len(x)
@@ -98,7 +102,7 @@ def simple_bootstrap_stc_example():
 
     levels_available_after_bootstrap = 10 + level_budget[1]
 
-    depth = levels_available_after_bootstrap + FHECKKSRNS.GetBootstrapDepth({level_budget[0], 0}, secret_key_dist)
+    depth = levels_available_after_bootstrap + CryptoContext.GetBootstrapDepth([level_budget[0], 0], secret_key_dist)
 
     parameters.SetMultiplicativeDepth(depth)
 
@@ -123,7 +127,7 @@ def simple_bootstrap_stc_example():
     x = [0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0, 5.0]
     encoded_length = len(x)
 
-    ptxt = cryptocontext.MakeCKKSPackedPlaintext(x, 1, depth-1-levelBudget[1], None, num_slots)
+    ptxt = cryptocontext.MakeCKKSPackedPlaintext(x, 1, depth-1-level_budget[1], None, num_slots)
     ptxt.SetLength(encoded_length)
 
     print(f"Input: {ptxt}")

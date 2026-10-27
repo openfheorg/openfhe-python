@@ -2,7 +2,7 @@ from openfhe import *
 import sys
 
 
-def main():
+def main(args=()):
     # Defaults (same as C++)
     multDepth = 2
     firstModSize = 90
@@ -12,11 +12,10 @@ def main():
 
     # Parse CLI args like the C++ demo:
     #   script.py [firstModSize] [scalingModSize] [registerWordSize] [multDepth]
-    argv = sys.argv
-    if len(argv) > 1:
+    if args:
         argcCount = 1
-        while argcCount < len(argv):
-            paramValue = int(argv[argcCount])
+        while argcCount <= len(args):
+            paramValue = int(args[argcCount - 1])
             if argcCount == 1:
                 firstModSize = paramValue
                 print(f"Setting First Mod Size: {firstModSize}")
@@ -40,7 +39,7 @@ def main():
         print(f"Scaling Mod Size: {scaleModSize}")
         print(f"Register Word Size: {registerWordSize}")
         print(f"Multiplicative Depth: {multDepth}")
-        print(f"Usage: {argv[0]} [firstModSize] [scalingModSize] [registerWordSize] [multDepth]")
+        print(f"Usage: {sys.argv[0]} [firstModSize] [scalingModSize] [registerWordSize] [multDepth]")
 
     # Step 1: Setup CryptoContext (CKKS)
     parameters = CCParamsCKKSRNS()
@@ -146,4 +145,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
