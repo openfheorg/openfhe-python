@@ -49,7 +49,7 @@ The legacy build instructions below are for other operating systems where [openf
 Before building, make sure you have the following dependencies installed:
 
 - [OpenFHE 1.6.1+](https://github.com/openfheorg/openfhe-development) by following the instructions in [OpenFHE Documentation](https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html)
-- [Python 3.10+](https://www.python.org/)
+- [Python 3.12+](https://www.python.org/)
 - [pybind11 2.12+](https://pybind11.readthedocs.io/en/stable/installing.html) (minimum enforced by cmake)
 - [numpy](https://numpy.org/) (runtime): the module imports numpy at load time and uses it for the array fast paths — encoding plaintexts directly from 1-D numpy arrays (`MakeCKKSPackedPlaintext`, `MakePackedPlaintext`, `MakeCoefPackedPlaintext`) and returning decoded values as numpy arrays (`Plaintext.GetRealPackedValueArray`, `GetCKKSPackedValueArray`, `GetPackedValueArray`, `GetCoefPackedValueArray`). Runtime dependencies are listed in [requirements.txt](requirements.txt) (`pip install -r requirements.txt`); wheels built by the packager declare them automatically. pybind11 older than 2.12 silently corrupts numpy-2 arrays, which is why cmake enforces that minimum.
 
@@ -91,8 +91,7 @@ Alternatively you can install the library and handle the linking via Conda. Clon
 conda create -n ${ENV_NAME} python=3.{X} anaconda
 ```
 
-where `${ENV_NAME}` should be replaced with the name of your environment, and `{X}` should be replaced with your desired python version (3.10 or newer). For example you might have `
-conda create -n openfhe_python python=3.12 anaconda`. Now, you would install `pybind11` either via:
+where `${ENV_NAME}` should be replaced with the name of your environment, and `{X}` should be replaced with your desired python version (3.10 or newer). Now, you would install `pybind11` either via:
 
 `pip install "pybind11[global]"` or via `conda install -c conda-forge pybind11`, but for now we recommend using the first method, with pip. Some users have reported issues when using the conda pybind11
 

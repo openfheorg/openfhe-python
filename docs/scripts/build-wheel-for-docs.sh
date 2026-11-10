@@ -31,6 +31,8 @@ git checkout main
 
 # override OPENFHE_PYTHON_TAG in ci-vars.sh
 sed -i "s|^OPENFHE_PYTHON_TAG=.*|OPENFHE_PYTHON_TAG=${REAL_BRANCH_NAME}|" ci-vars.sh
+# build with the Python environment selected by Read the Docs (or the local caller)
+sed -i "s|^PYTHON_VERSION=.*|PYTHON_VERSION=|" ci-vars.sh
 
 # run the packager
 ./build_openfhe_wheel.sh
